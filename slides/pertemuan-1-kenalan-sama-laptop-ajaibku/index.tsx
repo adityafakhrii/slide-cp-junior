@@ -1,6 +1,10 @@
 import { Fragment, useState, type CSSProperties, type ReactNode } from 'react';
 import type { DesignSystem, Page, SlideMeta, SlideTransition } from '@open-slide/core';
 import { useIsActivePage, useSlidePageNumber } from '@open-slide/core';
+import bikoWave from '../../assets/biko/biko-wave.png';
+import bikoLaptop from '../../assets/biko/biko-laptop.png';
+import bikoPointLeft from '../../assets/biko/biko-point-left.png';
+import bikoJump from '../../assets/biko/biko-jump.png';
 
 // ============================================================================
 // Webfont Loading & Scoped Keyframe Styles (loaded once in <head>)
@@ -499,6 +503,16 @@ type BikoPose =
   | 'thumbs-up'
   | 'jump';
 
+const BIKO_POSE_ASSETS: Record<BikoPose, string> = {
+  'cover-laptop': bikoLaptop,
+  'point-left': bikoPointLeft,
+  'point-right': bikoPointLeft,
+  'press-key': bikoPointLeft,
+  question: bikoWave,
+  'thumbs-up': bikoWave,
+  jump: bikoJump,
+};
+
 const BikoMascot = ({
   pose = 'point-left',
   width = 360,
@@ -510,426 +524,147 @@ const BikoMascot = ({
 }) => {
   const live = useIsActivePage();
   const isJump = pose === 'jump';
+  const imgSrc = BIKO_POSE_ASSETS[pose] ?? bikoWave;
+  const imgHeight = Math.round(width * 1.12);
+
   return (
-    <svg
-      aria-label="Maskot Biko"
-      width={width}
-      viewBox="0 0 360 400"
-      fill="none"
+    <div
       style={{
-        display: 'block',
-        overflow: 'visible',
-        animation: live
-          ? isJump
-            ? 'cpj-float 1.8s ease-in-out infinite'
-            : 'cpj-bob 3.2s ease-in-out infinite'
-          : undefined,
+        position: 'relative',
+        display: 'inline-flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width,
+        userSelect: 'none',
         ...style,
       }}
     >
-      {/* Ground soft shadow */}
-      <ellipse
-        cx="180"
-        cy="374"
-        rx={isJump ? 68 : 92}
-        ry={14}
-        fill={CHARCOAL}
-        opacity={0.14}
-      />
-
-      <g transform={isJump ? 'translate(0, -18)' : undefined}>
-        {/* Otter Tail peeking from behind left */}
-        <path
-          d="M96 290 C44 292, 26 246, 56 226 C80 210, 108 242, 118 268 Z"
-          fill={OTTER_FUR}
-          stroke={CHARCOAL}
-          strokeWidth={4}
-          strokeLinejoin="round"
+      <div
+        style={{
+          position: 'relative',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          animation: live
+            ? isJump
+              ? 'cpj-float 1.8s ease-in-out infinite'
+              : 'cpj-bob 3.2s ease-in-out infinite'
+            : undefined,
+        }}
+      >
+        <img
+          src={imgSrc}
+          alt="Maskot Biko"
+          draggable={false}
+          style={{
+            display: 'block',
+            height: imgHeight,
+            width: 'auto',
+            maxWidth: '100%',
+            objectFit: 'contain',
+            pointerEvents: 'none',
+            transform: pose === 'point-right' ? 'scaleX(-1)' : undefined,
+            filter: 'drop-shadow(0 8px 14px rgba(30, 30, 44, 0.12))',
+          }}
         />
 
-        {/* Lavender-Gray Backpack peeking behind shoulders */}
-        <rect
-          x="84"
-          y="186"
-          width="192"
-          height="112"
-          rx="36"
-          fill={LAVENDER}
-          stroke={CHARCOAL}
-          strokeWidth={4}
-        />
-        <rect
-          x="96"
-          y="198"
-          width="32"
-          height="78"
-          rx="14"
-          fill="#C4B5FD"
-          stroke={CHARCOAL}
-          strokeWidth={3}
-        />
-
-        {/* Feet */}
-        {isJump ? (
-          <>
-            <ellipse
-              cx="134"
-              cy="332"
-              rx="28"
-              ry="18"
-              transform="rotate(-18 134 332)"
-              fill={OTTER_FUR}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-            />
-            <ellipse
-              cx="226"
-              cy="332"
-              rx="28"
-              ry="18"
-              transform="rotate(18 226 332)"
-              fill={OTTER_FUR}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-            />
-          </>
-        ) : (
-          <>
-            <ellipse
-              cx="138"
-              cy="356"
-              rx="30"
-              ry="17"
-              fill={OTTER_FUR}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-            />
-            <ellipse
-              cx="222"
-              cy="356"
-              rx="30"
-              ry="17"
-              fill={OTTER_FUR}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-            />
-          </>
-        )}
-
-        {/* Teal Hoodie Torso */}
-        <path
-          d="M110 212 C110 194, 250 194, 250 212 L262 326 C262 342, 98 342, 98 326 Z"
-          fill={TEAL}
-          stroke={CHARCOAL}
-          strokeWidth={4}
-          strokeLinejoin="round"
-        />
-        {/* Hoodie Pocket */}
-        <path
-          d="M136 274 L224 274 L232 316 C232 322, 128 322, 128 316 Z"
-          fill={TEAL_DARK}
-          stroke={CHARCOAL}
-          strokeWidth={3.2}
-          strokeLinejoin="round"
-        />
-        {/* Hoodie Collar & Drawstrings */}
-        <path
-          d="M130 202 Q180 226 230 202"
-          fill="none"
-          stroke={CHARCOAL}
-          strokeWidth={3.5}
-          strokeLinecap="round"
-        />
-        <path d="M162 214 V246" stroke={WHITE} strokeWidth={4} strokeLinecap="round" />
-        <path d="M198 214 V246" stroke={WHITE} strokeWidth={4} strokeLinecap="round" />
-        <circle cx="162" cy="248" r="4.5" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2} />
-        <circle cx="198" cy="248" r="4.5" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2} />
-
-        {/* Otter Ears */}
-        <circle cx="104" cy="96" r="24" fill={OTTER_FUR} stroke={CHARCOAL} strokeWidth={4} />
-        <circle cx="106" cy="98" r="11" fill={OTTER_BELLY} />
-        <circle cx="256" cy="96" r="24" fill={OTTER_FUR} stroke={CHARCOAL} strokeWidth={4} />
-        <circle cx="254" cy="98" r="11" fill={OTTER_BELLY} />
-
-        {/* Otter Head */}
-        <rect
-          x="94"
-          y="74"
-          width="172"
-          height="136"
-          rx="68"
-          fill={OTTER_GOLD}
-          stroke={CHARCOAL}
-          strokeWidth={4}
-        />
-
-        {/* Cream Muzzle */}
-        <ellipse cx="180" cy="166" rx="56" ry="36" fill={OTTER_BELLY} />
-
-        {/* Rosy Blush Cheeks */}
-        <ellipse cx="122" cy="156" rx="14" ry="8" fill="#FDA4AF" opacity={0.85} />
-        <ellipse cx="238" cy="156" rx="14" ry="8" fill="#FDA4AF" opacity={0.85} />
-
-        {/* Big Happy Eyes */}
-        <circle cx="144" cy="136" r="12" fill={CHARCOAL} />
-        <circle cx="148" cy="132" r="4.2" fill={WHITE} />
-        <circle cx="216" cy="136" r="12" fill={CHARCOAL} />
-        <circle cx="220" cy="132" r="4.2" fill={WHITE} />
-
-        {/* Cute Nose & Cheerful Smile */}
-        <ellipse cx="180" cy="154" rx="13" ry="9" fill={CHARCOAL} />
-        <ellipse cx="177" cy="151" rx="4" ry="2.2" fill={WHITE} opacity={0.65} />
-        <path
-          d="M164 171 Q180 186 196 171"
-          stroke={CHARCOAL}
-          strokeWidth={4}
-          strokeLinecap="round"
-          fill="none"
-        />
-
-        {/* Whiskers */}
-        <path d="M116 154 L94 150 M116 164 L92 166" stroke={CHARCOAL} strokeWidth={2.5} strokeLinecap="round" />
-        <path d="M244 154 L266 150 M244 164 L268 166" stroke={CHARCOAL} strokeWidth={2.5} strokeLinecap="round" />
-
-        {/* Pose-Specific Arms & Props */}
-        {pose === 'cover-laptop' && (
-          <>
-            {/* Left & Right Holding Arms */}
-            <path
-              d="M104 226 C72 252, 82 282, 114 276"
-              fill={OTTER_GOLD}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-              strokeLinecap="round"
-            />
-            <path
-              d="M256 226 C288 252, 278 282, 246 276"
-              fill={OTTER_GOLD}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-              strokeLinecap="round"
-            />
-            {/* Open Colorful Laptop Held in Lap */}
-            <rect
-              x="92"
-              y="222"
-              width="176"
-              height="108"
-              rx="14"
-              fill={CHARCOAL}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-            />
-            <rect x="102" y="232" width="156" height="88" rx="8" fill={WHITE} />
-            {/* ScratchJr-style coding blocks inside laptop */}
-            <rect x="114" y="246" width="54" height="20" rx="6" fill={SKY} stroke={CHARCOAL} strokeWidth={2} />
-            <rect x="174" y="246" width="54" height="20" rx="6" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2} />
-            <rect x="128" y="276" width="62" height="20" rx="6" fill={TEAL} stroke={CHARCOAL} strokeWidth={2} />
-            <rect x="196" y="276" width="46" height="20" rx="6" fill={CORAL} stroke={CHARCOAL} strokeWidth={2} />
-            {/* Laptop Base */}
-            <path
-              d="M72 330 H288 L302 348 H58 Z"
-              fill="#CBD5E1"
-              stroke={CHARCOAL}
-              strokeWidth={4}
-              strokeLinejoin="round"
-            />
-          </>
-        )}
-
-        {pose === 'point-left' && (
-          <>
-            {/* Right arm relaxed */}
-            <path
-              d="M252 224 C276 244, 272 282, 248 284"
-              fill={OTTER_GOLD}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-              strokeLinecap="round"
-            />
-            {/* Left arm pointing out to the left */}
-            <path
-              d="M110 226 C72 216, 40 202, 24 196"
-              stroke={CHARCOAL}
-              strokeWidth={31}
-              strokeLinecap="round"
-            />
-            <path
-              d="M110 226 C72 216, 40 202, 24 196"
-              stroke={TEAL}
-              strokeWidth={23}
-              strokeLinecap="round"
-            />
-            <ellipse cx="24" cy="196" rx="18" ry="14" fill={OTTER_GOLD} stroke={CHARCOAL} strokeWidth={3.5} />
-          </>
-        )}
-
-        {pose === 'point-right' && (
-          <>
-            <path
-              d="M108 224 C84 244, 88 282, 112 284"
-              fill={OTTER_GOLD}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-              strokeLinecap="round"
-            />
-            <path
-              d="M250 226 C288 216, 320 202, 336 196"
-              stroke={CHARCOAL}
-              strokeWidth={31}
-              strokeLinecap="round"
-            />
-            <path
-              d="M250 226 C288 216, 320 202, 336 196"
-              stroke={TEAL}
-              strokeWidth={23}
-              strokeLinecap="round"
-            />
-            <ellipse cx="336" cy="196" rx="18" ry="14" fill={OTTER_GOLD} stroke={CHARCOAL} strokeWidth={3.5} />
-          </>
-        )}
-
+        {/* Pose-specific interactive vector prop accents for slides using Biko base artwork */}
         {pose === 'press-key' && (
-          <>
-            <path
-              d="M250 226 C276 248, 270 282, 248 284"
-              fill={OTTER_GOLD}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-              strokeLinecap="round"
-            />
-            {/* Gentle index paw reaching down-left */}
-            <path
-              d="M110 222 C74 238, 48 258, 34 274"
-              stroke={CHARCOAL}
-              strokeWidth={29}
-              strokeLinecap="round"
-            />
-            <path
-              d="M110 222 C74 238, 48 258, 34 274"
-              stroke={TEAL}
-              strokeWidth={21}
-              strokeLinecap="round"
-            />
-            <circle cx="32" cy="276" r="15" fill={OTTER_GOLD} stroke={CHARCOAL} strokeWidth={3.5} />
-          </>
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              left: -6,
+              top: '39%',
+              width: 52,
+              height: 52,
+              borderRadius: 14,
+              background: SUNNY,
+              border: `3px solid ${CHARCOAL}`,
+              boxShadow: `0 5px 0 ${CHARCOAL}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'var(--osd-font-display)',
+              fontSize: 26,
+              fontWeight: 700,
+              color: CHARCOAL,
+              transform: 'rotate(-8deg)',
+              pointerEvents: 'none',
+            }}
+          >
+            A
+          </div>
         )}
 
         {pose === 'question' && (
-          <>
-            {/* Holding Question Mark Sign on Right */}
-            <path
-              d="M108 226 C84 248, 88 282, 112 284"
-              fill={OTTER_GOLD}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-              strokeLinecap="round"
-            />
-            <path
-              d="M250 226 C276 226, 294 214, 304 196"
-              stroke={CHARCOAL}
-              strokeWidth={29}
-              strokeLinecap="round"
-            />
-            <path
-              d="M250 226 C276 226, 294 214, 304 196"
-              stroke={TEAL}
-              strokeWidth={21}
-              strokeLinecap="round"
-            />
-            <rect x="296" y="160" width="10" height="90" rx="5" fill="#D97706" stroke={CHARCOAL} strokeWidth={3} />
-            <rect
-              x="258"
-              y="72"
-              width="86"
-              height="94"
-              rx="18"
-              fill={SUNNY}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-            />
-            <text
-              x="301"
-              y="142"
-              textAnchor="middle"
-              fontFamily='"Fredoka", sans-serif'
-              fontSize="66"
-              fontWeight="700"
-              fill={CHARCOAL}
-            >
-              ?
-            </text>
-            <circle cx="301" cy="196" r="14" fill={OTTER_GOLD} stroke={CHARCOAL} strokeWidth={3.5} />
-          </>
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              right: 2,
+              top: '8%',
+              width: 78,
+              height: 86,
+              borderRadius: 20,
+              background: SUNNY,
+              border: `3.5px solid ${CHARCOAL}`,
+              boxShadow: `0 6px 0 ${CHARCOAL}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'var(--osd-font-display)',
+              fontSize: 54,
+              fontWeight: 700,
+              color: CHARCOAL,
+              transform: 'rotate(10deg)',
+              pointerEvents: 'none',
+            }}
+          >
+            ?
+          </div>
         )}
 
         {pose === 'thumbs-up' && (
-          <>
-            <path
-              d="M108 226 C84 248, 88 282, 112 284"
-              fill={OTTER_GOLD}
-              stroke={CHARCOAL}
-              strokeWidth={4}
-              strokeLinecap="round"
-            />
-            <path
-              d="M250 226 C284 220, 304 196, 306 172"
-              stroke={CHARCOAL}
-              strokeWidth={31}
-              strokeLinecap="round"
-            />
-            <path
-              d="M250 226 C284 220, 304 196, 306 172"
-              stroke={TEAL}
-              strokeWidth={23}
-              strokeLinecap="round"
-            />
-            {/* Big Cute Thumbs Up */}
-            <g transform="translate(288, 134)">
-              <rect x="4" y="14" width="34" height="30" rx="10" fill={OTTER_GOLD} stroke={CHARCOAL} strokeWidth={3.5} />
-              <path
-                d="M16 14 V-4 C16 -12, 28 -12, 28 -4 V14"
-                fill={OTTER_GOLD}
-                stroke={CHARCOAL}
-                strokeWidth={3.5}
-              />
-            </g>
-          </>
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              right: 4,
+              top: '10%',
+              width: 66,
+              height: 66,
+              borderRadius: '50%',
+              background: SUNNY,
+              border: `3.5px solid ${CHARCOAL}`,
+              boxShadow: `0 5px 0 ${CHARCOAL}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 34,
+              transform: 'rotate(8deg)',
+              pointerEvents: 'none',
+            }}
+          >
+            👍
+          </div>
         )}
+      </div>
 
-        {pose === 'jump' && (
-          <>
-            {/* Both paws raised in celebration */}
-            <path
-              d="M108 214 C72 178, 56 146, 54 124"
-              stroke={CHARCOAL}
-              strokeWidth={31}
-              strokeLinecap="round"
-            />
-            <path
-              d="M108 214 C72 178, 56 146, 54 124"
-              stroke={TEAL}
-              strokeWidth={23}
-              strokeLinecap="round"
-            />
-            <circle cx="52" cy="122" r="16" fill={OTTER_GOLD} stroke={CHARCOAL} strokeWidth={3.5} />
-            <path
-              d="M252 214 C288 178, 304 146, 306 124"
-              stroke={CHARCOAL}
-              strokeWidth={31}
-              strokeLinecap="round"
-            />
-            <path
-              d="M252 214 C288 178, 304 146, 306 124"
-              stroke={TEAL}
-              strokeWidth={23}
-              strokeLinecap="round"
-            />
-            <circle cx="308" cy="122" r="16" fill={OTTER_GOLD} stroke={CHARCOAL} strokeWidth={3.5} />
-          </>
-        )}
-      </g>
-    </svg>
+      {/* Soft Ground Contact Shadow */}
+      <div
+        aria-hidden="true"
+        style={{
+          width: isJump ? width * 0.36 : width * 0.52,
+          height: 16,
+          marginTop: isJump ? 8 : -6,
+          borderRadius: '50%',
+          background: CHARCOAL,
+          opacity: 0.13,
+          pointerEvents: 'none',
+        }}
+      />
+    </div>
   );
 };
 
