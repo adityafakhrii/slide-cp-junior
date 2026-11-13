@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNo
 import type { DesignSystem, Page, SlideMeta, SlideTransition } from '@open-slide/core';
 import { useIsActivePage, useSlidePageNumber } from '@open-slide/core';
 import { BikoMascot } from '../../components/BikoMascot';
+import { JuniorIcon, type JuniorIconName } from '../../components/JuniorIcons';
 
 // ============================================================================
 // Webfont Loading & Scoped Keyframe Styles (loaded once in <head>)
@@ -486,11 +487,11 @@ const MacWindowCard = ({
 // ============================================================================
 type Dir = 'up' | 'down' | 'left' | 'right';
 
-const DIR_META: Record<Dir, { label: string; color: string; rot: number; symbol: string }> = {
-  up: { label: 'Atas', color: TEAL, rot: -90, symbol: '⬆️' },
-  down: { label: 'Bawah', color: CORAL, rot: 90, symbol: '⬇️' },
-  left: { label: 'Kiri', color: SUNNY, rot: 180, symbol: '⬅️' },
-  right: { label: 'Kanan', color: SKY, rot: 0, symbol: '➡️' },
+const DIR_META: Record<Dir, { label: string; color: string; rot: number; icon: JuniorIconName }> = {
+  up: { label: 'Atas', color: TEAL, rot: -90, icon: 'arrow-up' },
+  down: { label: 'Bawah', color: CORAL, rot: 90, icon: 'arrow-down' },
+  left: { label: 'Kiri', color: SUNNY, rot: 180, icon: 'arrow-left' },
+  right: { label: 'Kanan', color: SKY, rot: 0, icon: 'arrow-right' },
 };
 
 const LoopArrowBlock = ({
@@ -662,7 +663,7 @@ const RepeatHugBlock = ({
             color: CHARCOAL,
           }}
         >
-          <span>🔁</span>
+          <JuniorIcon name="repeat" size={Math.round(24 * scale)} />
           <span>Ulangi</span>
         </div>
 
@@ -703,13 +704,16 @@ const RepeatHugBlock = ({
         {detached ? (
           <span
             style={{
+              ...row,
+              gap: 6,
               fontFamily: 'var(--osd-font-display)',
               fontSize: Math.round(18 * scale),
               fontWeight: 700,
               color: CORAL,
             }}
           >
-            Kosong! 🚫
+            <span>Kosong!</span>
+            <JuniorIcon name="stop" size={Math.round(18 * scale)} />
           </span>
         ) : (
           <LoopArrowBlock dir={dir} size={Math.round(68 * scale)} />
@@ -830,7 +834,7 @@ const Slide01Cover: Page = () => {
             marginBottom: 24,
           }}
         >
-          <span>🔁</span>
+          <JuniorIcon name="repeat" size={24} />
           <span>LEVEL 1: CODE EXPLORER (USIA 5–7 TAHUN)</span>
         </div>
 
@@ -880,7 +884,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>🔁</span>
+            <JuniorIcon name="repeat" size={28} />
             <span>Blok Ulangi (Repeat)</span>
           </div>
           <div
@@ -898,7 +902,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>⚡</span>
+            <JuniorIcon name="lightning" size={28} />
             <span>Kode Jadi Pendek!</span>
           </div>
         </div>
@@ -941,12 +945,18 @@ const Slide01Cover: Page = () => {
             zIndex: 4,
           }}
         >
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 18, fontWeight: 700, color: MUTED, marginBottom: 8 }}>
-            💻 Jalur Labirin Panjang (4 Langkah):
+          <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 18, fontWeight: 700, color: MUTED, marginBottom: 8 }}>
+            <JuniorIcon name="laptop" size={20} />
+            <span>Jalur Labirin Panjang (4 Langkah):</span>
           </div>
           <div style={{ ...row, gap: 6, justifyContent: 'space-between', background: '#F8FAFC', padding: 8, borderRadius: 14, border: `2px solid ${CHARCOAL}` }}>
             <BikoTokenSvg size={44} />
-            <span style={{ fontSize: 22, fontWeight: 800, color: SKY }}>➡️ ➡️ ➡️ ➡️</span>
+            <span style={{ ...row, gap: 6 }}>
+              <JuniorIcon name="arrow-right" size={24} />
+              <JuniorIcon name="arrow-right" size={24} />
+              <JuniorIcon name="arrow-right" size={24} />
+              <JuniorIcon name="arrow-right" size={24} />
+            </span>
             <StarSvg size={44} />
           </div>
         </div>
@@ -1034,7 +1044,7 @@ const Slide02Misi: Page = () => (
                 fontSize: 52,
               }}
             >
-              🔁
+              <JuniorIcon name="repeat" size={50} />
             </div>
           </div>
 
@@ -1092,7 +1102,11 @@ const Slide02Misi: Page = () => (
               boxShadow: `0 6px 0 ${CHARCOAL}`,
             }}
           >
-            <div style={{ fontSize: 24, fontWeight: 800 }}>➡️➡️➡️</div>
+            <div style={{ ...row, gap: 4 }}>
+              <JuniorIcon name="arrow-right" size={24} />
+              <JuniorIcon name="arrow-right" size={24} />
+              <JuniorIcon name="arrow-right" size={24} />
+            </div>
             <span style={{ fontSize: 28, fontWeight: 800 }}>➜</span>
             <div
               style={{
@@ -1103,9 +1117,13 @@ const Slide02Misi: Page = () => (
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 22,
                 fontWeight: 700,
+                ...row,
+                gap: 6,
               }}
             >
-              🔁 3× ➡️
+              <JuniorIcon name="repeat" size={22} />
+              <span>3×</span>
+              <JuniorIcon name="arrow-right" size={22} />
             </div>
           </div>
 
@@ -1170,8 +1188,10 @@ const Slide03Masalah: Page = () => {
       <MacWindowCard left={X0} top={236} width={1720} height={430} headerLabel="masalah-kode-panjang.app" padding={28}>
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div style={{ ...row, justifyContent: 'space-between' }}>
-            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700 }}>
-              Peta Jalan Lurus (5 Langkah ke Bintang ⭐):
+            <span style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700 }}>
+              <span>Peta Jalan Lurus (5 Langkah ke Bintang</span>
+              <JuniorIcon name="star" size={26} />
+              <span>):</span>
             </span>
             <button
               type="button"
@@ -1187,9 +1207,12 @@ const Slide03Masalah: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 20,
                 fontWeight: 700,
+                ...row,
+                gap: 8,
               }}
             >
-              ▶️ Jalan 5 Langkah
+              <JuniorIcon name="play" size={20} />
+              <span>Jalan 5 Langkah</span>
             </button>
           </div>
 
@@ -1258,13 +1281,15 @@ const Slide03Masalah: Page = () => {
             gap: 20,
           }}
         >
-          <span style={{ fontSize: 56 }}>👣</span>
+          <JuniorIcon name="footprints" size={54} />
           <div>
             <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700 }}>
               Jalan 5 Langkah Lurus
             </div>
-            <div style={{ fontSize: 23, fontWeight: 700, color: MUTED, marginTop: 6 }}>
-              Semua arah langkahnya sama: ke Kanan (➡️)!
+            <div style={{ ...row, gap: 6, fontSize: 23, fontWeight: 700, color: MUTED, marginTop: 6 }}>
+              <span>Semua arah langkahnya sama: ke Kanan (</span>
+              <JuniorIcon name="arrow-right" size={22} />
+              <span>)!</span>
             </div>
           </div>
         </div>
@@ -1280,7 +1305,7 @@ const Slide03Masalah: Page = () => {
             gap: 20,
           }}
         >
-          <span style={{ fontSize: 56 }}>😫</span>
+          <JuniorIcon name="tired" size={54} />
           <div>
             <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700 }}>
               Susun 5 Blok Bikin Capek!
@@ -1392,7 +1417,7 @@ const Slide04BlokUlangi: Page = () => {
             gap: 20,
           }}
         >
-          <span style={{ fontSize: 54 }}>🔁</span>
+          <JuniorIcon name="repeat" size={52} />
           <div>
             <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
               Blok Peluk yang Mengulang Gerakan
@@ -1414,7 +1439,7 @@ const Slide04BlokUlangi: Page = () => {
             gap: 20,
           }}
         >
-          <span style={{ fontSize: 54 }}>🔢</span>
+          <JuniorIcon name="numbers" size={52} />
           <div>
             <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
               Cukup Pilih Berapa Kali Diulang!
@@ -1510,9 +1535,12 @@ const Slide05SulapKode: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 26,
                 fontWeight: 700,
+                ...row,
+                gap: 8,
               }}
             >
-              ✨ Sulap Kode Sekarang! ({transformed ? 'Ringkas Aktif!' : 'Klik!'})
+              <JuniorIcon name="sparkle" size={26} />
+              <span>Sulap Kode Sekarang! ({transformed ? 'Ringkas Aktif!' : 'Klik!'})</span>
             </button>
             <MagicWandSvg size={68} />
           </div>
@@ -1600,7 +1628,7 @@ const Slide06AyoTebak: Page = () => {
                   </span>
                 )}
               </div>
-              {idx < 3 && <span style={{ fontSize: 32, fontWeight: 800 }}>➡️</span>}
+              {idx < 3 && <JuniorIcon name="arrow-right" size={30} />}
             </Fragment>
           ))}
         </div>
@@ -1687,8 +1715,9 @@ const Slide06AyoTebak: Page = () => {
           PILIHAN B
         </span>
         <RepeatHugBlock count={3} dir="right" scale={0.95} />
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
-          Ulangi 3 Kali {choice === 3 && '✅'}
+        <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
+          <span>Ulangi 3 Kali</span>
+          {choice === 3 && <JuniorIcon name="check" size={32} />}
         </div>
       </button>
 
@@ -1702,11 +1731,25 @@ const Slide06AyoTebak: Page = () => {
             fontFamily: 'var(--osd-font-display)',
             fontSize: 25,
             fontWeight: 700,
+            ...row,
+            gap: 8,
           }}
         >
-          {choice === 3
-            ? '🎉 Hebat! 3 panah ke kanan (➡️) pas mencapai ⭐ Bintang!'
-            : '👆 Hitung jumlah panah dan tunjuk blok yang pas di layarmu ya!'}
+          {choice === 3 ? (
+            <>
+              <JuniorIcon name="party" size={26} />
+              <span>Hebat! 3 panah ke kanan (</span>
+              <JuniorIcon name="arrow-right" size={22} />
+              <span>) pas mencapai</span>
+              <JuniorIcon name="star" size={24} />
+              <span>Bintang!</span>
+            </>
+          ) : (
+            <>
+              <JuniorIcon name="tap" size={26} />
+              <span>Hitung jumlah panah dan tunjuk blok yang pas di layarmu ya!</span>
+            </>
+          )}
         </div>
       </div>
     </JuniorFrame>
@@ -1774,9 +1817,12 @@ const Slide07UlangiBelok: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 20,
                 fontWeight: 700,
+                ...row,
+                gap: 8,
               }}
             >
-              ▶️ Jalankan Ulangi &amp; Belok!
+              <JuniorIcon name="play" size={20} />
+              <span>Jalankan Ulangi &amp; Belok!</span>
             </button>
           </div>
 
@@ -1820,9 +1866,7 @@ const Slide07UlangiBelok: Page = () => {
                     {isWall && <RockSvg size={68} />}
                     {isChest && !isBikoHere && <ChestSvg size={82} />}
                     {!isBikoHere && r === 2 && (c === 1 || c === 2 || c === 3) && (
-                      <span style={{ fontSize: 30, fontWeight: 800, color: '#047857' }}>
-                        {c === 3 ? '⬆️' : '➡️'}
-                      </span>
+                      <JuniorIcon name={c === 3 ? 'arrow-up' : 'arrow-right'} size={30} />
                     )}
                     {isBikoHere && (
                       <div style={{ ...centerCol }}>
@@ -1840,9 +1884,12 @@ const Slide07UlangiBelok: Page = () => {
                               fontFamily: 'var(--osd-font-display)',
                               fontSize: 15,
                               fontWeight: 700,
+                              ...row,
+                              gap: 4,
                             }}
                           >
-                            💎 DAPAT!
+                            <JuniorIcon name="diamond" size={16} />
+                            <span>DAPAT!</span>
                           </span>
                         )}
                       </div>
@@ -1855,6 +1902,9 @@ const Slide07UlangiBelok: Page = () => {
 
           <div
             style={{
+              ...row,
+              justifyContent: 'center',
+              gap: 8,
               textAlign: 'center',
               fontFamily: 'var(--osd-font-display)',
               fontSize: 23,
@@ -1863,8 +1913,20 @@ const Slide07UlangiBelok: Page = () => {
             }}
           >
             {step === 0 && 'Jalur lurus 3 kotak ke kanan, lalu belok 1 kotak ke atas!'}
-            {step >= 1 && step <= 3 && `🔁 Blok Ulangi: Jalan Kanan ke-${step} dari 3!`}
-            {step === 4 && '🎉 Lalu Belok Atas (⬆️) -> Harta Karun Didapat!'}
+            {step >= 1 && step <= 3 && (
+              <>
+                <JuniorIcon name="repeat" size={24} />
+                <span>Blok Ulangi: Jalan Kanan ke-{step} dari 3!</span>
+              </>
+            )}
+            {step === 4 && (
+              <>
+                <JuniorIcon name="party" size={24} />
+                <span>Lalu Belok Atas (</span>
+                <JuniorIcon name="arrow-up" size={22} />
+                <span>) -&gt; Harta Karun Didapat!</span>
+              </>
+            )}
           </div>
         </div>
       </MacWindowCard>
@@ -1882,9 +1944,17 @@ const Slide07UlangiBelok: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 28,
                 fontWeight: 700,
+                ...row,
+                gap: 10,
               }}
             >
-              1️⃣ 🔁 <strong>Ulangi [ 3 ]</strong> jalan <strong>Kanan</strong> (➡️)
+              <JuniorIcon name="step-1" size={30} />
+              <JuniorIcon name="repeat" size={28} />
+              <span>
+                <strong>Ulangi [ 3 ]</strong> jalan <strong>Kanan</strong> (
+              </span>
+              <JuniorIcon name="arrow-right" size={26} />
+              <span>)</span>
             </div>
             <div
               style={{
@@ -1895,9 +1965,18 @@ const Slide07UlangiBelok: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 28,
                 fontWeight: 700,
+                ...row,
+                gap: 10,
               }}
             >
-              2️⃣ Lalu belok <strong>Atas</strong> (⬆️) → <strong>Finis!</strong>
+              <JuniorIcon name="step-2" size={30} />
+              <span>
+                Lalu belok <strong>Atas</strong> (
+              </span>
+              <JuniorIcon name="arrow-up" size={26} />
+              <span>
+                ) → <strong>Finis!</strong>
+              </span>
             </div>
           </div>
 
@@ -1970,10 +2049,10 @@ const Slide08Tips: Page = () => (
               fontWeight: 700,
             }}
           >
-            <span>✅</span>
+            <JuniorIcon name="check" size={30} />
             <span>BOLEH</span>
           </div>
-          <span style={{ fontSize: 44 }}>📦</span>
+          <JuniorIcon name="box" size={44} />
         </div>
 
         <div
@@ -2001,9 +2080,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            🔢 <strong>Hitung Langkah</strong> lurus yang sama
+            <JuniorIcon name="numbers" size={32} />
+            <span><strong>Hitung Langkah</strong> lurus yang sama</span>
           </div>
           <div
             style={{
@@ -2014,9 +2096,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            📦 Taruh panah <strong>Di Dalam</strong> pelukan blok
+            <JuniorIcon name="box" size={32} />
+            <span>Taruh panah <strong>Di Dalam</strong> pelukan blok</span>
           </div>
         </div>
       </div>
@@ -2049,10 +2134,10 @@ const Slide08Tips: Page = () => (
               fontWeight: 700,
             }}
           >
-            <span>❌</span>
+            <JuniorIcon name="cross" size={30} />
             <span>JANGAN</span>
           </div>
-          <span style={{ fontSize: 44 }}>🚧</span>
+          <JuniorIcon name="barrier" size={44} />
         </div>
 
         {/* Wrong number crashing into brick wall */}
@@ -2070,7 +2155,7 @@ const Slide08Tips: Page = () => (
           <RepeatHugBlock count={9} detached wrongNumber scale={0.84} />
           <div style={{ ...row, gap: 10 }}>
             <BikoTokenSvg size={64} tired />
-            <span style={{ fontSize: 32 }}>💥</span>
+            <JuniorIcon name="warning" size={34} />
             <RockSvg size={68} />
           </div>
         </div>
@@ -2085,9 +2170,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            🙈 <strong>Salah Angka</strong> bikin Biko kelewatan
+            <JuniorIcon name="see-no-evil" size={32} />
+            <span><strong>Salah Angka</strong> bikin Biko kelewatan</span>
           </div>
           <div
             style={{
@@ -2098,9 +2186,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            🚫 Panah <strong>Terlepas</strong> di luar blok
+            <JuniorIcon name="stop" size={32} />
+            <span>Panah <strong>Terlepas</strong> di luar blok</span>
           </div>
         </div>
       </div>
@@ -2120,7 +2211,9 @@ const Slide09MisiPraktik: Page = () => {
   const [turnDir, setTurnDir] = useState<Dir>('up');
   const [bikoPos, setBikoPos] = useState<[number, number]>([2, 0]);
   const [status, setStatus] = useState<'idle' | 'running' | 'win' | 'oops'>('idle');
-  const [message, setMessage] = useState('Hitung kotak lurusnya, lalu atur angka di Blok Ulangi!');
+  const [message, setMessage] = useState<{ icon?: JuniorIconName; text: string }>({
+    text: 'Hitung kotak lurusnya, lalu atur angka di Blok Ulangi!',
+  });
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -2136,7 +2229,7 @@ const Slide09MisiPraktik: Page = () => {
     setTurnDir('up');
     setBikoPos([2, 0]);
     setStatus('idle');
-    setMessage('Hitung kotak lurusnya, lalu atur angka di Blok Ulangi!');
+    setMessage({ text: 'Hitung kotak lurusnya, lalu atur angka di Blok Ulangi!' });
   };
 
   const runMaze = () => {
@@ -2144,7 +2237,7 @@ const Slide09MisiPraktik: Page = () => {
     if (timerRef.current) window.clearTimeout(timerRef.current);
     setStatus('running');
     setBikoPos([2, 0]);
-    setMessage('Biko menjalankan Blok Ulangi...');
+    setMessage({ text: 'Biko menjalankan Blok Ulangi...' });
 
     const commands: Dir[] = [...Array(repeatCount).fill(loopDir), turnDir];
     const walls = new Set(['0,0', '0,1', '0,2', '0,3', '1,0', '1,1', '1,2']);
@@ -2155,10 +2248,10 @@ const Slide09MisiPraktik: Page = () => {
       if (i >= commands.length) {
         if (r === 1 && c === 3) {
           setStatus('win');
-          setMessage('🎉 Hore! Kode ringkas sukses membawa Biko ke Peti Harta Karun!');
+          setMessage({ icon: 'party', text: 'Hore! Kode ringkas sukses membawa Biko ke Peti Harta Karun!' });
         } else {
           setStatus('oops');
-          setMessage('Belum sampai di Harta Karun! Coba cek lagi angka ulangannya ya.');
+          setMessage({ text: 'Belum sampai di Harta Karun! Coba cek lagi angka ulangannya ya.' });
         }
         return;
       }
@@ -2171,13 +2264,13 @@ const Slide09MisiPraktik: Page = () => {
 
       if (r < 0 || r > 2 || c < 0 || c > 3) {
         setStatus('oops');
-        setMessage('💥 Kelewatan! Angka di Blok Ulangi terlalu besar!');
+        setMessage({ icon: 'warning', text: 'Kelewatan! Angka di Blok Ulangi terlalu besar!' });
         return;
       }
 
       if (walls.has(`${r},${c}`)) {
         setStatus('oops');
-        setMessage('🪨 Ups! Menabrak batu rintangan! Cek arahnya ya.');
+        setMessage({ icon: 'rock', text: 'Ups! Menabrak batu rintangan! Cek arahnya ya.' });
         return;
       }
 
@@ -2185,7 +2278,7 @@ const Slide09MisiPraktik: Page = () => {
 
       if (r === 1 && c === 3) {
         setStatus('win');
-        setMessage('🎉 Yeay! Kode super pendek & berhasil dapat Harta Karun!');
+        setMessage({ icon: 'party', text: 'Yeay! Kode super pendek & berhasil dapat Harta Karun!' });
         return;
       }
 
@@ -2413,9 +2506,12 @@ const Slide09MisiPraktik: Page = () => {
                   fontFamily: 'var(--osd-font-display)',
                   fontSize: 21,
                   fontWeight: 700,
+                  ...row,
+                  gap: 8,
                 }}
               >
-                {message}
+                {message.icon && <JuniorIcon name={message.icon} size={24} />}
+                <span>{message.text}</span>
               </div>
 
               <div style={{ ...row, gap: 14 }}>
@@ -2434,9 +2530,13 @@ const Slide09MisiPraktik: Page = () => {
                     fontFamily: 'var(--osd-font-display)',
                     fontSize: 25,
                     fontWeight: 700,
+                    ...row,
+                    justifyContent: 'center',
+                    gap: 8,
                   }}
                 >
-                  ▶️ Jalan!
+                  <JuniorIcon name="play" size={24} />
+                  <span>Jalan!</span>
                 </button>
                 <button
                   type="button"
@@ -2452,9 +2552,12 @@ const Slide09MisiPraktik: Page = () => {
                     fontFamily: 'var(--osd-font-display)',
                     fontSize: 22,
                     fontWeight: 700,
+                    ...row,
+                    gap: 8,
                   }}
                 >
-                  🔄 Reset
+                  <JuniorIcon name="reset" size={22} />
+                  <span>Reset</span>
                 </button>
               </div>
             </div>
@@ -2505,7 +2608,12 @@ const Slide10Lencana: Page = () => {
       ))}
 
       <SlideTitle align="center" top={124} size={60}>
-        Hebat! Kamu <Highlight>Master Kode Ringkas!</Highlight> 🎉
+        <span style={{ ...row, justifyContent: 'center', gap: 14 }}>
+          <span>
+            Hebat! Kamu <Highlight>Master Kode Ringkas!</Highlight>
+          </span>
+          <JuniorIcon name="party" size={54} />
+        </span>
       </SlideTitle>
 
       {/* Celebration Center Card */}
@@ -2565,9 +2673,12 @@ const Slide10Lencana: Page = () => {
               fontFamily: 'var(--osd-font-display)',
               fontSize: 34,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            🏅 Lencana Master Blok Ulangi
+            <JuniorIcon name="medal" size={34} />
+            <span>Lencana Master Blok Ulangi</span>
           </div>
 
           <div
@@ -2591,8 +2702,8 @@ const Slide10Lencana: Page = () => {
         <BikoMascot
           pose="jump"
           width={380}
-          badgeEmoji="🔁"
-          speechBubble="Kode Ringkas Juara! 🎉"
+          badgeIcon={<JuniorIcon name="repeat" size={30} />}
+          speechBubble="Kode Ringkas Juara!"
         />
       </div>
     </JuniorFrame>

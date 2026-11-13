@@ -2,6 +2,7 @@ import { Fragment, useState, type CSSProperties, type DragEvent, type ReactNode 
 import type { DesignSystem, Page, SlideMeta, SlideTransition } from '@open-slide/core';
 import { useIsActivePage, useSlidePageNumber } from '@open-slide/core';
 import { BikoMascot } from '../../components/BikoMascot';
+import { JuniorIcon, type JuniorIconName } from '../../components/JuniorIcons';
 
 // ============================================================================
 // Webfont Loading & Scoped Keyframe Styles (loaded once in <head>)
@@ -445,11 +446,11 @@ const MacWindowCard = ({
 // ============================================================================
 type Dir = 'up' | 'down' | 'left' | 'right';
 
-const DIR_META: Record<Dir, { label: string; emoji: string; color: string; rotate: number }> = {
-  up: { label: 'Atas', emoji: '⬆️', color: SKY, rotate: 0 },
-  down: { label: 'Bawah', emoji: '⬇️', color: SUNNY, rotate: 180 },
-  left: { label: 'Kiri', emoji: '⬅️', color: CORAL, rotate: -90 },
-  right: { label: 'Kanan', emoji: '➡️', color: TEAL, rotate: 90 },
+const DIR_META: Record<Dir, { label: string; icon: JuniorIconName; color: string; rotate: number }> = {
+  up: { label: 'Atas', icon: 'arrow-up', color: SKY, rotate: 0 },
+  down: { label: 'Bawah', icon: 'arrow-down', color: SUNNY, rotate: 180 },
+  left: { label: 'Kiri', icon: 'arrow-left', color: CORAL, rotate: -90 },
+  right: { label: 'Kanan', icon: 'arrow-right', color: TEAL, rotate: 90 },
 };
 
 const ArrowCommandBlock = ({
@@ -547,7 +548,7 @@ const Slide01Cover: Page = () => {
             marginBottom: 24,
           }}
         >
-          <span>🧭</span>
+          <JuniorIcon name="compass" size={26} />
           <span>LEVEL 1: CODE EXPLORER (USIA 5–7 TAHUN)</span>
         </div>
 
@@ -595,7 +596,12 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>⬆️⬇️⬅️➡️</span>
+            <span style={{ ...row, gap: 3 }}>
+              <JuniorIcon name="arrow-up" size={22} />
+              <JuniorIcon name="arrow-down" size={22} />
+              <JuniorIcon name="arrow-left" size={22} />
+              <JuniorIcon name="arrow-right" size={22} />
+            </span>
             <span>4 Arah Panah</span>
           </div>
           <div
@@ -613,7 +619,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>🗺️</span>
+            <JuniorIcon name="map" size={30} />
             <span>Peta Kotak Bintang</span>
           </div>
         </div>
@@ -663,27 +669,29 @@ const Slide01Cover: Page = () => {
             zIndex: 4,
           }}
         >
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 19, fontWeight: 700, marginBottom: 10 }}>
-            🗺️ Peta Harta Karun
+          <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 19, fontWeight: 700, marginBottom: 10 }}>
+            <JuniorIcon name="map" size={22} />
+            <span>Peta Harta Karun</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
-            {[
-              '', '', '⭐',
-              '', '➡️', '⬆️',
-              '🦦', '➡️', '',
-            ].map((cell, idx) => (
+            {(
+              [
+                null, null, 'star',
+                null, 'arrow-right', 'arrow-up',
+                'biko', 'arrow-right', null,
+              ] as (JuniorIconName | null)[]
+            ).map((cell, idx) => (
               <div
                 key={idx}
                 style={{
                   height: 54,
                   borderRadius: 12,
-                  background: cell === '⭐' ? SUNNY_SOFT : cell ? TEAL_SOFT : '#F8FAFC',
+                  background: cell === 'star' ? SUNNY_SOFT : cell ? TEAL_SOFT : '#F8FAFC',
                   border: `2.5px solid ${CHARCOAL}`,
                   ...centerCol,
-                  fontSize: 24,
                 }}
               >
-                {cell}
+                {cell && <JuniorIcon name={cell} size={26} />}
               </div>
             ))}
           </div>
@@ -707,7 +715,7 @@ const Slide01Cover: Page = () => {
         <BikoMascot
           pose="explorer"
           width={410}
-          badgeEmoji="🧭"
+          badgeIcon={<JuniorIcon name="compass" size={34} />}
           style={{ position: 'relative', zIndex: 3, marginTop: 125, marginLeft: 55 }}
         />
       </div>
@@ -804,14 +812,16 @@ const Slide02Misi: Page = () => (
 
           {/* Mini 3x2 Step Grid to Star */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 84px)', gap: 10 }}>
-            {[
-              { bg: WHITE, txt: '🦦' },
-              { bg: SUNNY_SOFT, txt: '➡️' },
-              { bg: WHITE, txt: '' },
-              { bg: WHITE, txt: '' },
-              { bg: SUNNY_SOFT, txt: '⬇️' },
-              { bg: SUNNY, txt: '⭐' },
-            ].map((c, idx) => (
+            {(
+              [
+                { bg: WHITE, icon: 'biko' },
+                { bg: SUNNY_SOFT, icon: 'arrow-right' },
+                { bg: WHITE },
+                { bg: WHITE },
+                { bg: SUNNY_SOFT, icon: 'arrow-down' },
+                { bg: SUNNY, icon: 'star' },
+              ] as { bg: string; icon?: JuniorIconName }[]
+            ).map((c, idx) => (
               <div
                 key={idx}
                 style={{
@@ -821,10 +831,9 @@ const Slide02Misi: Page = () => (
                   background: c.bg,
                   border: `3px solid ${CHARCOAL}`,
                   ...centerCol,
-                  fontSize: 34,
                 }}
               >
-                {c.txt}
+                {c.icon && <JuniorIcon name={c.icon} size={34} />}
               </div>
             ))}
           </div>
@@ -850,6 +859,8 @@ const Slide02Misi: Page = () => (
       <div
         style={{
           marginTop: 12,
+          ...row,
+          gap: 10,
           padding: '12px 24px',
           borderRadius: 99,
           background: SUNNY,
@@ -860,7 +871,8 @@ const Slide02Misi: Page = () => (
           fontWeight: 700,
         }}
       >
-        Siap Beraksi! 🧭
+        <span>Siap Beraksi!</span>
+        <JuniorIcon name="compass" size={26} />
       </div>
     </div>
   </JuniorFrame>
@@ -985,6 +997,8 @@ const Slide04AtasBawah: Page = () => (
             <ArrowCommandBlock dir="up" size={92} />
             <div
               style={{
+                ...row,
+                gap: 10,
                 padding: '10px 24px',
                 borderRadius: 99,
                 background: WHITE,
@@ -994,7 +1008,8 @@ const Slide04AtasBawah: Page = () => (
                 fontWeight: 700,
               }}
             >
-              ⬆️ ATAS
+              <JuniorIcon name="arrow-up" size={28} />
+              <span>ATAS</span>
             </div>
           </div>
 
@@ -1040,6 +1055,8 @@ const Slide04AtasBawah: Page = () => (
             <ArrowCommandBlock dir="down" size={92} />
             <div
               style={{
+                ...row,
+                gap: 10,
                 padding: '10px 24px',
                 borderRadius: 99,
                 background: WHITE,
@@ -1049,7 +1066,8 @@ const Slide04AtasBawah: Page = () => (
                 fontWeight: 700,
               }}
             >
-              ⬇️ BAWAH
+              <JuniorIcon name="arrow-down" size={28} />
+              <span>BAWAH</span>
             </div>
           </div>
 
@@ -1106,6 +1124,8 @@ const Slide05KiriKanan: Page = () => (
             <ArrowCommandBlock dir="left" size={92} />
             <div
               style={{
+                ...row,
+                gap: 10,
                 padding: '10px 24px',
                 borderRadius: 99,
                 background: WHITE,
@@ -1115,7 +1135,8 @@ const Slide05KiriKanan: Page = () => (
                 fontWeight: 700,
               }}
             >
-              ⬅️ KIRI
+              <JuniorIcon name="arrow-left" size={28} />
+              <span>KIRI</span>
             </div>
           </div>
 
@@ -1149,6 +1170,8 @@ const Slide05KiriKanan: Page = () => (
             <ArrowCommandBlock dir="right" size={92} />
             <div
               style={{
+                ...row,
+                gap: 10,
                 padding: '10px 24px',
                 borderRadius: 99,
                 background: WHITE,
@@ -1158,7 +1181,8 @@ const Slide05KiriKanan: Page = () => (
                 fontWeight: 700,
               }}
             >
-              ➡️ KANAN
+              <JuniorIcon name="arrow-right" size={28} />
+              <span>KANAN</span>
             </div>
           </div>
 
@@ -1204,11 +1228,13 @@ const Slide06TebakArah: Page = () => {
           gap: 24,
         }}
       >
-        {[
-          { label: choice === 'right' ? 'Start' : '🦦 Biko', bg: choice === 'right' ? '#F8FAFC' : SKY_SOFT },
-          { label: choice === 'right' ? '➡️' : 'Kotak Kosong', bg: choice === 'right' ? TEAL_SOFT : '#F8FAFC' },
-          { label: choice === 'right' ? '🦦 + ⭐!' : '⭐ Bintang', bg: SUNNY_SOFT },
-        ].map((cell, i) => (
+        {(
+          [
+            { icons: choice === 'right' ? [] : ['biko'], label: choice === 'right' ? 'Start' : 'Biko', bg: choice === 'right' ? '#F8FAFC' : SKY_SOFT },
+            { icons: choice === 'right' ? ['arrow-right'] : [], label: choice === 'right' ? undefined : 'Kotak Kosong', bg: choice === 'right' ? TEAL_SOFT : '#F8FAFC' },
+            { icons: choice === 'right' ? ['biko', 'star'] : ['star'], label: choice === 'right' ? undefined : 'Bintang', bg: SUNNY_SOFT },
+          ] as { icons: JuniorIconName[]; label?: string; bg: string }[]
+        ).map((cell, i) => (
           <Fragment key={i}>
             <div
               style={{
@@ -1217,15 +1243,20 @@ const Slide06TebakArah: Page = () => {
                 borderRadius: 20,
                 background: cell.bg,
                 border: `3px solid ${CHARCOAL}`,
-                ...centerCol,
+                ...row,
+                justifyContent: 'center',
+                gap: 8,
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 30,
                 fontWeight: 700,
               }}
             >
-              {cell.label}
+              {cell.icons.map((ic, j) => (
+                <JuniorIcon key={j} name={ic} size={32} />
+              ))}
+              {cell.label && <span>{cell.label}</span>}
             </div>
-            {i < 2 && <span style={{ fontSize: 28, fontWeight: 700, color: MUTED }}>➡️</span>}
+            {i < 2 && <JuniorIcon name="arrow-right" size={28} />}
           </Fragment>
         ))}
       </div>
@@ -1263,8 +1294,9 @@ const Slide06TebakArah: Page = () => {
 
           <ArrowCommandBlock dir="left" size={126} />
 
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 40, fontWeight: 700, color: CHARCOAL }}>
-            ⬅️ Ke Kiri
+          <div style={{ ...row, gap: 12, fontFamily: 'var(--osd-font-display)', fontSize: 40, fontWeight: 700, color: CHARCOAL }}>
+            <JuniorIcon name="arrow-left" size={36} />
+            <span>Ke Kiri</span>
           </div>
         </button>
 
@@ -1299,8 +1331,9 @@ const Slide06TebakArah: Page = () => {
 
           <ArrowCommandBlock dir="right" size={126} />
 
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 40, fontWeight: 700, color: CHARCOAL }}>
-            ➡️ Ke Kanan
+          <div style={{ ...row, gap: 12, fontFamily: 'var(--osd-font-display)', fontSize: 40, fontWeight: 700, color: CHARCOAL }}>
+            <JuniorIcon name="arrow-right" size={36} />
+            <span>Ke Kanan</span>
           </div>
         </button>
       </div>
@@ -1311,6 +1344,9 @@ const Slide06TebakArah: Page = () => {
 
         <div
           style={{
+            ...row,
+            justifyContent: 'center',
+            gap: 12,
             padding: '24px 38px',
             borderRadius: 28,
             background: choice === 'right' ? TEAL_SOFT : choice === 'left' ? CORAL_SOFT : STABILO,
@@ -1324,9 +1360,25 @@ const Slide06TebakArah: Page = () => {
             minWidth: 580,
           }}
         >
-          {choice === 'right' && '✅ BENAR SEKALI! Jalan ke Kanan menuju Bintang! ⭐'}
-          {choice === 'left' && '🤔 Hampir! Lihat Bintangnya ada di sebelah mana ya?'}
-          {choice === null && '👉 Tunjuk panah yang benar di layarmu ya!'}
+          {choice === 'right' && (
+            <>
+              <JuniorIcon name="check" size={32} />
+              <span>BENAR SEKALI! Jalan ke Kanan menuju Bintang!</span>
+              <JuniorIcon name="star" size={32} />
+            </>
+          )}
+          {choice === 'left' && (
+            <>
+              <JuniorIcon name="thinking" size={32} />
+              <span>Hampir! Lihat Bintangnya ada di sebelah mana ya?</span>
+            </>
+          )}
+          {choice === null && (
+            <>
+              <JuniorIcon name="point-right" size={32} />
+              <span>Tunjuk panah yang benar di layarmu ya!</span>
+            </>
+          )}
         </div>
       </div>
     </JuniorFrame>
@@ -1386,20 +1438,31 @@ const Slide07PetaKotak: Page = () => {
                   }}
                 >
                   {isBikoHere ? (
-                    <span style={{ fontSize: 54 }}>{isStar ? '🦦⭐' : '🦦'}</span>
+                    isStar ? (
+                      <div style={{ ...row, gap: 4 }}>
+                        <JuniorIcon name="biko" size={44} />
+                        <JuniorIcon name="star" size={38} />
+                      </div>
+                    ) : (
+                      <JuniorIcon name="biko" size={50} />
+                    )
                   ) : isStar ? (
-                    <span>⭐</span>
+                    <JuniorIcon name="star" size={48} />
                   ) : idx === 6 ? (
-                    <span style={{ fontSize: 32, opacity: 0.7 }}>👣</span>
+                    <JuniorIcon name="footprints" size={34} style={{ opacity: 0.7 }} />
                   ) : idx === 7 && step >= 1 ? (
-                    <span style={{ fontSize: 32, opacity: 0.8 }}>👣</span>
+                    <JuniorIcon name="footprints" size={34} style={{ opacity: 0.8 }} />
                   ) : null}
 
                   {idx === 7 && step >= 1 && !isBikoHere && (
-                    <span style={{ position: 'absolute', bottom: 6, right: 10, fontSize: 22 }}>⬆️</span>
+                    <span style={{ position: 'absolute', bottom: 6, right: 8 }}>
+                      <JuniorIcon name="arrow-up" size={22} />
+                    </span>
                   )}
                   {idx === 6 && step >= 1 && (
-                    <span style={{ position: 'absolute', bottom: 6, right: 10, fontSize: 22 }}>➡️</span>
+                    <span style={{ position: 'absolute', bottom: 6, right: 8 }}>
+                      <JuniorIcon name="arrow-right" size={22} />
+                    </span>
                   )}
                 </div>
               );
@@ -1408,17 +1471,21 @@ const Slide07PetaKotak: Page = () => {
 
           {/* Step Replay Controls */}
           <div style={{ ...row, gap: 16 }}>
-            {[
-              { s: 0 as const, label: 'Mulai 🦦' },
-              { s: 1 as const, label: '1. Kanan ➡️' },
-              { s: 2 as const, label: '2. Atas ⬆️⭐' },
-            ].map((btn) => (
+            {(
+              [
+                { s: 0 as const, label: 'Mulai', icons: ['biko'] },
+                { s: 1 as const, label: '1. Kanan', icons: ['arrow-right'] },
+                { s: 2 as const, label: '2. Atas', icons: ['arrow-up', 'star'] },
+              ] as { s: 0 | 1 | 2; label: string; icons: JuniorIconName[] }[]
+            ).map((btn) => (
               <button
                 key={btn.s}
                 type="button"
                 className="cpj5-card-btn"
                 onClick={() => setStep(btn.s)}
                 style={{
+                  ...row,
+                  gap: 8,
                   padding: '10px 22px',
                   borderRadius: 99,
                   background: step === btn.s ? TEAL : WHITE,
@@ -1430,7 +1497,10 @@ const Slide07PetaKotak: Page = () => {
                   fontWeight: 700,
                 }}
               >
-                {btn.label}
+                <span>{btn.label}</span>
+                {btn.icons.map((ic, idx) => (
+                  <JuniorIcon key={idx} name={ic} size={22} />
+                ))}
               </button>
             ))}
           </div>
@@ -1450,7 +1520,7 @@ const Slide07PetaKotak: Page = () => {
             boxShadow: `0 6px 0 ${SKY}`,
           }}
         >
-          <span style={{ fontSize: 50 }}>🟦</span>
+          <JuniorIcon name="square-blue" size={48} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
             <Highlight color="#DBEAFE">1 Panah</Highlight> = Jalan <Highlight color={STABILO}>1 Kotak</Highlight>
           </span>
@@ -1467,7 +1537,7 @@ const Slide07PetaKotak: Page = () => {
             boxShadow: `0 6px 0 ${TEAL}`,
           }}
         >
-          <span style={{ fontSize: 50 }}>👣</span>
+          <JuniorIcon name="footprints" size={48} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
             Hitung kotaknya <Highlight color="#D1FAE5">Pelan-Pelan!</Highlight>
           </span>
@@ -1488,7 +1558,13 @@ const Slide07PetaKotak: Page = () => {
               maxWidth: 330,
             }}
           >
-            1 Kanan ➡️ lalu 1 Atas ⬆️!
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <span>1 Kanan</span>
+              <JuniorIcon name="arrow-right" size={24} />
+              <span>lalu 1 Atas</span>
+              <JuniorIcon name="arrow-up" size={24} />
+              <span>!</span>
+            </span>
           </div>
           <BikoMascot pose="point-left" width={310} />
         </div>
@@ -1538,11 +1614,13 @@ const Slide08JurusKomando: Page = () => (
 
           {/* Finger counting boxes */}
           <div style={{ ...row, gap: 14, alignItems: 'center' }}>
-            {[
-              { n: '🦦', bg: WHITE },
-              { n: '1', bg: SUNNY_SOFT },
-              { n: '2', bg: TEAL_SOFT },
-            ].map((b, i) => (
+            {(
+              [
+                { icon: 'biko' as JuniorIconName, bg: WHITE },
+                { n: '1', bg: SUNNY_SOFT },
+                { n: '2', bg: TEAL_SOFT },
+              ]
+            ).map((b, i) => (
               <div
                 key={i}
                 style={{
@@ -1557,10 +1635,10 @@ const Slide08JurusKomando: Page = () => (
                   ...centerCol,
                 }}
               >
-                {b.n}
+                {b.icon ? <JuniorIcon name={b.icon} size={46} /> : b.n}
               </div>
             ))}
-            <span style={{ fontSize: 44 }}>☝️</span>
+            <JuniorIcon name="tap" size={44} />
           </div>
 
           <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 35, fontWeight: 700, lineHeight: 1.26 }}>
@@ -1616,6 +1694,8 @@ const Slide08JurusKomando: Page = () => (
       <div
         style={{
           marginTop: 10,
+          ...row,
+          gap: 10,
           padding: '12px 24px',
           borderRadius: 99,
           background: SUNNY,
@@ -1626,7 +1706,8 @@ const Slide08JurusKomando: Page = () => (
           fontWeight: 700,
         }}
       >
-        Pasti Sampai! 👍
+        <span>Pasti Sampai!</span>
+        <JuniorIcon name="thumbs-up" size={26} />
       </div>
     </div>
   </JuniorFrame>
@@ -1635,10 +1716,10 @@ const Slide08JurusKomando: Page = () => (
 // ============================================================================
 // SLIDE 09 — Misi Praktik: Bantu Biko Ambil Bintang! (3 Blok + Interactive Grid Game)
 // ============================================================================
-const MISSION_BLOCKS = [
-  { num: 1, color: SKY, soft: SKY_SOFT, title: 'Lihat', sub: 'posisi bintang di peta', icon: '👀' },
-  { num: 2, color: SUNNY, soft: SUNNY_SOFT, title: 'Geser', sub: 'blok panah ⬆️⬇️⬅️➡️', icon: '🧩' },
-  { num: 3, color: TEAL, soft: TEAL_SOFT, title: 'Jalan!', sub: 'Biko dapat bintang!', icon: '⭐' },
+const MISSION_BLOCKS: { num: number; color: string; soft: string; title: string; sub: string; icon: JuniorIconName }[] = [
+  { num: 1, color: SKY, soft: SKY_SOFT, title: 'Lihat', sub: 'posisi bintang di peta', icon: 'eyes' },
+  { num: 2, color: SUNNY, soft: SUNNY_SOFT, title: 'Geser', sub: 'blok panah arah', icon: 'puzzle' },
+  { num: 3, color: TEAL, soft: TEAL_SOFT, title: 'Jalan!', sub: 'Biko dapat bintang!', icon: 'star' },
 ];
 
 // 3x3 Grid: Start at (row=2, col=0) -> idx 6; Target Star at (row=1, col=2) -> idx 5
@@ -1744,8 +1825,9 @@ const Slide09MisiAmbilBintang: Page = () => {
                 {blk.num}
               </div>
               <div>
-                <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.15 }}>
-                  {blk.icon} {blk.title}
+                <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.15 }}>
+                  <JuniorIcon name={blk.icon} size={32} />
+                  <span>{blk.title}</span>
                 </div>
                 <div style={{ fontSize: 22, fontWeight: 800, color: MUTED, marginTop: 4 }}>{blk.sub}</div>
               </div>
@@ -1793,10 +1875,20 @@ const Slide09MisiAmbilBintang: Page = () => {
                     border: `3px solid ${isBiko ? TEAL : CHARCOAL}`,
                     boxShadow: isBiko ? `0 0 0 4px ${STABILO}` : '0 4px 0 #CBD5E1',
                     ...centerCol,
-                    fontSize: 44,
                   }}
                 >
-                  {isBiko && isStar ? '🦦⭐' : isBiko ? '🦦' : isStar ? '⭐' : isObstacle ? '🪨' : ''}
+                  {isBiko && isStar ? (
+                    <div style={{ ...row, gap: 4 }}>
+                      <JuniorIcon name="biko" size={40} />
+                      <JuniorIcon name="star" size={34} />
+                    </div>
+                  ) : isBiko ? (
+                    <JuniorIcon name="biko" size={48} />
+                  ) : isStar ? (
+                    <JuniorIcon name="star" size={44} />
+                  ) : isObstacle ? (
+                    <JuniorIcon name="rock" size={44} />
+                  ) : null}
                 </div>
               );
             })}
@@ -1850,7 +1942,7 @@ const Slide09MisiAmbilBintang: Page = () => {
                       cursor: 'pointer',
                     }}
                   >
-                    {cmd ? DIR_META[cmd].emoji : idx + 1}
+                    {cmd ? <JuniorIcon name={DIR_META[cmd].icon} size={38} /> : idx + 1}
                   </button>
                 ))}
               </div>
@@ -1864,6 +1956,8 @@ const Slide09MisiAmbilBintang: Page = () => {
                   className="cpj5-card-btn"
                   onClick={runCommands}
                   style={{
+                    ...row,
+                    gap: 8,
                     padding: '12px 26px',
                     borderRadius: 99,
                     background: TEAL,
@@ -1875,13 +1969,16 @@ const Slide09MisiAmbilBintang: Page = () => {
                     fontWeight: 700,
                   }}
                 >
-                  ▶️ Jalan!
+                  <JuniorIcon name="play" size={24} />
+                  <span>Jalan!</span>
                 </button>
                 <button
                   type="button"
                   className="cpj5-card-btn"
                   onClick={resetGame}
                   style={{
+                    ...row,
+                    gap: 8,
                     padding: '12px 20px',
                     borderRadius: 99,
                     background: WHITE,
@@ -1893,12 +1990,15 @@ const Slide09MisiAmbilBintang: Page = () => {
                     fontWeight: 700,
                   }}
                 >
-                  🔄 Ulang
+                  <JuniorIcon name="reset" size={22} />
+                  <span>Ulang</span>
                 </button>
               </div>
 
               <div
                 style={{
+                  ...row,
+                  gap: 8,
                   padding: '10px 18px',
                   borderRadius: 99,
                   background: status === 'won' ? TEAL_SOFT : status === 'oops' ? CORAL_SOFT : STABILO,
@@ -1907,9 +2007,27 @@ const Slide09MisiAmbilBintang: Page = () => {
                   fontWeight: 800,
                 }}
               >
-                {status === 'won' && '🎉 Yeay! Biko dapat Bintang!'}
-                {status === 'oops' && '🤔 Belum pas! Coba ➡️ ➡️ ⬆️'}
-                {status === 'idle' && '💡 Petunjuk: 2x Kanan, 1x Atas!'}
+                {status === 'won' && (
+                  <>
+                    <JuniorIcon name="party" size={22} />
+                    <span>Yeay! Biko dapat Bintang!</span>
+                  </>
+                )}
+                {status === 'oops' && (
+                  <>
+                    <JuniorIcon name="thinking" size={22} />
+                    <span>Belum pas! Coba</span>
+                    <JuniorIcon name="arrow-right" size={20} />
+                    <JuniorIcon name="arrow-right" size={20} />
+                    <JuniorIcon name="arrow-up" size={20} />
+                  </>
+                )}
+                {status === 'idle' && (
+                  <>
+                    <JuniorIcon name="bulb" size={22} />
+                    <span>Petunjuk: 2x Kanan, 1x Atas!</span>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -1922,6 +2040,8 @@ const Slide09MisiAmbilBintang: Page = () => {
         <div
           style={{
             marginTop: 8,
+            ...row,
+            gap: 8,
             padding: '10px 22px',
             borderRadius: 99,
             background: TEAL,
@@ -1933,7 +2053,17 @@ const Slide09MisiAmbilBintang: Page = () => {
             fontWeight: 700,
           }}
         >
-          {status === 'won' ? 'Dapat Bintang! ⭐' : 'Ayo Beri Komando! 🧭'}
+          {status === 'won' ? (
+            <>
+              <span>Dapat Bintang!</span>
+              <JuniorIcon name="star" size={24} />
+            </>
+          ) : (
+            <>
+              <span>Ayo Beri Komando!</span>
+              <JuniorIcon name="compass" size={24} />
+            </>
+          )}
         </div>
       </div>
     </JuniorFrame>
@@ -1970,7 +2100,12 @@ const Slide10Lencana: Page = () => {
       ))}
 
       <SlideTitle align="center" top={130} size={62}>
-        Hebat! Kamu <Highlight color={STABILO}>Komandan Arah! 🎉</Highlight>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 16 }}>
+          <span>
+            Hebat! Kamu <Highlight color={STABILO}>Komandan Arah!</Highlight>
+          </span>
+          <JuniorIcon name="party" size={58} />
+        </span>
       </SlideTitle>
 
       {/* Center Celebration Medal Card */}
@@ -2001,6 +2136,8 @@ const Slide10Lencana: Page = () => {
 
           <div
             style={{
+              ...row,
+              gap: 14,
               padding: '14px 34px',
               borderRadius: 99,
               background: TEAL,
@@ -2012,7 +2149,8 @@ const Slide10Lencana: Page = () => {
               fontWeight: 700,
             }}
           >
-            🏅 Lencana Komandan Panah Ajaib
+            <JuniorIcon name="medal" size={36} />
+            <span>Lencana Komandan Panah Ajaib</span>
           </div>
 
           <div

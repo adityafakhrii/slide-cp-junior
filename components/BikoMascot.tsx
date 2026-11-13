@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { useIsActivePage } from '@open-slide/core';
 import bikoWave from '../assets/biko/biko-wave.png';
 import bikoLaptop from '../assets/biko/biko-laptop.png';
@@ -72,6 +72,7 @@ export interface BikoMascotProps {
   width?: number;
   flipX?: boolean;
   badgeEmoji?: string;
+  badgeIcon?: ReactNode;
   speechBubble?: string;
   style?: CSSProperties;
 }
@@ -84,6 +85,7 @@ export const BikoMascot = ({
   width = 340,
   flipX = false,
   badgeEmoji,
+  badgeIcon,
   speechBubble,
   style,
 }: BikoMascotProps) => {
@@ -280,7 +282,7 @@ export const BikoMascot = ({
           </div>
         )}
 
-        {badgeEmoji && (
+        {(badgeIcon || badgeEmoji) && (
           <div
             aria-hidden="true"
             style={{
@@ -301,7 +303,7 @@ export const BikoMascot = ({
               pointerEvents: 'none',
             }}
           >
-            {badgeEmoji}
+            {badgeIcon ?? badgeEmoji}
           </div>
         )}
       </div>

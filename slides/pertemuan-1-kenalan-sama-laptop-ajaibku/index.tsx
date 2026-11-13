@@ -5,6 +5,7 @@ import bikoWave from '../../assets/biko/biko-wave.png';
 import bikoLaptop from '../../assets/biko/biko-laptop.png';
 import bikoPointLeft from '../../assets/biko/biko-point-left.png';
 import bikoJump from '../../assets/biko/biko-jump.png';
+import { JuniorIcon, type JuniorIconName } from '../../components/JuniorIcons';
 
 // ============================================================================
 // Webfont Loading & Scoped Keyframe Styles (loaded once in <head>)
@@ -641,12 +642,11 @@ const BikoMascot = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 34,
               transform: 'rotate(8deg)',
               pointerEvents: 'none',
             }}
           >
-            👍
+            <JuniorIcon name="thumbs-up" size={34} />
           </div>
         )}
       </div>
@@ -749,7 +749,7 @@ const Slide01Cover: Page = () => {
             color: CHARCOAL,
           }}
         >
-          <span style={{ fontSize: 28 }}>💻</span>
+          <JuniorIcon name="laptop" size={30} />
           <span>Level 1: Code Explorer</span>
         </div>
 
@@ -767,7 +767,7 @@ const Slide01Cover: Page = () => {
             color: CHARCOAL,
           }}
         >
-          <span style={{ fontSize: 28 }}>🌟</span>
+          <JuniorIcon name="star-glow" size={30} />
           <span>Usia 5–7 Tahun</span>
         </div>
       </div>
@@ -799,6 +799,8 @@ const Slide01Cover: Page = () => {
         <div
           style={{
             ...abs(56, 54),
+            ...row,
+            gap: 8,
             padding: '10px 18px',
             borderRadius: 14,
             background: SKY,
@@ -811,7 +813,8 @@ const Slide01Cover: Page = () => {
             animation: live ? 'cpj-float 2.6s ease-in-out infinite' : undefined,
           }}
         >
-          ▶ MULAI!
+          <JuniorIcon name="play" size={22} />
+          <span>MULAI!</span>
         </div>
         <div
           style={{
@@ -838,6 +841,8 @@ const Slide01Cover: Page = () => {
             position: 'relative',
             zIndex: 2,
             marginTop: 8,
+            ...row,
+            gap: 10,
             padding: '10px 26px',
             borderRadius: 999,
             background: STABILO,
@@ -849,7 +854,8 @@ const Slide01Cover: Page = () => {
             fontWeight: 700,
           }}
         >
-          Teman Belajar: Biko si Berang-berang 🦦
+          <span>Teman Belajar: Biko si Berang-berang</span>
+          <JuniorIcon name="biko" size={28} />
         </div>
       </div>
     </JuniorFrame>
@@ -1017,6 +1023,8 @@ const Slide02Misi: Page = () => (
       <div
         style={{
           marginBottom: 14,
+          ...row,
+          gap: 10,
           padding: '12px 24px',
           borderRadius: 20,
           background: WHITE,
@@ -1027,7 +1035,8 @@ const Slide02Misi: Page = () => (
           fontWeight: 700,
         }}
       >
-        Ayo kita taklukkan! 🚀
+        <span>Ayo kita taklukkan!</span>
+        <JuniorIcon name="rocket" size={28} />
       </div>
       <BikoMascot pose="point-left" width={360} />
     </div>
@@ -1135,7 +1144,7 @@ const Slide03Layar: Page = () => {
             boxShadow: `0 6px 0 ${SUNNY}`,
           }}
         >
-          <span style={{ fontSize: 52 }}>👀</span>
+          <JuniorIcon name="eyes" size={50} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700 }}>
             Seperti <Highlight>TV Ajaib</Highlight>
           </span>
@@ -1152,7 +1161,7 @@ const Slide03Layar: Page = () => {
             boxShadow: `0 6px 0 ${TEAL}`,
           }}
         >
-          <span style={{ fontSize: 52 }}>🎮</span>
+          <JuniorIcon name="gamepad" size={50} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700 }}>
             Tempat gambar &amp; game muncul
           </span>
@@ -1208,7 +1217,7 @@ const Slide04Keyboard: Page = () => {
             boxShadow: `0 6px 0 ${SKY}`,
           }}
         >
-          <span style={{ fontSize: 48 }}>🔤</span>
+          <JuniorIcon name="abc" size={48} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 31, fontWeight: 700, lineHeight: 1.25 }}>
             Punya tombol <Highlight color="#DBEAFE">Huruf &amp; Angka</Highlight>
           </span>
@@ -1225,7 +1234,7 @@ const Slide04Keyboard: Page = () => {
             boxShadow: `0 6px 0 ${TEAL}`,
           }}
         >
-          <span style={{ fontSize: 48 }}>✨</span>
+          <JuniorIcon name="sparkle" size={48} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 31, fontWeight: 700, lineHeight: 1.25 }}>
             Untuk mengetik &amp; memberi perintah
           </span>
@@ -1249,7 +1258,7 @@ const Slide04Keyboard: Page = () => {
             <div
               style={{
                 fontFamily: 'var(--osd-font-display)',
-                fontSize: 64,
+                fontSize: pressedKey.length > 2 ? 44 : 64,
                 fontWeight: 700,
                 color: CORAL,
                 marginTop: 6,
@@ -1257,7 +1266,10 @@ const Slide04Keyboard: Page = () => {
             >
               {pressedKey}
             </div>
-            <div style={{ fontSize: 19, fontWeight: 700, color: CHARCOAL }}>Tekan pelan ya! 🪶</div>
+            <div style={{ ...row, justifyContent: 'center', gap: 8, fontSize: 19, fontWeight: 700, color: CHARCOAL }}>
+              <span>Tekan pelan ya!</span>
+              <JuniorIcon name="feather" size={22} />
+            </div>
           </div>
         </div>
       </div>
@@ -1360,45 +1372,49 @@ const Slide04Keyboard: Page = () => {
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setPressedKey('▲');
+                  setPressedKey('ATAS');
                 }}
                 className="cpj-card-btn"
                 style={{
                   height: 56,
                   borderRadius: 14,
-                  background: pressedKey === '▲' ? CORAL : CORAL_SOFT,
-                  color: pressedKey === '▲' ? WHITE : CHARCOAL,
+                  background: pressedKey === 'ATAS' ? CORAL : CORAL_SOFT,
+                  color: pressedKey === 'ATAS' ? WHITE : CHARCOAL,
                   border: `2.5px solid ${CHARCOAL}`,
                   boxShadow: `0 4px 0 ${CHARCOAL}`,
-                  fontSize: 26,
-                  fontWeight: 800,
+                  ...centerCol,
                 }}
               >
-                ▲
+                <JuniorIcon name="arrow-up" size={26} />
               </button>
               <div />
-              {['◀', '▼', '▶'].map((arrow) => (
+              {(
+                [
+                  { id: 'KIRI', icon: 'arrow-left' },
+                  { id: 'BAWAH', icon: 'arrow-down' },
+                  { id: 'KANAN', icon: 'arrow-right' },
+                ] as const
+              ).map((arrow) => (
                 <button
-                  key={arrow}
+                  key={arrow.id}
                   type="button"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={(e) => {
                     e.stopPropagation();
-                    setPressedKey(arrow);
+                    setPressedKey(arrow.id);
                   }}
                   className="cpj-card-btn"
                   style={{
                     height: 56,
                     borderRadius: 14,
-                    background: pressedKey === arrow ? CORAL : CORAL_SOFT,
-                    color: pressedKey === arrow ? WHITE : CHARCOAL,
+                    background: pressedKey === arrow.id ? CORAL : CORAL_SOFT,
+                    color: pressedKey === arrow.id ? WHITE : CHARCOAL,
                     border: `2.5px solid ${CHARCOAL}`,
                     boxShadow: `0 4px 0 ${CHARCOAL}`,
-                    fontSize: 26,
-                    fontWeight: 800,
+                    ...centerCol,
                   }}
                 >
-                  {arrow}
+                  <JuniorIcon name={arrow.icon} size={26} />
                 </button>
               ))}
             </div>
@@ -1471,8 +1487,9 @@ const Slide05TrackpadMouse: Page = () => {
               />
             </svg>
             <div>
-              <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700 }}>
-                👆 Trackpad
+              <div style={{ ...row, justifyContent: 'center', gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700 }}>
+                <JuniorIcon name="tap" size={32} />
+                <span>Trackpad</span>
               </div>
               <div style={{ fontSize: 25, fontWeight: 700, color: MUTED, marginTop: 6 }}>
                 Kotak sentuh di laptop
@@ -1517,8 +1534,9 @@ const Slide05TrackpadMouse: Page = () => {
               <path d="M140 172 Q150 182 160 172" stroke={CHARCOAL} strokeWidth={3} strokeLinecap="round" />
             </svg>
             <div>
-              <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700 }}>
-                🖱️ Mouse
+              <div style={{ ...row, justifyContent: 'center', gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700 }}>
+                <JuniorIcon name="mouse" size={32} />
+                <span>Mouse</span>
               </div>
               <div style={{ fontSize: 25, fontWeight: 700, color: MUTED, marginTop: 6 }}>
                 Teman genggam di meja
@@ -1569,17 +1587,21 @@ const Slide05TrackpadMouse: Page = () => {
             </svg>
             <div
               style={{
+                ...row,
+                justifyContent: 'center',
+                gap: 10,
                 padding: '14px 20px',
                 borderRadius: 18,
                 background: STABILO,
                 border: `2.5px solid ${CHARCOAL}`,
                 fontFamily: 'var(--osd-font-display)',
-                fontSize: 28,
+                fontSize: 26,
                 fontWeight: 700,
                 lineHeight: 1.25,
               }}
             >
-              ➡️ Menggerakkan Panah Ajaib!
+              <JuniorIcon name="arrow-right" size={28} />
+              <span>Menggerakkan Panah Ajaib!</span>
             </div>
           </div>
         </div>
@@ -1591,10 +1613,10 @@ const Slide05TrackpadMouse: Page = () => {
 // ============================================================================
 // SLIDE 06 — Permainan Cepat: Ayo Tunjuk! (Interactive Pins 1-2-3)
 // ============================================================================
-const QUIZ_PINS = [
-  { id: 1, name: 'Layar', emoji: '👀', color: CORAL, x: 563, y: 156, desc: 'Tempat gambar & game!' },
-  { id: 2, name: 'Keyboard', emoji: '🔤', color: SUNNY, x: 563, y: 370, desc: 'Tombol huruf & angka!' },
-  { id: 3, name: 'Trackpad', emoji: '👆', color: TEAL, x: 563, y: 468, desc: 'Penggerak panah ajaib!' },
+const QUIZ_PINS: { id: number; name: string; icon: JuniorIconName; color: string; x: number; y: number; desc: string }[] = [
+  { id: 1, name: 'Layar', icon: 'eyes', color: CORAL, x: 563, y: 156, desc: 'Tempat gambar & game!' },
+  { id: 2, name: 'Keyboard', icon: 'abc', color: SUNNY, x: 563, y: 370, desc: 'Tombol huruf & angka!' },
+  { id: 3, name: 'Trackpad', icon: 'tap', color: TEAL, x: 563, y: 468, desc: 'Penggerak panah ajaib!' },
 ];
 
 const Slide06Tebak: Page = () => {
@@ -1687,6 +1709,8 @@ const Slide06Tebak: Page = () => {
                     style={{
                       padding: '10px 22px',
                       borderRadius: 18,
+                      ...row,
+                      gap: 10,
                       background: WHITE,
                       border: `3px solid ${CHARCOAL}`,
                       boxShadow: `0 4px 0 ${CHARCOAL}`,
@@ -1696,7 +1720,8 @@ const Slide06Tebak: Page = () => {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    {pin.emoji} {pin.name}
+                    <JuniorIcon name={pin.icon} size={28} />
+                    <span>{pin.name}</span>
                   </div>
                 )}
               </div>
@@ -1712,6 +1737,9 @@ const Slide06Tebak: Page = () => {
         <div
           style={{
             width: '100%',
+            ...row,
+            justifyContent: 'center',
+            gap: 12,
             padding: '24px 28px',
             borderRadius: 24,
             background: STABILO,
@@ -1723,7 +1751,8 @@ const Slide06Tebak: Page = () => {
             textAlign: 'center',
           }}
         >
-          👉 Tunjuk di laptopmu ya!
+          <JuniorIcon name="point-right" size={34} />
+          <span>Tunjuk di laptopmu ya!</span>
         </div>
       </div>
     </JuniorFrame>
@@ -1794,8 +1823,9 @@ const Slide07Aturan12: Page = () => (
           <circle cx="110" cy="40" r="8" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2.5} />
           <path d="M108 86 L112 94 L120 98 L112 102 L108 110 L104 102 L96 98 L104 94 Z" fill={TEAL} />
         </svg>
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
-          🧼 Tangan Bersih &amp; Kering
+        <div style={{ ...row, gap: 14, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
+          <JuniorIcon name="soap" size={38} />
+          <span>Tangan Bersih &amp; Kering</span>
         </div>
       </div>
 
@@ -1824,8 +1854,9 @@ const Slide07Aturan12: Page = () => (
           />
           <path d="M42 92 L90 32" stroke={CHARCOAL} strokeWidth={3} strokeLinecap="round" />
         </svg>
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
-          🪶 Tekan Tombol Pelan-Pelan
+        <div style={{ ...row, gap: 14, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
+          <JuniorIcon name="feather" size={38} />
+          <span>Tekan Tombol Pelan-Pelan</span>
         </div>
       </div>
     </div>
@@ -1886,8 +1917,9 @@ const Slide07Aturan12: Page = () => (
           {/* Red Prohibition Line */}
           <path d="M24 24 L116 116" stroke={CORAL} strokeWidth={7} strokeLinecap="round" />
         </svg>
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
-          🥤 Jauhkan Air &amp; Makanan
+        <div style={{ ...row, gap: 14, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
+          <JuniorIcon name="cup" size={38} />
+          <span>Jauhkan Air &amp; Makanan</span>
         </div>
       </div>
 
@@ -1913,8 +1945,9 @@ const Slide07Aturan12: Page = () => (
           {/* Red Prohibition Line */}
           <path d="M24 24 L116 116" stroke={CORAL} strokeWidth={7} strokeLinecap="round" />
         </svg>
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
-          🔨 Jangan Dipukul Keras
+        <div style={{ ...row, gap: 14, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
+          <JuniorIcon name="hammer" size={38} />
+          <span>Jangan Dipukul Keras</span>
         </div>
       </div>
     </div>
@@ -2051,6 +2084,8 @@ const Slide08Aturan34: Page = () => (
       <div
         style={{
           marginTop: 6,
+          ...row,
+          gap: 10,
           padding: '10px 22px',
           borderRadius: 99,
           background: SUNNY,
@@ -2060,7 +2095,8 @@ const Slide08Aturan34: Page = () => (
           fontWeight: 700,
         }}
       >
-        Anak Hebat! 👍
+        <span>Anak Hebat!</span>
+        <JuniorIcon name="thumbs-up" size={26} />
       </div>
     </div>
   </JuniorFrame>
@@ -2286,7 +2322,7 @@ const Slide09MisiPraktik: Page = () => {
                   fontWeight="700"
                   fill={WHITE}
                 >
-                  {currentStep.started ? '★ YEAY!' : '▶ START'}
+                  {currentStep.started ? 'YEAY!' : 'START'}
                 </text>
               </g>
 
@@ -2346,7 +2382,12 @@ const Slide10Lencana: Page = () => {
       ))}
 
       <SlideTitle top={134} size={62} align="center">
-        Hore! <Highlight>Kamu Hebat!</Highlight> 🎉
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 16 }}>
+          <span>
+            Hore! <Highlight>Kamu Hebat!</Highlight>
+          </span>
+          <JuniorIcon name="party" size={60} />
+        </span>
       </SlideTitle>
 
       {/* Center Celebration Window Card */}
@@ -2391,6 +2432,8 @@ const Slide10Lencana: Page = () => {
 
           <div
             style={{
+              ...row,
+              gap: 14,
               padding: '12px 32px',
               borderRadius: 99,
               background: SUNNY,
@@ -2401,7 +2444,8 @@ const Slide10Lencana: Page = () => {
               fontWeight: 700,
             }}
           >
-            🏅 Lencana Sahabat Laptop Ajaib
+            <JuniorIcon name="medal" size={38} />
+            <span>Lencana Sahabat Laptop Ajaib</span>
           </div>
 
           <div

@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState, type CSSProperties, type DragEve
 import type { DesignSystem, Page, SlideMeta, SlideTransition } from '@open-slide/core';
 import { useIsActivePage, useSlidePageNumber } from '@open-slide/core';
 import { BikoMascot } from '../../components/BikoMascot';
+import { JuniorIcon, type JuniorIconName } from '../../components/JuniorIcons';
 
 // ============================================================================
 // Webfont Loading & Scoped Keyframe Styles (loaded once in <head>)
@@ -486,11 +487,11 @@ const MacWindowCard = ({
 // ============================================================================
 type Dir = 'up' | 'down' | 'left' | 'right';
 
-const DIR_META: Record<Dir, { label: string; color: string; rot: number; symbol: string }> = {
-  up: { label: 'Atas', color: TEAL, rot: -90, symbol: '⬆️' },
-  down: { label: 'Bawah', color: CORAL, rot: 90, symbol: '⬇️' },
-  left: { label: 'Kiri', color: SUNNY, rot: 180, symbol: '⬅️' },
-  right: { label: 'Kanan', color: SKY, rot: 0, symbol: '➡️' },
+const DIR_META: Record<Dir, { label: string; color: string; rot: number; icon: JuniorIconName }> = {
+  up: { label: 'Atas', color: TEAL, rot: -90, icon: 'arrow-up' },
+  down: { label: 'Bawah', color: CORAL, rot: 90, icon: 'arrow-down' },
+  left: { label: 'Kiri', color: SUNNY, rot: 180, icon: 'arrow-left' },
+  right: { label: 'Kanan', color: SKY, rot: 0, icon: 'arrow-right' },
 };
 
 /** Friendly cartoon red ladybug ("Bug") */
@@ -822,7 +823,7 @@ const Slide01Cover: Page = () => {
             marginBottom: 24,
           }}
         >
-          <span>🔎</span>
+          <JuniorIcon name="magnifier" size={24} />
           <span>LEVEL 1: CODE EXPLORER (USIA 5–7 TAHUN)</span>
         </div>
 
@@ -872,7 +873,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>🐞</span>
+            <JuniorIcon name="bug" size={28} />
             <span>Temukan Bug</span>
           </div>
           <div
@@ -890,7 +891,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>🔧</span>
+            <JuniorIcon name="wrench" size={28} />
             <span>Jurus Debugging!</span>
           </div>
         </div>
@@ -913,9 +914,12 @@ const Slide01Cover: Page = () => {
             fontSize: 22,
             fontWeight: 700,
             zIndex: 2,
+            ...row,
+            gap: 8,
           }}
         >
-          📂 KASUS DETEKTIF #08
+          <JuniorIcon name="folder" size={22} />
+          <span>KASUS DETEKTIF #08</span>
         </div>
 
         {/* Chamfered-Style Detective Case Folder */}
@@ -953,8 +957,9 @@ const Slide01Cover: Page = () => {
             zIndex: 4,
           }}
         >
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 19, fontWeight: 700, color: MUTED, marginBottom: 10 }}>
-            🔎 Periksa Rantai Kode:
+          <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 19, fontWeight: 700, color: MUTED, marginBottom: 10 }}>
+            <JuniorIcon name="magnifier" size={20} />
+            <span>Periksa Rantai Kode:</span>
           </div>
           <div style={{ ...row, gap: 10 }}>
             <DebugArrowBlock dir="right" size={72} stepNum={1} showRightTab />
@@ -1166,9 +1171,12 @@ const Slide03ApaItuBug: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 19,
                 fontWeight: 700,
+                ...row,
+                gap: 8,
               }}
             >
-              {inspectBug ? '🐞 Sorot Bug!' : '🔍 Lihat Peta'}
+              <JuniorIcon name={inspectBug ? 'bug' : 'magnifier'} size={20} />
+              <span>{inspectBug ? 'Sorot Bug!' : 'Lihat Peta'}</span>
             </button>
           </div>
 
@@ -1211,10 +1219,13 @@ const Slide03ApaItuBug: Page = () => {
                     }}
                   >
                     {isStart && (
-                      <span style={{ fontSize: 16, fontWeight: 800, color: '#1D4ED8' }}>START ➡️</span>
+                      <span style={{ ...row, gap: 4, fontSize: 16, fontWeight: 800, color: '#1D4ED8' }}>
+                        <span>START</span>
+                        <JuniorIcon name="arrow-right" size={18} />
+                      </span>
                     )}
                     {r === 1 && c === 1 && (
-                      <span style={{ fontSize: 26, fontWeight: 800, color: CORAL }}>⬇️</span>
+                      <JuniorIcon name="arrow-down" size={28} />
                     )}
                     {isOffBush && (
                       <div style={{ ...row, gap: 4 }}>
@@ -1247,8 +1258,9 @@ const Slide03ApaItuBug: Page = () => {
               <DebugArrowBlock dir="right" size={66} stepNum={1} showRightTab />
               <DebugArrowBlock dir="down" size={66} stepNum={2} isBug={inspectBug} />
             </div>
-            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 21, fontWeight: 700, color: CORAL }}>
-              🐞 Bug bikin nyasar ke semak!
+            <span style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 21, fontWeight: 700, color: CORAL }}>
+              <JuniorIcon name="bug" size={22} />
+              <span>Bug bikin nyasar ke semak!</span>
             </span>
           </div>
         </div>
@@ -1269,8 +1281,9 @@ const Slide03ApaItuBug: Page = () => {
         >
           <BugSvg size={76} />
           <div>
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
-              🐞 Kesalahan di Urutan Blok
+            <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
+              <JuniorIcon name="bug" size={28} />
+              <span>Kesalahan di Urutan Blok</span>
             </div>
             <div style={{ fontSize: 22, fontWeight: 700, color: MUTED, marginTop: 4 }}>
               Dalam dunia coding, kesalahan perintah disebut <strong>Bug</strong>!
@@ -1301,7 +1314,7 @@ const Slide03ApaItuBug: Page = () => {
               flexShrink: 0,
             }}
           >
-            😵
+            <JuniorIcon name="dizzy" size={40} />
           </div>
           <div>
             <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
@@ -1331,12 +1344,21 @@ const Slide03ApaItuBug: Page = () => {
 const Slide04JurusDebugging: Page = () => {
   const [phase, setPhase] = useState<0 | 1 | 2>(0);
 
-  const steps = [
+  const steps: {
+    num: string;
+    title: string;
+    desc: string;
+    icon: JuniorIconName;
+    color: string;
+    soft: string;
+    badge: string;
+    visual: ReactNode;
+  }[] = [
     {
       num: '1',
       title: 'Cari Blok Nyasar',
       desc: 'Periksa urutan blok dengan teliti',
-      icon: '🔍',
+      icon: 'magnifier',
       color: SKY,
       soft: SKY_SOFT,
       badge: 'LANGKAH 1 • CARI',
@@ -1351,14 +1373,14 @@ const Slide04JurusDebugging: Page = () => {
       num: '2',
       title: 'Buang Blok Salah',
       desc: 'Tarik keluar blok merah yang ada Bug',
-      icon: '🗑️',
+      icon: 'trash',
       color: CORAL,
       soft: CORAL_SOFT,
       badge: 'LANGKAH 2 • BUANG',
       visual: (
         <div style={{ ...row, gap: 10 }}>
           <DebugArrowBlock dir="down" size={64} crossed />
-          <span style={{ fontSize: 36 }}>🗑️</span>
+          <JuniorIcon name="trash" size={38} />
         </div>
       ),
     },
@@ -1366,7 +1388,7 @@ const Slide04JurusDebugging: Page = () => {
       num: '3',
       title: 'Ganti Blok Benar!',
       desc: 'Pasang blok hijau yang arahnya tepat',
-      icon: '✨',
+      icon: 'sparkle',
       color: TEAL,
       soft: TEAL_SOFT,
       badge: 'LANGKAH 3 • GANTI',
@@ -1377,12 +1399,12 @@ const Slide04JurusDebugging: Page = () => {
         </div>
       ),
     },
-  ] as const;
+  ];
 
-  const hints = [
-    '🔍 Fase 1: Biko memeriksa blok dengan kaca pembesar dan menemukan blok merah!',
-    '🗑️ Fase 2: Tarik keluar & buang blok merah yang salah dari rantai kode!',
-    '✨ Fase 3: Pasang blok hijau yang tepat — kode kembali bersih dan benar!',
+  const hints: { icon: JuniorIconName; text: string }[] = [
+    { icon: 'magnifier', text: 'Fase 1: Biko memeriksa blok dengan kaca pembesar dan menemukan blok merah!' },
+    { icon: 'trash', text: 'Fase 2: Tarik keluar & buang blok merah yang salah dari rantai kode!' },
+    { icon: 'sparkle', text: 'Fase 3: Pasang blok hijau yang tepat — kode kembali bersih dan benar!' },
   ];
 
   return (
@@ -1441,8 +1463,9 @@ const Slide04JurusDebugging: Page = () => {
                     {s.visual}
                   </div>
 
-                  <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, color: CHARCOAL }}>
-                    {s.icon} {s.title}
+                  <div style={{ ...row, justifyContent: 'center', gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, color: CHARCOAL }}>
+                    <JuniorIcon name={s.icon} size={32} />
+                    <span>{s.title}</span>
                   </div>
 
                   <div style={{ fontSize: 22, fontWeight: 700, color: MUTED, lineHeight: 1.35 }}>
@@ -1464,8 +1487,9 @@ const Slide04JurusDebugging: Page = () => {
               border: `3px solid ${CHARCOAL}`,
             }}
           >
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700, color: CHARCOAL }}>
-              {hints[phase]}
+            <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700, color: CHARCOAL }}>
+              <JuniorIcon name={hints[phase].icon} size={26} />
+              <span>{hints[phase].text}</span>
             </div>
             <button
               type="button"
@@ -1481,9 +1505,12 @@ const Slide04JurusDebugging: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 21,
                 fontWeight: 700,
+                ...row,
+                gap: 8,
               }}
             >
-              ▶️ Fase Berikutnya
+              <JuniorIcon name="play" size={20} />
+              <span>Fase Berikutnya</span>
             </button>
           </div>
         </div>
@@ -1525,9 +1552,12 @@ const Slide05Kasus1: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 20,
                 fontWeight: 700,
+                ...row,
+                gap: 8,
               }}
             >
-              {fixed ? '↩️ Lihat Kode Bug' : '🔧 Perbaiki Sekarang!'}
+              <JuniorIcon name={fixed ? 'turn-left' : 'wrench'} size={20} />
+              <span>{fixed ? 'Lihat Kode Bug' : 'Perbaiki Sekarang!'}</span>
             </button>
           </div>
 
@@ -1567,7 +1597,10 @@ const Slide05Kasus1: Page = () => {
                 ...centerCol,
               }}
             >
-              <span style={{ fontSize: 36, fontWeight: 800, color: '#047857' }}>1 ➡️</span>
+              <span style={{ ...row, gap: 6, fontSize: 36, fontWeight: 800, color: '#047857' }}>
+                <span>1</span>
+                <JuniorIcon name="arrow-right" size={32} />
+              </span>
               <span style={{ fontSize: 16, fontWeight: 700, color: MUTED }}>Kosong</span>
             </div>
 
@@ -1588,7 +1621,12 @@ const Slide05Kasus1: Page = () => {
                     <BunnySvg size={80} />
                     <CarrotSvg size={64} />
                   </div>
-                  <span style={{ fontSize: 17, fontWeight: 800, color: '#047857' }}>✅ PAS! (2 ➡️)</span>
+                  <span style={{ ...row, gap: 4, fontSize: 17, fontWeight: 800, color: '#047857' }}>
+                    <JuniorIcon name="check" size={18} />
+                    <span>PAS! (2</span>
+                    <JuniorIcon name="arrow-right" size={16} />
+                    <span>)</span>
+                  </span>
                 </>
               ) : (
                 <>
@@ -1610,7 +1648,11 @@ const Slide05Kasus1: Page = () => {
                 }}
               >
                 <BunnySvg size={82} />
-                <span style={{ fontSize: 16, fontWeight: 800, color: CORAL }}>BABLAS! (3 ➡️)</span>
+                <span style={{ ...row, gap: 4, fontSize: 16, fontWeight: 800, color: CORAL }}>
+                  <span>BABLAS! (3</span>
+                  <JuniorIcon name="arrow-right" size={16} />
+                  <span>)</span>
+                </span>
               </div>
             )}
           </div>
@@ -1631,8 +1673,9 @@ const Slide05Kasus1: Page = () => {
               <DebugArrowBlock dir="right" size={76} stepNum={2} showRightTab={!fixed} />
               {!fixed && <DebugArrowBlock dir="right" size={76} stepNum={3} isBug crossed />}
             </div>
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 23, fontWeight: 700, color: fixed ? '#047857' : CORAL }}>
-              {fixed ? '✅ Pas 2 langkah ke Wortel!' : '❌ Blok ke-3 kebanyakan (bablas)!'}
+            <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 23, fontWeight: 700, color: fixed ? '#047857' : CORAL }}>
+              <JuniorIcon name={fixed ? 'check' : 'cross'} size={24} />
+              <span>{fixed ? 'Pas 2 langkah ke Wortel!' : 'Blok ke-3 kebanyakan (bablas)!'}</span>
             </div>
           </div>
         </div>
@@ -1651,9 +1694,14 @@ const Slide05Kasus1: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 29,
                 fontWeight: 700,
+                ...row,
+                gap: 12,
               }}
             >
-              🥕 Wortel cuma butuh <strong>2 Langkah</strong>
+              <JuniorIcon name="carrot" size={32} />
+              <span>
+                Wortel cuma butuh <strong>2 Langkah</strong>
+              </span>
             </div>
 
             <div
@@ -1665,9 +1713,21 @@ const Slide05Kasus1: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 27,
                 fontWeight: 700,
+                ...row,
+                gap: 10,
               }}
             >
-              ❌ Kode salah: [ ➡️ ] + [ ➡️ ] + [ ➡️ ]
+              <JuniorIcon name="cross" size={28} />
+              <span>Kode salah:</span>
+              <span style={{ ...row, gap: 6 }}>
+                <span>[</span>
+                <JuniorIcon name="arrow-right" size={24} />
+                <span>] + [</span>
+                <JuniorIcon name="arrow-right" size={24} />
+                <span>] + [</span>
+                <JuniorIcon name="arrow-right" size={24} />
+                <span>]</span>
+              </span>
             </div>
 
             <div
@@ -1679,9 +1739,14 @@ const Slide05Kasus1: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 29,
                 fontWeight: 700,
+                ...row,
+                gap: 12,
               }}
             >
-              ✅ Perbaiki: Buang <strong>1 Panah</strong> berlebih!
+              <JuniorIcon name="check" size={30} />
+              <span>
+                Perbaiki: Buang <strong>1 Panah</strong> berlebih!
+              </span>
             </div>
           </div>
 
@@ -1695,8 +1760,13 @@ const Slide05Kasus1: Page = () => {
               border: `3px solid ${CHARCOAL}`,
             }}
           >
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700 }}>
-              Kode Bersih: <strong>[ ➡️ ] + [ ➡️ ]</strong>
+            <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700 }}>
+              <span>Kode Bersih:</span>
+              <strong>[</strong>
+              <JuniorIcon name="arrow-right" size={24} />
+              <strong>] + [</strong>
+              <JuniorIcon name="arrow-right" size={24} />
+              <strong>]</strong>
             </div>
             <BikoMascot pose="thumbs-up" width={120} />
           </div>
@@ -1757,8 +1827,19 @@ const Slide06AyoTebak: Page = () => {
                     }}
                   >
                     {isStart && <BikoDetectiveToken size={48} />}
-                    {isAfterRight && <span style={{ fontSize: 22, fontWeight: 800, color: SKY }}>1 ➡️</span>}
-                    {isWrongDown && <span style={{ fontSize: 20, fontWeight: 800, color: CORAL }}>2 ⬇️😵</span>}
+                    {isAfterRight && (
+                      <span style={{ ...row, gap: 4, fontSize: 22, fontWeight: 800, color: SKY }}>
+                        <span>1</span>
+                        <JuniorIcon name="arrow-right" size={22} />
+                      </span>
+                    )}
+                    {isWrongDown && (
+                      <span style={{ ...row, gap: 4, fontSize: 20, fontWeight: 800, color: CORAL }}>
+                        <span>2</span>
+                        <JuniorIcon name="arrow-down" size={20} />
+                        <JuniorIcon name="dizzy" size={20} />
+                      </span>
+                    )}
                     {isStar && <StarSvg size={48} />}
                   </div>
                 );
@@ -1774,8 +1855,10 @@ const Slide06AyoTebak: Page = () => {
               <DebugArrowBlock dir="right" size={82} stepNum={1} showRightTab />
               <DebugArrowBlock dir="down" size={82} stepNum={2} isBug={choice === 'b2'} />
             </div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: MUTED }}>
-              Biko malah turun ke bawah menjauhi ⭐ Bintang!
+            <div style={{ ...row, gap: 8, fontSize: 22, fontWeight: 700, color: MUTED }}>
+              <span>Biko malah turun ke bawah menjauhi</span>
+              <JuniorIcon name="star" size={24} />
+              <span>Bintang!</span>
             </div>
           </div>
         </div>
@@ -1813,8 +1896,10 @@ const Slide06AyoTebak: Page = () => {
           PILIHAN A
         </span>
         <DebugArrowBlock dir="right" size={100} stepNum={1} />
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
-          Blok 1 (➡️) {choice === 'b1' && '— Ini Benar!'}
+        <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
+          <span>Blok 1 (</span>
+          <JuniorIcon name="arrow-right" size={30} />
+          <span>){choice === 'b1' ? ' — Ini Benar!' : ''}</span>
         </div>
       </button>
 
@@ -1824,9 +1909,9 @@ const Slide06AyoTebak: Page = () => {
           width={240}
           speechBubble={
             choice === 'b2'
-              ? 'Tepat! Blok 2 (⬇️) Bug-nya!'
+              ? 'Tepat! Blok 2 (Bawah) Bug-nya!'
               : choice === 'b1'
-                ? 'Blok 1 sudah mendekati ⭐!'
+                ? 'Blok 1 sudah benar!'
                 : 'Mana blok yang salah?'
           }
         />
@@ -1862,8 +1947,16 @@ const Slide06AyoTebak: Page = () => {
           PILIHAN B
         </span>
         <DebugArrowBlock dir="down" size={100} stepNum={2} isBug />
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
-          Blok 2 (⬇️) {choice === 'b2' && '✅ Ini Bug-nya!'}
+        <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
+          <span>Blok 2 (</span>
+          <JuniorIcon name="arrow-down" size={30} />
+          <span>)</span>
+          {choice === 'b2' && (
+            <>
+              <JuniorIcon name="check" size={30} />
+              <span>Ini Bug-nya!</span>
+            </>
+          )}
         </div>
       </button>
 
@@ -1877,11 +1970,25 @@ const Slide06AyoTebak: Page = () => {
             fontFamily: 'var(--osd-font-display)',
             fontSize: 25,
             fontWeight: 700,
+            ...row,
+            gap: 8,
           }}
         >
-          {choice === 'b2'
-            ? '🎉 Betul! Blok 2 (⬇️) membuat Biko turun — harusnya Atas (⬆️)!'
-            : '👆 Tunjuk blok yang salah di layarmu ya!'}
+          {choice === 'b2' ? (
+            <>
+              <JuniorIcon name="party" size={26} />
+              <span>Betul! Blok 2 (</span>
+              <JuniorIcon name="arrow-down" size={22} />
+              <span>) membuat Biko turun — harusnya Atas (</span>
+              <JuniorIcon name="arrow-up" size={22} />
+              <span>)!</span>
+            </>
+          ) : (
+            <>
+              <JuniorIcon name="tap" size={26} />
+              <span>Tunjuk blok yang salah di layarmu ya!</span>
+            </>
+          )}
         </div>
       </div>
     </JuniorFrame>
@@ -1921,9 +2028,12 @@ const Slide07Kasus2: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 20,
                 fontWeight: 700,
+                ...row,
+                gap: 8,
               }}
             >
-              {fixed ? '🐞 Lihat Kode Salah' : '🔧 Ganti Blok Hijau!'}
+              <JuniorIcon name={fixed ? 'bug' : 'wrench'} size={20} />
+              <span>{fixed ? 'Lihat Kode Salah' : 'Ganti Blok Hijau!'}</span>
             </button>
           </div>
 
@@ -1968,18 +2078,27 @@ const Slide07Kasus2: Page = () => {
                   >
                     {isStart && !fixed && <BikoDetectiveToken size={82} confused />}
                     {isStart && fixed && (
-                      <span style={{ fontSize: 18, fontWeight: 800, color: '#047857' }}>START ⬆️</span>
+                      <span style={{ ...row, gap: 4, fontSize: 18, fontWeight: 800, color: '#047857' }}>
+                        <span>START</span>
+                        <JuniorIcon name="arrow-up" size={20} />
+                      </span>
                     )}
                     {isRock && (
                       <div style={{ ...centerCol }}>
                         <RockSvg size={78} />
                         {!fixed && (
-                          <span style={{ fontSize: 15, fontWeight: 800, color: CORAL }}>💥 NABRAK!</span>
+                          <span style={{ ...row, gap: 4, fontSize: 15, fontWeight: 800, color: CORAL }}>
+                            <JuniorIcon name="warning" size={16} />
+                            <span>NABRAK!</span>
+                          </span>
                         )}
                       </div>
                     )}
                     {isDetour && fixed && (
-                      <span style={{ fontSize: 38, fontWeight: 800, color: '#047857' }}>↪️ ➡️</span>
+                      <div style={{ ...row, gap: 6 }}>
+                        <JuniorIcon name="turn-up" size={34} />
+                        <JuniorIcon name="arrow-right" size={34} />
+                      </div>
                     )}
                     {isFlag && !fixed && <FlagSvg size={76} />}
                     {isFlag && fixed && (
@@ -1997,6 +2116,9 @@ const Slide07Kasus2: Page = () => {
 
           <div
             style={{
+              ...row,
+              justifyContent: 'center',
+              gap: 8,
               textAlign: 'center',
               fontFamily: 'var(--osd-font-display)',
               fontSize: 23,
@@ -2004,9 +2126,23 @@ const Slide07Kasus2: Page = () => {
               color: fixed ? '#047857' : CORAL,
             }}
           >
-            {fixed
-              ? '🏁 Yeay! Dengan [ ⬆️ ] + [ ➡️ ], Biko belok aman sampai Finis!'
-              : '💥 Aduh! Kalau langsung [ ➡️ ], Biko menabrak batu di depannya!'}
+            {fixed ? (
+              <>
+                <JuniorIcon name="flag" size={24} />
+                <span>Yeay! Dengan [</span>
+                <JuniorIcon name="arrow-up" size={22} />
+                <span>] + [</span>
+                <JuniorIcon name="arrow-right" size={22} />
+                <span>], Biko belok aman sampai Finis!</span>
+              </>
+            ) : (
+              <>
+                <JuniorIcon name="warning" size={24} />
+                <span>Aduh! Kalau langsung [</span>
+                <JuniorIcon name="arrow-right" size={22} />
+                <span>], Biko menabrak batu di depannya!</span>
+              </>
+            )}
           </div>
         </div>
       </MacWindowCard>
@@ -2026,15 +2162,20 @@ const Slide07Kasus2: Page = () => {
             }}
           >
             <div>
-              <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700 }}>
-                ❌ Salah:
+              <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700 }}>
+                <JuniorIcon name="cross" size={28} />
+                <span>Salah:</span>
               </div>
               <div style={{ fontSize: 22, fontWeight: 700, color: MUTED }}>Langsung kanan → Nabrak batu!</div>
             </div>
             <DebugArrowBlock dir="right" size={82} isBug />
           </div>
 
-          <div style={{ textAlign: 'center', fontSize: 36, fontWeight: 800 }}>⬇️ Ganti Menjadi ⬇️</div>
+          <div style={{ ...row, justifyContent: 'center', gap: 12, fontSize: 36, fontWeight: 800 }}>
+            <JuniorIcon name="arrow-down" size={34} />
+            <span>Ganti Menjadi</span>
+            <JuniorIcon name="arrow-down" size={34} />
+          </div>
 
           <div
             style={{
@@ -2049,10 +2190,14 @@ const Slide07Kasus2: Page = () => {
             }}
           >
             <div>
-              <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700 }}>
-                ✅ Ganti jadi:
+              <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700 }}>
+                <JuniorIcon name="check" size={28} />
+                <span>Ganti jadi:</span>
               </div>
-              <div style={{ fontSize: 22, fontWeight: 700, color: '#047857' }}>🏁 Hore, Sampai Finis!</div>
+              <div style={{ ...row, gap: 8, fontSize: 22, fontWeight: 700, color: '#047857' }}>
+                <JuniorIcon name="flag" size={22} />
+                <span>Hore, Sampai Finis!</span>
+              </div>
             </div>
             <div style={{ ...row, gap: 12 }}>
               <DebugArrowBlock dir="up" size={86} isFixed showRightTab />
@@ -2110,10 +2255,10 @@ const Slide08Tips: Page = () => (
               fontWeight: 700,
             }}
           >
-            <span>✅</span>
+            <JuniorIcon name="check" size={30} />
             <span>BOLEH</span>
           </div>
-          <span style={{ fontSize: 44 }}>🔎</span>
+          <JuniorIcon name="magnifier" size={44} />
         </div>
 
         <div
@@ -2144,9 +2289,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            😊 <strong>Tetap Tenang</strong> kalau karakter nyasar
+            <JuniorIcon name="happy" size={32} />
+            <span><strong>Tetap Tenang</strong> kalau karakter nyasar</span>
           </div>
           <div
             style={{
@@ -2157,9 +2305,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            👣 <strong>Cek Ulang</strong> blok satu per satu
+            <JuniorIcon name="footprints" size={32} />
+            <span><strong>Cek Ulang</strong> blok satu per satu</span>
           </div>
         </div>
       </div>
@@ -2192,10 +2343,10 @@ const Slide08Tips: Page = () => (
               fontWeight: 700,
             }}
           >
-            <span>❌</span>
+            <JuniorIcon name="cross" size={30} />
             <span>JANGAN</span>
           </div>
-          <span style={{ fontSize: 44 }}>🌧️</span>
+          <JuniorIcon name="cloud-sad" size={44} />
         </div>
 
         {/* Frowning Storm Cloud with Red Cross */}
@@ -2234,9 +2385,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            😢 <strong>Sedih atau Marah</strong> saat ada salah
+            <JuniorIcon name="sad" size={32} />
+            <span><strong>Sedih atau Marah</strong> saat ada salah</span>
           </div>
           <div
             style={{
@@ -2247,9 +2401,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            🙈 <strong>Menyerah</strong> sebelum mencoba lagi
+            <JuniorIcon name="see-no-evil" size={32} />
+            <span><strong>Menyerah</strong> sebelum mencoba lagi</span>
           </div>
         </div>
       </div>
@@ -2266,7 +2423,10 @@ const Slide09MisiPraktik: Page = () => {
   const [slots, setSlots] = useState<(Dir | null)[]>(['right', 'down', 'up']);
   const [bikoPos, setBikoPos] = useState<[number, number]>([2, 0]);
   const [status, setStatus] = useState<'idle' | 'running' | 'win' | 'bug'>('idle');
-  const [message, setMessage] = useState('Ada 1 Bug berkedip merah! Tekan "▶️ Jalan!" atau perbaiki slot ke-2.');
+  const [message, setMessage] = useState<{ icon?: JuniorIconName; text: string }>({
+    icon: 'bug',
+    text: 'Ada 1 Bug berkedip merah! Tekan "Jalan!" atau perbaiki slot ke-2.',
+  });
   const [dragDir, setDragDir] = useState<Dir | null>(null);
   const timerRef = useRef<number | null>(null);
 
@@ -2287,7 +2447,7 @@ const Slide09MisiPraktik: Page = () => {
       setSlots(next);
       setStatus('idle');
       setBikoPos([2, 0]);
-      setMessage('Blok terpasang! Tekan "▶️ Jalan!" untuk menguji kode.');
+      setMessage({ text: 'Blok terpasang! Tekan "Jalan!" untuk menguji kode.' });
       return;
     }
     // If all full and slot 1 still has bug, swap slot 1 directly for fast kid UX
@@ -2297,7 +2457,7 @@ const Slide09MisiPraktik: Page = () => {
       setSlots(next);
       setStatus('idle');
       setBikoPos([2, 0]);
-      setMessage('Blok ke-2 diganti! Tekan "▶️ Jalan!" untuk menguji kode.');
+      setMessage({ text: 'Blok ke-2 diganti! Tekan "Jalan!" untuk menguji kode.' });
     }
   };
 
@@ -2308,7 +2468,7 @@ const Slide09MisiPraktik: Page = () => {
     setSlots(next);
     setStatus('idle');
     setBikoPos([2, 0]);
-    setMessage(`Blok ke-${idx + 1} dibuang! Pilih blok panah pengganti.`);
+    setMessage({ text: `Blok ke-${idx + 1} dibuang! Pilih blok panah pengganti.` });
   };
 
   const resetBug = () => {
@@ -2316,7 +2476,7 @@ const Slide09MisiPraktik: Page = () => {
     setSlots(['right', 'down', 'up']);
     setBikoPos([2, 0]);
     setStatus('idle');
-    setMessage('Ada 1 Bug berkedip merah! Tekan "▶️ Jalan!" atau perbaiki slot ke-2.');
+    setMessage({ icon: 'bug', text: 'Ada 1 Bug berkedip merah! Tekan "Jalan!" atau perbaiki slot ke-2.' });
   };
 
   const handleDropSlot = (idx: number) => (e: DragEvent<HTMLButtonElement>) => {
@@ -2334,13 +2494,13 @@ const Slide09MisiPraktik: Page = () => {
     if (status === 'running') return;
     const seq = slots.filter((s): s is Dir => s !== null);
     if (seq.length === 0) {
-      setMessage('Pasang blok panah dulu di kotak urutan!');
+      setMessage({ text: 'Pasang blok panah dulu di kotak urutan!' });
       return;
     }
     if (timerRef.current) window.clearTimeout(timerRef.current);
     setStatus('running');
     setBikoPos([2, 0]);
-    setMessage('Detektif Biko menjalankan kode...');
+    setMessage({ text: 'Detektif Biko menjalankan kode...' });
 
     const obstacles = new Set(['1,0', '2,2']);
     let r = 2;
@@ -2350,10 +2510,10 @@ const Slide09MisiPraktik: Page = () => {
       if (i >= seq.length) {
         if (r === 0 && c === 1) {
           setStatus('win');
-          setMessage('🎉 Berhasil! Semua Bug tertangkap & Biko sampai Finis!');
+          setMessage({ icon: 'party', text: 'Berhasil! Semua Bug tertangkap & Biko sampai Finis!' });
         } else {
           setStatus('bug');
-          setMessage('🐞 Masih ada Bug! Biko belum sampai ke Bendera Finis.');
+          setMessage({ icon: 'bug', text: 'Masih ada Bug! Biko belum sampai ke Bendera Finis.' });
         }
         return;
       }
@@ -2366,13 +2526,13 @@ const Slide09MisiPraktik: Page = () => {
 
       if (r < 0 || r > 2 || c < 0 || c > 2) {
         setStatus('bug');
-        setMessage(`🐞 Bug di Blok ${i + 1}! Biko keluar peta! Klik blok salah untuk membuang.`);
+        setMessage({ icon: 'bug', text: `Bug di Blok ${i + 1}! Biko keluar peta! Klik blok salah untuk membuang.` });
         return;
       }
 
       if (obstacles.has(`${r},${c}`)) {
         setStatus('bug');
-        setMessage(`🐞 Bug di Blok ${i + 1}! Biko menabrak rintangan!`);
+        setMessage({ icon: 'bug', text: `Bug di Blok ${i + 1}! Biko menabrak rintangan!` });
         return;
       }
 
@@ -2380,7 +2540,7 @@ const Slide09MisiPraktik: Page = () => {
 
       if (r === 0 && c === 1) {
         setStatus('win');
-        setMessage('🎉 Yeay! Debugging Sukses! Biko sampai di Bendera Finis!');
+        setMessage({ icon: 'party', text: 'Yeay! Debugging Sukses! Biko sampai di Bendera Finis!' });
         return;
       }
 
@@ -2590,9 +2750,12 @@ const Slide09MisiPraktik: Page = () => {
                   fontFamily: 'var(--osd-font-display)',
                   fontSize: 21,
                   fontWeight: 700,
+                  ...row,
+                  gap: 8,
                 }}
               >
-                {message}
+                {message.icon && <JuniorIcon name={message.icon} size={24} />}
+                <span>{message.text}</span>
               </div>
 
               <div style={{ ...row, gap: 14 }}>
@@ -2611,9 +2774,13 @@ const Slide09MisiPraktik: Page = () => {
                     fontFamily: 'var(--osd-font-display)',
                     fontSize: 25,
                     fontWeight: 700,
+                    ...row,
+                    justifyContent: 'center',
+                    gap: 8,
                   }}
                 >
-                  ▶️ Jalan!
+                  <JuniorIcon name="play" size={24} />
+                  <span>Jalan!</span>
                 </button>
                 <button
                   type="button"
@@ -2629,9 +2796,12 @@ const Slide09MisiPraktik: Page = () => {
                     fontFamily: 'var(--osd-font-display)',
                     fontSize: 22,
                     fontWeight: 700,
+                    ...row,
+                    gap: 8,
                   }}
                 >
-                  🔄 Reset Bug
+                  <JuniorIcon name="reset" size={22} />
+                  <span>Reset Bug</span>
                 </button>
               </div>
             </div>
@@ -2682,7 +2852,12 @@ const Slide10Lencana: Page = () => {
       ))}
 
       <SlideTitle align="center" top={124} size={62}>
-        Hebat! Kamu <Highlight>Detektif Kode!</Highlight> 🎉
+        <span style={{ ...row, justifyContent: 'center', gap: 14 }}>
+          <span>
+            Hebat! Kamu <Highlight>Detektif Kode!</Highlight>
+          </span>
+          <JuniorIcon name="party" size={54} />
+        </span>
       </SlideTitle>
 
       {/* Celebration Center Card */}
@@ -2736,9 +2911,12 @@ const Slide10Lencana: Page = () => {
               fontFamily: 'var(--osd-font-display)',
               fontSize: 34,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            🏅 Lencana Detektif Bug &amp; Debugging
+            <JuniorIcon name="medal" size={34} />
+            <span>Lencana Detektif Bug &amp; Debugging</span>
           </div>
 
           <div
@@ -2762,8 +2940,8 @@ const Slide10Lencana: Page = () => {
         <BikoMascot
           pose="jump"
           width={380}
-          badgeEmoji="🔎"
-          speechBubble="Bug Teratasi! 🎉"
+          badgeIcon={<JuniorIcon name="magnifier" size={30} />}
+          speechBubble="Bug Teratasi!"
         />
       </div>
     </JuniorFrame>

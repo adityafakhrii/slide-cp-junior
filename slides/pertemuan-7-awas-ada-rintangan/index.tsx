@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState, type CSSProperties, type DragEve
 import type { DesignSystem, Page, SlideMeta, SlideTransition } from '@open-slide/core';
 import { useIsActivePage, useSlidePageNumber } from '@open-slide/core';
 import { BikoMascot } from '../../components/BikoMascot';
+import { JuniorIcon, type JuniorIconName } from '../../components/JuniorIcons';
 
 // ============================================================================
 // Webfont Loading & Scoped Keyframe Styles (loaded once in <head>)
@@ -486,12 +487,12 @@ type Dir = 'up' | 'down' | 'left' | 'right';
 
 const DIR_META: Record<
   Dir,
-  { label: string; color: string; soft: string; rot: number; symbol: string }
+  { label: string; color: string; soft: string; rot: number; icon: JuniorIconName }
 > = {
-  up: { label: 'Atas', color: TEAL, soft: TEAL_SOFT, rot: -90, symbol: '⬆️' },
-  down: { label: 'Bawah', color: CORAL, soft: CORAL_SOFT, rot: 90, symbol: '⬇️' },
-  left: { label: 'Kiri', color: SUNNY, soft: SUNNY_SOFT, rot: 180, symbol: '⬅️' },
-  right: { label: 'Kanan', color: SKY, soft: SKY_SOFT, rot: 0, symbol: '➡️' },
+  up: { label: 'Atas', color: TEAL, soft: TEAL_SOFT, rot: -90, icon: 'arrow-up' },
+  down: { label: 'Bawah', color: CORAL, soft: CORAL_SOFT, rot: 90, icon: 'arrow-down' },
+  left: { label: 'Kiri', color: SUNNY, soft: SUNNY_SOFT, rot: 180, icon: 'arrow-left' },
+  right: { label: 'Kanan', color: SKY, soft: SKY_SOFT, rot: 0, icon: 'arrow-right' },
 };
 
 /** ScratchJr-inspired interlocking directional arrow block */
@@ -821,7 +822,7 @@ const Slide01Cover: Page = () => {
             marginBottom: 24,
           }}
         >
-          <span>🧭</span>
+          <JuniorIcon name="compass" size={24} />
           <span>LEVEL 1: CODE EXPLORER (USIA 5–7 TAHUN)</span>
         </div>
 
@@ -871,7 +872,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>🪨</span>
+            <JuniorIcon name="rock" size={28} />
             <span>Hindari Rintangan</span>
           </div>
           <div
@@ -889,7 +890,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>↪️</span>
+            <JuniorIcon name="turn-up" size={28} />
             <span>Maju &amp; Berbelok</span>
           </div>
         </div>
@@ -935,13 +936,16 @@ const Slide01Cover: Page = () => {
           <div style={{ ...row, justifyContent: 'space-between', marginBottom: 10 }}>
             <span
               style={{
+                ...row,
+                gap: 8,
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 19,
                 fontWeight: 700,
                 color: MUTED,
               }}
             >
-              💻 Labirin Kotak
+              <JuniorIcon name="laptop" size={20} />
+              <span>Labirin Kotak</span>
             </span>
             <span
               style={{
@@ -969,10 +973,10 @@ const Slide01Cover: Page = () => {
             }}
           >
             <div style={{ height: 56, borderRadius: 10, background: TEAL_SOFT, border: `2px dashed ${TEAL}`, ...centerCol }}>
-              <span style={{ fontSize: 22, fontWeight: 800, color: '#047857' }}>↪️</span>
+              <JuniorIcon name="turn-up" size={26} />
             </div>
             <div style={{ height: 56, borderRadius: 10, background: TEAL_SOFT, border: `2px dashed ${TEAL}`, ...centerCol }}>
-              <span style={{ fontSize: 22, fontWeight: 800, color: '#047857' }}>➡️</span>
+              <JuniorIcon name="arrow-right" size={26} />
             </div>
             <div style={{ height: 56, borderRadius: 10, background: SUNNY_SOFT, border: `2px solid ${CHARCOAL}`, ...centerCol }}>
               <FlagSvg size={42} />
@@ -1091,7 +1095,7 @@ const Slide02Misi: Page = () => (
                 fontWeight: 700,
               }}
             >
-              ⚠️
+              <JuniorIcon name="warning" size={40} />
             </div>
             <RockSvg size={82} withCross />
           </div>
@@ -1215,9 +1219,12 @@ const Slide03Rahasia: Page = () => {
                   fontFamily: 'var(--osd-font-display)',
                   fontSize: 19,
                   fontWeight: 700,
+                  ...row,
+                  gap: 8,
                 }}
               >
-                🪨 Jalan Tertutup
+                <JuniorIcon name="rock" size={20} />
+                <span>Jalan Tertutup</span>
               </button>
               <button
                 type="button"
@@ -1232,9 +1239,12 @@ const Slide03Rahasia: Page = () => {
                   fontFamily: 'var(--osd-font-display)',
                   fontSize: 19,
                   fontWeight: 700,
+                  ...row,
+                  gap: 8,
                 }}
               >
-                ↪️ Cari Jalan Lain!
+                <JuniorIcon name="turn-up" size={20} />
+                <span>Cari Jalan Lain!</span>
               </button>
             </div>
           </div>
@@ -1293,10 +1303,13 @@ const Slide03Rahasia: Page = () => {
                     {isBush && <BushSvg size={70} />}
                     {isFlag && <FlagSvg size={74} />}
                     {routeShown === 'safe' && r === 0 && c === 0 && (
-                      <span style={{ fontSize: 40, fontWeight: 800, color: '#047857' }}>⬆️ ↪️</span>
+                      <div style={{ ...row, gap: 6 }}>
+                        <JuniorIcon name="arrow-up" size={34} />
+                        <JuniorIcon name="turn-up" size={34} />
+                      </div>
                     )}
                     {routeShown === 'safe' && r === 0 && c === 1 && (
-                      <span style={{ fontSize: 40, fontWeight: 800, color: '#047857' }}>➡️</span>
+                      <JuniorIcon name="arrow-right" size={36} />
                     )}
                     {routeShown === 'blocked' && isRock && (
                       <span
@@ -1322,6 +1335,9 @@ const Slide03Rahasia: Page = () => {
 
           <div
             style={{
+              ...row,
+              justifyContent: 'center',
+              gap: 10,
               textAlign: 'center',
               fontFamily: 'var(--osd-font-display)',
               fontSize: 22,
@@ -1329,9 +1345,17 @@ const Slide03Rahasia: Page = () => {
               color: routeShown === 'safe' ? '#047857' : CORAL,
             }}
           >
-            {routeShown === 'safe'
-              ? '✅ Biko berbelok ke kotak kosong di atas untuk melewati batu!'
-              : '⛔ Ups! Ada batu besar tepat di depan — tidak bisa langsung maju!'}
+            {routeShown === 'safe' ? (
+              <>
+                <JuniorIcon name="check" size={24} />
+                <span>Biko berbelok ke kotak kosong di atas untuk melewati batu!</span>
+              </>
+            ) : (
+              <>
+                <JuniorIcon name="stop" size={24} />
+                <span>Ups! Ada batu besar tepat di depan — tidak bisa langsung maju!</span>
+              </>
+            )}
           </div>
         </div>
       </MacWindowCard>
@@ -1351,8 +1375,9 @@ const Slide03Rahasia: Page = () => {
         >
           <RockSvg size={74} />
           <div>
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
-              🪨 Batu atau Semak Menutup Jalan
+            <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
+              <JuniorIcon name="rock" size={28} />
+              <span>Batu atau Semak Menutup Jalan</span>
             </div>
             <div style={{ fontSize: 22, fontWeight: 700, color: MUTED, marginTop: 4 }}>
               Kotak yang ada rintangan tidak boleh dilewati!
@@ -1384,7 +1409,7 @@ const Slide03Rahasia: Page = () => {
               flexShrink: 0,
             }}
           >
-            ↪️
+            <JuniorIcon name="turn-up" size={38} />
           </div>
           <div>
             <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
@@ -1414,19 +1439,28 @@ const Slide03Rahasia: Page = () => {
 const Slide04Jurus: Page = () => {
   const [phase, setPhase] = useState<0 | 1 | 2>(0);
 
-  const steps = [
+  const steps: {
+    num: string;
+    title: string;
+    desc: string;
+    icon: JuniorIconName;
+    color: string;
+    soft: string;
+    badge: string;
+    visual: ReactNode;
+  }[] = [
     {
       num: '1',
       title: 'Lihat Rintangan',
       desc: 'Amati di kotak mana ada batu atau semak',
-      icon: '👀',
+      icon: 'eyes',
       color: SKY,
       soft: SKY_SOFT,
       badge: 'FASE 1 • AMATI',
       visual: (
         <div style={{ ...row, gap: 12 }}>
           <BikoTokenSvg size={64} />
-          <span style={{ fontSize: 30 }}>🔍</span>
+          <JuniorIcon name="magnifier" size={32} />
           <RockSvg size={64} withCross />
         </div>
       ),
@@ -1435,7 +1469,7 @@ const Slide04Jurus: Page = () => {
       num: '2',
       title: 'Belok ke Kotak Kosong',
       desc: 'Pilih panah arah menuju jalan yang aman',
-      icon: '↪️',
+      icon: 'turn-up',
       color: SUNNY,
       soft: SUNNY_SOFT,
       badge: 'FASE 2 • BELOK',
@@ -1450,7 +1484,7 @@ const Slide04Jurus: Page = () => {
       num: '3',
       title: 'Maju Sampai Finis!',
       desc: 'Lanjutkan langkah sampai bendera bintang',
-      icon: '🏁',
+      icon: 'flag',
       color: TEAL,
       soft: TEAL_SOFT,
       badge: 'FASE 3 • FINIS',
@@ -1461,12 +1495,12 @@ const Slide04Jurus: Page = () => {
         </div>
       ),
     },
-  ] as const;
+  ];
 
-  const phaseHint = [
-    '👀 Fase 1: Biko mengamati batu rintangan dengan cermat!',
-    '↪️ Fase 2: Biko berbelok ke kotak kosong agar tidak menabrak!',
-    '🏁 Fase 3: Biko maju terus sampai tiba di bendera Finis!',
+  const phaseHint: { icon: JuniorIconName; text: string }[] = [
+    { icon: 'eyes', text: 'Fase 1: Biko mengamati batu rintangan dengan cermat!' },
+    { icon: 'turn-up', text: 'Fase 2: Biko berbelok ke kotak kosong agar tidak menabrak!' },
+    { icon: 'flag', text: 'Fase 3: Biko maju terus sampai tiba di bendera Finis!' },
   ];
 
   return (
@@ -1526,8 +1560,9 @@ const Slide04Jurus: Page = () => {
                     {s.visual}
                   </div>
 
-                  <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, color: CHARCOAL }}>
-                    {s.icon} {s.title}
+                  <div style={{ ...row, justifyContent: 'center', gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, color: CHARCOAL }}>
+                    <JuniorIcon name={s.icon} size={32} />
+                    <span>{s.title}</span>
                   </div>
 
                   <div style={{ fontSize: 22, fontWeight: 700, color: MUTED, lineHeight: 1.35 }}>
@@ -1549,8 +1584,9 @@ const Slide04Jurus: Page = () => {
               border: `3px solid ${CHARCOAL}`,
             }}
           >
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700, color: CHARCOAL }}>
-              {phaseHint[phase]}
+            <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700, color: CHARCOAL }}>
+              <JuniorIcon name={phaseHint[phase].icon} size={28} />
+              <span>{phaseHint[phase].text}</span>
             </div>
             <div style={{ ...row, gap: 12 }}>
               <button
@@ -1567,9 +1603,12 @@ const Slide04Jurus: Page = () => {
                   fontFamily: 'var(--osd-font-display)',
                   fontSize: 21,
                   fontWeight: 700,
+                  ...row,
+                  gap: 8,
                 }}
               >
-                ▶️ Langkah Berikutnya
+                <JuniorIcon name="play" size={20} />
+                <span>Langkah Berikutnya</span>
               </button>
             </div>
           </div>
@@ -1639,9 +1678,12 @@ const Slide05Latihan1: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 20,
                 fontWeight: 700,
+                ...row,
+                gap: 8,
               }}
             >
-              ▶️ Jalankan Rute
+              <JuniorIcon name="play" size={20} />
+              <span>Jalankan Rute</span>
             </button>
           </div>
 
@@ -1690,10 +1732,10 @@ const Slide05Latihan1: Page = () => {
                     {isFlag && !isBikoHere && <FlagSvg size={88} />}
                     {isRock && <RockSvg size={90} withCross />}
                     {!isBikoHere && r === 0 && c === 0 && (
-                      <span style={{ fontSize: 36, fontWeight: 800, color: '#047857' }}>⬆️</span>
+                      <JuniorIcon name="arrow-up" size={34} />
                     )}
                     {!isBikoHere && r === 0 && c === 1 && (
-                      <span style={{ fontSize: 36, fontWeight: 800, color: '#047857' }}>➡️</span>
+                      <JuniorIcon name="arrow-right" size={34} />
                     )}
                     {isBikoHere && (
                       <div style={{ ...centerCol }}>
@@ -1711,9 +1753,12 @@ const Slide05Latihan1: Page = () => {
                               fontFamily: 'var(--osd-font-display)',
                               fontSize: 16,
                               fontWeight: 700,
+                              ...row,
+                              gap: 4,
                             }}
                           >
-                            🏁 FINIS!
+                            <JuniorIcon name="flag" size={16} />
+                            <span>FINIS!</span>
                           </span>
                         )}
                       </div>
@@ -1726,6 +1771,9 @@ const Slide05Latihan1: Page = () => {
 
           <div
             style={{
+              ...row,
+              justifyContent: 'center',
+              gap: 8,
               textAlign: 'center',
               fontFamily: 'var(--osd-font-display)',
               fontSize: 23,
@@ -1734,9 +1782,28 @@ const Slide05Latihan1: Page = () => {
             }}
           >
             {step === 0 && 'Klik "Jalankan Rute" atau klik blok panah di kanan satu per satu!'}
-            {step === 1 && 'Langkah 1: ⬆️ Naik 1 kotak menghindari batu!'}
-            {step === 2 && 'Langkah 2: ➡️ Maju ke kanan 1 kotak!'}
-            {step === 3 && '🎉 Langkah 3: ➡️ Maju 1 kotak lagi -> Sampai di Bendera Finis!'}
+            {step === 1 && (
+              <>
+                <span>Langkah 1:</span>
+                <JuniorIcon name="arrow-up" size={24} />
+                <span>Naik 1 kotak menghindari batu!</span>
+              </>
+            )}
+            {step === 2 && (
+              <>
+                <span>Langkah 2:</span>
+                <JuniorIcon name="arrow-right" size={24} />
+                <span>Maju ke kanan 1 kotak!</span>
+              </>
+            )}
+            {step === 3 && (
+              <>
+                <JuniorIcon name="party" size={24} />
+                <span>Langkah 3:</span>
+                <JuniorIcon name="arrow-right" size={24} />
+                <span>Maju 1 kotak lagi -&gt; Sampai di Bendera Finis!</span>
+              </>
+            )}
           </div>
         </div>
       </MacWindowCard>
@@ -1754,9 +1821,12 @@ const Slide05Latihan1: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 28,
                 fontWeight: 700,
+                ...row,
+                gap: 12,
               }}
             >
-              🪨 Ada batu tepat di depan Biko!
+              <JuniorIcon name="rock" size={30} />
+              <span>Ada batu tepat di depan Biko!</span>
             </div>
 
             <div
@@ -1767,8 +1837,9 @@ const Slide05Latihan1: Page = () => {
                 border: `3px solid ${CHARCOAL}`,
               }}
             >
-              <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700, marginBottom: 18 }}>
-                🧩 Rute Pintar (Naik 1, Kanan 2):
+              <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700, marginBottom: 18 }}>
+                <JuniorIcon name="puzzle" size={28} />
+                <span>Rute Pintar (Naik 1, Kanan 2):</span>
               </div>
 
               <div style={{ ...row, justifyContent: 'center', gap: 14 }}>
@@ -1809,8 +1880,11 @@ const Slide05Latihan1: Page = () => {
               padding: '16px 24px',
             }}
           >
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700 }}>
-              1️⃣ Naik 1 kotak → 2️⃣ Maju 2 kotak ke kanan!
+            <div style={{ ...row, flexWrap: 'wrap', gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700 }}>
+              <JuniorIcon name="step-1" size={26} />
+              <span>Naik 1 kotak -&gt;</span>
+              <JuniorIcon name="step-2" size={26} />
+              <span>Maju 2 kotak ke kanan!</span>
             </div>
             <BikoMascot pose="thumbs-up" width={120} />
           </div>
@@ -1894,10 +1968,19 @@ const Slide06AyoTebak: Page = () => {
             <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
               Lihat peta di sebelah kiri:
             </div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: MUTED, lineHeight: 1.4 }}>
-              🪨 Di depan Biko ada <strong>Batu</strong>.<br />
-              🌵 Di bawah Biko ada <strong>Kaktus berduri</strong>.<br />
-              ✨ Di atas Biko ada kotak kosong aman!
+            <div style={{ fontSize: 22, fontWeight: 700, color: MUTED, lineHeight: 1.4, display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <div style={{ ...row, gap: 8 }}>
+                <JuniorIcon name="rock" size={24} />
+                <span>Di depan Biko ada <strong>Batu</strong>.</span>
+              </div>
+              <div style={{ ...row, gap: 8 }}>
+                <JuniorIcon name="cactus" size={24} />
+                <span>Di bawah Biko ada <strong>Kaktus berduri</strong>.</span>
+              </div>
+              <div style={{ ...row, gap: 8 }}>
+                <JuniorIcon name="sparkle" size={24} />
+                <span>Di atas Biko ada kotak kosong aman!</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1934,8 +2017,9 @@ const Slide06AyoTebak: Page = () => {
           PILIHAN A
         </span>
         <MazeArrowBlock dir="up" size={102} />
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
-          Belok Atas {choice === 'up' && '✅'}
+        <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
+          <span>Belok Atas</span>
+          {choice === 'up' && <JuniorIcon name="check" size={32} />}
         </div>
       </button>
 
@@ -1948,7 +2032,7 @@ const Slide06AyoTebak: Page = () => {
             choice === 'up'
               ? 'Benar! Jalan atas aman!'
               : choice === 'down'
-                ? 'Aduh! Ada kaktus 🌵!'
+                ? 'Aduh! Ada kaktus!'
                 : 'Pilih yang mana ya?'
           }
         />
@@ -1985,8 +2069,9 @@ const Slide06AyoTebak: Page = () => {
           PILIHAN B
         </span>
         <MazeArrowBlock dir="down" size={102} />
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
-          Belok Bawah {choice === 'down' && '❌'}
+        <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
+          <span>Belok Bawah</span>
+          {choice === 'down' && <JuniorIcon name="cross" size={32} />}
         </div>
       </button>
 
@@ -2006,11 +2091,21 @@ const Slide06AyoTebak: Page = () => {
             fontFamily: 'var(--osd-font-display)',
             fontSize: 25,
             fontWeight: 700,
+            ...row,
+            gap: 10,
           }}
         >
-          {choice === 'up'
-            ? '🎉 Hebat! Belok Atas menghindari batu dan kaktus!'
-            : '👆 Tunjuk atau klik jalan yang aman di layarmu ya!'}
+          {choice === 'up' ? (
+            <>
+              <JuniorIcon name="party" size={26} />
+              <span>Hebat! Belok Atas menghindari batu dan kaktus!</span>
+            </>
+          ) : (
+            <>
+              <JuniorIcon name="tap" size={26} />
+              <span>Tunjuk atau klik jalan yang aman di layarmu ya!</span>
+            </>
+          )}
         </div>
       </div>
     </JuniorFrame>
@@ -2077,9 +2172,12 @@ const Slide07Latihan2: Page = () => {
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 20,
                 fontWeight: 700,
+                ...row,
+                gap: 8,
               }}
             >
-              ▶️ Jalan Zig-Zag!
+              <JuniorIcon name="play" size={20} />
+              <span>Jalan Zig-Zag!</span>
             </button>
           </div>
 
@@ -2133,10 +2231,10 @@ const Slide07Latihan2: Page = () => {
                     {isDecoRock && <RockSvg size={68} style={{ opacity: 0.75 }} />}
                     {isFlag && !isBikoHere && <FlagSvg size={76} />}
                     {!isBikoHere && r === 1 && c === 1 && (
-                      <span style={{ fontSize: 32, fontWeight: 800, color: '#047857' }}>⬆️</span>
+                      <JuniorIcon name="arrow-up" size={32} />
                     )}
                     {!isBikoHere && r === 0 && c === 1 && (
-                      <span style={{ fontSize: 32, fontWeight: 800, color: '#047857' }}>➡️</span>
+                      <JuniorIcon name="arrow-right" size={32} />
                     )}
                     {isBikoHere && (
                       <div style={{ ...centerCol }}>
@@ -2169,6 +2267,9 @@ const Slide07Latihan2: Page = () => {
 
           <div
             style={{
+              ...row,
+              justifyContent: 'center',
+              gap: 8,
               textAlign: 'center',
               fontFamily: 'var(--osd-font-display)',
               fontSize: 22,
@@ -2176,10 +2277,40 @@ const Slide07Latihan2: Page = () => {
               color: step === 3 ? '#047857' : MUTED,
             }}
           >
-            {step === 0 && 'Hindari Semak Berduri (🌿) & Batu (🪨) dengan jalur tangga!'}
-            {step === 1 && '1️⃣ Maju Kanan (➡️) — hindari semak di atas!'}
-            {step === 2 && '2️⃣ Belok Atas (⬆️) — hindari batu di sebelah kanan!'}
-            {step === 3 && '🎉 3️⃣ Maju Kanan (➡️) -> Sampai di Bendera Finis!'}
+            {step === 0 && (
+              <>
+                <span>Hindari Semak Berduri</span>
+                <JuniorIcon name="bush" size={22} />
+                <span>&amp; Batu</span>
+                <JuniorIcon name="rock" size={22} />
+                <span>dengan jalur tangga!</span>
+              </>
+            )}
+            {step === 1 && (
+              <>
+                <JuniorIcon name="step-1" size={24} />
+                <span>Maju Kanan</span>
+                <JuniorIcon name="arrow-right" size={22} />
+                <span>— hindari semak di atas!</span>
+              </>
+            )}
+            {step === 2 && (
+              <>
+                <JuniorIcon name="step-2" size={24} />
+                <span>Belok Atas</span>
+                <JuniorIcon name="arrow-up" size={22} />
+                <span>— hindari batu di sebelah kanan!</span>
+              </>
+            )}
+            {step === 3 && (
+              <>
+                <JuniorIcon name="party" size={24} />
+                <JuniorIcon name="step-3" size={24} />
+                <span>Maju Kanan</span>
+                <JuniorIcon name="arrow-right" size={22} />
+                <span>-&gt; Sampai di Bendera Finis!</span>
+              </>
+            )}
           </div>
         </div>
       </MacWindowCard>
@@ -2188,11 +2319,13 @@ const Slide07Latihan2: Page = () => {
       <MacWindowCard left={1055} top={250} width={765} height={680} headerLabel="urutan-zigzag.app" padding={34}>
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[
-              { n: '1️⃣', text: 'Maju Kanan (➡️)', bg: SKY_SOFT, active: step === 1 },
-              { n: '2️⃣', text: 'Belok Atas (⬆️)', bg: SUNNY_SOFT, active: step === 2 },
-              { n: '3️⃣', text: 'Maju Kanan (➡️) -> Finis!', bg: TEAL_SOFT, active: step === 3 },
-            ].map((item, idx) => (
+            {(
+              [
+                { n: 'step-1' as const, text: 'Maju Kanan', dir: 'arrow-right' as const, bg: SKY_SOFT, active: step === 1 },
+                { n: 'step-2' as const, text: 'Belok Atas', dir: 'arrow-up' as const, bg: SUNNY_SOFT, active: step === 2 },
+                { n: 'step-3' as const, text: 'Maju Kanan -> Finis!', dir: 'arrow-right' as const, bg: TEAL_SOFT, active: step === 3 },
+              ] as const
+            ).map((item, idx) => (
               <button
                 key={item.n}
                 type="button"
@@ -2212,7 +2345,8 @@ const Slide07Latihan2: Page = () => {
                   textAlign: 'left',
                 }}
               >
-                <span>{item.n}</span>
+                <JuniorIcon name={item.n} size={34} />
+                <JuniorIcon name={item.dir} size={28} />
                 <span>{item.text}</span>
               </button>
             ))}
@@ -2289,7 +2423,7 @@ const Slide08Tips: Page = () => (
               fontWeight: 700,
             }}
           >
-            <span>✅</span>
+            <JuniorIcon name="check" size={30} />
             <span>BOLEH</span>
           </div>
           <BikoMascot pose="thumbs-up" width={115} />
@@ -2310,11 +2444,11 @@ const Slide08Tips: Page = () => (
           <div style={{ width: 88, height: 88, borderRadius: 18, background: WHITE, border: `3px solid ${TEAL}`, ...centerCol }}>
             <BikoTokenSvg size={64} />
           </div>
-          <span style={{ fontSize: 30, fontWeight: 800, color: '#047857' }}>➡️</span>
+          <JuniorIcon name="arrow-right" size={30} />
           <div style={{ width: 88, height: 88, borderRadius: 18, background: WHITE, border: `3px dashed ${TEAL}`, ...centerCol }}>
-            <span style={{ fontSize: 34 }}>↪️</span>
+            <JuniorIcon name="turn-up" size={34} />
           </div>
-          <span style={{ fontSize: 30, fontWeight: 800, color: '#047857' }}>➡️</span>
+          <JuniorIcon name="arrow-right" size={30} />
           <div style={{ width: 88, height: 88, borderRadius: 18, background: SUNNY_SOFT, border: `3px solid ${CHARCOAL}`, ...centerCol }}>
             <FlagSvg size={62} />
           </div>
@@ -2330,9 +2464,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            👁️ <strong>Cek Jalur</strong> sebelum jalan
+            <JuniorIcon name="eyes" size={32} />
+            <span><strong>Cek Jalur</strong> sebelum jalan</span>
           </div>
           <div
             style={{
@@ -2343,9 +2480,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            ↪️ <strong>Belok</strong> ke kotak kosong
+            <JuniorIcon name="turn-up" size={32} />
+            <span><strong>Belok</strong> ke kotak kosong</span>
           </div>
         </div>
       </div>
@@ -2378,7 +2518,7 @@ const Slide08Tips: Page = () => (
               fontWeight: 700,
             }}
           >
-            <span>❌</span>
+            <JuniorIcon name="cross" size={30} />
             <span>JANGAN</span>
           </div>
           <BikoMascot pose="thinking" width={115} />
@@ -2399,7 +2539,7 @@ const Slide08Tips: Page = () => (
           <div style={{ width: 92, height: 92, borderRadius: 18, background: WHITE, border: `3px solid ${CORAL}`, ...centerCol }}>
             <BikoTokenSvg size={64} alert />
           </div>
-          <span style={{ fontSize: 36 }}>💥</span>
+          <JuniorIcon name="warning" size={38} />
           <div style={{ width: 92, height: 92, borderRadius: 18, background: '#FEE2E2', border: `3px solid ${CORAL}`, ...centerCol }}>
             <RockSvg size={68} withCross />
           </div>
@@ -2415,9 +2555,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            💥 <strong>Menabrak</strong> batu rintangan
+            <JuniorIcon name="warning" size={32} />
+            <span><strong>Menabrak</strong> batu rintangan</span>
           </div>
           <div
             style={{
@@ -2428,9 +2571,12 @@ const Slide08Tips: Page = () => (
               fontFamily: 'var(--osd-font-display)',
               fontSize: 30,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            ⚡ <strong>Terburu-buru</strong> menyusun panah
+            <JuniorIcon name="lightning" size={32} />
+            <span><strong>Terburu-buru</strong> menyusun panah</span>
           </div>
         </div>
       </div>
@@ -2445,7 +2591,9 @@ const Slide09MisiPraktik: Page = () => {
   const [slots, setSlots] = useState<(Dir | null)[]>([null, null, null, null]);
   const [bikoPos, setBikoPos] = useState<[number, number]>([2, 0]);
   const [status, setStatus] = useState<'idle' | 'running' | 'win' | 'hit'>('idle');
-  const [message, setMessage] = useState('Susun 4 blok panah untuk mengambil Peti Harta Karun!');
+  const [message, setMessage] = useState<{ icon?: JuniorIconName; text: string }>({
+    text: 'Susun 4 blok panah untuk mengambil Peti Harta Karun!',
+  });
   const [dragDir, setDragDir] = useState<Dir | null>(null);
   const timerRef = useRef<number | null>(null);
 
@@ -2480,7 +2628,7 @@ const Slide09MisiPraktik: Page = () => {
     setSlots([null, null, null, null]);
     setBikoPos([2, 0]);
     setStatus('idle');
-    setMessage('Susun 4 blok panah untuk mengambil Peti Harta Karun!');
+    setMessage({ text: 'Susun 4 blok panah untuk mengambil Peti Harta Karun!' });
   };
 
   const fillHint = () => {
@@ -2488,7 +2636,7 @@ const Slide09MisiPraktik: Page = () => {
     setSlots(['right', 'up', 'right', 'up']);
     setBikoPos([2, 0]);
     setStatus('idle');
-    setMessage('Petunjuk siap! Klik "▶️ Jalan!" untuk mencoba.');
+    setMessage({ icon: 'bulb', text: 'Petunjuk siap! Klik "Jalan!" untuk mencoba.' });
   };
 
   const handleDropSlot = (idx: number) => (e: DragEvent<HTMLButtonElement>) => {
@@ -2506,14 +2654,14 @@ const Slide09MisiPraktik: Page = () => {
     if (status === 'running') return;
     const active = slots.filter((s): s is Dir => s !== null);
     if (active.length === 0) {
-      setMessage('Pilih atau geser blok panah dulu ya!');
+      setMessage({ text: 'Pilih atau geser blok panah dulu ya!' });
       return;
     }
 
     if (timerRef.current) window.clearTimeout(timerRef.current);
     setStatus('running');
     setBikoPos([2, 0]);
-    setMessage('Biko mulai melangkah...');
+    setMessage({ text: 'Biko mulai melangkah...' });
 
     const obstacles = new Set(['1,0', '2,2', '0,1']);
     let r = 2;
@@ -2523,10 +2671,10 @@ const Slide09MisiPraktik: Page = () => {
       if (i >= active.length) {
         if (r === 0 && c === 2) {
           setStatus('win');
-          setMessage('🎉 Hore! Biko lolos labirin & dapat Harta Karun!');
+          setMessage({ icon: 'party', text: 'Hore! Biko lolos labirin & dapat Harta Karun!' });
         } else {
           setStatus('hit');
-          setMessage('Belum sampai di Harta Karun! Coba cek lagi langkahnya ya.');
+          setMessage({ text: 'Belum sampai di Harta Karun! Coba cek lagi langkahnya ya.' });
         }
         return;
       }
@@ -2539,13 +2687,13 @@ const Slide09MisiPraktik: Page = () => {
 
       if (r < 0 || r > 2 || c < 0 || c > 2) {
         setStatus('hit');
-        setMessage('Ups! Biko keluar jalur peta! Ayo susun ulang.');
+        setMessage({ text: 'Ups! Biko keluar jalur peta! Ayo susun ulang.' });
         return;
       }
 
       if (obstacles.has(`${r},${c}`)) {
         setStatus('hit');
-        setMessage('💥 Awas! Ada batu atau semak menghalangi jalan!');
+        setMessage({ icon: 'warning', text: 'Awas! Ada batu atau semak menghalangi jalan!' });
         return;
       }
 
@@ -2553,7 +2701,7 @@ const Slide09MisiPraktik: Page = () => {
 
       if (r === 0 && c === 2) {
         setStatus('win');
-        setMessage('🎉 Yeay! Biko berhasil melewati labirin & dapat Harta Karun!');
+        setMessage({ icon: 'party', text: 'Yeay! Biko berhasil melewati labirin & dapat Harta Karun!' });
         return;
       }
 
@@ -2766,9 +2914,12 @@ const Slide09MisiPraktik: Page = () => {
                   fontFamily: 'var(--osd-font-display)',
                   fontSize: 21,
                   fontWeight: 700,
+                  ...row,
+                  gap: 8,
                 }}
               >
-                {message}
+                {message.icon && <JuniorIcon name={message.icon} size={24} />}
+                <span>{message.text}</span>
               </div>
 
               <div style={{ ...row, gap: 14 }}>
@@ -2787,9 +2938,13 @@ const Slide09MisiPraktik: Page = () => {
                     fontFamily: 'var(--osd-font-display)',
                     fontSize: 25,
                     fontWeight: 700,
+                    ...row,
+                    justifyContent: 'center',
+                    gap: 8,
                   }}
                 >
-                  ▶️ Jalan!
+                  <JuniorIcon name="play" size={24} />
+                  <span>Jalan!</span>
                 </button>
                 <button
                   type="button"
@@ -2805,9 +2960,12 @@ const Slide09MisiPraktik: Page = () => {
                     fontFamily: 'var(--osd-font-display)',
                     fontSize: 22,
                     fontWeight: 700,
+                    ...row,
+                    gap: 8,
                   }}
                 >
-                  💡 Petunjuk
+                  <JuniorIcon name="bulb" size={22} />
+                  <span>Petunjuk</span>
                 </button>
                 <button
                   type="button"
@@ -2823,9 +2981,12 @@ const Slide09MisiPraktik: Page = () => {
                     fontFamily: 'var(--osd-font-display)',
                     fontSize: 22,
                     fontWeight: 700,
+                    ...row,
+                    gap: 8,
                   }}
                 >
-                  🔄 Reset
+                  <JuniorIcon name="reset" size={22} />
+                  <span>Reset</span>
                 </button>
               </div>
             </div>
@@ -2876,7 +3037,12 @@ const Slide10Lencana: Page = () => {
       ))}
 
       <SlideTitle align="center" top={124} size={62}>
-        Hebat! Kamu <Highlight>Penjelajah Pintar!</Highlight> 🎉
+        <span style={{ ...row, justifyContent: 'center', gap: 14 }}>
+          <span>
+            Hebat! Kamu <Highlight>Penjelajah Pintar!</Highlight>
+          </span>
+          <JuniorIcon name="party" size={54} />
+        </span>
       </SlideTitle>
 
       {/* Celebration Center Card */}
@@ -2931,9 +3097,12 @@ const Slide10Lencana: Page = () => {
               fontFamily: 'var(--osd-font-display)',
               fontSize: 34,
               fontWeight: 700,
+              ...row,
+              gap: 12,
             }}
           >
-            🏅 Lencana Penjelajah Labirin Digital
+            <JuniorIcon name="medal" size={34} />
+            <span>Lencana Penjelajah Labirin Digital</span>
           </div>
 
           <div
@@ -2957,8 +3126,8 @@ const Slide10Lencana: Page = () => {
         <BikoMascot
           pose="jump"
           width={380}
-          badgeEmoji="🧭"
-          speechBubble="Misi Selesai! 🎉"
+          badgeIcon={<JuniorIcon name="compass" size={30} />}
+          speechBubble="Misi Selesai!"
         />
       </div>
     </JuniorFrame>

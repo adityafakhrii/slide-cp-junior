@@ -2,6 +2,7 @@ import { Fragment, useState, type CSSProperties, type DragEvent, type ReactNode 
 import type { DesignSystem, Page, SlideMeta, SlideTransition } from '@open-slide/core';
 import { useIsActivePage, useSlidePageNumber } from '@open-slide/core';
 import { BikoMascot } from '../../components/BikoMascot';
+import { JuniorIcon, type JuniorIconName } from '../../components/JuniorIcons';
 
 // ============================================================================
 // Webfont Loading & Scoped Keyframe Styles (loaded once in <head>)
@@ -658,7 +659,7 @@ const Slide01Cover: Page = () => {
             marginBottom: 24,
           }}
         >
-          <span>🔍</span>
+          <JuniorIcon name="magnifier" size={26} />
           <span>LEVEL 1: CODE EXPLORER (USIA 5–7 TAHUN)</span>
         </div>
 
@@ -706,7 +707,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>🎨</span>
+            <JuniorIcon name="palette" size={30} />
             <span>Pola Warna &amp; Bentuk</span>
           </div>
           <div
@@ -724,7 +725,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>🚂</span>
+            <JuniorIcon name="train" size={30} />
             <span>Lengkapi Kereta</span>
           </div>
         </div>
@@ -768,8 +769,9 @@ const Slide01Cover: Page = () => {
           }}
         >
           <div style={{ ...row, justifyContent: 'space-between', marginBottom: 10 }}>
-            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 20, fontWeight: 700 }}>
-              🚂 Kereta Berpola
+            <span style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 20, fontWeight: 700 }}>
+              <JuniorIcon name="train" size={22} />
+              <span>Kereta Berpola</span>
             </span>
             <span
               style={{
@@ -795,10 +797,9 @@ const Slide01Cover: Page = () => {
                   background: c,
                   border: `3px solid ${CHARCOAL}`,
                   ...centerCol,
-                  fontSize: 24,
                 }}
               >
-                {i % 2 === 0 ? '⭐' : '🔵'}
+                <JuniorIcon name={i % 2 === 0 ? 'star' : 'dot-blue'} size={26} />
               </div>
             ))}
             <div
@@ -955,6 +956,8 @@ const Slide02Misi: Page = () => (
       <div
         style={{
           marginTop: 12,
+          ...row,
+          gap: 10,
           padding: '12px 24px',
           borderRadius: 99,
           background: SUNNY,
@@ -965,7 +968,8 @@ const Slide02Misi: Page = () => (
           fontWeight: 700,
         }}
       >
-        Siap Detektif! 🔍
+        <span>Siap Detektif!</span>
+        <JuniorIcon name="magnifier" size={26} />
       </div>
     </div>
   </JuniorFrame>
@@ -1009,8 +1013,9 @@ const Slide03ApaItuPola: Page = () => {
           {/* Repeating curved arrows */}
           <div style={{ ...row, justifyContent: 'space-around', padding: '0 60px' }}>
             <div style={{ ...centerCol }}>
-              <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 22, fontWeight: 700, color: TEAL }}>
-                🔁 Pola 1
+              <span style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 22, fontWeight: 700, color: TEAL }}>
+                <JuniorIcon name="repeat" size={22} />
+                <span>Pola 1</span>
               </span>
               <svg width={240} height={44} viewBox="0 0 240 44" fill="none">
                 <path d="M24 38 Q120 -4 216 34" stroke={TEAL} strokeWidth={5} strokeDasharray="8 6" strokeLinecap="round" />
@@ -1018,8 +1023,9 @@ const Slide03ApaItuPola: Page = () => {
               </svg>
             </div>
             <div style={{ ...centerCol }}>
-              <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 22, fontWeight: 700, color: CORAL }}>
-                🔁 Ulang Lagi!
+              <span style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 22, fontWeight: 700, color: CORAL }}>
+                <JuniorIcon name="repeat" size={22} />
+                <span>Ulang Lagi!</span>
               </span>
               <svg width={240} height={44} viewBox="0 0 240 44" fill="none">
                 <path d="M24 38 Q120 -4 216 34" stroke={CORAL} strokeWidth={5} strokeDasharray="8 6" strokeLinecap="round" />
@@ -1063,6 +1069,8 @@ const Slide03ApaItuPola: Page = () => {
               className="cpj4-card-btn"
               onClick={() => setGroupHighlight((v) => !v)}
               style={{
+                ...row,
+                gap: 10,
                 padding: '14px 28px',
                 borderRadius: 99,
                 background: groupHighlight ? SUNNY : TEAL,
@@ -1075,7 +1083,17 @@ const Slide03ApaItuPola: Page = () => {
                 marginBottom: 16,
               }}
             >
-              {groupHighlight ? '🔍 Pola Terlihat Jelas!' : '🔁 Sorot Urutan Berulang'}
+              {groupHighlight ? (
+                <>
+                  <JuniorIcon name="magnifier" size={24} />
+                  <span>Pola Terlihat Jelas!</span>
+                </>
+              ) : (
+                <>
+                  <JuniorIcon name="repeat" size={24} />
+                  <span>Sorot Urutan Berulang</span>
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -1094,7 +1112,7 @@ const Slide03ApaItuPola: Page = () => {
             boxShadow: `0 7px 0 ${SKY}`,
           }}
         >
-          <span style={{ fontSize: 54 }}>🔁</span>
+          <JuniorIcon name="repeat" size={50} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
             Gambar atau warna yang <Highlight color="#DBEAFE">Berulang</Highlight>
           </span>
@@ -1111,7 +1129,7 @@ const Slide03ApaItuPola: Page = () => {
             boxShadow: `0 7px 0 ${TEAL}`,
           }}
         >
-          <span style={{ fontSize: 54 }}>🔍</span>
+          <JuniorIcon name="magnifier" size={50} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
             Punya <Highlight color="#D1FAE5">Urutan Teratur!</Highlight>
           </span>
@@ -1119,6 +1137,10 @@ const Slide03ApaItuPola: Page = () => {
 
         <div
           style={{
+            ...row,
+            justifyContent: 'center',
+            gap: 8,
+            flexWrap: 'wrap',
             padding: '24px 28px',
             borderRadius: 26,
             background: SUNNY_SOFT,
@@ -1131,7 +1153,14 @@ const Slide03ApaItuPola: Page = () => {
             textAlign: 'center',
           }}
         >
-          ⭐ Bintang — 🔵 Lingkaran — ⭐ Bintang — 🔵 Lingkaran!
+          <JuniorIcon name="star" size={28} />
+          <span>Bintang —</span>
+          <JuniorIcon name="dot-blue" size={28} />
+          <span>Lingkaran —</span>
+          <JuniorIcon name="star" size={28} />
+          <span>Bintang —</span>
+          <JuniorIcon name="dot-blue" size={28} />
+          <span>Lingkaran!</span>
         </div>
       </div>
     </JuniorFrame>
@@ -1167,7 +1196,7 @@ const Slide04Pola2Warna: Page = () => {
                 fontWeight: 700,
               }}
             >
-              <span>🚂</span>
+              <JuniorIcon name="train" size={32} />
               <span>Merah — Kuning — Merah — Kuning</span>
             </div>
             <div
@@ -1183,7 +1212,7 @@ const Slide04Pola2Warna: Page = () => {
                 fontWeight: 700,
               }}
             >
-              <span>❓</span>
+              <JuniorIcon name="question" size={32} />
               <span>Habis Kuning, warna apa ya?</span>
             </div>
           </div>
@@ -1225,6 +1254,8 @@ const Slide04Pola2Warna: Page = () => {
                 className="cpj4-card-btn"
                 onClick={() => setGuess('red')}
                 style={{
+                  ...row,
+                  gap: 10,
                   padding: '14px 32px',
                   borderRadius: 20,
                   background: CORAL,
@@ -1236,13 +1267,16 @@ const Slide04Pola2Warna: Page = () => {
                   fontWeight: 700,
                 }}
               >
-                🔴 Merah
+                <JuniorIcon name="dot-red" size={26} />
+                <span>Merah</span>
               </button>
               <button
                 type="button"
                 className="cpj4-card-btn"
                 onClick={() => setGuess('yellow')}
                 style={{
+                  ...row,
+                  gap: 10,
                   padding: '14px 32px',
                   borderRadius: 20,
                   background: SUNNY,
@@ -1254,13 +1288,17 @@ const Slide04Pola2Warna: Page = () => {
                   fontWeight: 700,
                 }}
               >
-                🟡 Kuning
+                <JuniorIcon name="dot-yellow" size={26} />
+                <span>Kuning</span>
               </button>
             </div>
 
             <div
               style={{
                 flex: 1,
+                ...row,
+                justifyContent: 'center',
+                gap: 10,
                 padding: '14px 28px',
                 borderRadius: 22,
                 background: guess === 'red' ? TEAL_SOFT : guess === 'yellow' ? CORAL_SOFT : STABILO,
@@ -1271,9 +1309,25 @@ const Slide04Pola2Warna: Page = () => {
                 textAlign: 'center',
               }}
             >
-              {guess === 'red' && '✅ Tepat! Habis Kuning kembali Merah! 🎉'}
-              {guess === 'yellow' && '🤔 Yuk ulangi: Merah - Kuning - Merah - Kuning...'}
-              {guess === null && '👆 Coba klik warna gerbong yang kosong!'}
+              {guess === 'red' && (
+                <>
+                  <JuniorIcon name="check" size={28} />
+                  <span>Tepat! Habis Kuning kembali Merah!</span>
+                  <JuniorIcon name="party" size={28} />
+                </>
+              )}
+              {guess === 'yellow' && (
+                <>
+                  <JuniorIcon name="thinking" size={28} />
+                  <span>Yuk ulangi: Merah - Kuning - Merah - Kuning...</span>
+                </>
+              )}
+              {guess === null && (
+                <>
+                  <JuniorIcon name="tap" size={28} />
+                  <span>Coba klik warna gerbong yang kosong!</span>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -1315,7 +1369,7 @@ const Slide05PolaBentuk: Page = () => (
               fontWeight: 700,
             }}
           >
-            <span>🔷</span>
+            <JuniorIcon name="shape-diamond" size={32} />
             <span>Lingkaran — Segitiga — Lingkaran — Segitiga</span>
           </div>
           <div
@@ -1331,7 +1385,7 @@ const Slide05PolaBentuk: Page = () => (
               fontWeight: 700,
             }}
           >
-            <span>✨</span>
+            <JuniorIcon name="sparkle" size={32} />
             <span>Bentuknya bergantian rapi!</span>
           </div>
         </div>
@@ -1421,7 +1475,7 @@ const Slide06TebakGerbong: Page = () => {
               <PatternShapeSvg shape={item.shape} fill={item.fill} size={52} />
               <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700 }}>{item.label}</span>
             </div>
-            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700, color: MUTED }}>➡️</span>
+            <JuniorIcon name="arrow-right" size={30} />
           </Fragment>
         ))}
 
@@ -1476,8 +1530,9 @@ const Slide06TebakGerbong: Page = () => {
 
           <PatternShapeSvg shape="star" fill={SUNNY} size={145} />
 
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 40, fontWeight: 700, color: CHARCOAL }}>
-            ⭐ Bintang
+          <div style={{ ...row, gap: 12, fontFamily: 'var(--osd-font-display)', fontSize: 40, fontWeight: 700, color: CHARCOAL }}>
+            <JuniorIcon name="star" size={38} />
+            <span>Bintang</span>
           </div>
         </button>
 
@@ -1512,8 +1567,9 @@ const Slide06TebakGerbong: Page = () => {
 
           <PatternShapeSvg shape="heart" fill={CORAL} size={145} />
 
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 40, fontWeight: 700, color: CHARCOAL }}>
-            ❤️ Hati
+          <div style={{ ...row, gap: 12, fontFamily: 'var(--osd-font-display)', fontSize: 40, fontWeight: 700, color: CHARCOAL }}>
+            <JuniorIcon name="heart" size={38} />
+            <span>Hati</span>
           </div>
         </button>
       </div>
@@ -1524,6 +1580,9 @@ const Slide06TebakGerbong: Page = () => {
 
         <div
           style={{
+            ...row,
+            justifyContent: 'center',
+            gap: 12,
             padding: '24px 38px',
             borderRadius: 28,
             background: choice === 'A' ? TEAL_SOFT : choice === 'B' ? CORAL_SOFT : STABILO,
@@ -1537,9 +1596,25 @@ const Slide06TebakGerbong: Page = () => {
             minWidth: 580,
           }}
         >
-          {choice === 'A' && '✅ BENAR SEKALI! Habis Hati pasti Bintang! ⭐'}
-          {choice === 'B' && '🤔 Hampir! Bintang — Hati — Bintang — Hati — ...'}
-          {choice === null && '👉 Tunjuk jawabanmu di layar ya!'}
+          {choice === 'A' && (
+            <>
+              <JuniorIcon name="check" size={34} />
+              <span>BENAR SEKALI! Habis Hati pasti Bintang!</span>
+              <JuniorIcon name="star" size={34} />
+            </>
+          )}
+          {choice === 'B' && (
+            <>
+              <JuniorIcon name="thinking" size={34} />
+              <span>Hampir! Bintang — Hati — Bintang — Hati — ...</span>
+            </>
+          )}
+          {choice === null && (
+            <>
+              <JuniorIcon name="point-right" size={34} />
+              <span>Tunjuk jawabanmu di layar ya!</span>
+            </>
+          )}
         </div>
       </div>
     </JuniorFrame>
@@ -1575,7 +1650,7 @@ const Slide07Pola3Warna: Page = () => {
                 fontWeight: 700,
               }}
             >
-              <span>🌈</span>
+              <JuniorIcon name="rainbow" size={32} />
               <span>Merah — Kuning — Hijau</span>
             </div>
             <div
@@ -1591,7 +1666,7 @@ const Slide07Pola3Warna: Page = () => {
                 fontWeight: 700,
               }}
             >
-              <span>🚂</span>
+              <JuniorIcon name="train" size={32} />
               <span>Merah — Kuning — [ ? ]</span>
             </div>
           </div>
@@ -1634,6 +1709,8 @@ const Slide07Pola3Warna: Page = () => {
                 className="cpj4-card-btn"
                 onClick={() => setAnswer('red')}
                 style={{
+                  ...row,
+                  gap: 8,
                   padding: '12px 26px',
                   borderRadius: 20,
                   background: CORAL,
@@ -1645,13 +1722,16 @@ const Slide07Pola3Warna: Page = () => {
                   fontWeight: 700,
                 }}
               >
-                🔴 Merah
+                <JuniorIcon name="dot-red" size={24} />
+                <span>Merah</span>
               </button>
               <button
                 type="button"
                 className="cpj4-card-btn"
                 onClick={() => setAnswer('yellow')}
                 style={{
+                  ...row,
+                  gap: 8,
                   padding: '12px 26px',
                   borderRadius: 20,
                   background: SUNNY,
@@ -1663,13 +1743,16 @@ const Slide07Pola3Warna: Page = () => {
                   fontWeight: 700,
                 }}
               >
-                🟡 Kuning
+                <JuniorIcon name="dot-yellow" size={24} />
+                <span>Kuning</span>
               </button>
               <button
                 type="button"
                 className="cpj4-card-btn"
                 onClick={() => setAnswer('green')}
                 style={{
+                  ...row,
+                  gap: 8,
                   padding: '12px 26px',
                   borderRadius: 20,
                   background: TEAL,
@@ -1681,13 +1764,17 @@ const Slide07Pola3Warna: Page = () => {
                   fontWeight: 700,
                 }}
               >
-                🟢 Hijau
+                <JuniorIcon name="dot-green" size={24} />
+                <span>Hijau</span>
               </button>
             </div>
 
             <div
               style={{
                 flex: 1,
+                ...row,
+                justifyContent: 'center',
+                gap: 10,
                 padding: '14px 24px',
                 borderRadius: 22,
                 background: answer === 'green' ? TEAL_SOFT : answer !== null ? CORAL_SOFT : STABILO,
@@ -1698,10 +1785,31 @@ const Slide07Pola3Warna: Page = () => {
                 textAlign: 'center',
               }}
             >
-              {answer === 'green' && '✅ Hebat! Merah - Kuning - Hijau lengkap! 🌟'}
-              {answer === 'red' && '🤔 Habis Kuning tadi warna apa ya? Cek kelompok pertama!'}
-              {answer === 'yellow' && '🤔 Kuning baru saja lewat! Coba cek warna ke-3!'}
-              {answer === null && '👆 Warna apa yang melengkapi gerbong ke-6?'}
+              {answer === 'green' && (
+                <>
+                  <JuniorIcon name="check" size={26} />
+                  <span>Hebat! Merah - Kuning - Hijau lengkap!</span>
+                  <JuniorIcon name="star-glow" size={26} />
+                </>
+              )}
+              {answer === 'red' && (
+                <>
+                  <JuniorIcon name="thinking" size={26} />
+                  <span>Habis Kuning tadi warna apa ya? Cek kelompok pertama!</span>
+                </>
+              )}
+              {answer === 'yellow' && (
+                <>
+                  <JuniorIcon name="thinking" size={26} />
+                  <span>Kuning baru saja lewat! Coba cek warna ke-3!</span>
+                </>
+              )}
+              {answer === null && (
+                <>
+                  <JuniorIcon name="tap" size={26} />
+                  <span>Warna apa yang melengkapi gerbong ke-6?</span>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -1752,6 +1860,8 @@ const Slide08JurusDetektif: Page = () => (
           <div style={{ ...centerCol, gap: 14 }}>
             <div
               style={{
+                ...row,
+                gap: 10,
                 padding: '12px 24px',
                 borderRadius: 22,
                 background: WHITE,
@@ -1762,7 +1872,8 @@ const Slide08JurusDetektif: Page = () => (
                 fontWeight: 700,
               }}
             >
-              🗣️ &ldquo;Merah... Kuning...&rdquo;
+              <JuniorIcon name="speak" size={28} />
+              <span>&ldquo;Merah... Kuning...&rdquo;</span>
             </div>
             <div style={{ ...row, gap: 12 }}>
               <div style={{ width: 52, height: 52, borderRadius: 14, background: CORAL, border: `3px solid ${CHARCOAL}` }} />
@@ -1832,6 +1943,8 @@ const Slide08JurusDetektif: Page = () => (
       <div
         style={{
           marginTop: 10,
+          ...row,
+          gap: 10,
           padding: '12px 24px',
           borderRadius: 99,
           background: SUNNY,
@@ -1842,7 +1955,8 @@ const Slide08JurusDetektif: Page = () => (
           fontWeight: 700,
         }}
       >
-        Jempol Detektif! 👍
+        <span>Jempol Detektif!</span>
+        <JuniorIcon name="thumbs-up" size={26} />
       </div>
     </div>
   </JuniorFrame>
@@ -1851,10 +1965,10 @@ const Slide08JurusDetektif: Page = () => (
 // ============================================================================
 // SLIDE 09 — Misi Praktik: Lengkapi Kereta Berpola! (3 Blok ScratchJr + Game)
 // ============================================================================
-const MISSION_BLOCKS = [
-  { num: 1, color: SKY, soft: SKY_SOFT, title: 'Amati', sub: 'urutan warna & bentuk', icon: '👀' },
-  { num: 2, color: SUNNY, soft: SUNNY_SOFT, title: 'Klik & Geser', sub: 'gerbong yang tepat', icon: '🖱️' },
-  { num: 3, color: TEAL, soft: TEAL_SOFT, title: '"TUT-TUT!"', sub: 'Kereta siap jalan!', icon: '🚂' },
+const MISSION_BLOCKS: { num: number; color: string; soft: string; title: string; sub: string; icon: JuniorIconName }[] = [
+  { num: 1, color: SKY, soft: SKY_SOFT, title: 'Amati', sub: 'urutan warna & bentuk', icon: 'eyes' },
+  { num: 2, color: SUNNY, soft: SUNNY_SOFT, title: 'Klik & Geser', sub: 'gerbong yang tepat', icon: 'mouse' },
+  { num: 3, color: TEAL, soft: TEAL_SOFT, title: '"TUT-TUT!"', sub: 'Kereta siap jalan!', icon: 'train' },
 ];
 
 type TrainOption = {
@@ -1910,7 +2024,9 @@ const Slide09MisiKereta: Page = () => {
   const live = useIsActivePage();
   const [level, setLevel] = useState<'warna' | 'bentuk'>('warna');
   const [placed, setPlaced] = useState<TrainOption | null>(null);
-  const [feedback, setFeedback] = useState('Geser atau klik gerbong yang cocok ke kotak [ ? ]!');
+  const [feedback, setFeedback] = useState<{ icon?: JuniorIconName; text: string }>({
+    text: 'Geser atau klik gerbong yang cocok ke kotak [ ? ]!',
+  });
 
   const currentLevel = TRAIN_LEVELS[level];
   const isSolved = placed?.correct === true;
@@ -1918,15 +2034,15 @@ const Slide09MisiKereta: Page = () => {
   const switchLevel = (next: 'warna' | 'bentuk') => {
     setLevel(next);
     setPlaced(null);
-    setFeedback('Geser atau klik gerbong yang cocok ke kotak [ ? ]!');
+    setFeedback({ text: 'Geser atau klik gerbong yang cocok ke kotak [ ? ]!' });
   };
 
   const tryOption = (opt: TrainOption) => {
     if (opt.correct) {
       setPlaced(opt);
-      setFeedback('🚂 TUT-TUT! Kereta berpola siap jalan! 🎉');
+      setFeedback({ icon: 'train', text: 'TUT-TUT! Kereta berpola siap jalan!' });
     } else {
-      setFeedback(`🤔 "${opt.label}" belum pas! Coba amati urutannya lagi!`);
+      setFeedback({ icon: 'thinking', text: `"${opt.label}" belum pas! Coba amati urutannya lagi!` });
     }
   };
 
@@ -1982,8 +2098,9 @@ const Slide09MisiKereta: Page = () => {
                 {blk.num}
               </div>
               <div>
-                <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.15 }}>
-                  {blk.icon} {blk.title}
+                <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.15 }}>
+                  <JuniorIcon name={blk.icon} size={32} />
+                  <span>{blk.title}</span>
                 </div>
                 <div style={{ fontSize: 22, fontWeight: 800, color: MUTED, marginTop: 4 }}>{blk.sub}</div>
               </div>
@@ -2028,6 +2145,8 @@ const Slide09MisiKereta: Page = () => {
                 className="cpj4-card-btn"
                 onClick={() => switchLevel('warna')}
                 style={{
+                  ...row,
+                  gap: 8,
                   padding: '8px 20px',
                   borderRadius: 99,
                   background: level === 'warna' ? CORAL : WHITE,
@@ -2038,13 +2157,16 @@ const Slide09MisiKereta: Page = () => {
                   fontWeight: 700,
                 }}
               >
-                🎨 Pola Warna
+                <JuniorIcon name="palette" size={24} />
+                <span>Pola Warna</span>
               </button>
               <button
                 type="button"
                 className="cpj4-card-btn"
                 onClick={() => switchLevel('bentuk')}
                 style={{
+                  ...row,
+                  gap: 8,
                   padding: '8px 20px',
                   borderRadius: 99,
                   background: level === 'bentuk' ? TEAL : WHITE,
@@ -2055,7 +2177,8 @@ const Slide09MisiKereta: Page = () => {
                   fontWeight: 700,
                 }}
               >
-                🔷 Pola Bentuk
+                <JuniorIcon name="shape-diamond" size={24} />
+                <span>Pola Bentuk</span>
               </button>
             </div>
 
@@ -2064,6 +2187,8 @@ const Slide09MisiKereta: Page = () => {
               className="cpj4-card-btn"
               onClick={() => switchLevel(level)}
               style={{
+                ...row,
+                gap: 8,
                 padding: '8px 18px',
                 borderRadius: 99,
                 background: WHITE,
@@ -2074,7 +2199,8 @@ const Slide09MisiKereta: Page = () => {
                 fontWeight: 700,
               }}
             >
-              🔄 Ulang
+              <JuniorIcon name="reset" size={22} />
+              <span>Ulang</span>
             </button>
           </div>
 
@@ -2148,6 +2274,8 @@ const Slide09MisiKereta: Page = () => {
 
             <div
               style={{
+                ...row,
+                gap: 8,
                 padding: '10px 20px',
                 borderRadius: 99,
                 background: isSolved ? TEAL_SOFT : STABILO,
@@ -2157,7 +2285,8 @@ const Slide09MisiKereta: Page = () => {
                 color: CHARCOAL,
               }}
             >
-              {feedback}
+              {feedback.icon && <JuniorIcon name={feedback.icon} size={22} />}
+              <span>{feedback.text}</span>
             </div>
           </div>
         </div>
@@ -2169,6 +2298,8 @@ const Slide09MisiKereta: Page = () => {
         <div
           style={{
             marginTop: 8,
+            ...row,
+            gap: 8,
             padding: '10px 22px',
             borderRadius: 99,
             background: TEAL,
@@ -2180,7 +2311,18 @@ const Slide09MisiKereta: Page = () => {
             fontWeight: 700,
           }}
         >
-          {isSolved ? 'TUT-TUT! 🚂🎉' : 'Ayo Lengkapi! 🔍'}
+          {isSolved ? (
+            <>
+              <span>TUT-TUT!</span>
+              <JuniorIcon name="train" size={24} />
+              <JuniorIcon name="party" size={24} />
+            </>
+          ) : (
+            <>
+              <span>Ayo Lengkapi!</span>
+              <JuniorIcon name="magnifier" size={24} />
+            </>
+          )}
         </div>
       </div>
     </JuniorFrame>
@@ -2217,7 +2359,12 @@ const Slide10Lencana: Page = () => {
       ))}
 
       <SlideTitle align="center" top={130} size={62}>
-        Hebat! Kamu <Highlight color={STABILO}>Detektif Ulung! 🎉</Highlight>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 16 }}>
+          <span>
+            Hebat! Kamu <Highlight color={STABILO}>Detektif Ulung!</Highlight>
+          </span>
+          <JuniorIcon name="party" size={58} />
+        </span>
       </SlideTitle>
 
       {/* Center Celebration Medal Card */}
@@ -2250,6 +2397,8 @@ const Slide10Lencana: Page = () => {
 
           <div
             style={{
+              ...row,
+              gap: 14,
               padding: '14px 34px',
               borderRadius: 99,
               background: TEAL,
@@ -2261,7 +2410,8 @@ const Slide10Lencana: Page = () => {
               fontWeight: 700,
             }}
           >
-            🏅 Lencana Detektif Kereta Berpola
+            <JuniorIcon name="medal" size={36} />
+            <span>Lencana Detektif Kereta Berpola</span>
           </div>
 
           <div

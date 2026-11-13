@@ -5,6 +5,7 @@ import bikoWave from '../../assets/biko/biko-wave.png';
 import bikoLaptop from '../../assets/biko/biko-laptop.png';
 import bikoPointLeft from '../../assets/biko/biko-point-left.png';
 import bikoJump from '../../assets/biko/biko-jump.png';
+import { JuniorIcon, type JuniorIconName } from '../../components/JuniorIcons';
 
 // ============================================================================
 // Webfont Loading & Scoped Keyframe Styles (loaded once in <head>)
@@ -476,11 +477,13 @@ const BikoMascot = ({
   pose = 'point-left',
   width = 340,
   badgeEmoji,
+  badgeIcon,
   style,
 }: {
   pose?: BikoPose;
   width?: number;
   badgeEmoji?: string;
+  badgeIcon?: ReactNode;
   style?: CSSProperties;
 }) => {
   const live = useIsActivePage();
@@ -557,7 +560,7 @@ const BikoMascot = ({
           </div>
         )}
 
-        {(pose === 'thumbs-up' || badgeEmoji) && (
+        {(pose === 'thumbs-up' || badgeEmoji || badgeIcon) && (
           <div
             aria-hidden="true"
             style={{
@@ -578,7 +581,7 @@ const BikoMascot = ({
               pointerEvents: 'none',
             }}
           >
-            {badgeEmoji ?? '👍'}
+            {badgeIcon ?? badgeEmoji ?? <JuniorIcon name="thumbs-up" size={34} />}
           </div>
         )}
       </div>
@@ -748,7 +751,7 @@ const Slide01Cover: Page = () => {
             marginBottom: 26,
           }}
         >
-          <span>🎈</span>
+          <JuniorIcon name="balloon" size={26} />
           <span>LEVEL 1: CODE EXPLORER (USIA 5–7 TAHUN)</span>
         </div>
 
@@ -797,7 +800,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>🖱️</span>
+            <JuniorIcon name="mouse" size={30} />
             <span>Klik Kiri &amp; Kursor</span>
           </div>
           <div
@@ -815,7 +818,7 @@ const Slide01Cover: Page = () => {
               fontWeight: 700,
             }}
           >
-            <span>👀</span>
+            <JuniorIcon name="eyes" size={30} />
             <span>Mata Sehat &amp; Ceria</span>
           </div>
         </div>
@@ -851,9 +854,9 @@ const Slide01Cover: Page = () => {
               color: CHARCOAL,
             }}
           >
-            <span>🎈</span>
+            <JuniorIcon name="balloon" size={26} />
             <span>GAME BALON BINTANG</span>
-            <span>⭐</span>
+            <JuniorIcon name="star" size={26} />
           </div>
           {/* Soft Dotted Sky Hills at Bottom */}
           <div
@@ -1073,6 +1076,8 @@ const Slide02Misi: Page = () => (
       <div
         style={{
           marginTop: 12,
+          ...row,
+          gap: 10,
           padding: '12px 24px',
           borderRadius: 99,
           background: SUNNY,
@@ -1083,7 +1088,8 @@ const Slide02Misi: Page = () => (
           fontWeight: 700,
         }}
       >
-        Siap Beraksi! 🚀
+        <span>Siap Beraksi!</span>
+        <JuniorIcon name="rocket" size={26} />
       </div>
     </div>
   </JuniorFrame>
@@ -1153,7 +1159,7 @@ const Slide03Kursor: Page = () => {
                 fontWeight="700"
                 fill={CHARCOAL}
               >
-                Geser Pelan ↔
+                Geser Pelan
               </text>
             </g>
           </svg>
@@ -1185,6 +1191,8 @@ const Slide03Kursor: Page = () => {
                       position: 'absolute',
                       top: -12,
                       right: -18,
+                      ...row,
+                      gap: 6,
                       padding: '4px 12px',
                       borderRadius: 99,
                       background: SUNNY,
@@ -1194,7 +1202,8 @@ const Slide03Kursor: Page = () => {
                       fontWeight: 700,
                     }}
                   >
-                    🎯 Target!
+                    <JuniorIcon name="target" size={18} />
+                    <span>Target!</span>
                   </div>
                 )}
               </button>
@@ -1220,6 +1229,8 @@ const Slide03Kursor: Page = () => {
               position: 'absolute',
               left: 24,
               bottom: 20,
+              ...row,
+              gap: 8,
               padding: '10px 20px',
               borderRadius: 99,
               background: WHITE,
@@ -1229,7 +1240,8 @@ const Slide03Kursor: Page = () => {
               color: CHARCOAL,
             }}
           >
-            👆 Coba klik balon lain untuk memindahkan Panah!
+            <JuniorIcon name="tap" size={24} />
+            <span>Coba klik balon lain untuk memindahkan Panah!</span>
           </div>
         </div>
       </MacWindowCard>
@@ -1247,7 +1259,7 @@ const Slide03Kursor: Page = () => {
             boxShadow: `0 6px 0 ${SKY}`,
           }}
         >
-          <span style={{ fontSize: 50 }}>🖱️</span>
+          <JuniorIcon name="mouse" size={48} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.25 }}>
             Geser <Highlight color="#DBEAFE">Mouse</Highlight> atau <Highlight color="#D1FAE5">Trackpad</Highlight>
           </span>
@@ -1264,7 +1276,7 @@ const Slide03Kursor: Page = () => {
             boxShadow: `0 6px 0 ${SUNNY}`,
           }}
         >
-          <span style={{ fontSize: 50 }}>🎯</span>
+          <JuniorIcon name="target" size={48} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.25 }}>
             Arahkan panah tepat ke <Highlight color={STABILO}>Balon</Highlight>
           </span>
@@ -1285,7 +1297,10 @@ const Slide03Kursor: Page = () => {
               maxWidth: 320,
             }}
           >
-            Ke kiri, kanan, atas, atau bawah! 🧭
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <span>Ke kiri, kanan, atas, atau bawah!</span>
+              <JuniorIcon name="compass" size={26} />
+            </span>
           </div>
           <BikoMascot pose="point-left" width={310} />
         </div>
@@ -1320,7 +1335,7 @@ const Slide04KlikMouse: Page = () => {
             boxShadow: `0 6px 0 ${SUNNY}`,
           }}
         >
-          <span style={{ fontSize: 50 }}>☝️</span>
+          <JuniorIcon name="tap" size={48} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, lineHeight: 1.24 }}>
             Pakai <Highlight color={STABILO}>Jari Telunjuk</Highlight>
           </span>
@@ -1337,7 +1352,7 @@ const Slide04KlikMouse: Page = () => {
             boxShadow: `0 6px 0 ${TEAL}`,
           }}
         >
-          <span style={{ fontSize: 50 }}>💥</span>
+          <JuniorIcon name="sparkle" size={48} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, lineHeight: 1.24 }}>
             Tekan tombol <Highlight color="#DBEAFE">Kiri</Highlight> 1 kali: <em>&ldquo;Klik!&rdquo;</em>
           </span>
@@ -1345,7 +1360,7 @@ const Slide04KlikMouse: Page = () => {
 
         {/* Biko + Click Burst Counter Card */}
         <div style={{ ...row, gap: 18, alignItems: 'center' }}>
-          <BikoMascot pose="thumbs-up" width={275} badgeEmoji="☝️" />
+          <BikoMascot pose="thumbs-up" width={275} badgeIcon={<JuniorIcon name="tap" size={32} />} />
           <div
             style={{
               flex: 1,
@@ -1360,6 +1375,9 @@ const Slide04KlikMouse: Page = () => {
             <div style={{ fontSize: 20, fontWeight: 800, color: MUTED }}>SUARA KARTUN:</div>
             <div
               style={{
+                ...row,
+                justifyContent: 'center',
+                gap: 10,
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 60,
                 fontWeight: 700,
@@ -1367,7 +1385,8 @@ const Slide04KlikMouse: Page = () => {
                 margin: '4px 0',
               }}
             >
-              KLIK! 💥
+              <span>KLIK!</span>
+              <JuniorIcon name="sparkle" size={46} />
             </div>
             <div style={{ fontSize: 22, fontWeight: 800, color: CHARCOAL }}>
               Sudah dicoba: <span style={{ color: TEAL }}>{clicks}x</span>
@@ -1462,6 +1481,8 @@ const Slide04KlikMouse: Page = () => {
               color: WHITE,
               border: `3px solid ${CHARCOAL}`,
               boxShadow: `0 6px 0 ${CHARCOAL}`,
+              ...row,
+              gap: 8,
               fontFamily: 'var(--osd-font-display)',
               fontSize: 34,
               fontWeight: 700,
@@ -1469,12 +1490,15 @@ const Slide04KlikMouse: Page = () => {
               pointerEvents: 'none',
             }}
           >
-            KLIK! ⭐
+            <span>KLIK!</span>
+            <JuniorIcon name="star" size={32} />
           </div>
 
           <div
             style={{
               marginTop: 12,
+              ...row,
+              gap: 10,
               padding: '12px 26px',
               borderRadius: 99,
               background: SUNNY,
@@ -1484,7 +1508,8 @@ const Slide04KlikMouse: Page = () => {
               fontWeight: 700,
             }}
           >
-            👆 Coba klik tombol kuning di atas!
+            <JuniorIcon name="tap" size={26} />
+            <span>Coba klik tombol kuning di atas!</span>
           </div>
         </div>
       </MacWindowCard>
@@ -1609,11 +1634,10 @@ const Slide05KlikTrackpad: Page = () => {
                     border: `3px solid ${CHARCOAL}`,
                     ...centerCol,
                     color: WHITE,
-                    fontSize: 28,
                     animation: live ? 'cpj2-pulse-ring 1.6s ease-in-out infinite' : undefined,
                   }}
                 >
-                  👆
+                  <JuniorIcon name="tap" size={30} />
                 </div>
                 <span
                   style={{
@@ -1651,6 +1675,8 @@ const Slide05KlikTrackpad: Page = () => {
           <div
             style={{
               marginTop: 22,
+              ...row,
+              gap: 10,
               padding: '10px 24px',
               borderRadius: 99,
               background: TEAL_SOFT,
@@ -1661,7 +1687,8 @@ const Slide05KlikTrackpad: Page = () => {
               color: CHARCOAL,
             }}
           >
-            👆 Coba ketuk lingkaran hijau di kiri bawah trackpad!
+            <JuniorIcon name="tap" size={24} />
+            <span>Coba ketuk lingkaran hijau di kiri bawah trackpad!</span>
           </div>
         </div>
       </MacWindowCard>
@@ -1679,7 +1706,7 @@ const Slide05KlikTrackpad: Page = () => {
             boxShadow: `0 6px 0 ${TEAL}`,
           }}
         >
-          <span style={{ fontSize: 50 }}>👆</span>
+          <JuniorIcon name="tap" size={48} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.25 }}>
             Ketuk bagian <Highlight color="#D1FAE5">Kiri Bawah</Highlight> trackpad
           </span>
@@ -1696,7 +1723,7 @@ const Slide05KlikTrackpad: Page = () => {
             boxShadow: `0 6px 0 ${SUNNY}`,
           }}
         >
-          <span style={{ fontSize: 50 }}>✨</span>
+          <JuniorIcon name="sparkle" size={48} />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.25 }}>
             Tekan 1 kali sampai berbunyi <em>&ldquo;Klik!&rdquo;</em>
           </span>
@@ -1717,7 +1744,10 @@ const Slide05KlikTrackpad: Page = () => {
               maxWidth: 320,
             }}
           >
-            Pakai 1 jari telunjuk saja ya! 🌱
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <span>Pakai 1 jari telunjuk saja ya!</span>
+              <JuniorIcon name="sprout" size={26} />
+            </span>
           </div>
           <BikoMascot pose="point-left" width={310} />
         </div>
@@ -1768,7 +1798,9 @@ const Slide06TebakTombol: Page = () => {
               fontWeight: 700,
             }}
           >
-            PILIHAN A • ☝️ JARI TELUNJUK
+            <span>PILIHAN A •</span>
+            <JuniorIcon name="tap" size={24} />
+            <span>JARI TELUNJUK</span>
           </div>
 
           <TopMouseVector litSide="left" width={170} fingerColor={SUNNY} />
@@ -1813,7 +1845,9 @@ const Slide06TebakTombol: Page = () => {
               fontWeight: 700,
             }}
           >
-            PILIHAN B • 🖐️ JARI TENGAH
+            <span>PILIHAN B •</span>
+            <JuniorIcon name="hand" size={24} />
+            <span>JARI TENGAH</span>
           </div>
 
           <TopMouseVector litSide="right" width={170} fingerColor={LAVENDER} />
@@ -1837,6 +1871,9 @@ const Slide06TebakTombol: Page = () => {
 
         <div
           style={{
+            ...row,
+            justifyContent: 'center',
+            gap: 12,
             padding: '26px 40px',
             borderRadius: 28,
             background: choice === 'left' ? TEAL_SOFT : choice === 'right' ? CORAL_SOFT : STABILO,
@@ -1850,9 +1887,25 @@ const Slide06TebakTombol: Page = () => {
             minWidth: 520,
           }}
         >
-          {choice === 'left' && '✅ BENAR SEKALI! Itu Tombol Kiri! ⭐'}
-          {choice === 'right' && '🤔 Hampir! Coba cek sebelah Kiri ya!'}
-          {choice === null && '👉 Tunjuk di layarmu ya!'}
+          {choice === 'left' && (
+            <>
+              <JuniorIcon name="check" size={34} />
+              <span>BENAR SEKALI! Itu Tombol Kiri!</span>
+              <JuniorIcon name="star" size={34} />
+            </>
+          )}
+          {choice === 'right' && (
+            <>
+              <JuniorIcon name="thinking" size={34} />
+              <span>Hampir! Coba cek sebelah Kiri ya!</span>
+            </>
+          )}
+          {choice === null && (
+            <>
+              <JuniorIcon name="point-right" size={34} />
+              <span>Tunjuk di layarmu ya!</span>
+            </>
+          )}
         </div>
       </div>
     </JuniorFrame>
@@ -1909,7 +1962,12 @@ const Slide07AturanWaktu: Page = () => (
           <circle cx="62" cy="46" r="3.5" fill={CHARCOAL} />
         </svg>
         <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.24 }}>
-          ⏰ Main &amp; belajar <Highlight color="#D1FAE5">Secukupnya</Highlight>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <JuniorIcon name="clock" size={34} />
+            <span>
+              Main &amp; belajar <Highlight color="#D1FAE5">Secukupnya</Highlight>
+            </span>
+          </span>
         </div>
       </div>
 
@@ -1931,7 +1989,12 @@ const Slide07AturanWaktu: Page = () => (
           <path d="M12 88 H88" stroke={TEAL} strokeWidth={5} strokeLinecap="round" />
         </svg>
         <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.24 }}>
-          🌳 Jangan lupa <Highlight color="#D1FAE5">Main di Luar</Highlight>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <JuniorIcon name="tree" size={34} />
+            <span>
+              Jangan lupa <Highlight color="#D1FAE5">Main di Luar</Highlight>
+            </span>
+          </span>
         </div>
       </div>
     </div>
@@ -1976,7 +2039,12 @@ const Slide07AturanWaktu: Page = () => (
           <path d="M36 70 Q50 60 64 70" stroke={CHARCOAL} strokeWidth={3.5} strokeLinecap="round" fill="none" />
         </svg>
         <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.24 }}>
-          😵 Menatap layar <Highlight color="#FEE2E2">Terlalu Lama</Highlight>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <JuniorIcon name="dizzy" size={34} />
+            <span>
+              Menatap layar <Highlight color="#FEE2E2">Terlalu Lama</Highlight>
+            </span>
+          </span>
         </div>
       </div>
 
@@ -2002,7 +2070,12 @@ const Slide07AturanWaktu: Page = () => (
           </text>
         </svg>
         <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.24 }}>
-          🌙 Main laptop sampai <Highlight color="#FEE2E2">Larut Malam</Highlight>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <JuniorIcon name="moon" size={34} />
+            <span>
+              Main laptop sampai <Highlight color="#FEE2E2">Larut Malam</Highlight>
+            </span>
+          </span>
         </div>
       </div>
     </div>
@@ -2119,10 +2192,12 @@ const Slide08SayangiMata: Page = () => (
 
     {/* Biko Giving Encouraging Thumbs Up on Right */}
     <div style={{ ...abs(1470, 390, 350, 540), ...centerCol }}>
-      <BikoMascot pose="thumbs-up" width={330} badgeEmoji="👍" />
+      <BikoMascot pose="thumbs-up" width={330} badgeIcon={<JuniorIcon name="thumbs-up" size={34} />} />
       <div
         style={{
           marginTop: 10,
+          ...row,
+          gap: 10,
           padding: '12px 24px',
           borderRadius: 99,
           background: SUNNY,
@@ -2133,7 +2208,8 @@ const Slide08SayangiMata: Page = () => (
           fontWeight: 700,
         }}
       >
-        Mata Sehat! 👍
+        <span>Mata Sehat!</span>
+        <JuniorIcon name="thumbs-up" size={26} />
       </div>
     </div>
   </JuniorFrame>
@@ -2142,14 +2218,14 @@ const Slide08SayangiMata: Page = () => (
 // ============================================================================
 // SLIDE 09 — Misi Praktik: Pecahkan Balon Bintang! (3 Blok ScratchJr + Game Demo)
 // ============================================================================
-const MISSION_BLOCKS = [
+const MISSION_BLOCKS: { num: number; color: string; soft: string; title: string; sub: string; icon: JuniorIconName }[] = [
   {
     num: 1,
     color: SKY,
     soft: SKY_SOFT,
     title: 'Arahkan',
     sub: 'Panah ke balon',
-    icon: '🎯',
+    icon: 'target',
   },
   {
     num: 2,
@@ -2157,7 +2233,7 @@ const MISSION_BLOCKS = [
     soft: SUNNY_SOFT,
     title: 'Klik Kiri',
     sub: 'Tekan 1 kali!',
-    icon: '☝️',
+    icon: 'tap',
   },
   {
     num: 3,
@@ -2165,7 +2241,7 @@ const MISSION_BLOCKS = [
     soft: TEAL_SOFT,
     title: '"DOR!"',
     sub: 'Kumpulkan 10 Bintang!',
-    icon: '⭐',
+    icon: 'star',
   },
 ];
 
@@ -2231,8 +2307,9 @@ const Slide09MisiBalon: Page = () => {
               </div>
 
               <div>
-                <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.15 }}>
-                  {blk.icon} {blk.title}
+                <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.15 }}>
+                  <JuniorIcon name={blk.icon} size={34} />
+                  <span>{blk.title}</span>
                 </div>
                 <div style={{ fontSize: 24, fontWeight: 800, color: MUTED, marginTop: 6 }}>{blk.sub}</div>
               </div>
@@ -2284,18 +2361,23 @@ const Slide09MisiBalon: Page = () => {
                 background: SUNNY,
                 border: `2.5px solid ${CHARCOAL}`,
                 boxShadow: `0 4px 0 ${CHARCOAL}`,
+                ...row,
+                gap: 8,
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 26,
                 fontWeight: 700,
               }}
             >
-              ⭐ Bintang: {score} / {balloons.length}
+              <JuniorIcon name="star" size={26} />
+              <span>Bintang: {score} / {balloons.length}</span>
             </div>
             <button
               type="button"
               className="cpj2-card-btn"
               onClick={resetGame}
               style={{
+                ...row,
+                gap: 8,
                 padding: '8px 18px',
                 borderRadius: 99,
                 background: WHITE,
@@ -2306,7 +2388,8 @@ const Slide09MisiBalon: Page = () => {
                 fontWeight: 700,
               }}
             >
-              🔄 Ulang
+              <JuniorIcon name="reset" size={22} />
+              <span>Ulang</span>
             </button>
           </div>
 
@@ -2324,6 +2407,9 @@ const Slide09MisiBalon: Page = () => {
                 >
                   <div
                     style={{
+                      ...row,
+                      justifyContent: 'center',
+                      gap: 6,
                       padding: '8px 14px',
                       borderRadius: 18,
                       background: SUNNY,
@@ -2335,10 +2421,14 @@ const Slide09MisiBalon: Page = () => {
                       transform: 'rotate(-6deg)',
                     }}
                   >
-                    DOR! 💥
+                    <span>DOR!</span>
+                    <JuniorIcon name="sparkle" size={24} />
                   </div>
                   <div
                     style={{
+                      ...row,
+                      justifyContent: 'center',
+                      gap: 6,
                       marginTop: 6,
                       fontFamily: 'var(--osd-font-display)',
                       fontSize: 32,
@@ -2346,7 +2436,8 @@ const Slide09MisiBalon: Page = () => {
                       color: TEAL,
                     }}
                   >
-                    +1 ⭐
+                    <span>+1</span>
+                    <JuniorIcon name="star" size={28} />
                   </div>
                 </div>
               ) : (
@@ -2368,6 +2459,8 @@ const Slide09MisiBalon: Page = () => {
               position: 'absolute',
               left: 24,
               bottom: 18,
+              ...row,
+              gap: 8,
               padding: '8px 20px',
               borderRadius: 99,
               background: WHITE,
@@ -2376,7 +2469,8 @@ const Slide09MisiBalon: Page = () => {
               fontWeight: 800,
             }}
           >
-            👆 Ayo klik semua balon warna-warni di atas!
+            <JuniorIcon name="tap" size={22} />
+            <span>Ayo klik semua balon warna-warni di atas!</span>
           </div>
         </div>
       </MacWindowCard>
@@ -2387,6 +2481,8 @@ const Slide09MisiBalon: Page = () => {
         <div
           style={{
             marginTop: 8,
+            ...row,
+            gap: 8,
             padding: '10px 22px',
             borderRadius: 99,
             background: TEAL,
@@ -2398,7 +2494,17 @@ const Slide09MisiBalon: Page = () => {
             fontWeight: 700,
           }}
         >
-          {score === balloons.length ? 'Menang Semua! 🎉' : 'Semangat Klik! ⭐'}
+          {score === balloons.length ? (
+            <>
+              <span>Menang Semua!</span>
+              <JuniorIcon name="party" size={24} />
+            </>
+          ) : (
+            <>
+              <span>Semangat Klik!</span>
+              <JuniorIcon name="star" size={24} />
+            </>
+          )}
         </div>
       </div>
     </JuniorFrame>
@@ -2435,7 +2541,12 @@ const Slide10Lencana: Page = () => {
       ))}
 
       <SlideTitle align="center" top={130} size={62}>
-        Hebat! Kamu <Highlight color={STABILO}>Jagoan Klik! 🎉</Highlight>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 16 }}>
+          <span>
+            Hebat! Kamu <Highlight color={STABILO}>Jagoan Klik!</Highlight>
+          </span>
+          <JuniorIcon name="party" size={58} />
+        </span>
       </SlideTitle>
 
       {/* Center Celebration Medal Card */}
@@ -2475,6 +2586,8 @@ const Slide10Lencana: Page = () => {
 
           <div
             style={{
+              ...row,
+              gap: 14,
               padding: '14px 34px',
               borderRadius: 99,
               background: TEAL,
@@ -2486,7 +2599,8 @@ const Slide10Lencana: Page = () => {
               fontWeight: 700,
             }}
           >
-            🏅 Lencana Jagoan Klik &amp; Screen Time
+            <JuniorIcon name="medal" size={36} />
+            <span>Lencana Jagoan Klik &amp; Screen Time</span>
           </div>
 
           <div
