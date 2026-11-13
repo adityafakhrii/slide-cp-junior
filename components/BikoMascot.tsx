@@ -48,7 +48,8 @@ export type BikoPose =
   | 'thinking'
   | 'question'
   | 'conductor'
-  | 'chef';
+  | 'chef'
+  | 'explorer';
 
 export const BIKO_ASSETS: Record<BikoPose, string> = {
   wave: bikoWave,
@@ -63,6 +64,7 @@ export const BIKO_ASSETS: Record<BikoPose, string> = {
   question: bikoThinking,
   conductor: bikoWave,
   chef: bikoWave,
+  explorer: bikoWave,
 };
 
 export interface BikoMascotProps {
@@ -186,6 +188,39 @@ export const BikoMascot = ({
             />
             {/* Front Star Emblem */}
             <circle cx="80" cy="36" r="11" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
+          </svg>
+        )}
+
+        {pose === 'explorer' && (
+          <svg
+            aria-hidden="true"
+            width={Math.round(width * 0.56)}
+            height={Math.round(width * 0.34)}
+            viewBox="0 0 180 110"
+            fill="none"
+            style={{
+              position: 'absolute',
+              top: -Math.round(width * 0.06),
+              left: '50%',
+              transform: 'translateX(-50%) rotate(-5deg)',
+              pointerEvents: 'none',
+              filter: 'drop-shadow(0 4px 6px rgba(30,30,44,0.16))',
+            }}
+          >
+            {/* Hat Crown */}
+            <path
+              d="M44 66 C44 26, 70 16, 90 22 C110 16, 136 26, 136 66 Z"
+              fill="#D97706"
+              stroke={CHARCOAL}
+              strokeWidth={4.5}
+              strokeLinejoin="round"
+            />
+            {/* Hat Band */}
+            <rect x="44" y="54" width="92" height="14" rx="4" fill={TEAL} stroke={CHARCOAL} strokeWidth={3.5} />
+            {/* Wide Explorer Brim */}
+            <ellipse cx="90" cy="70" rx="76" ry="18" fill="#F59E0B" stroke={CHARCOAL} strokeWidth={4.5} />
+            {/* Front Star Pin */}
+            <circle cx="90" cy="40" r="10" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
           </svg>
         )}
 
