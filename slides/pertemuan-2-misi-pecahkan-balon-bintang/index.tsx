@@ -821,20 +821,54 @@ const Slide01Cover: Page = () => {
         </div>
       </div>
 
-      {/* Right Visual Showcase: Biko + Floating Star Balloons & Cursor */}
+      {/* Right Visual Showcase: Sky Arcade Stage Card + Star Balloons & Biko */}
       <div style={{ ...abs(1020, 175, 790, 770), ...centerCol }}>
-        {/* Warm Soft Backdrop Blob */}
+        {/* Sky-Blue Arcade Stage Card (Distinct from plain circle) */}
         <div
           style={{
             position: 'absolute',
-            width: 660,
-            height: 620,
-            borderRadius: '44% 56% 52% 48% / 48% 44% 56% 52%',
-            background: '#FEF3C7',
-            border: `3.5px solid ${CHARCOAL}`,
-            boxShadow: `14px 14px 0 ${SKY}`,
+            width: 650,
+            height: 615,
+            borderRadius: 46,
+            background: 'linear-gradient(180deg, #E0F2FE 0%, #ECFDF5 100%)',
+            border: `4px solid ${CHARCOAL}`,
+            boxShadow: `14px 14px 0 ${CORAL}`,
+            overflow: 'hidden',
           }}
-        />
+        >
+          {/* Festive Arcade Header Strip */}
+          <div
+            style={{
+              height: 54,
+              background: SUNNY,
+              borderBottom: `3.5px solid ${CHARCOAL}`,
+              ...row,
+              justifyContent: 'center',
+              gap: 12,
+              fontFamily: 'var(--osd-font-display)',
+              fontSize: 22,
+              fontWeight: 700,
+              color: CHARCOAL,
+            }}
+          >
+            <span>🎈</span>
+            <span>GAME BALON BINTANG</span>
+            <span>⭐</span>
+          </div>
+          {/* Soft Dotted Sky Hills at Bottom */}
+          <div
+            style={{
+              position: 'absolute',
+              left: -40,
+              right: -40,
+              bottom: -40,
+              height: 150,
+              borderRadius: '50%',
+              background: '#D1FAE5',
+              borderTop: `3px solid ${CHARCOAL}`,
+            }}
+          />
+        </div>
 
         {/* Floating Colorful Star Balloons */}
         <div

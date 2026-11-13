@@ -978,20 +978,50 @@ const Slide01Cover: Page = () => {
         </div>
       </div>
 
-      {/* Right Visual Showcase: Biko + Puzzle Pieces Sliding Into Target Slots */}
+      {/* Right Visual Showcase: Giant Interlocking Puzzle-Board Card + Biko */}
       <div style={{ ...abs(1020, 175, 790, 770), ...centerCol }}>
-        {/* Warm Soft Backdrop Blob */}
+        {/* Giant Tilted Mint Puzzle-Board Backdrop (Distinct Silhouette) */}
         <div
           style={{
             position: 'absolute',
-            width: 660,
-            height: 620,
-            borderRadius: '44% 56% 52% 48% / 48% 44% 56% 52%',
-            background: '#FEF3C7',
-            border: `3.5px solid ${CHARCOAL}`,
-            boxShadow: `14px 14px 0 ${TEAL}`,
+            width: 630,
+            height: 590,
+            borderRadius: 48,
+            background: TEAL_SOFT,
+            border: `4px solid ${CHARCOAL}`,
+            boxShadow: `14px 14px 0 ${SUNNY}`,
+            transform: 'rotate(-2deg)',
           }}
-        />
+        >
+          {/* Puzzle Tab Bump on Right Edge */}
+          <div
+            style={{
+              position: 'absolute',
+              right: -32,
+              top: '44%',
+              width: 34,
+              height: 76,
+              borderRadius: '0 38px 38px 0',
+              background: TEAL_SOFT,
+              border: `4px solid ${CHARCOAL}`,
+              borderLeft: 'none',
+            }}
+          />
+          {/* Puzzle Tab Bump on Bottom Edge */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: -32,
+              left: '44%',
+              width: 76,
+              height: 34,
+              borderRadius: '0 0 38px 38px',
+              background: TEAL_SOFT,
+              border: `4px solid ${CHARCOAL}`,
+              borderTop: 'none',
+            }}
+          />
+        </div>
 
         {/* Floating Mini Laptop Screen showing Drag & Drop Puzzle */}
         <div

@@ -730,20 +730,26 @@ const Slide01Cover: Page = () => {
         </div>
       </div>
 
-      {/* Right Visual Showcase: Detective Biko + Mini Pattern Train on Laptop */}
+      {/* Right Visual Showcase: Train Station Arch Frame + Detective Biko */}
       <div style={{ ...abs(1000, 170, 820, 775), ...centerCol }}>
-        {/* Warm Soft Backdrop Blob */}
+        {/* Arched Train Station Dome Backdrop (Distinct Silhouette) */}
         <div
           style={{
             position: 'absolute',
-            width: 670,
-            height: 620,
-            borderRadius: '44% 56% 52% 48% / 48% 44% 56% 52%',
-            background: '#FEF3C7',
-            border: `3.5px solid ${CHARCOAL}`,
-            boxShadow: `14px 14px 0 ${SKY}`,
+            width: 640,
+            height: 635,
+            borderRadius: '320px 320px 40px 40px',
+            background: 'linear-gradient(180deg, #DBEAFE 0%, #FFFBEB 100%)',
+            border: `4px solid ${CHARCOAL}`,
+            boxShadow: `14px 14px 0 ${SUNNY}`,
+            overflow: 'hidden',
           }}
-        />
+        >
+          {/* Decorative Station Track along bottom of Arch */}
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 26 }}>
+            <TrainTrack width="100%" />
+          </div>
+        </div>
 
         {/* Mini Pattern Train Screen Card at Top Left */}
         <div

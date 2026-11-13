@@ -619,20 +619,34 @@ const Slide01Cover: Page = () => {
         </div>
       </div>
 
-      {/* Right Visual Showcase: Explorer Biko + Compass + Treasure Grid + 4 Glowing Arrows */}
+      {/* Right Visual Showcase: Explorer Map Frame + Compass Biko */}
       <div style={{ ...abs(1000, 170, 820, 775), ...centerCol }}>
-        {/* Warm Soft Backdrop Blob */}
+        {/* Tilted Treasure-Map Card Backdrop (Distinct Chamfered Map Style) */}
         <div
           style={{
             position: 'absolute',
-            width: 670,
-            height: 620,
-            borderRadius: '44% 56% 52% 48% / 48% 44% 56% 52%',
-            background: '#FEF3C7',
-            border: `3.5px solid ${CHARCOAL}`,
-            boxShadow: `14px 14px 0 ${TEAL}`,
+            width: 640,
+            height: 600,
+            borderRadius: 36,
+            background: '#FEF9C3',
+            border: `4px solid ${CHARCOAL}`,
+            boxShadow: `-14px 14px 0 ${SKY}`,
+            transform: 'rotate(2.2deg)',
+            overflow: 'hidden',
           }}
-        />
+        >
+          {/* Dashed Explorer Route Trail inside Map Card */}
+          <svg width="100%" height="100%" viewBox="0 0 640 600" fill="none" style={{ opacity: 0.45 }}>
+            <path
+              d="M70 500 Q190 420 260 320 T510 130"
+              stroke={CORAL}
+              strokeWidth={8}
+              strokeDasharray="16 14"
+              strokeLinecap="round"
+            />
+            <circle cx="515" cy="128" r="24" stroke={CORAL} strokeWidth={6} />
+          </svg>
+        </div>
 
         {/* Mini Treasure Grid Laptop Card */}
         <div
