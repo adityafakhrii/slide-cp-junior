@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.dist/
+build/
+.env
+.env.local
+.edgeone/
+.agents/
+.claude/
+*.log
+.DS_Store
+Thumbs.db
