@@ -20,6 +20,8 @@ export type JuniorIconName =
   | 'arrow-lr'
   | 'turn-up'
   | 'turn-left'
+  | 'turn-right'
+  | 'jump'
   | 'repeat'
   // UI Status & Actions
   | 'play'
@@ -178,6 +180,21 @@ function renderGlyph(name: JuniorIconName): ReactNode {
         <>
           <rect x="4" y="4" width="40" height="40" rx="11" fill={ORANGE} stroke={C} strokeWidth="3.2" />
           <path d="M32 16 C20 12 13 18 13 28 H8 L16 37 L24 28 H19 C19 21 24 19 32 21 Z" fill={W} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
+        </>
+      );
+    case 'turn-right':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={SKY} stroke={C} strokeWidth="3.2" />
+          <path d="M16 16 C28 12 35 18 35 28 H40 L32 37 L24 28 H29 C29 21 24 19 16 21 Z" fill={W} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
+        </>
+      );
+    case 'jump':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={SKY} stroke={C} strokeWidth="3.2" />
+          <path d="M11 33 C14 14, 30 14, 34 26" fill="none" stroke={W} strokeWidth="4.2" strokeLinecap="round" />
+          <path d="M27 25 L36 33 L39 21 Z" fill={W} stroke={C} strokeWidth="2.2" strokeLinejoin="round" />
         </>
       );
     case 'repeat':
