@@ -133,7 +133,12 @@ export type JuniorIconName =
   | 'car-red'
   | 'car-blue'
   | 'road'
-  | 'traffic-light';
+  | 'traffic-light'
+  | 'dot-purple'
+  | 'elephant'
+  | 'bird'
+  | 'grow'
+  | 'shrink';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -971,6 +976,44 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <circle cx="24" cy="14" r="4" fill={CORAL} />
           <circle cx="24" cy="24" r="4" fill={SUNNY} />
           <circle cx="24" cy="34" r="4" fill={TEAL} />
+        </>
+      );
+    case 'dot-purple':
+      return <circle cx="24" cy="24" r="16" fill={LAVENDER} stroke={C} strokeWidth="3" />;
+    case 'elephant':
+      return (
+        <>
+          <ellipse cx="14" cy="22" rx="7" ry="11" fill="#CBD5E1" stroke={C} strokeWidth="2.8" />
+          <circle cx="26" cy="24" r="13" fill="#94A3B8" stroke={C} strokeWidth="3" />
+          <path d="M37 25 C43 26, 44 35, 38 38" fill="none" stroke={C} strokeWidth="5.5" strokeLinecap="round" />
+          <path d="M37 25 C43 26, 44 35, 38 38" fill="none" stroke="#94A3B8" strokeWidth="2.8" strokeLinecap="round" />
+          <circle cx="29" cy="20" r="2.3" fill={C} />
+        </>
+      );
+    case 'bird':
+      return (
+        <>
+          <ellipse cx="22" cy="26" rx="13" ry="11" fill={SKY} stroke={C} strokeWidth="3" />
+          <path d="M9 24 L4 18 L12 20 Z" fill={SKY} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
+          <polygon points="34,21 43,25 34,28" fill={SUNNY} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
+          <circle cx="27" cy="22" r="2.2" fill={C} />
+          <path d="M16 26 Q21 20 24 28 Z" fill={SOFT_BLUE} stroke={C} strokeWidth="2" />
+        </>
+      );
+    case 'grow':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={LAVENDER} stroke={C} strokeWidth="3.2" />
+          <circle cx="24" cy="24" r="6" fill={W} stroke={C} strokeWidth="2.4" />
+          <path d="M11 17 V11 H17 M31 11 H37 V17 M11 31 V37 H17 M31 37 H37 V31" fill="none" stroke={W} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
+    case 'shrink':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={LAVENDER} stroke={C} strokeWidth="3.2" />
+          <circle cx="24" cy="24" r="5" fill={W} stroke={C} strokeWidth="2.4" />
+          <path d="M8 10 L16 18 M40 10 L32 18 M8 38 L16 30 M40 38 L32 30" fill="none" stroke={W} strokeWidth="3.2" strokeLinecap="round" />
         </>
       );
     default:
