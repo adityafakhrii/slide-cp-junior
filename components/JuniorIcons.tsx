@@ -156,7 +156,10 @@ export type JuniorIconName =
   | 'paint-bucket'
   | 'monster'
   | 'shapes-circle'
-  | 'undo';
+  | 'undo'
+  | 'school'
+  | 'door'
+  | 'go-page-2';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1188,6 +1191,35 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <circle cx="24" cy="24" r="17" fill={SOFT_YELLOW} stroke={C} strokeWidth="3" />
           <path d="M18 16 L11 23 L18 30" fill="none" stroke={C} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M12 23 H28 C33 23, 36 26, 36 31" fill="none" stroke={C} strokeWidth="3.2" strokeLinecap="round" />
+        </>
+      );
+    case 'school':
+      return (
+        <>
+          <path d="M6 22 L24 9 L42 22 V41 H6 Z" fill={SOFT_YELLOW} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M4 23 L24 7 L44 23" fill="none" stroke={CORAL} strokeWidth="4.6" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="24" cy="18" r="4" fill={SUNNY} stroke={C} strokeWidth="2.2" />
+          <rect x="19" y="28" width="10" height="13" rx="2" fill={SKY} stroke={C} strokeWidth="2.4" />
+          <rect x="10" y="28" width="5" height="6" rx="1" fill={TEAL} stroke={C} strokeWidth="1.8" />
+          <rect x="33" y="28" width="5" height="6" rx="1" fill={TEAL} stroke={C} strokeWidth="1.8" />
+        </>
+      );
+    case 'door':
+      return (
+        <>
+          <rect x="11" y="7" width="26" height="34" rx="4" fill={ORANGE} stroke={C} strokeWidth="3" />
+          <rect x="15" y="11" width="18" height="26" rx="2" fill={SOFT_YELLOW} stroke={C} strokeWidth="2.2" />
+          <circle cx="30" cy="24" r="2.6" fill={C} />
+        </>
+      );
+    case 'go-page-2':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={CORAL} stroke={C} strokeWidth="3.2" />
+          <rect x="12" y="11" width="24" height="26" rx="4" fill={W} stroke={C} strokeWidth="2.6" />
+          <text x="24" y="30" textAnchor="middle" fill={C} fontSize="16" fontWeight="800" fontFamily="Fredoka, sans-serif">
+            2
+          </text>
         </>
       );
     default:
