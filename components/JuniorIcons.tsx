@@ -129,7 +129,11 @@ export type JuniorIconName =
   | 'cat'
   | 'landscape'
   | 'plus-circle'
-  | 'stage';
+  | 'stage'
+  | 'car-red'
+  | 'car-blue'
+  | 'road'
+  | 'traffic-light';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -935,6 +939,38 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <rect x="5" y="9" width="38" height="28" rx="7" fill={W} stroke={C} strokeWidth="3" />
           <path d="M5 16 Q13 21 15 9 M43 16 Q35 21 33 9" fill={CORAL} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
           <rect x="13" y="37" width="22" height="5" rx="2.5" fill={SUNNY} stroke={C} strokeWidth="2.4" />
+        </>
+      );
+    case 'car-red':
+    case 'car-blue': {
+      const carColor = name === 'car-red' ? CORAL : SKY;
+      return (
+        <>
+          <path d="M12 22 L16 12 H32 L36 22 Z" fill={SOFT_BLUE} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <rect x="6" y="21" width="36" height="14" rx="6" fill={carColor} stroke={C} strokeWidth="3" />
+          <circle cx="15" cy="36" r="5" fill={C} />
+          <circle cx="15" cy="36" r="2" fill={W} />
+          <circle cx="33" cy="36" r="5" fill={C} />
+          <circle cx="33" cy="36" r="2" fill={W} />
+        </>
+      );
+    }
+    case 'road':
+      return (
+        <>
+          <path d="M13 8 H35 L42 40 H6 Z" fill="#475569" stroke={C} strokeWidth="3" strokeLinejoin="round" />
+          <line x1="24" y1="13" x2="24" y2="19" stroke={SUNNY} strokeWidth="3.2" strokeLinecap="round" />
+          <line x1="24" y1="24" x2="24" y2="30" stroke={SUNNY} strokeWidth="3.2" strokeLinecap="round" />
+          <line x1="24" y1="35" x2="24" y2="38" stroke={SUNNY} strokeWidth="3.2" strokeLinecap="round" />
+        </>
+      );
+    case 'traffic-light':
+      return (
+        <>
+          <rect x="15" y="6" width="18" height="36" rx="7" fill={C} />
+          <circle cx="24" cy="14" r="4" fill={CORAL} />
+          <circle cx="24" cy="24" r="4" fill={SUNNY} />
+          <circle cx="24" cy="34" r="4" fill={TEAL} />
         </>
       );
     default:
