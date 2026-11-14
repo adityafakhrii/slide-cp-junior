@@ -138,7 +138,10 @@ export type JuniorIconName =
   | 'elephant'
   | 'bird'
   | 'grow'
-  | 'shrink';
+  | 'shrink'
+  | 'start-tap'
+  | 'hide'
+  | 'show';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1014,6 +1017,31 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <rect x="4" y="4" width="40" height="40" rx="11" fill={LAVENDER} stroke={C} strokeWidth="3.2" />
           <circle cx="24" cy="24" r="5" fill={W} stroke={C} strokeWidth="2.4" />
           <path d="M8 10 L16 18 M40 10 L32 18 M8 38 L16 30 M40 38 L32 30" fill="none" stroke={W} strokeWidth="3.2" strokeLinecap="round" />
+        </>
+      );
+    case 'start-tap':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={SUNNY} stroke={C} strokeWidth="3.2" />
+          <circle cx="20" cy="16" r="4.5" fill={W} stroke={C} strokeWidth="2.4" />
+          <path d="M12 31 C12 24, 28 24, 28 31" fill={W} stroke={C} strokeWidth="2.4" strokeLinecap="round" />
+          <path d="M27 23 L35 30 L32 32 L36 37 L33 39 L29 34 L26 36 Z" fill={CORAL} stroke={C} strokeWidth="2.2" strokeLinejoin="round" />
+        </>
+      );
+    case 'hide':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={LAVENDER} stroke={C} strokeWidth="3.2" />
+          <circle cx="24" cy="17" r="5" fill="none" stroke={W} strokeWidth="2.8" strokeDasharray="3.5 3" />
+          <path d="M14 35 C14 25, 34 25, 34 35 Z" fill="none" stroke={W} strokeWidth="2.8" strokeDasharray="4 3" strokeLinejoin="round" />
+        </>
+      );
+    case 'show':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={LAVENDER} stroke={C} strokeWidth="3.2" />
+          <circle cx="24" cy="17" r="5.2" fill={W} stroke={C} strokeWidth="2.4" />
+          <path d="M14 35 C14 25, 34 25, 34 35 Z" fill={W} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
         </>
       );
     default:
