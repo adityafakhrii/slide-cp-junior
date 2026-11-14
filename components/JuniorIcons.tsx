@@ -146,7 +146,12 @@ export type JuniorIconName =
   | 'mic'
   | 'bubble'
   | 'music-note'
-  | 'mute';
+  | 'mute'
+  | 'say'
+  | 'wait'
+  | 'pencil'
+  | 'ear'
+  | 'scroll';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1092,6 +1097,48 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <circle cx="30" cy="20" r="2.2" fill={C} />
           <rect x="21" y="23" width="6" height="15" rx="3" fill={ORANGE} stroke={C} strokeWidth="2.4" />
           <line x1="17" y1="29" x2="31" y2="29" stroke={C} strokeWidth="2.2" strokeLinecap="round" />
+        </>
+      );
+    case 'say':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={LAVENDER} stroke={C} strokeWidth="3.2" />
+          <path d="M12 15 H36 V30 H24 L17 36 V30 H12 Z" fill={W} stroke={C} strokeWidth="2.6" strokeLinejoin="round" />
+          <line x1="18" y1="21" x2="30" y2="21" stroke={C} strokeWidth="2.6" strokeLinecap="round" />
+          <line x1="18" y1="25" x2="26" y2="25" stroke={LAVENDER} strokeWidth="2.4" strokeLinecap="round" />
+        </>
+      );
+    case 'wait':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={ORANGE} stroke={C} strokeWidth="3.2" />
+          <circle cx="24" cy="24" r="12" fill={W} stroke={C} strokeWidth="2.6" />
+          <path d="M24 16 V24 L30 27" fill="none" stroke={C} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
+    case 'pencil':
+      return (
+        <>
+          <path d="M11 32 L30 13 L36 19 L17 38 H11 Z" fill={SUNNY} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M28 15 L33 10 L39 16 L34 21 Z" fill={CORAL} stroke={C} strokeWidth="2.6" strokeLinejoin="round" />
+          <polygon points="11,32 17,38 9,40" fill={C} />
+        </>
+      );
+    case 'ear':
+      return (
+        <>
+          <circle cx="24" cy="24" r="17" fill={SOFT_YELLOW} stroke={C} strokeWidth="3" />
+          <path d="M20 33 C17 33, 16 27, 19 25 C21 23, 18 18, 22 15 C27 12, 33 16, 32 23 C31 28, 26 30, 26 34" fill="none" stroke={CORAL} strokeWidth="3.2" strokeLinecap="round" />
+          <path d="M10 18 Q7 24 10 30" fill="none" stroke={TEAL} strokeWidth="2.8" strokeLinecap="round" />
+        </>
+      );
+    case 'scroll':
+      return (
+        <>
+          <rect x="11" y="9" width="26" height="30" rx="5" fill={SOFT_YELLOW} stroke={C} strokeWidth="2.8" />
+          <line x1="16" y1="17" x2="32" y2="17" stroke={C} strokeWidth="2.6" strokeLinecap="round" />
+          <line x1="16" y1="23" x2="32" y2="23" stroke={C} strokeWidth="2.6" strokeLinecap="round" />
+          <line x1="16" y1="29" x2="27" y2="29" stroke={CORAL} strokeWidth="2.6" strokeLinecap="round" />
         </>
       );
     default:
