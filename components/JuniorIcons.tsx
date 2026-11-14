@@ -151,7 +151,12 @@ export type JuniorIconName =
   | 'wait'
   | 'pencil'
   | 'ear'
-  | 'scroll';
+  | 'scroll'
+  | 'paintbrush'
+  | 'paint-bucket'
+  | 'monster'
+  | 'shapes-circle'
+  | 'undo';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1139,6 +1144,50 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <line x1="16" y1="17" x2="32" y2="17" stroke={C} strokeWidth="2.6" strokeLinecap="round" />
           <line x1="16" y1="23" x2="32" y2="23" stroke={C} strokeWidth="2.6" strokeLinecap="round" />
           <line x1="16" y1="29" x2="27" y2="29" stroke={CORAL} strokeWidth="2.6" strokeLinecap="round" />
+        </>
+      );
+    case 'paintbrush':
+      return (
+        <>
+          <path d="M12 36 C9 30, 14 23, 21 23 L35 9 L39 13 L25 27 C25 34, 18 39, 12 36 Z" fill={SUNNY} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M12 36 C8 34, 10 26, 17 25 C21 25, 22 30, 18 35 C15 38, 13 37, 12 36 Z" fill={CORAL} stroke={C} strokeWidth="2.4" />
+        </>
+      );
+    case 'paint-bucket':
+      return (
+        <>
+          <path d="M12 20 L25 9 L37 22 L24 34 Z" fill={SKY} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M19 15 C19 8, 29 8, 29 14" fill="none" stroke={C} strokeWidth="2.6" strokeLinecap="round" />
+          <path d="M35 23 C41 25, 42 35, 36 39 C31 39, 32 30, 35 23 Z" fill={LAVENDER} stroke={C} strokeWidth="2.4" />
+        </>
+      );
+    case 'monster':
+      return (
+        <>
+          <path d="M13 15 L10 6 L19 11 M35 15 L38 6 L29 11" fill={SUNNY} stroke={C} strokeWidth="2.5" strokeLinejoin="round" />
+          <rect x="9" y="12" width="30" height="28" rx="12" fill={LAVENDER} stroke={C} strokeWidth="3" />
+          <circle cx="17" cy="23" r="3.5" fill={W} stroke={C} strokeWidth="2" />
+          <circle cx="24" cy="20" r="3.5" fill={W} stroke={C} strokeWidth="2" />
+          <circle cx="31" cy="23" r="3.5" fill={W} stroke={C} strokeWidth="2" />
+          <circle cx="17" cy="23" r="1.4" fill={C} />
+          <circle cx="24" cy="20" r="1.4" fill={C} />
+          <circle cx="31" cy="23" r="1.4" fill={C} />
+          <path d="M17 31 Q24 36 31 31" fill="none" stroke={C} strokeWidth="2.6" strokeLinecap="round" />
+        </>
+      );
+    case 'shapes-circle':
+      return (
+        <>
+          <circle cx="17" cy="19" r="10" fill={CORAL} stroke={C} strokeWidth="2.8" />
+          <rect x="23" y="21" width="17" height="17" rx="4" fill={SKY} stroke={C} strokeWidth="2.8" />
+        </>
+      );
+    case 'undo':
+      return (
+        <>
+          <circle cx="24" cy="24" r="17" fill={SOFT_YELLOW} stroke={C} strokeWidth="3" />
+          <path d="M18 16 L11 23 L18 30" fill="none" stroke={C} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M12 23 H28 C33 23, 36 26, 36 31" fill="none" stroke={C} strokeWidth="3.2" strokeLinecap="round" />
         </>
       );
     default:
