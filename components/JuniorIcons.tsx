@@ -141,7 +141,12 @@ export type JuniorIconName =
   | 'shrink'
   | 'start-tap'
   | 'hide'
-  | 'show';
+  | 'show'
+  | 'speaker'
+  | 'mic'
+  | 'bubble'
+  | 'music-note'
+  | 'mute';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1042,6 +1047,51 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <rect x="4" y="4" width="40" height="40" rx="11" fill={LAVENDER} stroke={C} strokeWidth="3.2" />
           <circle cx="24" cy="17" r="5.2" fill={W} stroke={C} strokeWidth="2.4" />
           <path d="M14 35 C14 25, 34 25, 34 35 Z" fill={W} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
+        </>
+      );
+    case 'speaker':
+      return (
+        <>
+          <path d="M8 19 H16 L28 10 V38 L16 29 H8 Z" fill={TEAL} stroke={C} strokeWidth="3" strokeLinejoin="round" />
+          <path d="M33 17 Q39 24 33 31" fill="none" stroke={SUNNY} strokeWidth="3.4" strokeLinecap="round" />
+          <path d="M38 12 Q46 24 38 36" fill="none" stroke={CORAL} strokeWidth="3.2" strokeLinecap="round" />
+        </>
+      );
+    case 'mic':
+      return (
+        <>
+          <rect x="17" y="6" width="14" height="22" rx="7" fill={SUNNY} stroke={C} strokeWidth="3" />
+          <path d="M12 22 C12 31, 36 31, 36 22" fill="none" stroke={C} strokeWidth="3.2" strokeLinecap="round" />
+          <line x1="24" y1="30" x2="24" y2="41" stroke={C} strokeWidth="3.4" strokeLinecap="round" />
+          <line x1="16" y1="41" x2="32" y2="41" stroke={C} strokeWidth="3.4" strokeLinecap="round" />
+        </>
+      );
+    case 'bubble':
+      return (
+        <>
+          <circle cx="20" cy="26" r="13" fill={SOFT_BLUE} stroke={SKY} strokeWidth="3" />
+          <path d="M14 21 Q17 17 22 18" fill="none" stroke={W} strokeWidth="3" strokeLinecap="round" />
+          <circle cx="36" cy="14" r="7" fill={SOFT_BLUE} stroke={TEAL} strokeWidth="2.6" />
+          <circle cx="35" cy="34" r="4.5" fill={SOFT_YELLOW} stroke={SUNNY} strokeWidth="2.2" />
+        </>
+      );
+    case 'music-note':
+      return (
+        <>
+          <path d="M19 33 V11 L37 7 V28" fill="none" stroke={C} strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M19 16 L37 12" fill="none" stroke={LAVENDER} strokeWidth="5" strokeLinecap="round" />
+          <ellipse cx="14" cy="35" rx="6.5" ry="5" fill={CORAL} stroke={C} strokeWidth="2.8" />
+          <ellipse cx="32" cy="30" rx="6.5" ry="5" fill={SUNNY} stroke={C} strokeWidth="2.8" />
+        </>
+      );
+    case 'mute':
+      return (
+        <>
+          <circle cx="24" cy="24" r="17" fill={SOFT_YELLOW} stroke={C} strokeWidth="3" />
+          <circle cx="18" cy="20" r="2.2" fill={C} />
+          <circle cx="30" cy="20" r="2.2" fill={C} />
+          <rect x="21" y="23" width="6" height="15" rx="3" fill={ORANGE} stroke={C} strokeWidth="2.4" />
+          <line x1="17" y1="29" x2="31" y2="29" stroke={C} strokeWidth="2.2" strokeLinecap="round" />
         </>
       );
     default:
