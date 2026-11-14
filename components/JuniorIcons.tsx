@@ -122,7 +122,12 @@ export type JuniorIconName =
   | 'dot-green'
   | 'dot-blue'
   | 'shape-diamond'
-  | 'abc';
+  | 'abc'
+  | 'house'
+  | 'cat'
+  | 'landscape'
+  | 'plus-circle'
+  | 'stage';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -870,6 +875,51 @@ function renderGlyph(name: JuniorIconName): ReactNode {
       return <circle cx="24" cy="24" r="16" fill={SKY} stroke={C} strokeWidth="3" />;
     case 'shape-diamond':
       return <polygon points="24,6 42,24 24,42 6,24" fill={SKY} stroke={C} strokeWidth="3" strokeLinejoin="round" />;
+    case 'house':
+      return (
+        <>
+          <path d="M8 22 L24 8 L40 22 V41 H8 Z" fill={SOFT_YELLOW} stroke={C} strokeWidth="3" strokeLinejoin="round" />
+          <path d="M5 23 L24 6 L43 23" fill="none" stroke={CORAL} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M5 23 L24 6 L43 23" fill="none" stroke={C} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          <rect x="19" y="27" width="10" height="14" rx="2" fill={SKY} stroke={C} strokeWidth="2.6" />
+        </>
+      );
+    case 'cat':
+      return (
+        <>
+          <path d="M10 19 L12 8 L21 15 Z" fill={ORANGE} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M38 19 L36 8 L27 15 Z" fill={ORANGE} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <ellipse cx="24" cy="27" rx="15" ry="13" fill={SUNNY} stroke={C} strokeWidth="3" />
+          <circle cx="19" cy="25" r="2.3" fill={C} />
+          <circle cx="29" cy="25" r="2.3" fill={C} />
+          <polygon points="22,29 26,29 24,32" fill={CORAL} />
+          <path d="M12 27 H7 M12 31 H8 M36 27 H41 M36 31 H40" stroke={C} strokeWidth="2.2" strokeLinecap="round" />
+        </>
+      );
+    case 'landscape':
+      return (
+        <>
+          <rect x="5" y="7" width="38" height="34" rx="8" fill={SOFT_BLUE} stroke={C} strokeWidth="3" />
+          <circle cx="33" cy="16" r="4.5" fill={SUNNY} stroke={C} strokeWidth="2.2" />
+          <path d="M7 35 L17 20 L26 30 L32 23 L41 35 V37 C41 39 39 41 37 41 H11 C9 41 7 39 7 37 Z" fill={TEAL} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+        </>
+      );
+    case 'plus-circle':
+      return (
+        <>
+          <circle cx="24" cy="24" r="18" fill={SKY} stroke={C} strokeWidth="3.2" />
+          <line x1="24" y1="14" x2="24" y2="34" stroke={W} strokeWidth="4.8" strokeLinecap="round" />
+          <line x1="14" y1="24" x2="34" y2="24" stroke={W} strokeWidth="4.8" strokeLinecap="round" />
+        </>
+      );
+    case 'stage':
+      return (
+        <>
+          <rect x="5" y="9" width="38" height="28" rx="7" fill={W} stroke={C} strokeWidth="3" />
+          <path d="M5 16 Q13 21 15 9 M43 16 Q35 21 33 9" fill={CORAL} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
+          <rect x="13" y="37" width="22" height="5" rx="2.5" fill={SUNNY} stroke={C} strokeWidth="2.4" />
+        </>
+      );
     default:
       return <circle cx="24" cy="24" r="16" fill={SUNNY} stroke={C} strokeWidth="3" />;
   }
