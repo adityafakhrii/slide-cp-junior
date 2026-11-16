@@ -184,7 +184,9 @@ export type JuniorIconName =
   | 'crown'
   | 'mail-send'
   | 'mail-open'
-  | 'arrow-button';
+  | 'arrow-button'
+  | 'soccer-ball'
+  | 'soccer-goal';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1479,6 +1481,25 @@ function renderGlyph(name: JuniorIconName): ReactNode {
         <>
           <circle cx="24" cy="24" r="19" fill={TEAL} stroke={C} strokeWidth="3" />
           <path d="M13 21 H26 V15 L36 24 L26 33 V27 H13 Z" fill={W} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
+        </>
+      );
+    case 'soccer-ball':
+      return (
+        <>
+          <circle cx="24" cy="24" r="18" fill={W} stroke={C} strokeWidth="3.2" />
+          <polygon points="24,15 31,20 28,28 20,28 17,20" fill={C} />
+          <path d="M24 15 V7 M31 20 L39 17 M28 28 L34 36 M20 28 L14 36 M17 20 L9 17" stroke={C} strokeWidth="2.4" strokeLinecap="round" />
+        </>
+      );
+    case 'soccer-goal':
+      return (
+        <>
+          <path d="M8 38 V12 H40 V38" fill={SOFT_BLUE} fillOpacity="0.45" stroke={C} strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+          <line x1="16" y1="12" x2="16" y2="38" stroke={C} strokeWidth="1.8" opacity="0.55" />
+          <line x1="24" y1="12" x2="24" y2="38" stroke={C} strokeWidth="1.8" opacity="0.55" />
+          <line x1="32" y1="12" x2="32" y2="38" stroke={C} strokeWidth="1.8" opacity="0.55" />
+          <line x1="8" y1="21" x2="40" y2="21" stroke={C} strokeWidth="1.8" opacity="0.55" />
+          <line x1="8" y1="30" x2="40" y2="30" stroke={C} strokeWidth="1.8" opacity="0.55" />
         </>
       );
     default:
