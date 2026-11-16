@@ -181,7 +181,10 @@ export type JuniorIconName =
   | 'ruler'
   | 'bump-burst'
   | 'mouse-animal'
-  | 'crown';
+  | 'crown'
+  | 'mail-send'
+  | 'mail-open'
+  | 'arrow-button';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1454,6 +1457,28 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <path d="M8 35 L6 16 L16 24 L24 12 L32 24 L42 16 L40 35 Z" fill={SUNNY} stroke={C} strokeWidth="3" strokeLinejoin="round" />
           <rect x="8" y="34" width="32" height="5" rx="2.5" fill={ORANGE} stroke={C} strokeWidth="2.6" />
           <circle cx="24" cy="26" r="2.6" fill={CORAL} />
+        </>
+      );
+    case 'mail-send':
+      return (
+        <>
+          <rect x="6" y="13" width="36" height="24" rx="5" fill={ORANGE} stroke={C} strokeWidth="3" />
+          <path d="M7 15 L24 27 L41 15" fill="none" stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+        </>
+      );
+    case 'mail-open':
+      return (
+        <>
+          <path d="M6 19 L24 8 L42 19 V38 H6 Z" fill={W} stroke={C} strokeWidth="3" strokeLinejoin="round" />
+          <rect x="13" y="14" width="22" height="14" rx="3" fill={SUNNY} stroke={C} strokeWidth="2.4" />
+          <path d="M6 19 L24 30 L42 19 V38 H6 Z" fill={ORANGE} stroke={C} strokeWidth="3" strokeLinejoin="round" />
+        </>
+      );
+    case 'arrow-button':
+      return (
+        <>
+          <circle cx="24" cy="24" r="19" fill={TEAL} stroke={C} strokeWidth="3" />
+          <path d="M13 21 H26 V15 L36 24 L26 33 V27 H13 Z" fill={W} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
         </>
       );
     default:
