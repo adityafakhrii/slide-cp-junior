@@ -175,7 +175,11 @@ export type JuniorIconName =
   | 'zero'
   | 'sun'
   | 'infinity'
-  | 'cloud-sun';
+  | 'cloud-sun'
+  | 'start-bump'
+  | 'brick-wall'
+  | 'ruler'
+  | 'bump-burst';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1383,6 +1387,52 @@ function renderGlyph(name: JuniorIconName): ReactNode {
         <>
           <circle cx="31" cy="17" r="9" fill={SUNNY} stroke={C} strokeWidth="2.6" />
           <path d="M11 35 C7 35, 6 26, 13 24 C15 17, 25 16, 29 22 C35 22, 38 35, 31 35 Z" fill={W} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+        </>
+      );
+    case 'start-bump':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={SUNNY} stroke={C} strokeWidth="3.2" />
+          <circle cx="17" cy="17" r="4.5" fill={W} stroke={C} strokeWidth="2.4" />
+          <path d="M9 34 C9 25, 25 25, 25 34 Z" fill={W} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
+          <circle cx="31" cy="17" r="4.5" fill={SOFT_BLUE} stroke={C} strokeWidth="2.4" />
+          <path d="M23 34 C23 25, 39 25, 39 34 Z" fill={SOFT_BLUE} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
+          <path d="M24 21 L26 25 L22 25 Z" fill={CORAL} />
+        </>
+      );
+    case 'brick-wall':
+      return (
+        <>
+          <rect x="6" y="10" width="36" height="28" rx="5" fill={CORAL} stroke={C} strokeWidth="3" />
+          <line x1="6" y1="19" x2="42" y2="19" stroke={W} strokeWidth="2.4" />
+          <line x1="6" y1="29" x2="42" y2="29" stroke={W} strokeWidth="2.4" />
+          <line x1="24" y1="10" x2="24" y2="19" stroke={W} strokeWidth="2.4" />
+          <line x1="16" y1="19" x2="16" y2="29" stroke={W} strokeWidth="2.4" />
+          <line x1="32" y1="19" x2="32" y2="29" stroke={W} strokeWidth="2.4" />
+          <line x1="24" y1="29" x2="24" y2="38" stroke={W} strokeWidth="2.4" />
+        </>
+      );
+    case 'ruler':
+      return (
+        <>
+          <rect x="6" y="15" width="36" height="18" rx="4" fill={SUNNY} stroke={C} strokeWidth="3" />
+          <line x1="14" y1="15" x2="14" y2="23" stroke={C} strokeWidth="2.6" strokeLinecap="round" />
+          <line x1="21" y1="15" x2="21" y2="21" stroke={C} strokeWidth="2.4" strokeLinecap="round" />
+          <line x1="28" y1="15" x2="28" y2="23" stroke={C} strokeWidth="2.6" strokeLinecap="round" />
+          <line x1="35" y1="15" x2="35" y2="21" stroke={C} strokeWidth="2.4" strokeLinecap="round" />
+        </>
+      );
+    case 'bump-burst':
+      return (
+        <>
+          <path
+            d="M24 5 L29 15 L40 11 L34 21 L43 27 L32 31 L36 41 L25 35 L16 42 L18 31 L6 28 L15 21 L9 11 L20 15 Z"
+            fill={SUNNY}
+            stroke={CORAL}
+            strokeWidth="3"
+            strokeLinejoin="round"
+          />
+          <circle cx="24" cy="24" r="5" fill={CORAL} />
         </>
       );
     default:
