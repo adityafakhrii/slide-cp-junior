@@ -159,7 +159,13 @@ export type JuniorIconName =
   | 'undo'
   | 'school'
   | 'door'
-  | 'go-page-2';
+  | 'go-page-2'
+  | 'go-page-1'
+  | 'go-page-3'
+  | 'book-open'
+  | 'fullscreen'
+  | 'grid'
+  | 'shuffle';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1220,6 +1226,58 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <text x="24" y="30" textAnchor="middle" fill={C} fontSize="16" fontWeight="800" fontFamily="Fredoka, sans-serif">
             2
           </text>
+        </>
+      );
+    case 'go-page-1':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={CORAL} stroke={C} strokeWidth="3.2" />
+          <rect x="12" y="11" width="24" height="26" rx="4" fill={W} stroke={C} strokeWidth="2.6" />
+          <text x="24" y="30" textAnchor="middle" fill={C} fontSize="16" fontWeight="800" fontFamily="Fredoka, sans-serif">
+            1
+          </text>
+        </>
+      );
+    case 'go-page-3':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={CORAL} stroke={C} strokeWidth="3.2" />
+          <rect x="12" y="11" width="24" height="26" rx="4" fill={W} stroke={C} strokeWidth="2.6" />
+          <text x="24" y="30" textAnchor="middle" fill={C} fontSize="16" fontWeight="800" fontFamily="Fredoka, sans-serif">
+            3
+          </text>
+        </>
+      );
+    case 'book-open':
+      return (
+        <>
+          <path d="M5 12 C12 10, 20 12, 24 16 V39 C20 35, 12 33, 5 35 Z" fill={SOFT_BLUE} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M43 12 C36 10, 28 12, 24 16 V39 C28 35, 36 33, 43 35 Z" fill={SOFT_YELLOW} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M11 21 H18 M11 27 H17 M30 21 H37 M31 27 H37" stroke={C} strokeWidth="2.4" strokeLinecap="round" />
+        </>
+      );
+    case 'fullscreen':
+      return (
+        <>
+          <rect x="6" y="8" width="36" height="32" rx="7" fill={SOFT_BLUE} stroke={C} strokeWidth="2.8" />
+          <path d="M13 19 V14 H18 M30 14 H35 V19 M13 29 V34 H18 M30 34 H35 V29" fill="none" stroke={C} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
+    case 'grid':
+      return (
+        <>
+          <rect x="7" y="7" width="34" height="34" rx="6" fill={W} stroke={C} strokeWidth="2.8" />
+          <line x1="18" y1="7" x2="18" y2="41" stroke={SKY} strokeWidth="2.4" />
+          <line x1="30" y1="7" x2="30" y2="41" stroke={SKY} strokeWidth="2.4" />
+          <line x1="7" y1="18" x2="41" y2="18" stroke={SKY} strokeWidth="2.4" />
+          <line x1="7" y1="30" x2="41" y2="30" stroke={SKY} strokeWidth="2.4" />
+        </>
+      );
+    case 'shuffle':
+      return (
+        <>
+          <path d="M8 16 H18 L30 32 H39 M34 27 L40 32 L34 37" fill="none" stroke={CORAL} strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M8 32 H18 L30 16 H39 M34 11 L40 16 L34 21" fill="none" stroke={SKY} strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
         </>
       );
     default:
