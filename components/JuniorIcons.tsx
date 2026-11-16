@@ -170,7 +170,9 @@ export type JuniorIconName =
   | 'clap'
   | 'grad-cap'
   | 'dot-orange'
-  | 'speed';
+  | 'speed'
+  | 'disco'
+  | 'zero';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1322,6 +1324,25 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <circle cx="29" cy="14" r="4" fill={W} stroke={C} strokeWidth="2" />
           <path d="M23 20 L29 24 L25 32 M18 35 L25 29 L33 34" fill="none" stroke={W} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M10 17 H17 M8 23 H16 M10 29 H15" stroke={SOFT_YELLOW} strokeWidth="2.8" strokeLinecap="round" />
+        </>
+      );
+    case 'disco':
+      return (
+        <>
+          <line x1="24" y1="4" x2="24" y2="11" stroke={C} strokeWidth="2.8" strokeLinecap="round" />
+          <circle cx="24" cy="26" r="15" fill={LAVENDER} stroke={C} strokeWidth="3" />
+          <path d="M10 26 H38 M12 18 H36 M12 34 H36 M24 11 V41" stroke={W} strokeWidth="2" />
+          <circle cx="19" cy="22" r="3" fill={SUNNY} />
+          <circle cx="30" cy="30" r="3" fill={TEAL} />
+          <path d="M7 14 L9 17 L12 18 L9 19 L7 22 L5 19 L2 18 L5 17 Z" fill={SUNNY} />
+          <path d="M40 12 L42 15 L45 16 L42 17 L40 20 L38 17 L35 16 L38 15 Z" fill={CORAL} />
+        </>
+      );
+    case 'zero':
+      return (
+        <>
+          <rect x="6" y="6" width="36" height="36" rx="10" fill={SOFT_YELLOW} stroke={C} strokeWidth="3" />
+          <ellipse cx="24" cy="24" rx="8" ry="11" fill="none" stroke={CORAL} strokeWidth="4.5" />
         </>
       );
     default:
