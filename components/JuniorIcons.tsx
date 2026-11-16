@@ -179,7 +179,9 @@ export type JuniorIconName =
   | 'start-bump'
   | 'brick-wall'
   | 'ruler'
-  | 'bump-burst';
+  | 'bump-burst'
+  | 'mouse-animal'
+  | 'crown';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1433,6 +1435,25 @@ function renderGlyph(name: JuniorIconName): ReactNode {
             strokeLinejoin="round"
           />
           <circle cx="24" cy="24" r="5" fill={CORAL} />
+        </>
+      );
+    case 'mouse-animal':
+      return (
+        <>
+          <path d="M9 32 C4 28, 6 20, 12 22" fill="none" stroke={C} strokeWidth="2.8" strokeLinecap="round" />
+          <circle cx="21" cy="14" r="6" fill="#F9A8D4" stroke={C} strokeWidth="2.8" />
+          <circle cx="33" cy="15" r="5.5" fill="#F9A8D4" stroke={C} strokeWidth="2.8" />
+          <path d="M12 31 C12 20, 22 17, 31 20 C38 22, 41 27, 40 31 C39 34, 33 35, 22 35 C15 35, 12 34, 12 31 Z" fill="#CBD5E1" stroke={C} strokeWidth="3" strokeLinejoin="round" />
+          <circle cx="32" cy="25" r="2" fill={C} />
+          <circle cx="40" cy="29" r="2.4" fill={CORAL} />
+        </>
+      );
+    case 'crown':
+      return (
+        <>
+          <path d="M8 35 L6 16 L16 24 L24 12 L32 24 L42 16 L40 35 Z" fill={SUNNY} stroke={C} strokeWidth="3" strokeLinejoin="round" />
+          <rect x="8" y="34" width="32" height="5" rx="2.5" fill={ORANGE} stroke={C} strokeWidth="2.6" />
+          <circle cx="24" cy="26" r="2.6" fill={CORAL} />
         </>
       );
     default:
