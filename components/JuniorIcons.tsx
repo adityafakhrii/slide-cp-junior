@@ -165,7 +165,10 @@ export type JuniorIconName =
   | 'book-open'
   | 'fullscreen'
   | 'grid'
-  | 'shuffle';
+  | 'shuffle'
+  | 'family'
+  | 'clap'
+  | 'grad-cap';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1278,6 +1281,34 @@ function renderGlyph(name: JuniorIconName): ReactNode {
         <>
           <path d="M8 16 H18 L30 32 H39 M34 27 L40 32 L34 37" fill="none" stroke={CORAL} strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M8 32 H18 L30 16 H39 M34 11 L40 16 L34 21" fill="none" stroke={SKY} strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
+    case 'family':
+      return (
+        <>
+          <circle cx="15" cy="17" r="5" fill={SKY} stroke={C} strokeWidth="2.6" />
+          <path d="M7 36 C7 27, 23 27, 23 36 Z" fill={SKY} stroke={C} strokeWidth="2.6" />
+          <circle cx="33" cy="17" r="5" fill={CORAL} stroke={C} strokeWidth="2.6" />
+          <path d="M25 36 C25 27, 41 27, 41 36 Z" fill={CORAL} stroke={C} strokeWidth="2.6" />
+          <circle cx="24" cy="24" r="4.2" fill={SUNNY} stroke={C} strokeWidth="2.4" />
+          <path d="M17 39 C17 32, 31 32, 31 39 Z" fill={SUNNY} stroke={C} strokeWidth="2.4" />
+        </>
+      );
+    case 'clap':
+      return (
+        <>
+          <path d="M14 29 L21 15 C22 12, 26 14, 25 18 L21 26 L28 19 C30 17, 33 20, 31 23 L25 34 C22 39, 14 38, 12 33 Z" fill={SUNNY} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M23 34 L31 22 C33 19, 36 22, 34 25 L29 36 C26 40, 21 38, 23 34 Z" fill={ORANGE} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M10 14 L14 18 M18 8 V13 M33 11 L30 16" stroke={CORAL} strokeWidth="2.8" strokeLinecap="round" />
+        </>
+      );
+    case 'grad-cap':
+      return (
+        <>
+          <polygon points="24,10 43,19 24,28 5,19" fill={CHARCOAL_WHEEL} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M13 24 V34 C13 38, 35 38, 35 34 V24" fill={LAVENDER} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
+          <path d="M39 21 V33" stroke={SUNNY} strokeWidth="3.2" strokeLinecap="round" />
+          <circle cx="39" cy="35" r="3" fill={SUNNY} stroke={C} strokeWidth="1.8" />
         </>
       );
     default:
