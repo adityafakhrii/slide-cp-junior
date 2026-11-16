@@ -188,7 +188,8 @@ export type JuniorIconName =
   | 'soccer-ball'
   | 'soccer-goal'
   | 'apple'
-  | 'film';
+  | 'film'
+  | 'globe';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1530,6 +1531,15 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <rect x="33" y="22" width="5" height="4" rx="1" fill={W} />
           <rect x="33" y="30" width="5" height="4" rx="1" fill={W} />
           <rect x="18" y="14" width="12" height="20" rx="2" fill={SOFT_YELLOW} stroke={C} strokeWidth="2.2" />
+        </>
+      );
+    case 'globe':
+      return (
+        <>
+          <circle cx="24" cy="24" r="17" fill={SKY} stroke={C} strokeWidth="3" />
+          <path d="M14 17 Q20 14 23 20 Q18 25 14 23 Z" fill={TEAL} stroke={C} strokeWidth="2" strokeLinejoin="round" />
+          <path d="M26 22 Q33 19 36 26 Q31 33 25 30 Z" fill={TEAL} stroke={C} strokeWidth="2" strokeLinejoin="round" />
+          <path d="M12 31 Q18 29 21 35" fill="none" stroke={TEAL} strokeWidth="3.5" strokeLinecap="round" />
         </>
       );
     default:
