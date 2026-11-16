@@ -172,7 +172,10 @@ export type JuniorIconName =
   | 'dot-orange'
   | 'speed'
   | 'disco'
-  | 'zero';
+  | 'zero'
+  | 'sun'
+  | 'infinity'
+  | 'cloud-sun';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1343,6 +1346,43 @@ function renderGlyph(name: JuniorIconName): ReactNode {
         <>
           <rect x="6" y="6" width="36" height="36" rx="10" fill={SOFT_YELLOW} stroke={C} strokeWidth="3" />
           <ellipse cx="24" cy="24" rx="8" ry="11" fill="none" stroke={CORAL} strokeWidth="4.5" />
+        </>
+      );
+    case 'sun':
+      return (
+        <>
+          {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
+            <line
+              key={deg}
+              x1="24"
+              y1="5"
+              x2="24"
+              y2="10"
+              stroke={SUNNY}
+              strokeWidth="3.8"
+              strokeLinecap="round"
+              transform={`rotate(${deg} 24 24)`}
+            />
+          ))}
+          <circle cx="24" cy="24" r="11" fill={SUNNY} stroke={C} strokeWidth="3" />
+          <circle cx="20.5" cy="22.5" r="1.6" fill={C} />
+          <circle cx="27.5" cy="22.5" r="1.6" fill={C} />
+          <path d="M20 26.5 Q24 29.5 28 26.5" fill="none" stroke={C} strokeWidth="2.2" strokeLinecap="round" />
+        </>
+      );
+    case 'infinity':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={CORAL} stroke={C} strokeWidth="3.2" />
+          <path d="M13 22 A11 11 0 0 1 32 15 M32 11 V18 H25" fill="none" stroke={W} strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M35 26 A11 11 0 0 1 16 33 M16 37 V30 H23" fill="none" stroke={SOFT_YELLOW} strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+        </>
+      );
+    case 'cloud-sun':
+      return (
+        <>
+          <circle cx="31" cy="17" r="9" fill={SUNNY} stroke={C} strokeWidth="2.6" />
+          <path d="M11 35 C7 35, 6 26, 13 24 C15 17, 25 16, 29 22 C35 22, 38 35, 31 35 Z" fill={W} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
         </>
       );
     default:
