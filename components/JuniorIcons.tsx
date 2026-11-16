@@ -186,7 +186,9 @@ export type JuniorIconName =
   | 'mail-open'
   | 'arrow-button'
   | 'soccer-ball'
-  | 'soccer-goal';
+  | 'soccer-goal'
+  | 'apple'
+  | 'film';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1500,6 +1502,34 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <line x1="32" y1="12" x2="32" y2="38" stroke={C} strokeWidth="1.8" opacity="0.55" />
           <line x1="8" y1="21" x2="40" y2="21" stroke={C} strokeWidth="1.8" opacity="0.55" />
           <line x1="8" y1="30" x2="40" y2="30" stroke={C} strokeWidth="1.8" opacity="0.55" />
+        </>
+      );
+    case 'apple':
+      return (
+        <>
+          <path d="M24 14 Q28 7 34 9 Q30 15 24 14 Z" fill={TEAL} stroke={C} strokeWidth="2.4" strokeLinejoin="round" />
+          <path d="M24 14 Q24 8 21 6" fill="none" stroke="#92400E" strokeWidth="3" strokeLinecap="round" />
+          <path
+            d="M24 15 C16 12, 9 18, 10 27 C11 36, 17 42, 24 40 C31 42, 37 36, 38 27 C39 18, 32 12, 24 15 Z"
+            fill={CORAL}
+            stroke={C}
+            strokeWidth="3"
+            strokeLinejoin="round"
+          />
+          <circle cx="17" cy="23" r="2.2" fill={W} opacity="0.7" />
+        </>
+      );
+    case 'film':
+      return (
+        <>
+          <rect x="6" y="10" width="36" height="28" rx="5" fill={LAVENDER} stroke={C} strokeWidth="3" />
+          <rect x="10" y="14" width="5" height="4" rx="1" fill={W} />
+          <rect x="10" y="22" width="5" height="4" rx="1" fill={W} />
+          <rect x="10" y="30" width="5" height="4" rx="1" fill={W} />
+          <rect x="33" y="14" width="5" height="4" rx="1" fill={W} />
+          <rect x="33" y="22" width="5" height="4" rx="1" fill={W} />
+          <rect x="33" y="30" width="5" height="4" rx="1" fill={W} />
+          <rect x="18" y="14" width="12" height="20" rx="2" fill={SOFT_YELLOW} stroke={C} strokeWidth="2.2" />
         </>
       );
     default:
