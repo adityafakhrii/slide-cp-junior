@@ -166,6 +166,7 @@ const JuniorFrame = ({
 
   return (
     <div
+      data-osd-interactive="true"
       style={{
         position: 'relative',
         width: '100%',
