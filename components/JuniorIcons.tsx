@@ -168,7 +168,9 @@ export type JuniorIconName =
   | 'shuffle'
   | 'family'
   | 'clap'
-  | 'grad-cap';
+  | 'grad-cap'
+  | 'dot-orange'
+  | 'speed';
 
 const ARROW_ROT: Record<'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right', number> = {
   'arrow-right': 0,
@@ -1309,6 +1311,17 @@ function renderGlyph(name: JuniorIconName): ReactNode {
           <path d="M13 24 V34 C13 38, 35 38, 35 34 V24" fill={LAVENDER} stroke={C} strokeWidth="2.8" strokeLinejoin="round" />
           <path d="M39 21 V33" stroke={SUNNY} strokeWidth="3.2" strokeLinecap="round" />
           <circle cx="39" cy="35" r="3" fill={SUNNY} stroke={C} strokeWidth="1.8" />
+        </>
+      );
+    case 'dot-orange':
+      return <circle cx="24" cy="24" r="16" fill={ORANGE} stroke={C} strokeWidth="3" />;
+    case 'speed':
+      return (
+        <>
+          <rect x="4" y="4" width="40" height="40" rx="11" fill={ORANGE} stroke={C} strokeWidth="3.2" />
+          <circle cx="29" cy="14" r="4" fill={W} stroke={C} strokeWidth="2" />
+          <path d="M23 20 L29 24 L25 32 M18 35 L25 29 L33 34" fill="none" stroke={W} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M10 17 H17 M8 23 H16 M10 29 H15" stroke={SOFT_YELLOW} strokeWidth="2.8" strokeLinecap="round" />
         </>
       );
     default:
