@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { Fragment, useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import type { DesignSystem, Page, SlideMeta, SlideTransition } from '@open-slide/core';
 import { useIsActivePage, useSlidePageNumber } from '@open-slide/core';
 import { BikoMascot } from '../../components/BikoMascot';
@@ -569,110 +569,144 @@ const MacWindowCard = ({
 // ============================================================================
 type Dir = 'up' | 'down' | 'left' | 'right';
 
-const DIR_META: Record<Dir, { label: string; color: string; rot: number }> = {
-  up: { label: 'Atas', color: TEAL, rot: -90 },
-  down: { label: 'Bawah', color: CORAL, rot: 90 },
-  left: { label: 'Kiri', color: SUNNY, rot: 180 },
-  right: { label: 'Kanan', color: SKY, rot: 0 },
+const DIR_ORDER: Dir[] = ['right', 'left', 'up', 'down'];
+
+const DIR_META: Record<Dir, { label: string; rot: number }> = {
+  right: { label: 'Kanan', rot: 0 },
+  left: { label: 'Kiri', rot: 180 },
+  up: { label: 'Atas', rot: -90 },
+  down: { label: 'Bawah', rot: 90 },
 };
 
-/** Renders <button> ONLY when interactive (onClick is passed); otherwise flat <div> */
+/** ScratchJr-authentic Blue Motion Block ("Kanan", "Kiri", "Atas", "Bawah" with white dashed arrow + pill "1") */
 const LoopArrowBlock = ({
   dir,
   size = 76,
-  stepNum,
+  stepNum = 1,
   active = false,
-  showRightTab = false,
+  inRepeat = false,
+  labelText,
   onClick,
 }: {
   dir: Dir;
   size?: number;
-  stepNum?: number;
+  stepNum?: number | null;
   active?: boolean;
-  showRightTab?: boolean;
+  inRepeat?: boolean;
+  labelText?: string;
   onClick?: () => void;
 }) => {
   const m = DIR_META[dir];
-  const baseStyle: CSSProperties = {
-    position: 'relative',
-    width: size,
-    height: size,
-    borderRadius: Math.round(size * 0.22),
-    background: m.color,
-    border: `3px solid ${CHARCOAL}`,
-    boxShadow: active
-      ? `0 0 0 5px ${SUNNY}${onClick ? `, 0 5px 0 ${CHARCOAL}` : ''}`
-      : onClick
-        ? `0 5px 0 ${CHARCOAL}`
-        : 'none',
+  const w = Math.round(size * 1.12);
+  const h = size;
+  const rawUid = useId();
+  const uid = rawUid.replace(/:/g, '');
+
+  const svgGraphic = (
+    <svg
+      width={w}
+      height={h}
+      viewBox="0 0 104 92"
+      fill="none"
+      style={{ display: 'block', overflow: 'visible' }}
+    >
+      <defs>
+        <linearGradient id={`sjr-blue-${uid}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#5CD3FF" />
+          <stop offset="100%" stopColor="#18A4F8" />
+        </linearGradient>
+      </defs>
+
+      {active && (
+        <rect
+          x={4}
+          y={2}
+          width={92}
+          height={86}
+          rx={18}
+          fill="none"
+          stroke={SUNNY}
+          strokeWidth={5}
+        />
+      )}
+
+      {/* Puzzle Body matching ScratchJr Motion Block */}
+      <path
+        d="M 18 8 H 76 Q 84 8 84 16 V 24 C 98 20 98 52 84 48 V 56 Q 84 64 76 64 H 18 Q 10 64 10 56 V 48 C 23 52 23 20 10 24 V 16 Q 10 8 18 8 Z"
+        fill={`url(#sjr-blue-${uid})`}
+        stroke="#0369A1"
+        strokeWidth={3.2}
+        strokeLinejoin="round"
+      />
+
+      {/* Top Subtle Specular Highlight */}
+      <path d="M 20 12.5 H 74" stroke="rgba(255,255,255,0.55)" strokeWidth={2.5} strokeLinecap="round" />
+
+      {/* Dashed-tail White Direction Arrow (Rotated for Kanan/Kiri/Atas/Bawah) */}
+      <g transform={`rotate(${m.rot} 49 36)`}>
+        <rect x="24" y="29" width="5.5" height="14" rx="2.75" fill={WHITE} />
+        <rect x="33" y="28" width="6.5" height="16" rx="3" fill={WHITE} />
+        <path
+          d="M 43 30 H 56 V 22 L 73 36 L 56 50 V 42 H 43 Z"
+          fill={WHITE}
+          stroke="#0369A1"
+          strokeWidth={1.6}
+          strokeLinejoin="round"
+        />
+      </g>
+
+      {/* Bottom White Number Pill ("1" like ScratchJr) */}
+      {stepNum !== null && (
+        <g>
+          <rect
+            x="29"
+            y="57"
+            width="40"
+            height="24"
+            rx="12"
+            fill={WHITE}
+            stroke="#94A3B8"
+            strokeWidth={2.5}
+          />
+          <text
+            x="49"
+            y="74"
+            textAnchor="middle"
+            fill="#475569"
+            fontSize="15"
+            fontWeight="800"
+            fontFamily="var(--osd-font-body), sans-serif"
+          >
+            {stepNum}
+          </text>
+        </g>
+      )}
+    </svg>
+  );
+
+  const wrapperStyle: CSSProperties = {
     display: 'inline-flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    gap: 2,
     padding: 0,
+    border: 'none',
+    background: 'transparent',
     flexShrink: 0,
   };
 
-  const inner = (
-    <>
-      {showRightTab && (
-        <span
-          aria-hidden
-          style={{
-            position: 'absolute',
-            right: -11,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            width: 15,
-            height: 26,
-            borderRadius: '0 9px 9px 0',
-            background: m.color,
-            border: `3px solid ${CHARCOAL}`,
-            borderLeft: 'none',
-            zIndex: 2,
-          }}
-        />
-      )}
-      {stepNum !== undefined && (
-        <span
-          style={{
-            position: 'absolute',
-            top: -11,
-            left: -9,
-            width: 26,
-            height: 26,
-            borderRadius: 99,
-            background: WHITE,
-            border: `2px solid ${CHARCOAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 15,
-            fontWeight: 700,
-            color: CHARCOAL,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 3,
-          }}
-        >
-          {stepNum}
-        </span>
-      )}
-      <svg
-        width={Math.round(size * 0.55)}
-        height={Math.round(size * 0.55)}
-        viewBox="0 0 48 48"
-        fill="none"
-        style={{ transform: `rotate(${m.rot}deg)` }}
-      >
-        <path
-          d="M8 18 H26 V9 L42 24 L26 39 V30 H8 Z"
-          fill={WHITE}
-          stroke={CHARCOAL}
-          strokeWidth={3.5}
-          strokeLinejoin="round"
-        />
-      </svg>
-    </>
-  );
+  const labelEl = labelText ? (
+    <span
+      style={{
+        fontSize: 13,
+        fontWeight: 800,
+        color: active ? '#0369A1' : MUTED,
+        lineHeight: 1.1,
+      }}
+    >
+      {labelText}
+    </span>
+  ) : null;
 
   if (onClick) {
     return (
@@ -680,27 +714,28 @@ const LoopArrowBlock = ({
         type="button"
         onClick={onClick}
         className="cpj9-card-btn"
-        style={baseStyle}
-        aria-label={`Pilih arah ${m.label}`}
+        style={{ ...wrapperStyle, cursor: 'pointer' }}
+        aria-label={`Pilih blok ${m.label}`}
       >
-        {inner}
+        {svgGraphic}
+        {labelEl}
       </button>
     );
   }
 
   return (
-    <div style={baseStyle} aria-label={`Blok panah ${m.label}`}>
-      {inner}
+    <div style={wrapperStyle} aria-label={`Blok ScratchJr ${m.label}`}>
+      {svgGraphic}
+      {labelEl}
     </div>
   );
 };
 
-/** ScratchJr-inspired C-Shaped Repeat ("Ulangi") Hug Block; renders button ONLY if onCountClick is passed */
+/** ScratchJr-authentic Orange Horizontal Repeat C-Bracket ("Ulangi") wrapping a ScratchJr Motion Block */
 const RepeatHugBlock = ({
   count,
   dir = 'right',
   scale = 1,
-  showRightTab = false,
   detached = false,
   wrongNumber = false,
   onCountClick,
@@ -708,133 +743,183 @@ const RepeatHugBlock = ({
   count: number;
   dir?: Dir;
   scale?: number;
-  showRightTab?: boolean;
   detached?: boolean;
   wrongNumber?: boolean;
   onCountClick?: () => void;
 }) => {
-  const w = Math.round(224 * scale);
-  const blockBg = wrongNumber ? '#FCA5A5' : 'linear-gradient(135deg, #FBBF24 0%, #FB923C 100%)';
-
-  const countStyle: CSSProperties = {
-    minWidth: Math.round(46 * scale),
-    height: Math.round(38 * scale),
-    padding: '0 10px',
-    borderRadius: Math.round(10 * scale),
-    background: WHITE,
-    border: `2.5px solid ${CHARCOAL}`,
-    boxShadow: onCountClick ? `0 3px 0 ${CHARCOAL}` : 'none',
-    fontFamily: 'var(--osd-font-display)',
-    fontSize: Math.round(23 * scale),
-    fontWeight: 700,
-    color: wrongNumber ? CORAL : CHARCOAL,
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
+  const m = DIR_META[dir];
+  const w = Math.round(238 * scale);
+  const h = Math.round(118 * scale);
+  const rawUid = useId();
+  const uid = rawUid.replace(/:/g, '');
 
   return (
     <div
       style={{
         position: 'relative',
         width: w,
-        padding: `${Math.round(13 * scale)}px ${Math.round(15 * scale)}px`,
-        borderRadius: Math.round(20 * scale),
-        background: blockBg,
-        border: `3px solid ${CHARCOAL}`,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: Math.round(9 * scale),
+        height: h,
         flexShrink: 0,
       }}
+      aria-label={`Blok ScratchJr Ulangi ${count} kali arah ${m.label}`}
     >
-      {showRightTab && (
-        <span
-          aria-hidden
+      <svg
+        width={w}
+        height={h}
+        viewBox="0 0 238 118"
+        fill="none"
+        style={{ display: 'block', overflow: 'visible' }}
+      >
+        <defs>
+          <linearGradient id={`sjr-orange-${uid}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={wrongNumber ? '#FDA4AF' : '#FFD43B'} />
+            <stop offset="100%" stopColor={wrongNumber ? '#F43F5E' : '#F59E0B'} />
+          </linearGradient>
+          <linearGradient id={`sjr-inner-blue-${uid}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#5CD3FF" />
+            <stop offset="100%" stopColor="#18A4F8" />
+          </linearGradient>
+        </defs>
+
+        {/* Outer Orange C-Bracket Frame wrapping inner motion block */}
+        <path
+          d="M 22 10 H 204 Q 214 10 214 20 V 35 C 230 31 230 63 214 59 V 72 Q 214 82 204 82 H 146 Q 138 82 138 72 V 63 C 152 67 152 35 138 39 V 30 Q 138 22 130 22 H 58 Q 50 22 50 30 V 39 C 62 35 62 67 50 63 V 72 Q 50 82 42 82 H 22 Q 12 82 12 72 V 59 C 26 63 26 31 12 35 V 20 Q 12 10 22 10 Z"
+          fill={`url(#sjr-orange-${uid})`}
+          stroke={wrongNumber ? '#9F1239' : '#B45309'}
+          strokeWidth={3.2}
+          strokeLinejoin="round"
+        />
+
+        {/* Top Gloss */}
+        <path d="M 24 14.5 H 202" stroke="rgba(255,255,255,0.5)" strokeWidth={2.5} strokeLinecap="round" />
+
+        {/* Inner Motion Block OR Empty Dashed Cavity */}
+        {detached ? (
+          <g>
+            <rect
+              x="54"
+              y="26"
+              width="82"
+              height="52"
+              rx="10"
+              fill="rgba(255,255,255,0.8)"
+              stroke="#B91C1C"
+              strokeWidth={2.4}
+              strokeDasharray="6 4"
+            />
+            <text
+              x="95"
+              y="57"
+              textAnchor="middle"
+              fill="#B91C1C"
+              fontSize="15"
+              fontWeight="800"
+              fontFamily="var(--osd-font-display), sans-serif"
+            >
+              Kosong!
+            </text>
+          </g>
+        ) : (
+          <g>
+            <path
+              d="M 56 23 H 132 Q 140 23 140 31 V 39 C 154 35 154 67 140 63 V 71 Q 140 79 132 79 H 56 Q 48 79 48 71 V 63 C 62 67 62 35 48 39 V 31 Q 48 23 56 23 Z"
+              fill={`url(#sjr-inner-blue-${uid})`}
+              stroke="#0369A1"
+              strokeWidth={3}
+              strokeLinejoin="round"
+            />
+            <path d="M 58 27.5 H 130" stroke="rgba(255,255,255,0.5)" strokeWidth={2.2} strokeLinecap="round" />
+            <g transform={`rotate(${m.rot} 97 51)`}>
+              <rect x="72" y="44" width="5.5" height="14" rx="2.75" fill={WHITE} />
+              <rect x="81" y="43" width="6.5" height="16" rx="3" fill={WHITE} />
+              <path
+                d="M 91 45 H 104 V 37 L 121 51 L 104 65 V 57 H 91 Z"
+                fill={WHITE}
+                stroke="#0369A1"
+                strokeWidth={1.6}
+                strokeLinejoin="round"
+              />
+            </g>
+            <rect x="74" y="72" width="44" height="24" rx="12" fill={WHITE} stroke="#94A3B8" strokeWidth={2.5} />
+            <text
+              x="96"
+              y="89"
+              textAnchor="middle"
+              fill="#475569"
+              fontSize="15"
+              fontWeight="800"
+              fontFamily="var(--osd-font-body), sans-serif"
+            >
+              1
+            </text>
+          </g>
+        )}
+
+        {/* White Curved Repeat Arrow on Right Side */}
+        <path
+          d="M 176 62 C 194 62 197 34 176 34 H 171 V 26 L 156 38.5 L 171 51 V 43 H 176 C 186 43 185 53 176 53 H 168"
+          fill={WHITE}
+          stroke={wrongNumber ? '#9F1239' : '#B45309'}
+          strokeWidth={2}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+      </svg>
+
+      {/* Bottom-Right Repeat Number Pill (button ONLY if onCountClick is passed) */}
+      {onCountClick ? (
+        <button
+          type="button"
+          onClick={onCountClick}
+          className="cpj9-card-btn"
           style={{
             position: 'absolute',
-            right: -12,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            width: 16,
-            height: 32,
-            borderRadius: '0 10px 10px 0',
-            background: ORANGE,
-            border: `3px solid ${CHARCOAL}`,
-            borderLeft: 'none',
-            zIndex: 2,
+            left: Math.round(154 * scale),
+            top: Math.round(70 * scale),
+            width: Math.round(48 * scale),
+            height: Math.round(28 * scale),
+            borderRadius: 99,
+            background: '#0EA5E9',
+            border: `2.5px solid ${WHITE}`,
+            boxShadow: `0 3px 0 ${CHARCOAL}`,
+            fontFamily: 'var(--osd-font-display)',
+            fontSize: Math.round(17 * scale),
+            fontWeight: 700,
+            color: WHITE,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 0,
+            cursor: 'pointer',
           }}
-        />
-      )}
-
-      <div style={{ ...row, justifyContent: 'space-between', gap: 8 }}>
+          aria-label={`Ubah angka ulangi (${count})`}
+        >
+          {count}
+        </button>
+      ) : (
         <div
           style={{
-            ...row,
-            gap: 6,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: Math.round(22 * scale),
-            fontWeight: 700,
-            color: CHARCOAL,
+            position: 'absolute',
+            left: Math.round(154 * scale),
+            top: Math.round(70 * scale),
+            width: Math.round(48 * scale),
+            height: Math.round(28 * scale),
+            borderRadius: 99,
+            background: WHITE,
+            border: `2.5px solid ${wrongNumber ? '#B91C1C' : '#94A3B8'}`,
+            fontFamily: 'var(--osd-font-body)',
+            fontSize: Math.round(16 * scale),
+            fontWeight: 800,
+            color: wrongNumber ? '#B91C1C' : '#475569',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxSizing: 'border-box',
           }}
         >
-          <JuniorIcon name="repeat" size={Math.round(22 * scale)} />
-          <span>Ulangi</span>
+          {count}
         </div>
-
-        {onCountClick ? (
-          <button
-            type="button"
-            onClick={onCountClick}
-            className="cpj9-card-btn"
-            style={countStyle}
-            aria-label={`Ubah angka ulangi (${count})`}
-          >
-            {count}
-          </button>
-        ) : (
-          <span style={countStyle}>{count}</span>
-        )}
-      </div>
-
-      <div
-        style={{
-          marginLeft: Math.round(16 * scale),
-          padding: Math.round(9 * scale),
-          borderRadius: Math.round(14 * scale),
-          background: WHITE,
-          border: `2.5px dashed ${CHARCOAL}`,
-          ...centerCol,
-          minHeight: Math.round(72 * scale),
-        }}
-      >
-        {detached ? (
-          <span
-            style={{
-              ...row,
-              gap: 6,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: Math.round(17 * scale),
-              fontWeight: 700,
-              color: CORAL,
-            }}
-          >
-            <span>Kosong!</span>
-            <JuniorIcon name="warning" size={Math.round(18 * scale)} />
-          </span>
-        ) : (
-          <LoopArrowBlock dir={dir} size={Math.round(64 * scale)} />
-        )}
-      </div>
-
-      <div
-        style={{
-          height: Math.round(11 * scale),
-          borderRadius: 99,
-          background: 'rgba(255,255,255,0.45)',
-          border: `2px solid ${CHARCOAL}`,
-        }}
-      />
+      )}
     </div>
   );
 };
@@ -1305,9 +1390,11 @@ const Slide03Masalah: Page = () => {
           })}
         </div>
 
-        <div style={{ ...row, justifyContent: 'center', gap: 10 }}>
+        <div style={{ ...row, justifyContent: 'center' }}>
           {[1, 2, 3, 4, 5].map((n) => (
-            <LoopArrowBlock key={n} dir="right" size={44} stepNum={n} active={step === n} showRightTab={n < 5} />
+            <div key={n} style={{ marginLeft: n === 1 ? 0 : -8 }}>
+              <LoopArrowBlock dir="right" size={48} stepNum={1} active={step === n} />
+            </div>
           ))}
         </div>
       </InfoPanel>
@@ -1364,6 +1451,7 @@ const Slide03Masalah: Page = () => {
 // ============================================================================
 const Slide04BlokUlangi: Page = () => {
   const [count, setCount] = useState(4);
+  const [demoDir, setDemoDir] = useState<Dir>('right');
 
   return (
     <JuniorFrame badge="JURUS KODE RINGKAS" accentDot={SUNNY}>
@@ -1372,15 +1460,15 @@ const Slide04BlokUlangi: Page = () => {
       </SlideTitle>
 
       {/* Top Wide Card: Real ScratchJr Repeat + Numeric Keypad Screenshot (slide 4.png) */}
-      <MacWindowCard left={X0} top={210} width={1720} height={315} headerLabel="tampilan-blok-ulangi-scratchjr" padding={22}>
+      <MacWindowCard left={X0} top={210} width={1720} height={305} headerLabel="tampilan-blok-ulangi-scratchjr" padding={20}>
         <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '1120px 1fr', gap: 28, alignItems: 'center' }}>
           <ScratchImageFrame
             src={imgSlide4}
             alt="Blok Repeat 4 dan keypad angka di ScratchJr"
             bg="#F8FAFC"
             borderColor={SUNNY}
-            padding={12}
-            imgStyle={{ width: '100%', height: 205, objectFit: 'contain' }}
+            padding={10}
+            imgStyle={{ width: '100%', height: 198, objectFit: 'contain' }}
             style={{ height: '100%' }}
           />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -1393,7 +1481,7 @@ const Slide04BlokUlangi: Page = () => {
               gap={10}
               items={[
                 <>
-                  Blok oranye <InlineHighlight>Repeat</InlineHighlight> memeluk blok panah kanan.
+                  Blok oranye <InlineHighlight>Repeat</InlineHighlight> memeluk blok arah biru.
                 </>,
                 <>
                   Ketuk angkanya, lalu pilih jumlah di <InlineHighlight color={SKY_SOFT}>keypad kanan</InlineHighlight>.
@@ -1404,78 +1492,127 @@ const Slide04BlokUlangi: Page = () => {
         </div>
       </MacWindowCard>
 
-      {/* Bottom Left: Interactive Simulator (- / +) */}
-      <MacWindowCard left={X0} top={548} width={960} height={425} headerLabel="coba-ubah-angka" padding={26}>
-        <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'center' }}>
-          <div style={{ ...centerCol }}>
-            <RepeatHugBlock count={count} dir="right" scale={1.18} />
+      {/* Bottom Left: Interactive Simulator with ScratchJr Orange Repeat + Blue Kanan/Kiri/Atas/Bawah */}
+      <MacWindowCard left={X0} top={535} width={1040} height={440} headerLabel="coba-ubah-blok-scratchjr" padding={22}>
+        <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '360px 1fr', gap: 24, alignItems: 'center' }}>
+          <div
+            style={{
+              height: '100%',
+              background: '#F8FAFC',
+              borderRadius: 20,
+              border: `2.5px solid ${BORDER_SOFT}`,
+              padding: 18,
+              ...centerCol,
+              gap: 16,
+            }}
+          >
+            <RepeatHugBlock count={count} dir={demoDir} scale={1.32} />
+            <div
+              style={{
+                padding: '8px 18px',
+                borderRadius: 12,
+                background: SUNNY_SOFT,
+                border: `2px solid ${CHARCOAL}`,
+                fontFamily: 'var(--osd-font-display)',
+                fontSize: 22,
+                fontWeight: 700,
+              }}
+            >
+              Jalan {DIR_META[demoDir].label} {count}×
+            </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18, alignItems: 'flex-start' }}>
-            <SectionHeading icon="tap" size={26}>
-              Coba Ubah Angkanya:
-            </SectionHeading>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, justifyContent: 'space-between', height: '100%' }}>
+            <div>
+              <SectionHeading icon="tap" size={24}>
+                1. Pilih Angka &amp; Arah Blok ScratchJr:
+              </SectionHeading>
 
-            <div style={{ ...row, gap: 14 }}>
-              <button
-                type="button"
-                className="cpj9-card-btn"
-                onClick={() => setCount((c) => Math.max(1, c - 1))}
-                style={{
-                  width: 58,
-                  height: 58,
-                  borderRadius: 16,
-                  background: CORAL,
-                  color: WHITE,
-                  border: `3px solid ${CHARCOAL}`,
-                  boxShadow: `0 5px 0 ${CHARCOAL}`,
-                  fontFamily: 'var(--osd-font-display)',
-                  fontSize: 32,
-                  fontWeight: 700,
-                }}
-                aria-label="Kurangi angka ulangi"
-              >
-                -
-              </button>
-              <div
-                style={{
-                  padding: '12px 22px',
-                  borderRadius: 14,
-                  background: SUNNY_SOFT,
-                  border: `2.5px solid ${CHARCOAL}`,
-                  fontFamily: 'var(--osd-font-display)',
-                  fontSize: 25,
-                  fontWeight: 700,
-                }}
-              >
-                Jalan Kanan {count}×
+              <div style={{ ...row, gap: 14, marginTop: 10, flexWrap: 'wrap' }}>
+                <div style={{ ...row, gap: 10 }}>
+                  <button
+                    type="button"
+                    className="cpj9-card-btn"
+                    onClick={() => setCount((c) => Math.max(1, c - 1))}
+                    style={{
+                      width: 50,
+                      height: 50,
+                      borderRadius: 14,
+                      background: CORAL,
+                      color: WHITE,
+                      border: `2.5px solid ${CHARCOAL}`,
+                      boxShadow: `0 4px 0 ${CHARCOAL}`,
+                      fontFamily: 'var(--osd-font-display)',
+                      fontSize: 30,
+                      fontWeight: 700,
+                    }}
+                    aria-label="Kurangi angka ulangi"
+                  >
+                    -
+                  </button>
+                  <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 23, fontWeight: 700, minWidth: 74, textAlign: 'center' }}>
+                    {count} Kali
+                  </span>
+                  <button
+                    type="button"
+                    className="cpj9-card-btn"
+                    onClick={() => setCount((c) => Math.min(8, c + 1))}
+                    style={{
+                      width: 50,
+                      height: 50,
+                      borderRadius: 14,
+                      background: TEAL,
+                      color: WHITE,
+                      border: `2.5px solid ${CHARCOAL}`,
+                      boxShadow: `0 4px 0 ${CHARCOAL}`,
+                      fontFamily: 'var(--osd-font-display)',
+                      fontSize: 30,
+                      fontWeight: 700,
+                    }}
+                    aria-label="Tambah angka ulangi"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <div style={{ width: 2, height: 42, background: BORDER_SOFT }} />
+
+                <div style={{ ...row, gap: 8 }}>
+                  {DIR_ORDER.map((d) => (
+                    <LoopArrowBlock
+                      key={d}
+                      dir={d}
+                      size={56}
+                      active={demoDir === d}
+                      labelText={DIR_META[d].label}
+                      onClick={() => setDemoDir(d)}
+                    />
+                  ))}
+                </div>
               </div>
-              <button
-                type="button"
-                className="cpj9-card-btn"
-                onClick={() => setCount((c) => Math.min(9, c + 1))}
-                style={{
-                  width: 58,
-                  height: 58,
-                  borderRadius: 16,
-                  background: TEAL,
-                  color: WHITE,
-                  border: `3px solid ${CHARCOAL}`,
-                  boxShadow: `0 5px 0 ${CHARCOAL}`,
-                  fontFamily: 'var(--osd-font-display)',
-                  fontSize: 32,
-                  fontWeight: 700,
-                }}
-                aria-label="Tambah angka ulangi"
-              >
-                +
-              </button>
             </div>
 
-            <div style={{ ...row, gap: 6, flexWrap: 'wrap' }}>
-              {Array.from({ length: count }).map((_, i) => (
-                <LoopArrowBlock key={i} dir="right" size={40} />
-              ))}
+            <div
+              style={{
+                background: '#F0F9FF',
+                borderRadius: 16,
+                border: `2px solid ${SKY}`,
+                padding: '12px 16px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 8,
+              }}
+            >
+              <span style={{ fontSize: 17, fontWeight: 800, color: '#0369A1' }}>
+                Sama artinya dengan {count} blok {DIR_META[demoDir].label} berderet:
+              </span>
+              <div style={{ ...row, flexWrap: 'wrap' }}>
+                {Array.from({ length: count }).map((_, i) => (
+                  <div key={i} style={{ marginLeft: i === 0 ? 0 : -8 }}>
+                    <LoopArrowBlock dir={demoDir} size={48} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -1484,40 +1621,38 @@ const Slide04BlokUlangi: Page = () => {
       {/* Bottom Right: Key Rules + Biko */}
       <InfoPanel
         bg={TEAL_SOFT}
-        padding={26}
+        padding={24}
         style={{
-          ...abs(1088, 548, 732, 425),
+          ...abs(1165, 535, 655, 440),
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
         }}
       >
         <div>
-          <SectionHeading icon="repeat" size={28}>
+          <SectionHeading icon="repeat" size={27}>
             Cara Kerja Blok Ulangi:
           </SectionHeading>
-          <div style={{ marginTop: 14 }}>
+          <div style={{ marginTop: 12 }}>
             <BulletList
               bulletColor={TEAL}
-              fontSize={23}
-              gap={12}
+              fontSize={22}
+              gap={11}
               items={[
                 <>
-                  Cukup taruh <InlineHighlight>1 blok panah</InlineHighlight> di dalam pelukan.
+                  Taruh <InlineHighlight>1 blok arah</InlineHighlight> (Kanan, Kiri, Atas, atau Bawah) di dalam pelukan.
                 </>,
                 <>
                   Ganti angka sesuai <InlineHighlight color={WHITE}>jumlah langkah</InlineHighlight>.
                 </>,
-                <>
-                  Lebih hemat blok dan layar tetap rapi!
-                </>,
+                <>Lebih hemat blok dan layar tetap rapi!</>,
               ]}
             />
           </div>
         </div>
 
-        <div style={{ ...row, justifyContent: 'flex-end', marginTop: 6 }}>
-          <BikoMascot pose="thumbs-up" width={190} speechBubble="Praktis & rapi!" />
+        <div style={{ ...row, justifyContent: 'flex-end' }}>
+          <BikoMascot pose="thumbs-up" width={180} speechBubble="Praktis & rapi!" />
         </div>
       </InfoPanel>
     </JuniorFrame>
@@ -2018,9 +2153,8 @@ const Slide07UlangiBelok: Page = () => {
                 imgStyle={{ width: 290, height: 145 }}
               />
               <span style={{ fontSize: 32, fontWeight: 800, color: CHARCOAL }}>+</span>
-              <div style={{ ...centerCol, gap: 8 }}>
-                <LoopArrowBlock dir="up" size={92} active={step === 4} />
-                <span style={{ fontSize: 18, fontWeight: 800, color: MUTED }}>2. Belok Atas</span>
+              <div style={{ ...centerCol, gap: 6 }}>
+                <LoopArrowBlock dir="up" size={88} active={step === 4} labelText="2. Belok Atas" />
               </div>
             </div>
           </InfoPanel>
@@ -2127,21 +2261,24 @@ const Slide08Tips: Page = () => (
             borderRadius: 20,
             background: CORAL_SOFT,
             border: `2.5px solid ${CORAL}`,
-            padding: '16px 22px',
+            padding: '16px 20px',
             ...row,
-            justifyContent: 'center',
-            gap: 24,
+            justifyContent: 'space-between',
+            gap: 14,
           }}
         >
-          <RepeatHugBlock count={9} detached wrongNumber scale={0.82} />
+          <div style={{ ...row, gap: 8, alignItems: 'center' }}>
+            <RepeatHugBlock count={9} detached wrongNumber scale={0.78} />
+            <LoopArrowBlock dir="right" size={56} labelText="Terlepas" />
+          </div>
           <div style={{ ...centerCol, gap: 8 }}>
-            <div style={{ ...row, gap: 10 }}>
-              <BikoTokenSvg size={64} tired />
-              <JuniorIcon name="warning" size={32} />
-              <RockSvg size={68} />
+            <div style={{ ...row, gap: 8 }}>
+              <BikoTokenSvg size={58} tired />
+              <JuniorIcon name="warning" size={28} />
+              <RockSvg size={60} />
             </div>
-            <span style={{ fontSize: 18, fontWeight: 800, color: '#B91C1C' }}>
-              Kosong &amp; angka salah bikin menabrak!
+            <span style={{ fontSize: 16, fontWeight: 800, color: '#B91C1C', textAlign: 'center' }}>
+              Kosong &amp; angka salah menabrak!
             </span>
           </div>
         </div>
@@ -2329,44 +2466,40 @@ const Slide09MisiPraktik: Page = () => {
             </div>
           </div>
 
-          {/* Right Controls: Real Interactive Buttons Only */}
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          {/* Right Controls: Authentic ScratchJr Repeat + 4 Motion Blocks (Kanan, Kiri, Atas, Bawah) */}
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 10 }}>
             <div>
-              <SectionHeading size={25}>Atur Blok Ulangi &amp; Belok:</SectionHeading>
+              <SectionHeading size={24}>Susunan Kode ScratchJr:</SectionHeading>
 
               <div
                 style={{
                   ...row,
-                  justifyContent: 'space-between',
-                  marginTop: 10,
-                  padding: '14px 18px',
+                  justifyContent: 'center',
+                  marginTop: 8,
+                  padding: '12px 18px',
                   borderRadius: 18,
                   background: '#F8FAFC',
                   border: `2.5px solid ${CHARCOAL}`,
-                  gap: 14,
                 }}
               >
                 <RepeatHugBlock
                   count={repeatCount}
                   dir={loopDir}
-                  scale={0.9}
-                  showRightTab
+                  scale={0.88}
                   onCountClick={() => setRepeatCount((c) => (c >= 4 ? 1 : c + 1))}
                 />
-                <LoopArrowBlock
-                  dir={turnDir}
-                  size={80}
-                  onClick={() => setTurnDir((d) => (d === 'up' ? 'right' : 'up'))}
-                />
+                <div style={{ marginLeft: -12, marginTop: -8 }}>
+                  <LoopArrowBlock dir={turnDir} size={76} active={status === 'running'} />
+                </div>
               </div>
             </div>
 
-            <div style={{ ...row, justifyContent: 'space-between', gap: 14 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 19, fontWeight: 700 }}>
-                  Pilih Angka Ulangi:
+            <div style={{ ...row, justifyContent: 'space-between', gap: 16 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 18, fontWeight: 700 }}>
+                  1. Angka Ulangi:
                 </span>
-                <div style={{ ...row, gap: 10 }}>
+                <div style={{ ...row, gap: 8 }}>
                   {[1, 2, 3, 4].map((num) => (
                     <button
                       key={num}
@@ -2378,14 +2511,14 @@ const Slide09MisiPraktik: Page = () => {
                         setBikoPos([2, 0]);
                       }}
                       style={{
-                        width: 54,
-                        height: 54,
-                        borderRadius: 14,
+                        width: 48,
+                        height: 48,
+                        borderRadius: 13,
                         background: repeatCount === num ? SUNNY : WHITE,
                         border: `2.5px solid ${CHARCOAL}`,
                         boxShadow: `0 4px 0 ${CHARCOAL}`,
                         fontFamily: 'var(--osd-font-display)',
-                        fontSize: 24,
+                        fontSize: 22,
                         fontWeight: 700,
                       }}
                     >
@@ -2395,17 +2528,18 @@ const Slide09MisiPraktik: Page = () => {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 19, fontWeight: 700 }}>
-                  Arah di Dalam Ulangi:
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 18, fontWeight: 700 }}>
+                  2. Arah di Dalam Ulangi:
                 </span>
-                <div style={{ ...row, gap: 10 }}>
-                  {(['right', 'up'] as Dir[]).map((d) => (
+                <div style={{ ...row, gap: 6 }}>
+                  {DIR_ORDER.map((d) => (
                     <LoopArrowBlock
                       key={d}
                       dir={d}
-                      size={54}
+                      size={48}
                       active={loopDir === d}
+                      labelText={DIR_META[d].label}
                       onClick={() => {
                         setLoopDir(d);
                         setStatus('idle');
@@ -2414,6 +2548,28 @@ const Slide09MisiPraktik: Page = () => {
                     />
                   ))}
                 </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 18, fontWeight: 700 }}>
+                3. Blok Belok Setelah Ulangi:
+              </span>
+              <div style={{ ...row, gap: 10 }}>
+                {DIR_ORDER.map((d) => (
+                  <LoopArrowBlock
+                    key={d}
+                    dir={d}
+                    size={48}
+                    active={turnDir === d}
+                    labelText={DIR_META[d].label}
+                    onClick={() => {
+                      setTurnDir(d);
+                      setStatus('idle');
+                      setBikoPos([2, 0]);
+                    }}
+                  />
+                ))}
               </div>
             </div>
 
