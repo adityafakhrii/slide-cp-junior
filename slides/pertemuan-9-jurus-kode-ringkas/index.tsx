@@ -4,6 +4,7 @@ import { useIsActivePage, useSlidePageNumber } from '@open-slide/core';
 import { BikoMascot } from '../../components/BikoMascot';
 import { JuniorIcon, type JuniorIconName } from '../../components/JuniorIcons';
 
+import imgLogoCdpl from '../../Gambar/logo cdpl.png';
 import imgSlide21 from '../../Gambar/slide 2.1.png';
 import imgSlide22 from '../../Gambar/slide 2.2.png';
 import imgSlide3 from '../../Gambar/slide 3.png';
@@ -155,10 +156,12 @@ const centerCol: CSSProperties = {
 const JuniorFrame = ({
   badge,
   accentDot = SUNNY,
+  showLogo = false,
   children,
 }: {
   badge: string;
   accentDot?: string;
+  showLogo?: boolean;
   children: ReactNode;
 }) => {
   const { current, total } = useSlidePageNumber();
@@ -179,34 +182,54 @@ const JuniorFrame = ({
         WebkitFontSmoothing: 'antialiased',
       }}
     >
-      {/* Top Left Header Eyebrow Tag (flat label, not button-like) */}
+      {/* Top Left Logo (Slide 1 Cover only) + Header Eyebrow Tag */}
       <div
         style={{
-          ...abs(X0, 48),
+          ...abs(X0, showLogo ? 42 : 48),
           ...row,
-          gap: 10,
-          padding: '8px 20px',
-          borderRadius: 12,
-          background: WHITE,
-          border: `2px solid ${CHARCOAL}`,
-          fontSize: 18,
-          fontWeight: 800,
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
+          gap: 18,
           zIndex: 5,
         }}
       >
-        <span
+        {showLogo && (
+          <img
+            src={imgLogoCdpl}
+            alt="Logo CODEPOLITAN"
+            style={{
+              display: 'block',
+              height: 48,
+              width: 'auto',
+              objectFit: 'contain',
+              flexShrink: 0,
+            }}
+          />
+        )}
+        <div
           style={{
-            width: 12,
-            height: 12,
-            borderRadius: 99,
-            background: accentDot,
+            ...row,
+            gap: 10,
+            padding: '8px 20px',
+            borderRadius: 12,
+            background: WHITE,
             border: `2px solid ${CHARCOAL}`,
-            display: 'inline-block',
+            fontSize: 18,
+            fontWeight: 800,
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
           }}
-        />
-        <span>{badge}</span>
+        >
+          <span
+            style={{
+              width: 12,
+              height: 12,
+              borderRadius: 99,
+              background: accentDot,
+              border: `2px solid ${CHARCOAL}`,
+              display: 'inline-block',
+            }}
+          />
+          <span>{badge}</span>
+        </div>
       </div>
 
       {/* Top Right Slide Number Indicator */}
@@ -1013,7 +1036,7 @@ const Slide01Cover: Page = () => {
   const live = useIsActivePage();
 
   return (
-    <JuniorFrame badge="CODEPOLITAN JUNIOR • PERTEMUAN 9" accentDot={SUNNY}>
+    <JuniorFrame badge="JUNIOR • PERTEMUAN 9" accentDot={SUNNY} showLogo>
       {/* Left Hero Column */}
       <div style={{ ...abs(X0, 170, 820, 770), display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 22 }}>
         <div
