@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState, type CSSProperties, type DragEvent, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type DragEvent, type ReactNode } from 'react';
 import type { DesignSystem, Page, SlideMeta, SlideTransition } from '@open-slide/core';
 import { useIsActivePage, useSlidePageNumber } from '@open-slide/core';
 import { BikoMascot } from '../../components/BikoMascot';
@@ -16,35 +16,31 @@ const STYLE_ID = `osd-styles-${SLIDE_ID}`;
 const SCOPED_CSS = `
 @keyframes cpj8-float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-9px); }
+  50% { transform: translateY(-8px); }
 }
 @keyframes cpj8-hop {
   0%, 100% { transform: translateY(0px) scale(1); }
-  45% { transform: translateY(-12px) scale(1.04); }
-}
-@keyframes cpj8-twinkle {
-  0%, 100% { opacity: 0.92; transform: scale(1) rotate(0deg); }
-  50% { opacity: 0.45; transform: scale(0.84) rotate(12deg); }
+  45% { transform: translateY(-10px) scale(1.04); }
 }
 @keyframes cpj8-confetti {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(10px) rotate(18deg); }
+  50% { transform: translateY(8px) rotate(14deg); }
 }
 @keyframes cpj8-bug-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(244, 91, 73, 0.55), 0 6px 0 #1E1E2C; }
-  50% { box-shadow: 0 0 0 10px rgba(244, 91, 73, 0), 0 6px 0 #1E1E2C; }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244, 91, 73, 0.55); }
+  50% { box-shadow: 0 0 0 10px rgba(244, 91, 73, 0); }
 }
 @keyframes cpj8-shake {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-7px) rotate(-3deg); }
-  75% { transform: translateX(7px) rotate(3deg); }
+  25% { transform: translateX(-7px) rotate(-2deg); }
+  75% { transform: translateX(7px) rotate(2deg); }
 }
 .cpj8-card-btn {
   transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 150ms ease;
   cursor: pointer;
 }
 .cpj8-card-btn:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
 }
 .cpj8-card-btn:active {
   transform: translateY(2px);
@@ -84,8 +80,8 @@ export const design: DesignSystem = {
     body: '"Plus Jakarta Sans", system-ui, sans-serif',
   },
   typeScale: {
-    hero: 88,
-    body: 28,
+    hero: 84,
+    body: 26,
   },
   radius: 24,
 };
@@ -95,6 +91,8 @@ const SAND_GRID = '#F4ECDC';
 const WHITE = '#FFFFFF';
 const CHARCOAL = '#1E1E2C';
 const MUTED = '#525266';
+const BORDER_SOFT = '#CBD5E1';
+const CARD_SHADOW = '0 6px 18px rgba(30, 30, 44, 0.08)';
 const TEAL = '#10B981';
 const TEAL_SOFT = '#ECFDF5';
 const CORAL = '#F45B49';
@@ -103,7 +101,6 @@ const SUNNY = '#FBBF24';
 const SUNNY_SOFT = '#FEF9C3';
 const STABILO = '#FEF08A';
 const LAVENDER = '#A78BFA';
-const LAVENDER_SOFT = '#F3EEFF';
 const SKY = '#60A5FA';
 const SKY_SOFT = '#EFF6FF';
 
@@ -145,7 +142,7 @@ const centerCol: CSSProperties = {
 };
 
 // ============================================================================
-// Shared Chrome, Background Grid & Micro-Decorations
+// Shared Chrome, Typography, Highlights, Bullet Lists & Flat Containers
 // ============================================================================
 const JuniorFrame = ({
   badge,
@@ -157,7 +154,6 @@ const JuniorFrame = ({
   children: ReactNode;
 }) => {
   const { current, total } = useSlidePageNumber();
-  const live = useIsActivePage();
 
   return (
     <div
@@ -175,132 +171,54 @@ const JuniorFrame = ({
         WebkitFontSmoothing: 'antialiased',
       }}
     >
-      {/* Low-opacity coding symbols around outer canvas edges */}
-      <div
-        aria-hidden
-        style={{
-          ...abs(46, 200),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 40,
-          fontWeight: 700,
-          color: LAVENDER,
-          opacity: 0.25,
-          transform: 'rotate(-10deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'{ }'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(1816, 170),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 38,
-          fontWeight: 700,
-          color: SKY,
-          opacity: 0.26,
-          transform: 'rotate(12deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'</>'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(42, 870),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 36,
-          fontWeight: 700,
-          color: TEAL,
-          opacity: 0.24,
-          transform: 'rotate(-8deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'( )'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(1826, 860),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 38,
-          fontWeight: 700,
-          color: CORAL,
-          opacity: 0.25,
-          transform: 'rotate(9deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'##'}
-      </div>
-
-      {/* Sparkle accent */}
-      <svg
-        aria-hidden
-        width={42}
-        height={42}
-        viewBox="0 0 40 40"
-        style={{
-          ...abs(1750, 74),
-          pointerEvents: 'none',
-          animation: live ? 'cpj8-twinkle 2.8s ease-in-out infinite' : undefined,
-        }}
-      >
-        <path
-          d="M20 2 L24.5 15.5 L38 20 L24.5 24.5 L20 38 L15.5 24.5 L2 20 L15.5 15.5 Z"
-          fill={SUNNY}
-          stroke={CHARCOAL}
-          strokeWidth={2.2}
-          strokeLinejoin="round"
-        />
-      </svg>
-
-      {/* Top Left Header Pill Badge */}
+      {/* Top Left Header Eyebrow Tag */}
       <div
         style={{
-          ...abs(X0, 56),
+          ...abs(X0, 48),
           ...row,
-          gap: 12,
-          padding: '12px 26px',
-          borderRadius: 999,
-          background: WHITE,
-          border: `2.5px solid ${CHARCOAL}`,
-          boxShadow: `0 5px 0 ${CHARCOAL}`,
-          fontSize: 20,
-          fontWeight: 800,
-          letterSpacing: '0.04em',
-          textTransform: 'uppercase',
+          gap: 18,
           zIndex: 5,
         }}
       >
-        <span
+        <div
           style={{
-            width: 14,
-            height: 14,
-            borderRadius: 99,
-            background: accentDot,
+            ...row,
+            gap: 10,
+            padding: '8px 20px',
+            borderRadius: 12,
+            background: WHITE,
             border: `2px solid ${CHARCOAL}`,
-            display: 'inline-block',
+            fontSize: 18,
+            fontWeight: 800,
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
           }}
-        />
-        <span>{badge}</span>
+        >
+          <span
+            style={{
+              width: 12,
+              height: 12,
+              borderRadius: 99,
+              background: accentDot,
+              border: `2px solid ${CHARCOAL}`,
+              display: 'inline-block',
+            }}
+          />
+          <span>{badge}</span>
+        </div>
       </div>
 
-      {/* Top Right Slide Number Pill */}
+      {/* Top Right Slide Number Indicator */}
       <div
         style={{
-          ...abs(1680, 56),
+          ...abs(1690, 48),
           ...row,
-          gap: 10,
-          padding: '12px 22px',
-          borderRadius: 999,
+          gap: 8,
+          padding: '8px 18px',
+          borderRadius: 12,
           background: WHITE,
-          border: `2.5px solid ${CHARCOAL}`,
-          boxShadow: `0 4px 0 ${CHARCOAL}`,
-          fontSize: 20,
+          border: `2px solid ${CHARCOAL}`,
+          fontSize: 19,
           fontWeight: 800,
           fontFamily: 'var(--osd-font-display)',
           zIndex: 5,
@@ -313,15 +231,15 @@ const JuniorFrame = ({
 
       {children}
 
-      {/* Subtle Bottom Program Strip */}
+      {/* Bottom Program Strip */}
       <div
         style={{
-          ...abs(X0, 1020, W, 34),
+          ...abs(X0, 1022, W, 32),
           ...row,
           justifyContent: 'space-between',
           fontSize: 18,
           fontWeight: 700,
-          color: '#7A7689',
+          color: '#6E6A7C',
         }}
       >
         <span style={{ ...row, gap: 10 }}>
@@ -337,7 +255,7 @@ const JuniorFrame = ({
           />
           <span>CODEPOLITAN Junior • Level 1: Code Explorer</span>
         </span>
-        <span>Pertemuan 8 • Aduh Karakternya Nyasar!</span>
+        <span>Pertemuan 8 • Aduh, Karakternya Nyasar!</span>
       </div>
     </div>
   );
@@ -353,8 +271,8 @@ const Highlight = ({
   <span
     style={{
       background: color,
-      padding: '2px 18px 6px',
-      borderRadius: 16,
+      padding: '2px 16px 5px',
+      borderRadius: 14,
       boxDecorationBreak: 'clone',
       WebkitBoxDecorationBreak: 'clone',
       display: 'inline-block',
@@ -364,11 +282,31 @@ const Highlight = ({
   </span>
 );
 
+const InlineHighlight = ({
+  children,
+  color = STABILO,
+}: {
+  children: ReactNode;
+  color?: string;
+}) => (
+  <mark
+    style={{
+      background: color,
+      color: CHARCOAL,
+      fontWeight: 800,
+      padding: '1px 9px 2px',
+      borderRadius: 8,
+    }}
+  >
+    {children}
+  </mark>
+);
+
 const SlideTitle = ({
   children,
-  top = 136,
-  size = 56,
-  maxWidth = 1520,
+  top = 114,
+  size = 54,
+  maxWidth = 1560,
   align = 'left',
 }: {
   children: ReactNode;
@@ -384,7 +322,7 @@ const SlideTitle = ({
       fontFamily: 'var(--osd-font-display)',
       fontSize: size,
       fontWeight: 700,
-      lineHeight: 1.16,
+      lineHeight: 1.14,
       letterSpacing: '-0.015em',
       color: CHARCOAL,
       textAlign: align,
@@ -392,6 +330,116 @@ const SlideTitle = ({
   >
     {children}
   </h2>
+);
+
+const SectionHeading = ({
+  children,
+  icon,
+  accentColor = CHARCOAL,
+  size = 30,
+}: {
+  children: ReactNode;
+  icon?: JuniorIconName;
+  accentColor?: string;
+  size?: number;
+}) => (
+  <h3
+    style={{
+      margin: 0,
+      ...row,
+      gap: 10,
+      fontFamily: 'var(--osd-font-display)',
+      fontSize: size,
+      fontWeight: 700,
+      lineHeight: 1.2,
+      color: accentColor,
+    }}
+  >
+    {icon && <JuniorIcon name={icon} size={Math.round(size * 0.95)} />}
+    <span>{children}</span>
+  </h3>
+);
+
+const BulletList = ({
+  items,
+  bulletColor = TEAL,
+  fontSize = 24,
+  gap = 12,
+}: {
+  items: ReactNode[];
+  bulletColor?: string;
+  fontSize?: number;
+  gap?: number;
+}) => (
+  <ul
+    style={{
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+      display: 'flex',
+      flexDirection: 'column',
+      gap,
+    }}
+  >
+    {items.map((item, idx) => (
+      <li
+        key={idx}
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 12,
+          fontSize,
+          fontWeight: 700,
+          lineHeight: 1.38,
+          color: CHARCOAL,
+          textAlign: 'left',
+        }}
+      >
+        <span
+          aria-hidden
+          style={{
+            width: 11,
+            height: 11,
+            marginTop: Math.round(fontSize * 0.42),
+            borderRadius: 99,
+            background: bulletColor,
+            border: `2px solid ${CHARCOAL}`,
+            flexShrink: 0,
+          }}
+        />
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+);
+
+/** Flat content panel (replaces button-like 3D cards for non-interactive boxes) */
+const InfoPanel = ({
+  children,
+  bg = WHITE,
+  borderColor = CHARCOAL,
+  padding = 28,
+  style,
+}: {
+  children: ReactNode;
+  bg?: string;
+  borderColor?: string;
+  padding?: number;
+  style?: CSSProperties;
+}) => (
+  <div
+    style={{
+      background: bg,
+      borderRadius: 24,
+      border: `3px solid ${borderColor}`,
+      boxShadow: CARD_SHADOW,
+      padding,
+      boxSizing: 'border-box',
+      ...style,
+    }}
+  >
+    {children}
+  </div>
 );
 
 const MacWindowCard = ({
@@ -402,7 +450,7 @@ const MacWindowCard = ({
   titleBarColor = WHITE,
   headerLabel,
   children,
-  padding = 36,
+  padding = 32,
 }: {
   left: number;
   top: number;
@@ -417,9 +465,9 @@ const MacWindowCard = ({
     style={{
       ...abs(left, top, width, height),
       background: WHITE,
-      borderRadius: 28,
+      borderRadius: 26,
       border: `3px solid ${CHARCOAL}`,
-      boxShadow: `0 8px 0 ${CHARCOAL}`,
+      boxShadow: CARD_SHADOW,
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
@@ -427,57 +475,26 @@ const MacWindowCard = ({
   >
     <div
       style={{
-        height: 54,
+        height: 48,
         background: titleBarColor,
         borderBottom: `2.5px solid ${CHARCOAL}`,
-        padding: '0 24px',
+        padding: '0 22px',
         ...row,
         justifyContent: 'space-between',
         flexShrink: 0,
       }}
     >
-      <div style={{ ...row, gap: 10 }}>
-        <span
-          style={{
-            width: 16,
-            height: 16,
-            borderRadius: 99,
-            background: CORAL,
-            border: `2px solid ${CHARCOAL}`,
-          }}
-        />
-        <span
-          style={{
-            width: 16,
-            height: 16,
-            borderRadius: 99,
-            background: SUNNY,
-            border: `2px solid ${CHARCOAL}`,
-          }}
-        />
-        <span
-          style={{
-            width: 16,
-            height: 16,
-            borderRadius: 99,
-            background: TEAL,
-            border: `2px solid ${CHARCOAL}`,
-          }}
-        />
+      <div style={{ ...row, gap: 9 }}>
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: CORAL, border: `2px solid ${CHARCOAL}` }} />
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: SUNNY, border: `2px solid ${CHARCOAL}` }} />
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: TEAL, border: `2px solid ${CHARCOAL}` }} />
       </div>
       {headerLabel && (
-        <span
-          style={{
-            fontSize: 17,
-            fontWeight: 800,
-            color: MUTED,
-            letterSpacing: '0.03em',
-          }}
-        >
+        <span style={{ fontSize: 16, fontWeight: 800, color: MUTED, letterSpacing: '0.03em' }}>
           {headerLabel}
         </span>
       )}
-      <div style={{ width: 64 }} />
+      <div style={{ width: 56 }} />
     </div>
     <div style={{ flex: 1, padding, position: 'relative', overflow: 'hidden' }}>{children}</div>
   </div>
@@ -488,35 +505,30 @@ const MacWindowCard = ({
 // ============================================================================
 type Dir = 'up' | 'down' | 'left' | 'right';
 
-const DIR_META: Record<Dir, { label: string; color: string; rot: number; icon: JuniorIconName }> = {
-  up: { label: 'Atas', color: TEAL, rot: -90, icon: 'arrow-up' },
-  down: { label: 'Bawah', color: CORAL, rot: 90, icon: 'arrow-down' },
-  left: { label: 'Kiri', color: SUNNY, rot: 180, icon: 'arrow-left' },
-  right: { label: 'Kanan', color: SKY, rot: 0, icon: 'arrow-right' },
+const DIR_META: Record<Dir, { label: string; color: string; rot: number }> = {
+  up: { label: 'Atas', color: TEAL, rot: -90 },
+  down: { label: 'Bawah', color: CORAL, rot: 90 },
+  left: { label: 'Kiri', color: SUNNY, rot: 180 },
+  right: { label: 'Kanan', color: SKY, rot: 0 },
 };
 
 /** Friendly cartoon red ladybug ("Bug") */
 const BugSvg = ({ size = 56, style }: { size?: number; style?: CSSProperties }) => (
   <svg width={size} height={size} viewBox="0 0 80 80" fill="none" style={style}>
-    {/* Little legs */}
     <path
       d="M20 34 L10 28 M18 46 L8 46 M22 58 L12 64 M60 34 L70 28 M62 46 L72 46 M58 58 L68 64"
       stroke={CHARCOAL}
       strokeWidth={3.8}
       strokeLinecap="round"
     />
-    {/* Antennae */}
     <path d="M33 20 Q28 10 22 12 M47 20 Q52 10 58 12" stroke={CHARCOAL} strokeWidth={3.2} strokeLinecap="round" />
     <circle cx="22" cy="12" r="3" fill={CHARCOAL} />
     <circle cx="58" cy="12" r="3" fill={CHARCOAL} />
-    {/* Head */}
     <circle cx="40" cy="25" r="11" fill={CHARCOAL} />
     <circle cx="36" cy="24" r="2.2" fill={WHITE} />
     <circle cx="44" cy="24" r="2.2" fill={WHITE} />
-    {/* Ladybug Wing Shell */}
     <ellipse cx="40" cy="48" rx="22" ry="20" fill={CORAL} stroke={CHARCOAL} strokeWidth={3.8} />
     <line x1="40" y1="28" x2="40" y2="68" stroke={CHARCOAL} strokeWidth={3.2} />
-    {/* Spots */}
     <circle cx="29" cy="42" r="4.2" fill={CHARCOAL} />
     <circle cx="31" cy="56" r="3.6" fill={CHARCOAL} />
     <circle cx="51" cy="42" r="4.2" fill={CHARCOAL} />
@@ -553,7 +565,7 @@ const MagnifierSvg = ({ size = 68 }: { size?: number }) => (
   </svg>
 );
 
-/** Tactile Directional Arrow Block with Bug / Cross / Fixed states */
+/** Tactile Directional Arrow Block with Bug / Cross / Fixed states (button ONLY when onClick is passed) */
 const DebugArrowBlock = ({
   dir,
   size = 86,
@@ -579,31 +591,9 @@ const DebugArrowBlock = ({
 }) => {
   const m = DIR_META[dir];
   const bg = highlightColor ?? (isBug ? CORAL : isFixed ? TEAL : m.color);
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={onClick ? 'cpj8-card-btn' : undefined}
-      style={{
-        position: 'relative',
-        width: size,
-        height: size,
-        borderRadius: Math.round(size * 0.24),
-        background: bg,
-        border: `3px solid ${CHARCOAL}`,
-        boxShadow: active
-          ? `0 0 0 6px ${SUNNY}, 0 6px 0 ${CHARCOAL}`
-          : `0 6px 0 ${CHARCOAL}`,
-        animation: isBug ? 'cpj8-bug-pulse 1.5s ease-in-out infinite' : undefined,
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 0,
-        cursor: onClick ? 'pointer' : 'default',
-        flexShrink: 0,
-      }}
-      aria-label={`Blok panah ${m.label}`}
-    >
+
+  const content = (
+    <>
       {showRightTab && (
         <span
           aria-hidden
@@ -660,27 +650,22 @@ const DebugArrowBlock = ({
         </div>
       )}
       {crossed && (
-        <span
+        <svg
+          width={30}
+          height={30}
+          viewBox="0 0 28 28"
+          fill="none"
           style={{
             position: 'absolute',
-            top: -14,
-            right: -12,
-            width: 32,
-            height: 32,
-            borderRadius: 99,
-            background: CORAL,
-            color: WHITE,
-            border: `2.5px solid ${CHARCOAL}`,
-            fontSize: 18,
-            fontWeight: 800,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            top: -12,
+            right: -10,
             zIndex: 4,
+            pointerEvents: 'none',
           }}
         >
-          ✕
-        </span>
+          <circle cx="14" cy="14" r="12" fill={CORAL} stroke={CHARCOAL} strokeWidth={2.4} />
+          <path d="M9.5 9.5 L18.5 18.5 M18.5 9.5 L9.5 18.5" stroke={WHITE} strokeWidth={3} strokeLinecap="round" />
+        </svg>
       )}
       <svg
         width={Math.round(size * 0.56)}
@@ -697,7 +682,50 @@ const DebugArrowBlock = ({
           strokeLinejoin="round"
         />
       </svg>
-    </button>
+    </>
+  );
+
+  const sharedStyle: CSSProperties = {
+    position: 'relative',
+    width: size,
+    height: size,
+    borderRadius: Math.round(size * 0.24),
+    background: bg,
+    border: `3px solid ${CHARCOAL}`,
+    boxShadow: onClick
+      ? active
+        ? `0 0 0 5px ${SUNNY}, 0 5px 0 ${CHARCOAL}`
+        : `0 5px 0 ${CHARCOAL}`
+      : active
+        ? `0 0 0 5px ${SUNNY}`
+        : CARD_SHADOW,
+    animation: isBug ? 'cpj8-bug-pulse 1.5s ease-in-out infinite' : undefined,
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+    flexShrink: 0,
+    boxSizing: 'border-box',
+  };
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className="cpj8-card-btn"
+        style={{ ...sharedStyle, cursor: 'pointer' }}
+        aria-label={`Blok panah ${m.label}`}
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <div style={sharedStyle} aria-label={`Blok panah ${m.label}`}>
+      {content}
+    </div>
   );
 };
 
@@ -716,10 +744,8 @@ const BikoDetectiveToken = ({
     <circle cx="60" cy="28" r="9" fill="#D97706" stroke={CHARCOAL} strokeWidth={3.2} />
     <circle cx="40" cy="44" r="24" fill="#F59E0B" stroke={CHARCOAL} strokeWidth={3.4} />
     <ellipse cx="40" cy="49" rx="17" ry="14" fill="#FEF3C7" />
-    {/* Detective Cap */}
     <path d="M22 28 C22 14, 58 14, 58 28 Z" fill="#92400E" stroke={CHARCOAL} strokeWidth={3} />
     <path d="M20 29 Q40 22 62 29 L66 33 Q40 29 18 33 Z" fill="#78350F" stroke={CHARCOAL} strokeWidth={2.5} />
-    {/* Eyes */}
     <circle cx="32" cy="43" r="3.4" fill={CHARCOAL} />
     <circle cx="48" cy="43" r="3.4" fill={CHARCOAL} />
     <circle cx="33" cy="41.8" r="1.1" fill={WHITE} />
@@ -800,31 +826,28 @@ const StarSvg = ({ size = 64 }: { size?: number }) => (
 );
 
 // ============================================================================
-// SLIDE 01 — Cover (Detective Case Folder Backdrop + Biko Detektif + Bug Block)
+// SLIDE 01 — Cover (Heading H1 + Bullet InfoPanel + Detective Folder Showcase)
 // ============================================================================
 const Slide01Cover: Page = () => {
   const live = useIsActivePage();
   return (
     <JuniorFrame badge="CODEPOLITAN JUNIOR • PERTEMUAN 8" accentDot={CORAL}>
       {/* Left Hero Column */}
-      <div style={{ ...abs(X0, 210, 890, 700), display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ ...abs(X0, 170, 820, 770), display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 22 }}>
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: 10,
             alignSelf: 'flex-start',
-            padding: '10px 22px',
-            borderRadius: 999,
+            padding: '8px 18px',
+            borderRadius: 12,
             background: CORAL_SOFT,
-            border: `2.5px solid ${CHARCOAL}`,
-            fontSize: 22,
+            border: `2px solid ${CHARCOAL}`,
+            fontSize: 20,
             fontWeight: 800,
             color: '#B91C1C',
-            marginBottom: 24,
           }}
         >
-          <JuniorIcon name="magnifier" size={24} />
           <span>LEVEL 1: CODE EXPLORER (USIA 5–7 TAHUN)</span>
         </div>
 
@@ -832,98 +855,75 @@ const Slide01Cover: Page = () => {
           style={{
             margin: 0,
             fontFamily: 'var(--osd-font-display)',
-            fontSize: 82,
+            fontSize: 80,
             fontWeight: 700,
             lineHeight: 1.08,
             letterSpacing: '-0.02em',
             color: CHARCOAL,
           }}
         >
-          Aduh, Karakternya
-          <br />
-          <Highlight>Nyasar!</Highlight>
+          Aduh, Karakternya <Highlight>Nyasar!</Highlight>
         </h1>
 
         <p
           style={{
-            margin: '28px 0 36px',
-            fontSize: 33,
+            margin: 0,
+            fontSize: 30,
             fontWeight: 700,
-            lineHeight: 1.38,
+            lineHeight: 1.35,
             color: MUTED,
-            maxWidth: 790,
           }}
         >
-          Detektif Kode Mencari &amp; Memperbaiki Blok Salah
+          Detektif Kode Cari &amp; Perbaiki Blok Salah
         </p>
 
-        {/* Quick Pill Highlights */}
-        <div style={{ ...row, gap: 18 }}>
-          <div
-            style={{
-              ...row,
-              gap: 12,
-              padding: '15px 26px',
-              borderRadius: 20,
-              background: CORAL,
-              color: WHITE,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 27,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="bug" size={28} />
-            <span>Temukan Bug</span>
+        {/* Clean non-button Info Panel with Bullet Points */}
+        <InfoPanel bg={WHITE} padding={26} style={{ marginTop: 6 }}>
+          <SectionHeading icon="magnifier" size={26} accentColor={CHARCOAL}>
+            Yang Kita Pelajari:
+          </SectionHeading>
+          <div style={{ marginTop: 14 }}>
+            <BulletList
+              bulletColor={CORAL}
+              fontSize={24}
+              gap={12}
+              items={[
+                <>
+                  Cari <InlineHighlight color="#FECACA">blok salah (Bug)</InlineHighlight>.
+                </>,
+                <>
+                  Buang panah yang <InlineHighlight>bikin nyasar</InlineHighlight>.
+                </>,
+                <>
+                  Ganti dengan <InlineHighlight color="#D1FAE5">panah benar</InlineHighlight>.
+                </>,
+              ]}
+            />
           </div>
-          <div
-            style={{
-              ...row,
-              gap: 12,
-              padding: '15px 26px',
-              borderRadius: 20,
-              background: WHITE,
-              color: CHARCOAL,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 27,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="wrench" size={28} />
-            <span>Jurus Debugging!</span>
-          </div>
-        </div>
+        </InfoPanel>
       </div>
 
-      {/* Right Visual Showcase: Detective Case Folder Card (Distinct from Pertemuan 1-7) */}
-      <div style={{ ...abs(1000, 165, 820, 785), ...centerCol }}>
-        {/* Folder Top Tab */}
+      {/* Right Visual Showcase: Detective Case Folder Card */}
+      <div style={{ ...abs(1000, 155, 820, 795), ...centerCol }}>
         <div
           style={{
             position: 'absolute',
             left: 88,
             top: 26,
-            padding: '10px 28px',
-            borderRadius: '20px 20px 0 0',
+            padding: '10px 26px',
+            borderRadius: '18px 18px 0 0',
             background: SUNNY,
             border: `4px solid ${CHARCOAL}`,
             borderBottom: 'none',
             fontFamily: 'var(--osd-font-display)',
-            fontSize: 22,
+            fontSize: 21,
             fontWeight: 700,
             zIndex: 2,
-            ...row,
-            gap: 8,
           }}
         >
-          <JuniorIcon name="folder" size={22} />
-          <span>KASUS DETEKTIF #08</span>
+          KASUS DETEKTIF #08
         </div>
 
-        {/* Chamfered-Style Detective Case Folder */}
         <div
           style={{
             position: 'absolute',
@@ -933,59 +933,53 @@ const Slide01Cover: Page = () => {
             borderRadius: '0 44px 190px 44px',
             background: 'linear-gradient(155deg, #FEF2F2 0%, #FFFBEB 55%, #EFF6FF 100%)',
             border: `4px solid ${CHARCOAL}`,
-            boxShadow: `14px 14px 0 ${CORAL}`,
+            boxShadow: `12px 12px 0 ${CORAL}`,
             overflow: 'hidden',
           }}
         >
-          {/* Magnifier grid rings */}
           <svg width="100%" height="100%" viewBox="0 0 650 610" fill="none" style={{ opacity: 0.28 }}>
             <circle cx="325" cy="310" r="220" stroke={CORAL} strokeWidth={3} strokeDasharray="10 10" />
             <circle cx="325" cy="310" r="145" stroke={SKY} strokeWidth={3} />
           </svg>
         </div>
 
-        {/* Arrow Block Chain with Glowing Bug Block */}
-        <div
+        {/* Arrow Block Chain with Bug Block (Flat InfoPanel) */}
+        <InfoPanel
+          bg={WHITE}
+          padding={18}
           style={{
             position: 'absolute',
             left: 20,
             top: 108,
-            padding: '16px 22px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3.5px solid ${CHARCOAL}`,
-            boxShadow: `0 8px 0 ${CHARCOAL}`,
+            borderRadius: 22,
             zIndex: 4,
           }}
         >
-          <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 19, fontWeight: 700, color: MUTED, marginBottom: 10 }}>
-            <JuniorIcon name="magnifier" size={20} />
-            <span>Periksa Rantai Kode:</span>
+          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 19, fontWeight: 700, color: MUTED, marginBottom: 10 }}>
+            Periksa Rantai Kode:
           </div>
           <div style={{ ...row, gap: 10 }}>
             <DebugArrowBlock dir="right" size={72} stepNum={1} showRightTab />
             <DebugArrowBlock dir="up" size={72} stepNum={2} showRightTab />
             <DebugArrowBlock dir="down" size={72} stepNum={3} isBug />
           </div>
-        </div>
+        </InfoPanel>
 
         <BikoMascot
           pose="detective"
-          width={400}
+          width={390}
           style={{ position: 'relative', zIndex: 3, marginTop: 155, marginLeft: 130 }}
         />
 
-        {/* Cute Floating Bug Pill */}
-        <div
+        {/* Cute Floating Bug Card (Flat InfoPanel) */}
+        <InfoPanel
+          bg={WHITE}
+          padding={12}
           style={{
             position: 'absolute',
             right: 26,
             bottom: 48,
-            padding: '10px 18px',
-            borderRadius: 22,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${CHARCOAL}`,
+            borderRadius: 20,
             ...row,
             gap: 10,
             zIndex: 5,
@@ -996,14 +990,14 @@ const Slide01Cover: Page = () => {
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 22, fontWeight: 700, color: CORAL }}>
             Ketemu Bug!
           </span>
-        </div>
+        </InfoPanel>
       </div>
     </JuniorFrame>
   );
 };
 
 // ============================================================================
-// SLIDE 02 — Misi Hari Ini (2 Kartu Misi Besar + Biko Menunjuk)
+// SLIDE 02 — Misi Hari Ini (2 InfoPanel Cards with SectionHeading + BulletList)
 // ============================================================================
 const Slide02Misi: Page = () => (
   <JuniorFrame badge="MISI HARI INI" accentDot={CORAL}>
@@ -1011,131 +1005,107 @@ const Slide02Misi: Page = () => (
       Apa <Highlight>Misi Kita</Highlight> Hari Ini?
     </SlideTitle>
 
-    <MacWindowCard left={X0} top={250} width={1280} height={675} headerLabel="daftar-misi-8.exe" padding={42}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, height: '100%' }}>
-        {/* Kartu 1: Coral #F45B49 */}
-        <div
-          style={{
-            borderRadius: 26,
-            background: CORAL_SOFT,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 8px 0 ${CORAL}`,
-            padding: '34px 32px',
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+    <MacWindowCard left={X0} top={215} width={1320} height={745} headerLabel="misi-pertemuan-8" padding={34}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, height: '100%' }}>
+        {/* Misi 1 */}
+        <InfoPanel
+          bg={CORAL_SOFT}
+          borderColor={CHARCOAL}
+          padding={28}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 16 }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: CORAL,
-              color: WHITE,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            MISI 1
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#B91C1C', letterSpacing: '0.05em' }}>
+              MISI 1
+            </span>
+            <SectionHeading icon="bug" size={32}>
+              Temukan <Highlight color={STABILO}>Bug</Highlight>
+            </SectionHeading>
           </div>
 
           <div
             style={{
-              ...row,
-              gap: 16,
-              padding: '18px 26px',
-              borderRadius: 24,
               background: WHITE,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
+              borderRadius: 20,
+              border: `2.5px solid ${CORAL}`,
+              padding: '24px 20px',
+              ...row,
+              justifyContent: 'center',
+              gap: 22,
             }}
           >
-            <MagnifierSvg size={72} />
-            <DebugArrowBlock dir="down" size={76} isBug />
+            <MagnifierSvg size={76} />
+            <DebugArrowBlock dir="down" size={78} isBug />
           </div>
 
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 38,
-              fontWeight: 700,
-              lineHeight: 1.25,
-              color: CHARCOAL,
-            }}
-          >
-            Temukan <Highlight color={STABILO}>Bug</Highlight>
-            <br />
-            (Blok yang Salah)
-          </div>
-        </div>
+          <BulletList
+            bulletColor={CORAL}
+            fontSize={24}
+            gap={12}
+            items={[
+              <>
+                Cari <InlineHighlight color="#FECACA">blok salah</InlineHighlight> di kode.
+              </>,
+              <>
+                Panah salah bikin <InlineHighlight color={WHITE}>nyasar</InlineHighlight>.
+              </>,
+            ]}
+          />
+        </InfoPanel>
 
-        {/* Kartu 2: Hijau #10B981 */}
-        <div
-          style={{
-            borderRadius: 26,
-            background: TEAL_SOFT,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 8px 0 ${TEAL}`,
-            padding: '34px 32px',
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+        {/* Misi 2 */}
+        <InfoPanel
+          bg={TEAL_SOFT}
+          borderColor={CHARCOAL}
+          padding={28}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 16 }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: TEAL,
-              color: WHITE,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            MISI 2
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#047857', letterSpacing: '0.05em' }}>
+              MISI 2
+            </span>
+            <SectionHeading icon="wrench" size={32}>
+              Perbaiki (<Highlight color="#A7F3D0">Debugging</Highlight>)
+            </SectionHeading>
           </div>
 
           <div
             style={{
-              ...row,
-              gap: 16,
-              padding: '18px 26px',
-              borderRadius: 24,
               background: WHITE,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
+              borderRadius: 20,
+              border: `2.5px solid ${TEAL}`,
+              padding: '24px 20px',
+              ...row,
+              justifyContent: 'center',
+              gap: 22,
             }}
           >
-            <WrenchStarSvg size={72} />
-            <DebugArrowBlock dir="up" size={76} isFixed />
+            <WrenchStarSvg size={76} />
+            <DebugArrowBlock dir="up" size={78} isFixed />
           </div>
 
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 38,
-              fontWeight: 700,
-              lineHeight: 1.25,
-              color: CHARCOAL,
-            }}
-          >
-            Perbaiki Kodenya
-            <br />
-            (<Highlight color="#D1FAE5">Debugging!</Highlight>)
-          </div>
-        </div>
+          <BulletList
+            bulletColor={TEAL}
+            fontSize={24}
+            gap={12}
+            items={[
+              <>
+                Buang blok <InlineHighlight color="#FECACA">yang salah</InlineHighlight>.
+              </>,
+              <>
+                Pasang blok <InlineHighlight color="#D1FAE5">panah benar</InlineHighlight>.
+              </>,
+            ]}
+          />
+        </InfoPanel>
       </div>
     </MacWindowCard>
 
     <BikoMascot
       pose="point-left"
-      width={380}
-      speechBubble="Ayo tangkap semua Bug!"
-      style={{ ...abs(1435, 315) }}
+      width={360}
+      speechBubble="Ayo tangkap Bug!"
+      style={{ ...abs(1455, 315) }}
     />
   </JuniorFrame>
 );
@@ -1152,13 +1122,11 @@ const Slide03ApaItuBug: Page = () => {
         Apa Itu <Highlight>Bug</Highlight>?
       </SlideTitle>
 
-      {/* Left Spotlight Card: Biko going off-course into Thorny Bush */}
-      <MacWindowCard left={X0} top={250} width={960} height={685} headerLabel="apa-itu-bug.app" padding={30}>
+      {/* Left Spotlight Card */}
+      <MacWindowCard left={X0} top={215} width={960} height={745} headerLabel="apa-itu-bug" padding={28}>
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div style={{ ...row, justifyContent: 'space-between' }}>
-            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700 }}>
-              Kode salah bikin Biko nyasar!
-            </span>
+            <SectionHeading size={26}>Kode salah bikin nyasar:</SectionHeading>
             <button
               type="button"
               className="cpj8-card-btn"
@@ -1169,6 +1137,7 @@ const Slide03ApaItuBug: Page = () => {
                 background: inspectBug ? CORAL : SKY,
                 color: WHITE,
                 border: `2.5px solid ${CHARCOAL}`,
+                boxShadow: `0 4px 0 ${CHARCOAL}`,
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 19,
                 fontWeight: 700,
@@ -1184,15 +1153,15 @@ const Slide03ApaItuBug: Page = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, 168px)',
-              gridTemplateRows: 'repeat(3, 120px)',
+              gridTemplateColumns: 'repeat(3, 175px)',
+              gridTemplateRows: 'repeat(3, 130px)',
               gap: 12,
               justifyContent: 'center',
               alignContent: 'center',
               background: '#F8FAFC',
               padding: 18,
-              borderRadius: 24,
-              border: `3px solid ${CHARCOAL}`,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
             }}
           >
             {[0, 1, 2].map((r) =>
@@ -1200,7 +1169,6 @@ const Slide03ApaItuBug: Page = () => {
                 const isStart = r === 1 && c === 0;
                 const isWrongWay = r === 2 && c === 1;
                 const isFlag = r === 0 && c === 2;
-                const isOffBush = r === 2 && c === 1;
 
                 return (
                   <div
@@ -1216,32 +1184,28 @@ const Slide03ApaItuBug: Page = () => {
                             : WHITE,
                       border: isWrongWay ? `3.5px solid ${CORAL}` : `2.5px solid ${CHARCOAL}`,
                       ...centerCol,
-                      position: 'relative',
                     }}
                   >
                     {isStart && (
-                      <span style={{ ...row, gap: 4, fontSize: 16, fontWeight: 800, color: '#1D4ED8' }}>
+                      <span style={{ ...row, gap: 6, fontSize: 17, fontWeight: 800, color: '#1D4ED8' }}>
                         <span>START</span>
                         <JuniorIcon name="arrow-right" size={18} />
                       </span>
                     )}
-                    {r === 1 && c === 1 && (
-                      <JuniorIcon name="arrow-down" size={28} />
-                    )}
-                    {isOffBush && (
+                    {r === 1 && c === 1 && <JuniorIcon name="arrow-down" size={30} />}
+                    {isWrongWay && (
                       <div style={{ ...row, gap: 4 }}>
                         <BikoDetectiveToken size={64} confused />
                         <BushSvg size={58} />
                       </div>
                     )}
-                    {isFlag && <FlagSvg size={70} />}
+                    {isFlag && <FlagSvg size={72} />}
                   </div>
                 );
               }),
             )}
           </div>
 
-          {/* Code Strip showing the Bug */}
           <div
             style={{
               ...row,
@@ -1249,89 +1213,68 @@ const Slide03ApaItuBug: Page = () => {
               padding: '12px 24px',
               borderRadius: 20,
               background: CORAL_SOFT,
-              border: `3px solid ${CHARCOAL}`,
+              border: `2.5px solid ${CORAL}`,
             }}
           >
             <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 22, fontWeight: 700 }}>
               Urutan Blok:
             </span>
             <div style={{ ...row, gap: 14 }}>
-              <DebugArrowBlock dir="right" size={66} stepNum={1} showRightTab />
-              <DebugArrowBlock dir="down" size={66} stepNum={2} isBug={inspectBug} />
+              <DebugArrowBlock dir="right" size={64} stepNum={1} showRightTab />
+              <DebugArrowBlock dir="down" size={64} stepNum={2} isBug={inspectBug} />
             </div>
-            <span style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 21, fontWeight: 700, color: CORAL }}>
-              <JuniorIcon name="bug" size={22} />
-              <span>Bug bikin nyasar ke semak!</span>
+            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 22, fontWeight: 700, color: '#B91C1C' }}>
+              Nyasar ke semak!
             </span>
           </div>
         </div>
       </MacWindowCard>
 
-      {/* Right Column: Definition Cards + Biko Thinking */}
-      <div style={{ ...abs(1100, 250, 720, 685), display: 'flex', flexDirection: 'column', gap: 22 }}>
-        <div
-          style={{
-            background: CORAL_SOFT,
-            borderRadius: 24,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 7px 0 ${CORAL}`,
-            padding: '24px 28px',
-            ...row,
-            gap: 20,
-          }}
-        >
+      {/* Right Column: Flat InfoPanels + Biko */}
+      <div style={{ ...abs(1095, 215, 725, 745), display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 18 }}>
+        <InfoPanel bg={CORAL_SOFT} padding={24} style={{ ...row, gap: 20 }}>
           <BugSvg size={76} />
-          <div>
-            <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
-              <JuniorIcon name="bug" size={28} />
-              <span>Kesalahan di Urutan Blok</span>
-            </div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: MUTED, marginTop: 4 }}>
-              Dalam dunia coding, kesalahan perintah disebut <strong>Bug</strong>!
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <SectionHeading size={28} accentColor="#B91C1C">
+              Blok Perintah Salah
+            </SectionHeading>
+            <BulletList
+              bulletColor={CORAL}
+              fontSize={22}
+              gap={8}
+              items={[
+                <>
+                  Kesalahan kode disebut <InlineHighlight color="#FECACA">Bug</InlineHighlight>.
+                </>,
+                <>Panah menunjuk arah salah.</>,
+              ]}
+            />
           </div>
-        </div>
+        </InfoPanel>
 
-        <div
-          style={{
-            background: SUNNY_SOFT,
-            borderRadius: 24,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 7px 0 ${SUNNY}`,
-            padding: '24px 28px',
-            ...row,
-            gap: 20,
-          }}
-        >
-          <div
-            style={{
-              width: 74,
-              height: 74,
-              borderRadius: 20,
-              background: SUNNY,
-              border: `3px solid ${CHARCOAL}`,
-              ...centerCol,
-              fontSize: 40,
-              flexShrink: 0,
-            }}
-          >
-            <JuniorIcon name="dizzy" size={40} />
+        <InfoPanel bg={SUNNY_SOFT} padding={24} style={{ ...row, gap: 20 }}>
+          <BikoDetectiveToken size={76} confused />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <SectionHeading size={28}>Bikin Karakter Nyasar</SectionHeading>
+            <BulletList
+              bulletColor={SUNNY}
+              fontSize={22}
+              gap={8}
+              items={[
+                <>Karakter ikut kode tertulis.</>,
+                <>
+                  Arah salah bikin <InlineHighlight color={WHITE}>tersesat</InlineHighlight>!
+                </>,
+              ]}
+            />
           </div>
-          <div>
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
-              Bikin Nyasar atau Nabrak!
-            </div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: MUTED, marginTop: 4 }}>
-              Karakter mengikuti perintah yang tertulis, walau salah.
-            </div>
-          </div>
-        </div>
+        </InfoPanel>
 
         <div style={{ flex: 1, ...centerCol }}>
           <BikoMascot
             pose="thinking"
-            width={245}
-            speechBubble="Hmm, blok mana yang salah ya?"
+            width={235}
+            speechBubble="Blok mana yang salah?"
           />
         </div>
       </div>
@@ -1348,8 +1291,7 @@ const Slide04JurusDebugging: Page = () => {
   const steps: {
     num: string;
     title: string;
-    desc: string;
-    icon: JuniorIconName;
+    bullets: ReactNode[];
     color: string;
     soft: string;
     badge: string;
@@ -1358,54 +1300,66 @@ const Slide04JurusDebugging: Page = () => {
     {
       num: '1',
       title: 'Cari Blok Nyasar',
-      desc: 'Periksa urutan blok dengan teliti',
-      icon: 'magnifier',
+      bullets: [
+        <>
+          Cek <InlineHighlight color={SKY_SOFT}>urutan panah</InlineHighlight>.
+        </>,
+        <>Temukan blok merah.</>,
+      ],
       color: SKY,
       soft: SKY_SOFT,
       badge: 'LANGKAH 1 • CARI',
       visual: (
-        <div style={{ ...row, gap: 10 }}>
-          <MagnifierSvg size={64} />
-          <DebugArrowBlock dir="down" size={64} isBug />
+        <div style={{ ...row, gap: 12 }}>
+          <MagnifierSvg size={62} />
+          <DebugArrowBlock dir="down" size={62} isBug />
         </div>
       ),
     },
     {
       num: '2',
       title: 'Buang Blok Salah',
-      desc: 'Tarik keluar blok merah yang ada Bug',
-      icon: 'trash',
+      bullets: [
+        <>
+          Lepas <InlineHighlight color="#FECACA">blok merah</InlineHighlight>.
+        </>,
+        <>Sisihkan dari barisan.</>,
+      ],
       color: CORAL,
       soft: CORAL_SOFT,
       badge: 'LANGKAH 2 • BUANG',
       visual: (
-        <div style={{ ...row, gap: 10 }}>
-          <DebugArrowBlock dir="down" size={64} crossed />
+        <div style={{ ...row, gap: 12 }}>
+          <DebugArrowBlock dir="down" size={62} crossed />
           <JuniorIcon name="trash" size={38} />
         </div>
       ),
     },
     {
       num: '3',
-      title: 'Ganti Blok Benar!',
-      desc: 'Pasang blok hijau yang arahnya tepat',
-      icon: 'sparkle',
+      title: 'Ganti Blok Benar',
+      bullets: [
+        <>
+          Pasang <InlineHighlight color="#D1FAE5">panah tepat</InlineHighlight>.
+        </>,
+        <>Jalan sampai finis!</>,
+      ],
       color: TEAL,
       soft: TEAL_SOFT,
       badge: 'LANGKAH 3 • GANTI',
       visual: (
-        <div style={{ ...row, gap: 10 }}>
+        <div style={{ ...row, gap: 12 }}>
           <WrenchStarSvg size={60} />
-          <DebugArrowBlock dir="up" size={64} isFixed />
+          <DebugArrowBlock dir="up" size={62} isFixed />
         </div>
       ),
     },
   ];
 
   const hints: { icon: JuniorIconName; text: string }[] = [
-    { icon: 'magnifier', text: 'Fase 1: Biko memeriksa blok dengan kaca pembesar dan menemukan blok merah!' },
-    { icon: 'trash', text: 'Fase 2: Tarik keluar & buang blok merah yang salah dari rantai kode!' },
-    { icon: 'sparkle', text: 'Fase 3: Pasang blok hijau yang tepat — kode kembali bersih dan benar!' },
+    { icon: 'magnifier', text: 'Langkah 1: Cari blok merah yang bikin nyasar!' },
+    { icon: 'trash', text: 'Langkah 2: Buang blok salah dari barisan!' },
+    { icon: 'wrench', text: 'Langkah 3: Pasang blok hijau yang benar!' },
   ];
 
   return (
@@ -1414,9 +1368,9 @@ const Slide04JurusDebugging: Page = () => {
         Jurus <Highlight>Debugging!</Highlight>
       </SlideTitle>
 
-      <MacWindowCard left={X0} top={245} width={1720} height={700} headerLabel="jurus-debugging.app" padding={34}>
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
+      <MacWindowCard left={X0} top={215} width={1720} height={745} headerLabel="jurus-debugging" padding={32}>
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28, flex: 1 }}>
             {steps.map((s, idx) => {
               const active = phase === idx;
               return (
@@ -1426,66 +1380,61 @@ const Slide04JurusDebugging: Page = () => {
                   className="cpj8-card-btn"
                   onClick={() => setPhase(idx as 0 | 1 | 2)}
                   style={{
-                    borderRadius: 26,
+                    borderRadius: 24,
                     background: s.soft,
                     border: `3.5px solid ${CHARCOAL}`,
-                    boxShadow: active ? `0 0 0 6px ${SUNNY}, 0 8px 0 ${CHARCOAL}` : `0 8px 0 ${s.color}`,
-                    padding: '26px 24px',
-                    ...centerCol,
-                    gap: 16,
-                    textAlign: 'center',
+                    boxShadow: active ? `0 0 0 6px ${SUNNY}, 0 8px 0 ${CHARCOAL}` : `0 7px 0 ${s.color}`,
+                    padding: '24px 26px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: 14,
+                    textAlign: 'left',
                     cursor: 'pointer',
                   }}
                 >
-                  <div
+                  <span
                     style={{
-                      padding: '6px 18px',
-                      borderRadius: 99,
-                      background: s.color,
-                      color: WHITE,
-                      border: `2.5px solid ${CHARCOAL}`,
-                      fontFamily: 'var(--osd-font-display)',
-                      fontSize: 20,
-                      fontWeight: 700,
+                      fontSize: 18,
+                      fontWeight: 800,
+                      color: s.color === CORAL ? '#B91C1C' : s.color === SKY ? '#1D4ED8' : '#047857',
+                      letterSpacing: '0.05em',
                     }}
                   >
                     {s.badge}
-                  </div>
+                  </span>
 
                   <div
                     style={{
-                      padding: '14px 20px',
+                      padding: '14px 24px',
                       borderRadius: 20,
                       background: WHITE,
                       border: `2.5px solid ${CHARCOAL}`,
-                      boxShadow: `0 5px 0 ${CHARCOAL}`,
+                      ...centerCol,
                     }}
                   >
                     {s.visual}
                   </div>
 
-                  <div style={{ ...row, justifyContent: 'center', gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, color: CHARCOAL }}>
-                    <JuniorIcon name={s.icon} size={32} />
-                    <span>{s.title}</span>
-                  </div>
+                  <SectionHeading size={31}>{s.title}</SectionHeading>
 
-                  <div style={{ fontSize: 22, fontWeight: 700, color: MUTED, lineHeight: 1.35 }}>
-                    {s.desc}
+                  <div style={{ width: '100%' }}>
+                    <BulletList bulletColor={s.color} fontSize={22} gap={8} items={s.bullets} />
                   </div>
                 </button>
               );
             })}
           </div>
 
-          {/* Interactive Phase Bar */}
           <div
             style={{
               ...row,
               justifyContent: 'space-between',
-              padding: '16px 28px',
-              borderRadius: 22,
+              padding: '14px 24px',
+              borderRadius: 20,
               background: '#F8FAFC',
-              border: `3px solid ${CHARCOAL}`,
+              border: `2.5px solid ${CHARCOAL}`,
             }}
           >
             <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700, color: CHARCOAL }}>
@@ -1532,13 +1481,13 @@ const Slide05Kasus1: Page = () => {
         Langkahnya <Highlight>Kebanyakan!</Highlight>
       </SlideTitle>
 
-      {/* Left Spotlight Card: Horizontal 3-box Carrot Map + Buggy vs Fixed Code */}
-      <MacWindowCard left={X0} top={250} width={940} height={680} headerLabel="kasus-1-kelinci.app" padding={32}>
+      {/* Left Spotlight Card: Bunny 3-Box + Overshoot */}
+      <MacWindowCard left={X0} top={215} width={940} height={745} headerLabel="kasus-1-kelinci" padding={28}>
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div style={{ ...row, justifyContent: 'space-between' }}>
-            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700 }}>
-              Peta Jalan Kelinci (3 Kotak + Batas Luar):
-            </span>
+            <SectionHeading icon="carrot" size={26}>
+              Jalan Kelinci ke Wortel:
+            </SectionHeading>
             <button
               type="button"
               className="cpj8-card-btn"
@@ -1558,80 +1507,52 @@ const Slide05Kasus1: Page = () => {
               }}
             >
               <JuniorIcon name={fixed ? 'turn-left' : 'wrench'} size={20} />
-              <span>{fixed ? 'Lihat Kode Bug' : 'Perbaiki Sekarang!'}</span>
+              <span>{fixed ? 'Lihat Bug' : 'Perbaiki!'}</span>
             </button>
           </div>
 
-          {/* 3 boxes + 4th overshoot zone */}
           <div
             style={{
               ...row,
               justifyContent: 'center',
               gap: 14,
               background: '#F8FAFC',
-              padding: '34px 20px',
-              borderRadius: 24,
-              border: `3px solid ${CHARCOAL}`,
+              padding: '38px 20px',
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
             }}
           >
-            <div
-              style={{
-                width: 170,
-                height: 170,
-                borderRadius: 22,
-                background: SKY_SOFT,
-                border: `3px solid ${CHARCOAL}`,
-                ...centerCol,
-              }}
-            >
-              <BunnySvg size={105} />
+            <div style={{ width: 170, height: 175, borderRadius: 20, background: SKY_SOFT, border: `2.5px solid ${CHARCOAL}`, ...centerCol }}>
+              <BunnySvg size={102} />
               <span style={{ fontSize: 16, fontWeight: 800, color: '#1D4ED8' }}>START</span>
             </div>
 
-            <div
-              style={{
-                width: 170,
-                height: 170,
-                borderRadius: 22,
-                background: TEAL_SOFT,
-                border: `3px dashed ${TEAL}`,
-                ...centerCol,
-              }}
-            >
-              <span style={{ ...row, gap: 6, fontSize: 36, fontWeight: 800, color: '#047857' }}>
-                <span>1</span>
-                <JuniorIcon name="arrow-right" size={32} />
-              </span>
-              <span style={{ fontSize: 16, fontWeight: 700, color: MUTED }}>Kosong</span>
+            <div style={{ width: 170, height: 175, borderRadius: 20, background: TEAL_SOFT, border: `2.5px dashed ${TEAL}`, ...centerCol, gap: 6 }}>
+              <JuniorIcon name="arrow-right" size={34} />
+              <span style={{ fontSize: 18, fontWeight: 800, color: '#047857' }}>Langkah 1</span>
             </div>
 
             <div
               style={{
                 width: 170,
-                height: 170,
-                borderRadius: 22,
+                height: 175,
+                borderRadius: 20,
                 background: SUNNY_SOFT,
-                border: fixed ? `4px solid ${TEAL}` : `3px solid ${CHARCOAL}`,
+                border: fixed ? `4px solid ${TEAL}` : `2.5px solid ${CHARCOAL}`,
                 ...centerCol,
-                position: 'relative',
               }}
             >
               {fixed ? (
                 <>
                   <div style={{ ...row, gap: 4 }}>
-                    <BunnySvg size={80} />
+                    <BunnySvg size={78} />
                     <CarrotSvg size={64} />
                   </div>
-                  <span style={{ ...row, gap: 4, fontSize: 17, fontWeight: 800, color: '#047857' }}>
-                    <JuniorIcon name="check" size={18} />
-                    <span>PAS! (2</span>
-                    <JuniorIcon name="arrow-right" size={16} />
-                    <span>)</span>
-                  </span>
+                  <span style={{ fontSize: 17, fontWeight: 800, color: '#047857' }}>PAS! (2 Kanan)</span>
                 </>
               ) : (
                 <>
-                  <CarrotSvg size={95} />
+                  <CarrotSvg size={92} />
                   <span style={{ fontSize: 16, fontWeight: 800, color: '#B45309' }}>WORTEL</span>
                 </>
               )}
@@ -1640,137 +1561,97 @@ const Slide05Kasus1: Page = () => {
             {!fixed && (
               <div
                 style={{
-                  width: 150,
-                  height: 170,
-                  borderRadius: 22,
+                  width: 155,
+                  height: 175,
+                  borderRadius: 20,
                   background: CORAL_SOFT,
-                  border: `3.5px dashed ${CORAL}`,
+                  border: `3px dashed ${CORAL}`,
                   ...centerCol,
                 }}
               >
-                <BunnySvg size={82} />
-                <span style={{ ...row, gap: 4, fontSize: 16, fontWeight: 800, color: CORAL }}>
-                  <span>BABLAS! (3</span>
-                  <JuniorIcon name="arrow-right" size={16} />
-                  <span>)</span>
-                </span>
+                <BunnySvg size={80} />
+                <span style={{ fontSize: 16, fontWeight: 800, color: '#B91C1C' }}>BABLAS! (3)</span>
               </div>
             )}
           </div>
 
-          {/* Code Strip below */}
           <div
             style={{
-              padding: '20px 24px',
-              borderRadius: 22,
+              padding: '18px 24px',
+              borderRadius: 20,
               background: fixed ? TEAL_SOFT : CORAL_SOFT,
-              border: `3px solid ${CHARCOAL}`,
+              border: `2.5px solid ${fixed ? TEAL : CORAL}`,
               ...row,
               justifyContent: 'space-between',
             }}
           >
             <div style={{ ...row, gap: 14 }}>
-              <DebugArrowBlock dir="right" size={76} stepNum={1} showRightTab />
-              <DebugArrowBlock dir="right" size={76} stepNum={2} showRightTab={!fixed} />
-              {!fixed && <DebugArrowBlock dir="right" size={76} stepNum={3} isBug crossed />}
+              <DebugArrowBlock dir="right" size={74} stepNum={1} showRightTab />
+              <DebugArrowBlock dir="right" size={74} stepNum={2} showRightTab={!fixed} />
+              {!fixed && <DebugArrowBlock dir="right" size={74} stepNum={3} isBug crossed />}
             </div>
-            <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 23, fontWeight: 700, color: fixed ? '#047857' : CORAL }}>
+            <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 23, fontWeight: 700, color: fixed ? '#047857' : '#B91C1C' }}>
               <JuniorIcon name={fixed ? 'check' : 'cross'} size={24} />
-              <span>{fixed ? 'Pas 2 langkah ke Wortel!' : 'Blok ke-3 kebanyakan (bablas)!'}</span>
+              <span>{fixed ? 'Pas 2 langkah!' : 'Panah ke-3 bablas!'}</span>
             </div>
           </div>
         </div>
       </MacWindowCard>
 
-      {/* Right Card: Summary & Fix */}
-      <MacWindowCard left={1075} top={250} width={745} height={680} headerLabel="perbaikan-kasus-1.app" padding={34}>
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-            <div
-              style={{
-                padding: '18px 24px',
-                borderRadius: 20,
-                background: SUNNY_SOFT,
-                border: `3px solid ${CHARCOAL}`,
-                fontFamily: 'var(--osd-font-display)',
-                fontSize: 29,
-                fontWeight: 700,
-                ...row,
-                gap: 12,
-              }}
-            >
-              <JuniorIcon name="carrot" size={32} />
-              <span>
-                Wortel cuma butuh <strong>2 Langkah</strong>
-              </span>
+      {/* Right Card: Summary & Fix with Bullets */}
+      <MacWindowCard left={1075} top={215} width={745} height={745} headerLabel="perbaikan-kasus-1" padding={30}>
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 16 }}>
+          <InfoPanel bg={SUNNY_SOFT} padding={20}>
+            <SectionHeading icon="carrot" size={27}>
+              Wortel Dekat Sekali
+            </SectionHeading>
+            <div style={{ marginTop: 10 }}>
+              <BulletList
+                bulletColor={SUNNY}
+                fontSize={22}
+                gap={8}
+                items={[
+                  <>
+                    Kelinci cuma butuh <InlineHighlight color={WHITE}>2 langkah</InlineHighlight>.
+                  </>,
+                ]}
+              />
             </div>
+          </InfoPanel>
 
-            <div
-              style={{
-                padding: '18px 24px',
-                borderRadius: 20,
-                background: CORAL_SOFT,
-                border: `3px solid ${CHARCOAL}`,
-                fontFamily: 'var(--osd-font-display)',
-                fontSize: 27,
-                fontWeight: 700,
-                ...row,
-                gap: 10,
-              }}
-            >
-              <JuniorIcon name="cross" size={28} />
-              <span>Kode salah:</span>
-              <span style={{ ...row, gap: 6 }}>
-                <span>[</span>
-                <JuniorIcon name="arrow-right" size={24} />
-                <span>] + [</span>
-                <JuniorIcon name="arrow-right" size={24} />
-                <span>] + [</span>
-                <JuniorIcon name="arrow-right" size={24} />
-                <span>]</span>
-              </span>
+          <InfoPanel bg={CORAL_SOFT} padding={20}>
+            <SectionHeading icon="cross" size={27} accentColor="#B91C1C">
+              Kode Salah (3 Panah)
+            </SectionHeading>
+            <div style={{ ...row, gap: 12, marginTop: 12 }}>
+              <DebugArrowBlock dir="right" size={62} stepNum={1} showRightTab />
+              <DebugArrowBlock dir="right" size={62} stepNum={2} showRightTab />
+              <DebugArrowBlock dir="right" size={62} stepNum={3} isBug crossed />
             </div>
+          </InfoPanel>
 
-            <div
-              style={{
-                padding: '18px 24px',
-                borderRadius: 20,
-                background: TEAL_SOFT,
-                border: `3px solid ${CHARCOAL}`,
-                fontFamily: 'var(--osd-font-display)',
-                fontSize: 29,
-                fontWeight: 700,
-                ...row,
-                gap: 12,
-              }}
-            >
-              <JuniorIcon name="check" size={30} />
-              <span>
-                Perbaiki: Buang <strong>1 Panah</strong> berlebih!
-              </span>
+          <InfoPanel bg={TEAL_SOFT} padding={20} style={{ ...row, justifyContent: 'space-between', gap: 14 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <SectionHeading icon="check" size={27} accentColor="#047857">
+                Solusi: Buang 1 Panah
+              </SectionHeading>
+              <BulletList
+                bulletColor={TEAL}
+                fontSize={22}
+                gap={6}
+                items={[
+                  <>
+                    Pakai <InlineHighlight color="#D1FAE5">2 panah kanan</InlineHighlight> saja.
+                  </>,
+                ]}
+              />
+              <div style={{ ...row, gap: 12 }}>
+                <DebugArrowBlock dir="right" size={62} stepNum={1} isFixed showRightTab />
+                <DebugArrowBlock dir="right" size={62} stepNum={2} isFixed />
+              </div>
             </div>
-          </div>
-
-          <div
-            style={{
-              ...row,
-              justifyContent: 'space-between',
-              padding: '16px 24px',
-              borderRadius: 22,
-              background: SKY_SOFT,
-              border: `3px solid ${CHARCOAL}`,
-            }}
-          >
-            <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700 }}>
-              <span>Kode Bersih:</span>
-              <strong>[</strong>
-              <JuniorIcon name="arrow-right" size={24} />
-              <strong>] + [</strong>
-              <JuniorIcon name="arrow-right" size={24} />
-              <strong>]</strong>
-            </div>
-            <BikoMascot pose="thumbs-up" width={120} />
-          </div>
+            <BikoMascot pose="thumbs-up" width={115} />
+          </InfoPanel>
         </div>
       </MacWindowCard>
     </JuniorFrame>
@@ -1785,23 +1666,23 @@ const Slide06AyoTebak: Page = () => {
 
   return (
     <JuniorFrame badge="AYO TEBAK!" accentDot={SUNNY}>
-      <SlideTitle align="center" top={122}>
+      <SlideTitle align="center" top={104}>
         Blok Mana yang <Highlight>Salah?</Highlight>
       </SlideTitle>
 
-      {/* Top Interactive Map (3x3): Biko at mid/bottom-left, Star at top-right */}
-      <MacWindowCard left={240} top={215} width={1440} height={310} headerLabel="cari-blok-salah.app" padding={20}>
+      {/* Top Interactive Map (3x3) */}
+      <MacWindowCard left={220} top={195} width={1480} height={310} headerLabel="cari-blok-salah" padding={20}>
         <div style={{ ...row, justifyContent: 'center', gap: 52, height: '100%' }}>
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, 108px)',
+              gridTemplateColumns: 'repeat(3, 110px)',
               gridTemplateRows: 'repeat(3, 66px)',
               gap: 8,
               background: '#F8FAFC',
               padding: 12,
               borderRadius: 20,
-              border: `3px solid ${CHARCOAL}`,
+              border: `2.5px solid ${CHARCOAL}`,
             }}
           >
             {[0, 1, 2].map((r) =>
@@ -1823,24 +1704,13 @@ const Slide06AyoTebak: Page = () => {
                           : isStart
                             ? SKY_SOFT
                             : WHITE,
-                      border: `2.5px solid ${CHARCOAL}`,
+                      border: `2px solid ${CHARCOAL}`,
                       ...centerCol,
                     }}
                   >
                     {isStart && <BikoDetectiveToken size={48} />}
-                    {isAfterRight && (
-                      <span style={{ ...row, gap: 4, fontSize: 22, fontWeight: 800, color: SKY }}>
-                        <span>1</span>
-                        <JuniorIcon name="arrow-right" size={22} />
-                      </span>
-                    )}
-                    {isWrongDown && (
-                      <span style={{ ...row, gap: 4, fontSize: 20, fontWeight: 800, color: CORAL }}>
-                        <span>2</span>
-                        <JuniorIcon name="arrow-down" size={20} />
-                        <JuniorIcon name="dizzy" size={20} />
-                      </span>
-                    )}
+                    {isAfterRight && <JuniorIcon name="arrow-right" size={26} />}
+                    {isWrongDown && <JuniorIcon name="dizzy" size={28} />}
                     {isStar && <StarSvg size={48} />}
                   </div>
                 );
@@ -1848,72 +1718,62 @@ const Slide06AyoTebak: Page = () => {
             )}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700 }}>
-              Urutan Blok yang Tertulis:
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <SectionHeading size={28}>Lihat Urutan Blok:</SectionHeading>
             <div style={{ ...row, gap: 16 }}>
-              <DebugArrowBlock dir="right" size={82} stepNum={1} showRightTab />
-              <DebugArrowBlock dir="down" size={82} stepNum={2} isBug={choice === 'b2'} />
+              <DebugArrowBlock dir="right" size={76} stepNum={1} showRightTab />
+              <DebugArrowBlock dir="down" size={76} stepNum={2} isBug={choice === 'b2'} />
             </div>
-            <div style={{ ...row, gap: 8, fontSize: 22, fontWeight: 700, color: MUTED }}>
-              <span>Biko malah turun ke bawah menjauhi</span>
-              <JuniorIcon name="star" size={24} />
-              <span>Bintang!</span>
-            </div>
+            <BulletList
+              bulletColor={CORAL}
+              fontSize={22}
+              gap={6}
+              items={[
+                <>
+                  Biko malah <InlineHighlight color="#FECACA">turun ke bawah</InlineHighlight>, menjauhi Bintang!
+                </>,
+              ]}
+            />
           </div>
         </div>
       </MacWindowCard>
 
-      {/* Bottom 2 Large Choice Cards + Biko Question */}
+      {/* Bottom 2 Large Choice Buttons */}
       <button
         type="button"
         className="cpj8-card-btn"
         onClick={() => setChoice('b1')}
         style={{
-          ...abs(160, 560, 580, 290),
-          borderRadius: 28,
+          ...abs(160, 535, 580, 325),
+          borderRadius: 26,
           background: choice === 'b1' ? CORAL_SOFT : WHITE,
           border: `3.5px solid ${CHARCOAL}`,
           boxShadow: choice === 'b1' ? `0 0 0 6px ${CORAL}, 0 8px 0 ${CHARCOAL}` : `0 8px 0 ${SKY}`,
-          padding: 28,
+          padding: 24,
           ...centerCol,
-          gap: 16,
+          justifyContent: 'space-between',
           animation: choice === 'b1' ? 'cpj8-shake 0.35s ease' : undefined,
         }}
       >
-        <span
-          style={{
-            padding: '6px 18px',
-            borderRadius: 99,
-            background: SKY,
-            color: WHITE,
-            border: `2.5px solid ${CHARCOAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 22,
-            fontWeight: 700,
-          }}
-        >
-          PILIHAN A
+        <span style={{ fontSize: 19, fontWeight: 800, color: '#1D4ED8', letterSpacing: '0.06em' }}>
+          PILIHAN A (KLIK UNTUK PILIH)
         </span>
         <DebugArrowBlock dir="right" size={100} stepNum={1} />
-        <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
-          <span>Blok 1 (</span>
-          <JuniorIcon name="arrow-right" size={30} />
-          <span>){choice === 'b1' ? ' — Ini Benar!' : ''}</span>
-        </div>
+        <SectionHeading size={32}>
+          Blok 1 (Kanan) {choice === 'b1' && '— Sudah Benar!'}
+        </SectionHeading>
       </button>
 
-      <div style={{ ...abs(760, 540, 400, 355), ...centerCol }}>
+      <div style={{ ...abs(760, 520, 400, 365), ...centerCol }}>
         <BikoMascot
           pose={choice === 'b2' ? 'thumbs-up' : 'question'}
           width={240}
           speechBubble={
             choice === 'b2'
-              ? 'Tepat! Blok 2 (Bawah) Bug-nya!'
+              ? 'Tepat! Blok 2 Bug!'
               : choice === 'b1'
                 ? 'Blok 1 sudah benar!'
-                : 'Mana blok yang salah?'
+                : 'Mana yang salah?'
           }
         />
       </div>
@@ -1923,72 +1783,49 @@ const Slide06AyoTebak: Page = () => {
         className="cpj8-card-btn"
         onClick={() => setChoice('b2')}
         style={{
-          ...abs(1180, 560, 580, 290),
-          borderRadius: 28,
+          ...abs(1180, 535, 580, 325),
+          borderRadius: 26,
           background: choice === 'b2' ? TEAL_SOFT : WHITE,
           border: `3.5px solid ${CHARCOAL}`,
           boxShadow: choice === 'b2' ? `0 0 0 6px ${TEAL}, 0 8px 0 ${CHARCOAL}` : `0 8px 0 ${CORAL}`,
-          padding: 28,
+          padding: 24,
           ...centerCol,
-          gap: 16,
+          justifyContent: 'space-between',
         }}
       >
-        <span
-          style={{
-            padding: '6px 18px',
-            borderRadius: 99,
-            background: CORAL,
-            color: WHITE,
-            border: `2.5px solid ${CHARCOAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 22,
-            fontWeight: 700,
-          }}
-        >
-          PILIHAN B
+        <span style={{ fontSize: 19, fontWeight: 800, color: '#B91C1C', letterSpacing: '0.06em' }}>
+          PILIHAN B (KLIK UNTUK PILIH)
         </span>
         <DebugArrowBlock dir="down" size={100} stepNum={2} isBug />
-        <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, color: CHARCOAL }}>
-          <span>Blok 2 (</span>
-          <JuniorIcon name="arrow-down" size={30} />
-          <span>)</span>
-          {choice === 'b2' && (
-            <>
-              <JuniorIcon name="check" size={30} />
-              <span>Ini Bug-nya!</span>
-            </>
-          )}
-        </div>
+        <SectionHeading size={32}>
+          Blok 2 (Bawah) {choice === 'b2' && '— Ini Bug!'}
+        </SectionHeading>
       </button>
 
-      <div style={{ ...abs(440, 915, 1040, 56), ...centerCol }}>
+      {/* Flat Feedback Banner */}
+      <div style={{ ...abs(420, 905, 1080, 62), ...centerCol }}>
         <div
           style={{
-            padding: '10px 30px',
-            borderRadius: 99,
+            padding: '10px 28px',
+            borderRadius: 16,
             background: choice === 'b2' ? TEAL_SOFT : SUNNY_SOFT,
             border: `2.5px solid ${CHARCOAL}`,
             fontFamily: 'var(--osd-font-display)',
-            fontSize: 25,
+            fontSize: 23,
             fontWeight: 700,
             ...row,
-            gap: 8,
+            gap: 10,
           }}
         >
           {choice === 'b2' ? (
             <>
-              <JuniorIcon name="party" size={26} />
-              <span>Betul! Blok 2 (</span>
-              <JuniorIcon name="arrow-down" size={22} />
-              <span>) membuat Biko turun — harusnya Atas (</span>
-              <JuniorIcon name="arrow-up" size={22} />
-              <span>)!</span>
+              <JuniorIcon name="party" size={24} />
+              <span>
+                Betul! <InlineHighlight color="#A7F3D0">Blok 2</InlineHighlight> bikin turun — harusnya Atas!
+              </span>
             </>
           ) : (
-            <>
-              <JuniorIcon name="tap" size={26} />
-              <span>Tunjuk blok yang salah di layarmu ya!</span>
-            </>
+            <span>Klik blok yang salah: Pilihan A atau Pilihan B!</span>
           )}
         </div>
       </div>
@@ -2009,12 +1846,12 @@ const Slide07Kasus2: Page = () => {
       </SlideTitle>
 
       {/* Left Spotlight Grid Card */}
-      <MacWindowCard left={X0} top={250} width={920} height={680} headerLabel="kasus-2-batu.app" padding={30}>
+      <MacWindowCard left={X0} top={215} width={920} height={745} headerLabel="kasus-2-batu" padding={28}>
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div style={{ ...row, justifyContent: 'space-between' }}>
-            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700 }}>
+            <SectionHeading icon="rock" size={26}>
               Peta Labirin 3×3:
-            </span>
+            </SectionHeading>
             <button
               type="button"
               className="cpj8-card-btn"
@@ -2034,7 +1871,7 @@ const Slide07Kasus2: Page = () => {
               }}
             >
               <JuniorIcon name={fixed ? 'bug' : 'wrench'} size={20} />
-              <span>{fixed ? 'Lihat Kode Salah' : 'Ganti Blok Hijau!'}</span>
+              <span>{fixed ? 'Lihat Bug' : 'Ganti Blok!'}</span>
             </button>
           </div>
 
@@ -2042,14 +1879,14 @@ const Slide07Kasus2: Page = () => {
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 180px)',
-              gridTemplateRows: 'repeat(3, 134px)',
+              gridTemplateRows: 'repeat(3, 146px)',
               gap: 14,
               justifyContent: 'center',
               alignContent: 'center',
               background: '#F8FAFC',
               padding: 20,
-              borderRadius: 24,
-              border: `3px solid ${CHARCOAL}`,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
             }}
           >
             {[0, 1, 2].map((r) =>
@@ -2074,33 +1911,24 @@ const Slide07Kasus2: Page = () => {
                             : WHITE,
                       border: fixed && isDetour ? `3.5px dashed ${TEAL}` : `2.5px solid ${CHARCOAL}`,
                       ...centerCol,
-                      position: 'relative',
                     }}
                   >
                     {isStart && !fixed && <BikoDetectiveToken size={82} confused />}
                     {isStart && fixed && (
-                      <span style={{ ...row, gap: 4, fontSize: 18, fontWeight: 800, color: '#047857' }}>
+                      <span style={{ ...row, gap: 6, fontSize: 18, fontWeight: 800, color: '#047857' }}>
                         <span>START</span>
                         <JuniorIcon name="arrow-up" size={20} />
                       </span>
                     )}
                     {isRock && (
                       <div style={{ ...centerCol }}>
-                        <RockSvg size={78} />
+                        <RockSvg size={76} />
                         {!fixed && (
-                          <span style={{ ...row, gap: 4, fontSize: 15, fontWeight: 800, color: CORAL }}>
-                            <JuniorIcon name="warning" size={16} />
-                            <span>NABRAK!</span>
-                          </span>
+                          <span style={{ fontSize: 15, fontWeight: 800, color: '#B91C1C' }}>NABRAK!</span>
                         )}
                       </div>
                     )}
-                    {isDetour && fixed && (
-                      <div style={{ ...row, gap: 6 }}>
-                        <JuniorIcon name="turn-up" size={34} />
-                        <JuniorIcon name="arrow-right" size={34} />
-                      </div>
-                    )}
+                    {isDetour && fixed && <JuniorIcon name="turn-up" size={38} />}
                     {isFlag && !fixed && <FlagSvg size={76} />}
                     {isFlag && fixed && (
                       <div style={{ ...row, gap: 4 }}>
@@ -2119,92 +1947,81 @@ const Slide07Kasus2: Page = () => {
             style={{
               ...row,
               justifyContent: 'center',
-              gap: 8,
-              textAlign: 'center',
+              gap: 10,
+              padding: '10px 18px',
+              borderRadius: 16,
+              background: fixed ? TEAL_SOFT : CORAL_SOFT,
+              border: `2px solid ${fixed ? TEAL : CORAL}`,
               fontFamily: 'var(--osd-font-display)',
               fontSize: 23,
               fontWeight: 700,
-              color: fixed ? '#047857' : CORAL,
+              color: fixed ? '#047857' : '#B91C1C',
             }}
           >
             {fixed ? (
               <>
                 <JuniorIcon name="flag" size={24} />
-                <span>Yeay! Dengan [</span>
-                <JuniorIcon name="arrow-up" size={22} />
-                <span>] + [</span>
-                <JuniorIcon name="arrow-right" size={22} />
-                <span>], Biko belok aman sampai Finis!</span>
+                <span>Naik lalu kanan, aman ke finis!</span>
               </>
             ) : (
               <>
                 <JuniorIcon name="warning" size={24} />
-                <span>Aduh! Kalau langsung [</span>
-                <JuniorIcon name="arrow-right" size={22} />
-                <span>], Biko menabrak batu di depannya!</span>
+                <span>Langsung kanan nabrak batu!</span>
               </>
             )}
           </div>
         </div>
       </MacWindowCard>
 
-      {/* Right Card: Code Comparison */}
-      <MacWindowCard left={1055} top={250} width={765} height={680} headerLabel="perbaikan-kasus-2.app" padding={34}>
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          <div
-            style={{
-              padding: '22px 24px',
-              borderRadius: 22,
-              background: CORAL_SOFT,
-              border: `3px solid ${CHARCOAL}`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div>
-              <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700 }}>
-                <JuniorIcon name="cross" size={28} />
-                <span>Salah:</span>
-              </div>
-              <div style={{ fontSize: 22, fontWeight: 700, color: MUTED }}>Langsung kanan → Nabrak batu!</div>
+      {/* Right Card: Code Comparison with Bullets */}
+      <MacWindowCard left={1055} top={215} width={765} height={745} headerLabel="perbaikan-kasus-2" padding={30}>
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 16 }}>
+          <InfoPanel bg={CORAL_SOFT} padding={24} style={{ ...row, justifyContent: 'space-between', gap: 16 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <SectionHeading icon="cross" size={28} accentColor="#B91C1C">
+                Kode Salah
+              </SectionHeading>
+              <BulletList
+                bulletColor={CORAL}
+                fontSize={22}
+                gap={8}
+                items={[
+                  <>
+                    Langsung kanan <InlineHighlight color="#FECACA">nabrak batu</InlineHighlight>!
+                  </>,
+                ]}
+              />
             </div>
             <DebugArrowBlock dir="right" size={82} isBug />
-          </div>
+          </InfoPanel>
 
-          <div style={{ ...row, justifyContent: 'center', gap: 12, fontSize: 36, fontWeight: 800 }}>
-            <JuniorIcon name="arrow-down" size={34} />
+          <div style={{ ...row, justifyContent: 'center', gap: 12, fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700 }}>
+            <JuniorIcon name="arrow-down" size={28} />
             <span>Ganti Menjadi</span>
-            <JuniorIcon name="arrow-down" size={34} />
           </div>
 
-          <div
-            style={{
-              padding: '24px',
-              borderRadius: 22,
-              background: TEAL_SOFT,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 7px 0 ${TEAL}`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div>
-              <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700 }}>
-                <JuniorIcon name="check" size={28} />
-                <span>Ganti jadi:</span>
-              </div>
-              <div style={{ ...row, gap: 8, fontSize: 22, fontWeight: 700, color: '#047857' }}>
-                <JuniorIcon name="flag" size={22} />
-                <span>Hore, Sampai Finis!</span>
-              </div>
+          <InfoPanel bg={TEAL_SOFT} padding={24} style={{ ...row, justifyContent: 'space-between', gap: 16 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <SectionHeading icon="check" size={28} accentColor="#047857">
+                Kode Benar
+              </SectionHeading>
+              <BulletList
+                bulletColor={TEAL}
+                fontSize={22}
+                gap={8}
+                items={[
+                  <>
+                    Belok <InlineHighlight color="#D1FAE5">atas, lalu kanan</InlineHighlight>.
+                  </>,
+                  <>Biko tiba di finis!</>,
+                ]}
+              />
             </div>
             <div style={{ ...row, gap: 12 }}>
-              <DebugArrowBlock dir="up" size={86} isFixed showRightTab />
-              <DebugArrowBlock dir="right" size={86} isFixed />
+              <DebugArrowBlock dir="up" size={82} isFixed showRightTab />
+              <DebugArrowBlock dir="right" size={82} isFixed />
             </div>
-          </div>
+          </InfoPanel>
         </div>
       </MacWindowCard>
     </JuniorFrame>
@@ -2212,7 +2029,7 @@ const Slide07Kasus2: Page = () => {
 };
 
 // ============================================================================
-// SLIDE 08 — Tips Detektif Kode (Boleh vs Jangan)
+// SLIDE 08 — Tips Detektif Kode (Boleh vs Jangan, Flat InfoPanels)
 // ============================================================================
 const Slide08Tips: Page = () => (
   <JuniorFrame badge="TIPS DETEKTIF KODE" accentDot={TEAL}>
@@ -2222,145 +2039,86 @@ const Slide08Tips: Page = () => (
 
     <div
       style={{
-        ...abs(X0, 245, W, 695),
+        ...abs(X0, 215, W, 745),
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        gap: 44,
+        gap: 40,
       }}
     >
       {/* Left Column: BOLEH */}
-      <div
-        style={{
-          background: WHITE,
-          borderRadius: 30,
-          border: `4px solid ${TEAL}`,
-          boxShadow: `0 10px 0 ${TEAL}`,
-          padding: '30px 34px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
+      <InfoPanel
+        bg={WHITE}
+        borderColor={TEAL}
+        padding={32}
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 18 }}
       >
-        <div style={{ ...row, justifyContent: 'space-between' }}>
-          <div
-            style={{
-              ...row,
-              gap: 12,
-              padding: '10px 24px',
-              borderRadius: 99,
-              background: TEAL,
-              color: WHITE,
-              border: `3px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 32,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="check" size={30} />
-            <span>BOLEH</span>
-          </div>
-          <JuniorIcon name="magnifier" size={44} />
+        <div style={{ ...row, justifyContent: 'space-between', borderBottom: `2.5px solid ${TEAL_SOFT}`, paddingBottom: 14 }}>
+          <SectionHeading icon="check" size={34} accentColor="#047857">
+            BOLEH Dilakukan
+          </SectionHeading>
+          <BikoMascot pose="thumbs-up" width={110} />
         </div>
 
         <div
           style={{
-            borderRadius: 24,
+            borderRadius: 20,
             background: TEAL_SOFT,
-            border: `3px solid ${CHARCOAL}`,
-            padding: '18px 24px',
+            border: `2.5px solid ${TEAL}`,
+            padding: '20px 24px',
             ...row,
             justifyContent: 'center',
             gap: 24,
           }}
         >
-          <BikoMascot pose="thumbs-up" width={165} />
-          <div style={{ ...row, gap: 10 }}>
-            <DebugArrowBlock dir="up" size={72} isFixed showRightTab />
-            <DebugArrowBlock dir="right" size={72} isFixed />
+          <BikoDetectiveToken size={88} />
+          <div style={{ ...row, gap: 12 }}>
+            <DebugArrowBlock dir="up" size={74} isFixed showRightTab />
+            <DebugArrowBlock dir="right" size={74} isFixed />
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div
-            style={{
-              padding: '18px 22px',
-              borderRadius: 20,
-              background: TEAL_SOFT,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 30,
-              fontWeight: 700,
-              ...row,
-              gap: 12,
-            }}
-          >
-            <JuniorIcon name="happy" size={32} />
-            <span><strong>Tetap Tenang</strong> kalau karakter nyasar</span>
-          </div>
-          <div
-            style={{
-              padding: '18px 22px',
-              borderRadius: 20,
-              background: TEAL_SOFT,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 30,
-              fontWeight: 700,
-              ...row,
-              gap: 12,
-            }}
-          >
-            <JuniorIcon name="footprints" size={32} />
-            <span><strong>Cek Ulang</strong> blok satu per satu</span>
-          </div>
-        </div>
-      </div>
+        <BulletList
+          bulletColor={TEAL}
+          fontSize={26}
+          gap={16}
+          items={[
+            <>
+              <InlineHighlight color="#D1FAE5">Tetap tenang</InlineHighlight> saat nyasar.
+            </>,
+            <>
+              <InlineHighlight>Cek ulang</InlineHighlight> panah satu-satu.
+            </>,
+            <>
+              Ganti blok <InlineHighlight color="#D1FAE5">yang salah arah</InlineHighlight>.
+            </>,
+          ]}
+        />
+      </InfoPanel>
 
       {/* Right Column: JANGAN */}
-      <div
-        style={{
-          background: WHITE,
-          borderRadius: 30,
-          border: `4px solid ${CORAL}`,
-          boxShadow: `0 10px 0 ${CORAL}`,
-          padding: '30px 34px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
+      <InfoPanel
+        bg={WHITE}
+        borderColor={CORAL}
+        padding={32}
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 18 }}
       >
-        <div style={{ ...row, justifyContent: 'space-between' }}>
-          <div
-            style={{
-              ...row,
-              gap: 12,
-              padding: '10px 24px',
-              borderRadius: 99,
-              background: CORAL,
-              color: WHITE,
-              border: `3px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 32,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="cross" size={30} />
-            <span>JANGAN</span>
-          </div>
-          <JuniorIcon name="cloud-sad" size={44} />
+        <div style={{ ...row, justifyContent: 'space-between', borderBottom: `2.5px solid ${CORAL_SOFT}`, paddingBottom: 14 }}>
+          <SectionHeading icon="cross" size={34} accentColor="#B91C1C">
+            JANGAN Dilakukan
+          </SectionHeading>
+          <BikoMascot pose="thinking" width={110} />
         </div>
 
-        {/* Frowning Storm Cloud with Red Cross */}
         <div
           style={{
-            borderRadius: 24,
+            borderRadius: 20,
             background: CORAL_SOFT,
-            border: `3px solid ${CHARCOAL}`,
-            padding: '22px 24px',
+            border: `2.5px solid ${CORAL}`,
+            padding: '16px 24px',
             ...centerCol,
           }}
         >
-          <svg width={210} height={155} viewBox="0 0 210 155" fill="none">
+          <svg width={180} height={130} viewBox="0 0 210 155" fill="none">
             <path
               d="M44 114 C22 114, 14 90, 32 76 C28 50, 56 34, 80 48 C94 26, 134 28, 144 54 C172 52, 188 76, 174 98 C180 112, 162 116, 148 114 Z"
               fill="#CBD5E1"
@@ -2376,57 +2134,39 @@ const Slide08Tips: Page = () => (
           </svg>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div
-            style={{
-              padding: '18px 22px',
-              borderRadius: 20,
-              background: CORAL_SOFT,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 30,
-              fontWeight: 700,
-              ...row,
-              gap: 12,
-            }}
-          >
-            <JuniorIcon name="sad" size={32} />
-            <span><strong>Sedih atau Marah</strong> saat ada salah</span>
-          </div>
-          <div
-            style={{
-              padding: '18px 22px',
-              borderRadius: 20,
-              background: CORAL_SOFT,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 30,
-              fontWeight: 700,
-              ...row,
-              gap: 12,
-            }}
-          >
-            <JuniorIcon name="see-no-evil" size={32} />
-            <span><strong>Menyerah</strong> sebelum mencoba lagi</span>
-          </div>
-        </div>
-      </div>
+        <BulletList
+          bulletColor={CORAL}
+          fontSize={26}
+          gap={16}
+          items={[
+            <>
+              Jangan <InlineHighlight color="#FECACA">sedih atau marah</InlineHighlight>.
+            </>,
+            <>
+              Jangan <InlineHighlight color="#FECACA">menyerah</InlineHighlight> sebelum coba.
+            </>,
+            <>
+              Jangan biarkan <InlineHighlight color="#FECACA">Bug</InlineHighlight> di kode.
+            </>,
+          ]}
+        />
+      </InfoPanel>
     </div>
   </JuniorFrame>
 );
 
 // ============================================================================
-// SLIDE 09 — Misi Praktik: Perbaiki Kode Biko! (3 Blok + Game Debugging)
+// SLIDE 09 — Misi Praktik: Perbaiki Kode Biko! (Interactive Debugging Maze)
 // ============================================================================
 const Slide09MisiPraktik: Page = () => {
-  // Pre-filled buggy sequence: ['right', 'down', 'up'], where slot 2 ('down') is the Bug!
+  // Pre-filled buggy sequence: ['right', 'down', 'up'], slot 2 ('down') is the Bug!
   // Correct sequence: ['right', 'up', 'up'] from (2,0) -> (2,1) -> (1,1) -> (0,1 Flag!)
   const [slots, setSlots] = useState<(Dir | null)[]>(['right', 'down', 'up']);
   const [bikoPos, setBikoPos] = useState<[number, number]>([2, 0]);
   const [status, setStatus] = useState<'idle' | 'running' | 'win' | 'bug'>('idle');
   const [message, setMessage] = useState<{ icon?: JuniorIconName; text: string }>({
     icon: 'bug',
-    text: 'Ada 1 Bug berkedip merah! Tekan "Jalan!" atau perbaiki slot ke-2.',
+    text: 'Ada Bug merah! Buang & ganti slot ke-2.',
   });
   const [dragDir, setDragDir] = useState<Dir | null>(null);
   const timerRef = useRef<number | null>(null);
@@ -2448,17 +2188,16 @@ const Slide09MisiPraktik: Page = () => {
       setSlots(next);
       setStatus('idle');
       setBikoPos([2, 0]);
-      setMessage({ text: 'Blok terpasang! Tekan "Jalan!" untuk menguji kode.' });
+      setMessage({ text: 'Blok terpasang! Klik "Jalan!" ya.' });
       return;
     }
-    // If all full and slot 1 still has bug, swap slot 1 directly for fast kid UX
     if (slots[1] === 'down') {
       const next = [...slots];
       next[1] = dir;
       setSlots(next);
       setStatus('idle');
       setBikoPos([2, 0]);
-      setMessage({ text: 'Blok ke-2 diganti! Tekan "Jalan!" untuk menguji kode.' });
+      setMessage({ text: 'Blok ke-2 diganti! Klik "Jalan!"' });
     }
   };
 
@@ -2469,7 +2208,7 @@ const Slide09MisiPraktik: Page = () => {
     setSlots(next);
     setStatus('idle');
     setBikoPos([2, 0]);
-    setMessage({ text: `Blok ke-${idx + 1} dibuang! Pilih blok panah pengganti.` });
+    setMessage({ text: `Blok ${idx + 1} dibuang! Pilih panah benar.` });
   };
 
   const resetBug = () => {
@@ -2477,7 +2216,7 @@ const Slide09MisiPraktik: Page = () => {
     setSlots(['right', 'down', 'up']);
     setBikoPos([2, 0]);
     setStatus('idle');
-    setMessage({ icon: 'bug', text: 'Ada 1 Bug berkedip merah! Tekan "Jalan!" atau perbaiki slot ke-2.' });
+    setMessage({ icon: 'bug', text: 'Ada Bug merah! Buang & ganti slot ke-2.' });
   };
 
   const handleDropSlot = (idx: number) => (e: DragEvent<HTMLButtonElement>) => {
@@ -2495,13 +2234,13 @@ const Slide09MisiPraktik: Page = () => {
     if (status === 'running') return;
     const seq = slots.filter((s): s is Dir => s !== null);
     if (seq.length === 0) {
-      setMessage({ text: 'Pasang blok panah dulu di kotak urutan!' });
+      setMessage({ text: 'Pasang blok panah dulu ya!' });
       return;
     }
     if (timerRef.current) window.clearTimeout(timerRef.current);
     setStatus('running');
     setBikoPos([2, 0]);
-    setMessage({ text: 'Detektif Biko menjalankan kode...' });
+    setMessage({ text: 'Detektif Biko berjalan...' });
 
     const obstacles = new Set(['1,0', '2,2']);
     let r = 2;
@@ -2511,10 +2250,10 @@ const Slide09MisiPraktik: Page = () => {
       if (i >= seq.length) {
         if (r === 0 && c === 1) {
           setStatus('win');
-          setMessage({ icon: 'party', text: 'Berhasil! Semua Bug tertangkap & Biko sampai Finis!' });
+          setMessage({ icon: 'party', text: 'Berhasil! Bug hilang & sampai Finis!' });
         } else {
           setStatus('bug');
-          setMessage({ icon: 'bug', text: 'Masih ada Bug! Biko belum sampai ke Bendera Finis.' });
+          setMessage({ icon: 'bug', text: 'Masih ada Bug! Cek lagi panahnya.' });
         }
         return;
       }
@@ -2527,13 +2266,13 @@ const Slide09MisiPraktik: Page = () => {
 
       if (r < 0 || r > 2 || c < 0 || c > 2) {
         setStatus('bug');
-        setMessage({ icon: 'bug', text: `Bug di Blok ${i + 1}! Biko keluar peta! Klik blok salah untuk membuang.` });
+        setMessage({ icon: 'bug', text: `Bug di Blok ${i + 1}! Biko keluar peta!` });
         return;
       }
 
       if (obstacles.has(`${r},${c}`)) {
         setStatus('bug');
-        setMessage({ icon: 'bug', text: `Bug di Blok ${i + 1}! Biko menabrak rintangan!` });
+        setMessage({ icon: 'bug', text: `Bug di Blok ${i + 1}! Biko nabrak!` });
         return;
       }
 
@@ -2541,7 +2280,7 @@ const Slide09MisiPraktik: Page = () => {
 
       if (r === 0 && c === 1) {
         setStatus('win');
-        setMessage({ icon: 'party', text: 'Yeay! Debugging Sukses! Biko sampai di Bendera Finis!' });
+        setMessage({ icon: 'party', text: 'Yeay! Debugging Sukses! Tiba di Finis!' });
         return;
       }
 
@@ -2551,71 +2290,37 @@ const Slide09MisiPraktik: Page = () => {
     timerRef.current = window.setTimeout(() => stepNext(0), 300);
   };
 
-  const stepCards = [
-    { num: '1', label: 'Tekan Jalan & lihat nyasarnya', color: SKY, soft: SKY_SOFT },
-    { num: '2', label: 'Buang & Ganti blok yang salah', color: SUNNY, soft: SUNNY_SOFT },
-    { num: '3', label: 'Coba lagi sampai Finis!', color: TEAL, soft: TEAL_SOFT },
-  ];
-
   return (
     <JuniorFrame badge="AYO MAIN & PRAKTIK!" accentDot={CORAL}>
-      <SlideTitle top={120}>
+      <SlideTitle top={104}>
         Misi <Highlight>Tangkap Semua Bug!</Highlight>
       </SlideTitle>
 
-      {/* Top 3 Horizontal ScratchJr Step Blocks */}
-      <div style={{ ...abs(X0, 206, W, 94), ...row, justifyContent: 'space-between', gap: 18 }}>
-        {stepCards.map((sc, idx) => (
-          <Fragment key={sc.num}>
-            <div
-              style={{
-                flex: 1,
-                height: 88,
-                borderRadius: 22,
-                background: sc.soft,
-                border: `3px solid ${CHARCOAL}`,
-                boxShadow: `0 6px 0 ${sc.color}`,
-                padding: '0 22px',
-                ...row,
-                gap: 16,
-              }}
-            >
-              <span
-                style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 14,
-                  background: sc.color,
-                  color: sc.color === SUNNY ? CHARCOAL : WHITE,
-                  border: `2.5px solid ${CHARCOAL}`,
-                  fontFamily: 'var(--osd-font-display)',
-                  fontSize: 28,
-                  fontWeight: 700,
-                  ...centerCol,
-                  flexShrink: 0,
-                }}
-              >
-                {sc.num}
-              </span>
-              <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700 }}>
-                {sc.label}
-              </span>
-            </div>
-            {idx < 2 && <span style={{ fontSize: 32, fontWeight: 800, color: CHARCOAL }}>➜</span>}
-          </Fragment>
-        ))}
-      </div>
+      {/* Top Flat Guide Strip (no fake-button shadows, no raw arrow emojis) */}
+      <InfoPanel bg={WHITE} padding={14} style={{ ...abs(X0, 188, W, 74), ...row, justifyContent: 'space-around' }}>
+        <span style={{ fontSize: 22, fontWeight: 800 }}>
+          1. Klik <InlineHighlight color={SKY_SOFT}>Jalan!</InlineHighlight> lihat nyasarnya
+        </span>
+        <JuniorIcon name="arrow-right" size={22} />
+        <span style={{ fontSize: 22, fontWeight: 800 }}>
+          2. <InlineHighlight color="#FECACA">Buang &amp; Ganti</InlineHighlight> blok merah
+        </span>
+        <JuniorIcon name="arrow-right" size={22} />
+        <span style={{ fontSize: 22, fontWeight: 800 }}>
+          3. Coba sampai <InlineHighlight color="#D1FAE5">Finis!</InlineHighlight>
+        </span>
+      </InfoPanel>
 
       {/* Bottom Interactive Debugging Game */}
-      <MacWindowCard left={X0} top={322} width={1320} height={635} headerLabel="debugging-game.app" padding={26}>
-        <div style={{ display: 'grid', gridTemplateColumns: '500px 1fr', gap: 28, height: '100%' }}>
+      <MacWindowCard left={X0} top={284} width={1280} height={685} headerLabel="game-debugging-biko" padding={24}>
+        <div style={{ display: 'grid', gridTemplateColumns: '485px 1fr', gap: 26, height: '100%' }}>
           {/* 3x3 Grid */}
           <div
             style={{
               background: '#F0FDF4',
-              borderRadius: 24,
-              border: `3px solid ${CHARCOAL}`,
-              padding: 18,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
+              padding: 16,
               ...centerCol,
             }}
           >
@@ -2623,7 +2328,7 @@ const Slide09MisiPraktik: Page = () => {
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 140px)',
-                gridTemplateRows: 'repeat(3, 142px)',
+                gridTemplateRows: 'repeat(3, 148px)',
                 gap: 10,
               }}
             >
@@ -2639,12 +2344,7 @@ const Slide09MisiPraktik: Page = () => {
                       key={`${r}-${c}`}
                       style={{
                         borderRadius: 18,
-                        background:
-                          isBush || isRock
-                            ? CORAL_SOFT
-                            : isGoal
-                              ? SUNNY_SOFT
-                              : WHITE,
+                        background: isBush || isRock ? CORAL_SOFT : isGoal ? SUNNY_SOFT : WHITE,
                         border: hasBiko ? `3.5px solid ${SKY}` : `2.5px solid ${CHARCOAL}`,
                         ...centerCol,
                       }}
@@ -2669,20 +2369,19 @@ const Slide09MisiPraktik: Page = () => {
             </div>
           </div>
 
-          {/* Right Controls: Editable Buggy Sequence + Palette */}
+          {/* Right Controls */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
-              <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700, marginBottom: 12 }}>
-                1. Klik blok berkedip merah untuk membuang Bug:
-              </div>
+              <SectionHeading size={24}>1. Klik Blok Merah untuk Buang Bug:</SectionHeading>
               <div
                 style={{
                   ...row,
                   gap: 18,
+                  marginTop: 12,
                   padding: '18px 24px',
-                  borderRadius: 22,
+                  borderRadius: 20,
                   background: '#F8FAFC',
-                  border: `3px solid ${CHARCOAL}`,
+                  border: `2.5px solid ${CHARCOAL}`,
                 }}
               >
                 {slots.map((dir, idx) => (
@@ -2697,7 +2396,7 @@ const Slide09MisiPraktik: Page = () => {
                       height: 110,
                       borderRadius: 22,
                       background: dir ? WHITE : '#E2E8F0',
-                      border: dir ? `3px solid ${CHARCOAL}` : `3px dashed #64748B`,
+                      border: dir ? `2.5px solid ${CHARCOAL}` : `3px dashed #64748B`,
                       ...centerCol,
                       cursor: 'pointer',
                       padding: 0,
@@ -2707,7 +2406,7 @@ const Slide09MisiPraktik: Page = () => {
                     {dir ? (
                       <DebugArrowBlock
                         dir={dir}
-                        size={86}
+                        size={84}
                         stepNum={idx + 1}
                         isBug={isBugInSlot(idx, dir)}
                         isFixed={idx === 1 && dir === 'up'}
@@ -2723,10 +2422,8 @@ const Slide09MisiPraktik: Page = () => {
             </div>
 
             <div>
-              <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700, marginBottom: 12 }}>
-                2. Klik atau tarik blok pengganti yang benar:
-              </div>
-              <div style={{ ...row, gap: 16 }}>
+              <SectionHeading size={24}>2. Klik atau Tarik Pengganti Benar:</SectionHeading>
+              <div style={{ ...row, gap: 16, marginTop: 12 }}>
                 {(['up', 'down', 'left', 'right'] as Dir[]).map((d) => (
                   <div key={d} draggable onDragStart={() => setDragDir(d)} style={{ display: 'inline-flex' }}>
                     <DebugArrowBlock dir={d} size={82} onClick={() => replaceEmptyOrBug(d)} />
@@ -2735,18 +2432,12 @@ const Slide09MisiPraktik: Page = () => {
               </div>
             </div>
 
-            {/* Feedback & Buttons */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div
                 style={{
                   padding: '12px 18px',
                   borderRadius: 16,
-                  background:
-                    status === 'win'
-                      ? TEAL_SOFT
-                      : status === 'bug'
-                        ? CORAL_SOFT
-                        : SUNNY_SOFT,
+                  background: status === 'win' ? TEAL_SOFT : status === 'bug' ? CORAL_SOFT : SUNNY_SOFT,
                   border: `2.5px solid ${CHARCOAL}`,
                   fontFamily: 'var(--osd-font-display)',
                   fontSize: 21,
@@ -2755,7 +2446,7 @@ const Slide09MisiPraktik: Page = () => {
                   gap: 8,
                 }}
               >
-                {message.icon && <JuniorIcon name={message.icon} size={24} />}
+                {message.icon && <JuniorIcon name={message.icon} size={22} />}
                 <span>{message.text}</span>
               </div>
 
@@ -2766,21 +2457,21 @@ const Slide09MisiPraktik: Page = () => {
                   onClick={runDebugCode}
                   style={{
                     flex: 1,
-                    padding: '14px 20px',
+                    padding: '13px 20px',
                     borderRadius: 18,
                     background: TEAL,
                     color: WHITE,
                     border: `3px solid ${CHARCOAL}`,
-                    boxShadow: `0 6px 0 ${CHARCOAL}`,
+                    boxShadow: `0 5px 0 ${CHARCOAL}`,
                     fontFamily: 'var(--osd-font-display)',
-                    fontSize: 25,
+                    fontSize: 24,
                     fontWeight: 700,
                     ...row,
                     justifyContent: 'center',
                     gap: 8,
                   }}
                 >
-                  <JuniorIcon name="play" size={24} />
+                  <JuniorIcon name="play" size={22} />
                   <span>Jalan!</span>
                 </button>
                 <button
@@ -2788,12 +2479,12 @@ const Slide09MisiPraktik: Page = () => {
                   className="cpj8-card-btn"
                   onClick={resetBug}
                   style={{
-                    padding: '14px 22px',
+                    padding: '13px 22px',
                     borderRadius: 18,
                     background: WHITE,
                     color: CHARCOAL,
                     border: `3px solid ${CHARCOAL}`,
-                    boxShadow: `0 6px 0 ${CHARCOAL}`,
+                    boxShadow: `0 5px 0 ${CHARCOAL}`,
                     fontFamily: 'var(--osd-font-display)',
                     fontSize: 22,
                     fontWeight: 700,
@@ -2801,7 +2492,7 @@ const Slide09MisiPraktik: Page = () => {
                     gap: 8,
                   }}
                 >
-                  <JuniorIcon name="reset" size={22} />
+                  <JuniorIcon name="reset" size={20} />
                   <span>Reset Bug</span>
                 </button>
               </div>
@@ -2810,29 +2501,60 @@ const Slide09MisiPraktik: Page = () => {
         </div>
       </MacWindowCard>
 
-      {/* Cheering Biko on Right */}
-      <BikoMascot
-        pose={status === 'win' ? 'jump' : 'detective'}
-        width={340}
-        speechBubble={status === 'win' ? 'Detektif Hebat!' : 'Cari blok merahnya!'}
-        style={{ ...abs(1475, 430) }}
-      />
+      {/* Right Reference Panel + Cheering Biko */}
+      <InfoPanel
+        bg={WHITE}
+        padding={20}
+        style={{
+          ...abs(1408, 284, 412, 685),
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <SectionHeading icon="magnifier" size={24}>
+            Petunjuk Detektif:
+          </SectionHeading>
+          <BulletList
+            bulletColor={CORAL}
+            fontSize={21}
+            gap={10}
+            items={[
+              <>
+                Blok ke-2 <InlineHighlight color="#FECACA">salah arah</InlineHighlight>.
+              </>,
+              <>
+                Ganti jadi panah <InlineHighlight color="#D1FAE5">Atas</InlineHighlight>.
+              </>,
+              <>Klik Jalan sampai finis!</>,
+            ]}
+          />
+        </div>
+
+        <div style={{ ...centerCol }}>
+          <BikoMascot
+            pose={status === 'win' ? 'jump' : 'detective'}
+            width={255}
+            speechBubble={status === 'win' ? 'Detektif Hebat!' : 'Cari blok merah!'}
+          />
+        </div>
+      </InfoPanel>
     </JuniorFrame>
   );
 };
 
 // ============================================================================
-// SLIDE 10 — Lencana Juara Pertemuan 8 (Celebration Center Card)
+// SLIDE 10 — Lencana Juara Pertemuan 8 (Summary Bullets + Gold Medal)
 // ============================================================================
 const Slide10Lencana: Page = () => {
   const live = useIsActivePage();
 
   const confetti = [
-    { left: 160, top: 240, color: SUNNY, rot: '18deg', size: 22 },
-    { left: 290, top: 760, color: SKY, rot: '-24deg', size: 24 },
-    { left: 1640, top: 230, color: CORAL, rot: '-15deg', size: 22 },
-    { left: 1520, top: 820, color: LAVENDER, rot: '28deg', size: 24 },
-    { left: 1380, top: 280, color: TEAL, rot: '14deg', size: 20 },
+    { left: 140, top: 240, color: SUNNY, rot: '18deg', size: 20 },
+    { left: 260, top: 820, color: SKY, rot: '-24deg', size: 22 },
+    { left: 1650, top: 230, color: CORAL, rot: '-15deg', size: 20 },
+    { left: 1500, top: 850, color: LAVENDER, rot: '28deg', size: 22 },
   ];
 
   return (
@@ -2845,103 +2567,109 @@ const Slide10Lencana: Page = () => {
             ...abs(c.left, c.top, c.size, c.size),
             borderRadius: 6,
             background: c.color,
-            border: `2.5px solid ${CHARCOAL}`,
+            border: `2px solid ${CHARCOAL}`,
             transform: `rotate(${c.rot})`,
             animation: live ? `cpj8-confetti ${2.4 + idx * 0.3}s ease-in-out infinite` : undefined,
           }}
         />
       ))}
 
-      <SlideTitle align="center" top={124} size={62}>
-        <span style={{ ...row, justifyContent: 'center', gap: 14 }}>
-          <span>
-            Hebat! Kamu <Highlight>Detektif Kode!</Highlight>
-          </span>
-          <JuniorIcon name="party" size={54} />
-        </span>
+      <SlideTitle align="center" top={104} size={58}>
+        Hebat! Kamu <Highlight>Detektif Kode!</Highlight>
       </SlideTitle>
 
-      {/* Celebration Center Card */}
-      <MacWindowCard left={240} top={245} width={1140} height={675} headerLabel="lencana-detektif-8.app" padding={36}>
-        <div
-          style={{
-            height: '100%',
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
-        >
-          {/* Large Gold Medal with Star Magnifier & Wrench */}
-          <svg
-            width={270}
-            height={270}
-            viewBox="0 0 240 240"
-            fill="none"
-            style={{ animation: live ? 'cpj8-float 3s ease-in-out infinite' : undefined }}
-          >
-            <path d="M74 16 L104 94 H136 L166 16 Z" fill={CORAL} stroke={CHARCOAL} strokeWidth={5} strokeLinejoin="round" />
-            <path d="M94 16 L120 88 L146 16" fill={SKY} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            <circle cx="120" cy="140" r="82" fill={SUNNY} stroke={CHARCOAL} strokeWidth={6} />
-            <circle cx="120" cy="140" r="64" fill="#FEF3C7" stroke={CHARCOAL} strokeWidth={4} />
-            {/* Wrench behind Magnifier */}
-            <path
-              d="M90 166 L146 110 C150 102, 158 100, 162 106 L154 114 L158 118 L166 110 C170 118, 164 128, 154 128 L100 176 Z"
-              fill={TEAL}
-              stroke={CHARCOAL}
-              strokeWidth={3.5}
-              strokeLinejoin="round"
-            />
-            {/* Star Magnifier */}
-            <line x1="128" y1="146" x2="152" y2="170" stroke={CHARCOAL} strokeWidth={9} strokeLinecap="round" />
-            <circle cx="112" cy="130" r="24" fill="#E0F2FE" stroke={CHARCOAL} strokeWidth={4.5} />
-            <path
-              d="M112 114 L115 123 L125 124 L117 130 L119 140 L112 135 L105 140 L107 130 L99 124 L109 123 Z"
-              fill={SUNNY}
-              stroke={CHARCOAL}
-              strokeWidth={2}
-            />
-          </svg>
+      {/* Center Celebration & Recap Card */}
+      <MacWindowCard left={180} top={210} width={1180} height={745} headerLabel="lencana-pertemuan-8" padding={34}>
+        <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '430px 1fr', gap: 36, alignItems: 'center' }}>
+          {/* Left: Gold Medal + Flat Achievement Banner */}
+          <div style={{ ...centerCol, gap: 22 }}>
+            <svg
+              width={255}
+              height={255}
+              viewBox="0 0 240 240"
+              fill="none"
+              style={{ animation: live ? 'cpj8-float 3s ease-in-out infinite' : undefined }}
+            >
+              <path d="M74 16 L104 94 H136 L166 16 Z" fill={CORAL} stroke={CHARCOAL} strokeWidth={5} strokeLinejoin="round" />
+              <path d="M94 16 L120 88 L146 16" fill={SKY} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
+              <circle cx="120" cy="140" r="82" fill={SUNNY} stroke={CHARCOAL} strokeWidth={6} />
+              <circle cx="120" cy="140" r="64" fill="#FEF3C7" stroke={CHARCOAL} strokeWidth={4} />
+              <path
+                d="M90 166 L146 110 C150 102, 158 100, 162 106 L154 114 L158 118 L166 110 C170 118, 164 128, 154 128 L100 176 Z"
+                fill={TEAL}
+                stroke={CHARCOAL}
+                strokeWidth={3.5}
+                strokeLinejoin="round"
+              />
+              <line x1="128" y1="146" x2="152" y2="170" stroke={CHARCOAL} strokeWidth={9} strokeLinecap="round" />
+              <circle cx="112" cy="130" r="24" fill="#E0F2FE" stroke={CHARCOAL} strokeWidth={4.5} />
+              <path
+                d="M112 114 L115 123 L125 124 L117 130 L119 140 L112 135 L105 140 L107 130 L99 124 L109 123 Z"
+                fill={SUNNY}
+                stroke={CHARCOAL}
+                strokeWidth={2}
+              />
+            </svg>
 
-          <div
-            style={{
-              padding: '14px 36px',
-              borderRadius: 99,
-              background: SUNNY,
-              border: `3.5px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 34,
-              fontWeight: 700,
-              ...row,
-              gap: 12,
-            }}
-          >
-            <JuniorIcon name="medal" size={34} />
-            <span>Lencana Detektif Bug &amp; Debugging</span>
+            <div
+              style={{
+                padding: '12px 24px',
+                borderRadius: 16,
+                background: SUNNY_SOFT,
+                border: `2.5px solid ${CHARCOAL}`,
+                fontFamily: 'var(--osd-font-display)',
+                fontSize: 27,
+                fontWeight: 700,
+                ...row,
+                gap: 10,
+              }}
+            >
+              <JuniorIcon name="medal" size={28} />
+              <span>Lencana Detektif Bug</span>
+            </div>
           </div>
 
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 31,
-              fontWeight: 700,
-              lineHeight: 1.38,
-              maxWidth: 880,
-              color: CHARCOAL,
-            }}
-          >
-            Kamu sudah jago mencari <Highlight color={CORAL_SOFT}>Bug</Highlight> dan memperbaiki{' '}
-            <Highlight color="#D1FAE5">Urutan Kode!</Highlight>
+          {/* Right: Concise Bullet Takeaways */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+            <SectionHeading icon="party" size={32}>
+              Yang Sudah Kamu Kuasai:
+            </SectionHeading>
+
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={25}
+              gap={16}
+              items={[
+                <>
+                  Menemukan <InlineHighlight color="#FECACA">Bug (blok salah)</InlineHighlight> di kode.
+                </>,
+                <>
+                  Membuang panah yang <InlineHighlight>bikin nyasar</InlineHighlight>.
+                </>,
+                <>
+                  Memperbaiki kode dengan <InlineHighlight color="#D1FAE5">jurus Debugging</InlineHighlight>.
+                </>,
+                <>
+                  Memandu karakter sampai <InlineHighlight color={SKY_SOFT}>bendera finis</InlineHighlight>.
+                </>,
+              ]}
+            />
+
+            <InfoPanel bg={TEAL_SOFT} borderColor={TEAL} padding={18} style={{ ...row, justifyContent: 'center', gap: 16 }}>
+              <DebugArrowBlock dir="up" size={62} isFixed showRightTab />
+              <DebugArrowBlock dir="right" size={62} isFixed />
+              <FlagSvg size={64} />
+            </InfoPanel>
           </div>
         </div>
       </MacWindowCard>
 
       {/* Jumping Biko Celebrating on Right */}
-      <div style={{ ...abs(1410, 410, 420, 490), ...centerCol }}>
+      <div style={{ ...abs(1400, 390, 420, 500), ...centerCol }}>
         <BikoMascot
           pose="jump"
-          width={380}
-          badgeIcon={<JuniorIcon name="magnifier" size={30} />}
+          width={365}
+          badgeIcon={<JuniorIcon name="magnifier" size={28} />}
           speechBubble="Bug Teratasi!"
         />
       </div>
@@ -2967,20 +2695,20 @@ Bug adalah kesalahan di urutan blok perintah. Gara-gara ada satu blok panah yang
 1. Cari blok yang bikin nyasar. 2. Buang blok yang salah. 3. Ganti dengan blok yang benar!`,
 
   `Kasus Detektif #1: Langkahnya Kebanyakan!
-Kelinci cuma butuh 2 langkah ke wortel, tapi kodenya tertulis 3 panah kanan ([ ➡️ ] + [ ➡️ ] + [ ➡️ ]). Ayo buang 1 panah berlebih!`,
+Kelinci cuma butuh 2 langkah ke wortel, tapi kodenya tertulis 3 panah kanan. Ayo buang 1 panah berlebih!`,
 
   `Permainan Cepat! Ayo tebak mana blok yang salah:
-Blok 1 (➡️) atau Blok 2 (⬇️)? Biko malah turun menjauhi Bintang!`,
+Blok 1 (Kanan) atau Blok 2 (Bawah)? Biko malah turun menjauhi Bintang!`,
 
   `Kasus Detektif #2: Salah Belok Nabrak Batu!
-Kode langsung [ ➡️ ] bikin Biko menabrak batu. Ganti dengan [ ⬆️ ] lalu [ ➡️ ] supaya belok aman sampai Finis!`,
+Kode langsung ke kanan bikin Biko menabrak batu. Ganti dengan Atas lalu Kanan supaya belok aman sampai Finis!`,
 
   `Tips Detektif Hebat:
 BOLEH tetap tenang kalau karakter nyasar dan cek ulang blok satu per satu.
 JANGAN sedih, marah, atau menyerah saat ada Bug ya!`,
 
   `Waktunya praktik Game Tangkap Semua Bug!
-Klik "Jalan!" untuk melihat blok ke-2 ([ ⬇️ ]) yang bikin Biko keluar jalur, buang blok merahnya, lalu ganti dengan [ ⬆️ ] sampai Biko tiba di Bendera Finis!`,
+Klik "Jalan!" untuk melihat blok ke-2 (Bawah) yang bikin Biko keluar jalur, buang blok merahnya, lalu ganti dengan Atas sampai Biko tiba di Bendera Finis!`,
 
   `Selamat untuk semua Detektif Kode cilik!
 Kalian resmi meraih Lencana Detektif Bug & Debugging!`,

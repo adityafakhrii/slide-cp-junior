@@ -1,12 +1,8 @@
 import { Fragment, useState, type CSSProperties, type DragEvent, type ReactNode } from 'react';
 import type { DesignSystem, Page, SlideMeta, SlideTransition } from '@open-slide/core';
 import { useIsActivePage, useSlidePageNumber } from '@open-slide/core';
-import bikoWave from '../../assets/biko/biko-wave.png';
-import bikoLaptop from '../../assets/biko/biko-laptop.png';
-import bikoPointLeft from '../../assets/biko/biko-point-left.png';
-import bikoJump from '../../assets/biko/biko-jump.png';
+import { BikoMascot } from '../../components/BikoMascot';
 import { JuniorIcon, type JuniorIconName } from '../../components/JuniorIcons';
-
 // ============================================================================
 // Webfont Loading & Scoped Keyframe Styles (loaded once in <head>)
 // ============================================================================
@@ -20,14 +16,6 @@ const SCOPED_CSS = `
 @keyframes cpj3-float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
-}
-@keyframes cpj3-bob {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-6px) rotate(-1.2deg); }
-}
-@keyframes cpj3-twinkle {
-  0%, 100% { opacity: 0.92; transform: scale(1) rotate(0deg); }
-  50% { opacity: 0.45; transform: scale(0.84) rotate(12deg); }
 }
 @keyframes cpj3-confetti {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -46,7 +34,7 @@ const SCOPED_CSS = `
   cursor: pointer;
 }
 .cpj3-card-btn:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
 }
 .cpj3-card-btn:active {
   transform: translateY(2px);
@@ -97,6 +85,8 @@ const SAND_GRID = '#F4ECDC';
 const WHITE = '#FFFFFF';
 const CHARCOAL = '#1E1E2C';
 const MUTED = '#525266';
+const BORDER_SOFT = '#CBD5E1';
+const CARD_SHADOW = '0 6px 18px rgba(30, 30, 44, 0.08)';
 const TEAL = '#10B981';
 const TEAL_SOFT = '#ECFDF5';
 const CORAL = '#F45B49';
@@ -105,7 +95,6 @@ const SUNNY = '#FBBF24';
 const SUNNY_SOFT = '#FEF9C3';
 const STABILO = '#FEF08A';
 const LAVENDER = '#A78BFA';
-const LAVENDER_SOFT = '#F3EEFF';
 const SKY = '#60A5FA';
 const SKY_SOFT = '#EFF6FF';
 const CHOCO = '#78350F';
@@ -150,7 +139,7 @@ const centerCol: CSSProperties = {
 };
 
 // ============================================================================
-// Shared Chrome, Background Grid & Micro-Decorations
+// Shared Chrome, Typography, Highlights, Bullet Lists & Flat Cards
 // ============================================================================
 const JuniorFrame = ({
   badge,
@@ -162,7 +151,6 @@ const JuniorFrame = ({
   children: ReactNode;
 }) => {
   const { current, total } = useSlidePageNumber();
-  const live = useIsActivePage();
 
   return (
     <div
@@ -180,132 +168,54 @@ const JuniorFrame = ({
         WebkitFontSmoothing: 'antialiased',
       }}
     >
-      {/* Low-opacity coding symbols around outer canvas edges */}
-      <div
-        aria-hidden
-        style={{
-          ...abs(46, 200),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 40,
-          fontWeight: 700,
-          color: LAVENDER,
-          opacity: 0.25,
-          transform: 'rotate(-10deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'{ }'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(1816, 170),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 38,
-          fontWeight: 700,
-          color: SKY,
-          opacity: 0.26,
-          transform: 'rotate(12deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'</>'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(42, 870),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 36,
-          fontWeight: 700,
-          color: TEAL,
-          opacity: 0.24,
-          transform: 'rotate(-8deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'( )'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(1826, 860),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 38,
-          fontWeight: 700,
-          color: CORAL,
-          opacity: 0.25,
-          transform: 'rotate(9deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'##'}
-      </div>
-
-      {/* Sparkle accent */}
-      <svg
-        aria-hidden
-        width={42}
-        height={42}
-        viewBox="0 0 40 40"
-        style={{
-          ...abs(1750, 74),
-          pointerEvents: 'none',
-          animation: live ? 'cpj3-twinkle 2.8s ease-in-out infinite' : undefined,
-        }}
-      >
-        <path
-          d="M20 2 L24.5 15.5 L38 20 L24.5 24.5 L20 38 L15.5 24.5 L2 20 L15.5 15.5 Z"
-          fill={SUNNY}
-          stroke={CHARCOAL}
-          strokeWidth={2.2}
-          strokeLinejoin="round"
-        />
-      </svg>
-
-      {/* Top Left Header Pill Badge */}
+      {/* Top Left Logo (Slide 1 Cover only) + Flat Header Tag */}
       <div
         style={{
-          ...abs(X0, 56),
+          ...abs(X0, 48),
           ...row,
-          gap: 12,
-          padding: '12px 26px',
-          borderRadius: 999,
-          background: WHITE,
-          border: `2.5px solid ${CHARCOAL}`,
-          boxShadow: `0 5px 0 ${CHARCOAL}`,
-          fontSize: 20,
-          fontWeight: 800,
-          letterSpacing: '0.04em',
-          textTransform: 'uppercase',
+          gap: 18,
           zIndex: 5,
         }}
       >
-        <span
+        <div
           style={{
-            width: 14,
-            height: 14,
-            borderRadius: 99,
-            background: accentDot,
+            ...row,
+            gap: 10,
+            padding: '8px 20px',
+            borderRadius: 12,
+            background: WHITE,
             border: `2px solid ${CHARCOAL}`,
-            display: 'inline-block',
+            fontSize: 18,
+            fontWeight: 800,
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
           }}
-        />
-        <span>{badge}</span>
+        >
+          <span
+            style={{
+              width: 12,
+              height: 12,
+              borderRadius: 99,
+              background: accentDot,
+              border: `2px solid ${CHARCOAL}`,
+              display: 'inline-block',
+            }}
+          />
+          <span>{badge}</span>
+        </div>
       </div>
 
-      {/* Top Right Slide Number Pill */}
+      {/* Top Right Flat Slide Number Indicator */}
       <div
         style={{
-          ...abs(1680, 56),
+          ...abs(1690, 48),
           ...row,
-          gap: 10,
-          padding: '12px 22px',
-          borderRadius: 999,
+          gap: 8,
+          padding: '8px 18px',
+          borderRadius: 12,
           background: WHITE,
-          border: `2.5px solid ${CHARCOAL}`,
-          boxShadow: `0 4px 0 ${CHARCOAL}`,
-          fontSize: 20,
+          border: `2px solid ${CHARCOAL}`,
+          fontSize: 19,
           fontWeight: 800,
           fontFamily: 'var(--osd-font-display)',
           zIndex: 5,
@@ -318,15 +228,15 @@ const JuniorFrame = ({
 
       {children}
 
-      {/* Subtle Bottom Program Strip */}
+      {/* Bottom Program Strip */}
       <div
         style={{
-          ...abs(X0, 1020, W, 34),
+          ...abs(X0, 1022, W, 32),
           ...row,
           justifyContent: 'space-between',
           fontSize: 18,
           fontWeight: 700,
-          color: '#7A7689',
+          color: '#6E6A7C',
         }}
       >
         <span style={{ ...row, gap: 10 }}>
@@ -358,8 +268,8 @@ const Highlight = ({
   <span
     style={{
       background: color,
-      padding: '2px 18px 6px',
-      borderRadius: 16,
+      padding: '2px 16px 5px',
+      borderRadius: 14,
       boxDecorationBreak: 'clone',
       WebkitBoxDecorationBreak: 'clone',
       display: 'inline-block',
@@ -369,11 +279,31 @@ const Highlight = ({
   </span>
 );
 
+const InlineHighlight = ({
+  children,
+  color = STABILO,
+}: {
+  children: ReactNode;
+  color?: string;
+}) => (
+  <mark
+    style={{
+      background: color,
+      color: CHARCOAL,
+      fontWeight: 800,
+      padding: '1px 9px 2px',
+      borderRadius: 8,
+    }}
+  >
+    {children}
+  </mark>
+);
+
 const SlideTitle = ({
   children,
-  top = 136,
-  size = 56,
-  maxWidth = 1520,
+  top = 114,
+  size = 54,
+  maxWidth = 1560,
   align = 'left',
 }: {
   children: ReactNode;
@@ -389,7 +319,7 @@ const SlideTitle = ({
       fontFamily: 'var(--osd-font-display)',
       fontSize: size,
       fontWeight: 700,
-      lineHeight: 1.16,
+      lineHeight: 1.14,
       letterSpacing: '-0.015em',
       color: CHARCOAL,
       textAlign: align,
@@ -397,6 +327,116 @@ const SlideTitle = ({
   >
     {children}
   </h2>
+);
+
+const SectionHeading = ({
+  children,
+  icon,
+  accentColor = CHARCOAL,
+  size = 30,
+}: {
+  children: ReactNode;
+  icon?: JuniorIconName;
+  accentColor?: string;
+  size?: number;
+}) => (
+  <h3
+    style={{
+      margin: 0,
+      ...row,
+      gap: 10,
+      fontFamily: 'var(--osd-font-display)',
+      fontSize: size,
+      fontWeight: 700,
+      lineHeight: 1.2,
+      color: accentColor,
+    }}
+  >
+    {icon && <JuniorIcon name={icon} size={Math.round(size * 0.95)} />}
+    <span>{children}</span>
+  </h3>
+);
+
+const BulletList = ({
+  items,
+  bulletColor = TEAL,
+  fontSize = 24,
+  gap = 12,
+}: {
+  items: ReactNode[];
+  bulletColor?: string;
+  fontSize?: number;
+  gap?: number;
+}) => (
+  <ul
+    style={{
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+      display: 'flex',
+      flexDirection: 'column',
+      gap,
+    }}
+  >
+    {items.map((item, idx) => (
+      <li
+        key={idx}
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 12,
+          fontSize,
+          fontWeight: 700,
+          lineHeight: 1.38,
+          color: CHARCOAL,
+          textAlign: 'left',
+        }}
+      >
+        <span
+          aria-hidden
+          style={{
+            width: 11,
+            height: 11,
+            marginTop: Math.round(fontSize * 0.42),
+            borderRadius: 99,
+            background: bulletColor,
+            border: `2px solid ${CHARCOAL}`,
+            flexShrink: 0,
+          }}
+        />
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+);
+
+/** Flat content panel (never looks like a clickable push-button) */
+const InfoPanel = ({
+  children,
+  bg = WHITE,
+  borderColor = CHARCOAL,
+  padding = 28,
+  style,
+}: {
+  children: ReactNode;
+  bg?: string;
+  borderColor?: string;
+  padding?: number;
+  style?: CSSProperties;
+}) => (
+  <div
+    style={{
+      background: bg,
+      borderRadius: 24,
+      border: `3px solid ${borderColor}`,
+      boxShadow: CARD_SHADOW,
+      padding,
+      boxSizing: 'border-box',
+      ...style,
+    }}
+  >
+    {children}
+  </div>
 );
 
 const MacWindowCard = ({
@@ -407,7 +447,7 @@ const MacWindowCard = ({
   titleBarColor = WHITE,
   headerLabel,
   children,
-  padding = 36,
+  padding = 32,
 }: {
   left: number;
   top: number;
@@ -422,9 +462,9 @@ const MacWindowCard = ({
     style={{
       ...abs(left, top, width, height),
       background: WHITE,
-      borderRadius: 28,
+      borderRadius: 26,
       border: `3px solid ${CHARCOAL}`,
-      boxShadow: `0 8px 0 ${CHARCOAL}`,
+      boxShadow: CARD_SHADOW,
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
@@ -432,221 +472,62 @@ const MacWindowCard = ({
   >
     <div
       style={{
-        height: 54,
+        height: 48,
         background: titleBarColor,
         borderBottom: `2.5px solid ${CHARCOAL}`,
-        padding: '0 24px',
+        padding: '0 22px',
         ...row,
         justifyContent: 'space-between',
         flexShrink: 0,
       }}
     >
-      <div style={{ ...row, gap: 11 }}>
-        <span style={{ width: 16, height: 16, borderRadius: 99, background: CORAL, border: `2px solid ${CHARCOAL}` }} />
-        <span style={{ width: 16, height: 16, borderRadius: 99, background: SUNNY, border: `2px solid ${CHARCOAL}` }} />
-        <span style={{ width: 16, height: 16, borderRadius: 99, background: TEAL, border: `2px solid ${CHARCOAL}` }} />
+      <div style={{ ...row, gap: 9 }}>
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: CORAL, border: `2px solid ${CHARCOAL}` }} />
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: SUNNY, border: `2px solid ${CHARCOAL}` }} />
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: TEAL, border: `2px solid ${CHARCOAL}` }} />
       </div>
       {headerLabel && (
-        <span style={{ fontSize: 18, fontWeight: 800, color: MUTED, letterSpacing: '0.03em' }}>
+        <span style={{ fontSize: 16, fontWeight: 800, color: MUTED, letterSpacing: '0.03em' }}>
           {headerLabel}
         </span>
       )}
-      <div style={{ width: 64 }} />
+      <div style={{ width: 56 }} />
     </div>
-    <div style={{ position: 'relative', flex: 1, padding, boxSizing: 'border-box' }}>{children}</div>
+    <div style={{ position: 'relative', flex: 1, padding, boxSizing: 'border-box', overflow: 'hidden' }}>{children}</div>
+  </div>
+);
+
+const StepNumberBadge = ({
+  num,
+  color,
+  size = 56,
+}: {
+  num: number | string;
+  color: string;
+  size?: number;
+}) => (
+  <div
+    style={{
+      width: size,
+      height: size,
+      borderRadius: Math.round(size * 0.3),
+      background: color,
+      border: `3px solid ${CHARCOAL}`,
+      fontFamily: 'var(--osd-font-display)',
+      fontSize: Math.round(size * 0.52),
+      fontWeight: 700,
+      color: color === SUNNY ? CHARCOAL : WHITE,
+      ...centerCol,
+      flexShrink: 0,
+    }}
+  >
+    {num}
   </div>
 );
 
 // ============================================================================
-// Official Biko Mascot Component (Uses verified transparent Biko PNG assets)
+// Reusable Flat-Vector Illustrations (Puzzle, Cursor, Toothbrush, Bread)
 // ============================================================================
-type BikoPose = 'cover-laptop' | 'point-left' | 'point-right' | 'question' | 'thumbs-up' | 'jump' | 'wave' | 'chef';
-
-const BIKO_POSE_ASSETS: Record<BikoPose, string> = {
-  'cover-laptop': bikoLaptop,
-  'point-left': bikoPointLeft,
-  'point-right': bikoPointLeft,
-  question: bikoWave,
-  'thumbs-up': bikoWave,
-  jump: bikoJump,
-  wave: bikoWave,
-  chef: bikoWave,
-};
-
-const BikoMascot = ({
-  pose = 'point-left',
-  width = 340,
-  badgeEmoji,
-  badgeIcon,
-  style,
-}: {
-  pose?: BikoPose;
-  width?: number;
-  badgeEmoji?: string;
-  badgeIcon?: ReactNode;
-  style?: CSSProperties;
-}) => {
-  const live = useIsActivePage();
-  const isJump = pose === 'jump';
-  const imgSrc = BIKO_POSE_ASSETS[pose] ?? bikoWave;
-  const imgHeight = Math.round(width * 1.1);
-
-  return (
-    <div
-      style={{
-        position: 'relative',
-        display: 'inline-flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width,
-        userSelect: 'none',
-        ...style,
-      }}
-    >
-      <div
-        style={{
-          position: 'relative',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          animation: live
-            ? isJump
-              ? 'cpj3-float 1.8s ease-in-out infinite'
-              : 'cpj3-bob 3.2s ease-in-out infinite'
-            : undefined,
-        }}
-      >
-        <img
-          src={imgSrc}
-          alt="Maskot Biko"
-          draggable={false}
-          style={{
-            display: 'block',
-            height: imgHeight,
-            width: 'auto',
-            maxWidth: '100%',
-            objectFit: 'contain',
-            pointerEvents: 'none',
-            transform: pose === 'point-right' ? 'scaleX(-1)' : undefined,
-            filter: 'drop-shadow(0 8px 14px rgba(30, 30, 44, 0.12))',
-          }}
-        />
-
-        {pose === 'chef' && (
-          <svg
-            aria-hidden="true"
-            width={Math.round(width * 0.42)}
-            height={Math.round(width * 0.34)}
-            viewBox="0 0 140 110"
-            fill="none"
-            style={{
-              position: 'absolute',
-              top: -Math.round(width * 0.08),
-              left: '50%',
-              transform: 'translateX(-48%) rotate(-6deg)',
-              pointerEvents: 'none',
-              filter: 'drop-shadow(0 4px 6px rgba(30,30,44,0.16))',
-            }}
-          >
-            <path
-              d="M34 74 C14 70, 14 40, 38 36 C42 16, 64 12, 70 22 C78 10, 102 16, 104 36 C126 40, 126 70, 106 74 Z"
-              fill={WHITE}
-              stroke={CHARCOAL}
-              strokeWidth={4.5}
-              strokeLinejoin="round"
-            />
-            <rect x="32" y="72" width="76" height="24" rx="8" fill={WHITE} stroke={CHARCOAL} strokeWidth={4.5} />
-            <rect x="34" y="84" width="72" height="10" rx="4" fill={TEAL} />
-          </svg>
-        )}
-
-        {pose === 'question' && (
-          <div
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              right: 2,
-              top: '8%',
-              width: 74,
-              height: 82,
-              borderRadius: 20,
-              background: SUNNY,
-              border: `3.5px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 50,
-              fontWeight: 700,
-              color: CHARCOAL,
-              transform: 'rotate(10deg)',
-              pointerEvents: 'none',
-            }}
-          >
-            ?
-          </div>
-        )}
-
-        {(pose === 'thumbs-up' || badgeEmoji || badgeIcon) && (
-          <div
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              right: 4,
-              top: '10%',
-              width: 66,
-              height: 66,
-              borderRadius: '50%',
-              background: SUNNY,
-              border: `3.5px solid ${CHARCOAL}`,
-              boxShadow: `0 5px 0 ${CHARCOAL}`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 34,
-              transform: 'rotate(8deg)',
-              pointerEvents: 'none',
-            }}
-          >
-            {badgeIcon ?? badgeEmoji ?? <JuniorIcon name="thumbs-up" size={34} />}
-          </div>
-        )}
-      </div>
-
-      <div
-        aria-hidden="true"
-        style={{
-          width: isJump ? width * 0.36 : width * 0.52,
-          height: 15,
-          marginTop: isJump ? 8 : -6,
-          borderRadius: '50%',
-          background: CHARCOAL,
-          opacity: 0.13,
-          pointerEvents: 'none',
-        }}
-      />
-    </div>
-  );
-};
-
-// ============================================================================
-// Reusable Flat-Vector Illustrations (Puzzle, Cursor, Hand, Toothbrush, Bread)
-// ============================================================================
-const IconCheck = ({ size = 44 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="21" fill={TEAL} stroke={CHARCOAL} strokeWidth={3} />
-    <path d="M14 25 L21 32 L34 17" stroke={WHITE} strokeWidth={4.8} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const IconCross = ({ size = 44 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="21" fill={CORAL} stroke={CHARCOAL} strokeWidth={3} />
-    <path d="M16 16 L32 32 M32 16 L16 32" stroke={WHITE} strokeWidth={4.8} strokeLinecap="round" />
-  </svg>
-);
-
 const CursorHandSvg = ({
   grabbing = false,
   size = 56,
@@ -659,7 +540,6 @@ const CursorHandSvg = ({
   <svg width={size} height={size} viewBox="0 0 64 64" fill="none" style={{ display: 'block', ...style }}>
     {grabbing ? (
       <g>
-        {/* Closed grabbing cartoon hand */}
         <rect x="14" y="22" width="36" height="30" rx="14" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={4} />
         <path d="M18 24 C18 14, 26 12, 28 22" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={3.5} strokeLinecap="round" />
         <path d="M26 22 C26 12, 34 12, 36 22" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={3.5} strokeLinecap="round" />
@@ -694,25 +574,24 @@ const PuzzleTileSvg = ({
       position: 'relative',
       width: size,
       height: size,
-      borderRadius: 24,
+      borderRadius: 22,
       background: color,
-      border: `3.5px solid ${CHARCOAL}`,
-      boxShadow: `0 6px 0 ${CHARCOAL}`,
+      border: `3px solid ${CHARCOAL}`,
+      boxShadow: CARD_SHADOW,
       ...centerCol,
     }}
   >
-    {/* Top puzzle knob */}
     <div
       style={{
         position: 'absolute',
-        top: -13,
+        top: -12,
         left: '50%',
         transform: 'translateX(-50%)',
-        width: 28,
-        height: 16,
+        width: 26,
+        height: 14,
         borderRadius: '14px 14px 0 0',
         background: color,
-        border: `3.5px solid ${CHARCOAL}`,
+        border: `3px solid ${CHARCOAL}`,
         borderBottom: 'none',
       }}
     />
@@ -737,20 +616,17 @@ const ToothbrushStepArt = ({ step, size = 140 }: { step: 1 | 2 | 3; size?: numbe
   if (step === 1) {
     return (
       <svg width={size} height={size} viewBox="0 0 150 150" fill="none">
-        {/* Toothbrush */}
         <rect x="24" y="88" width="102" height="18" rx="9" fill={SKY} stroke={CHARCOAL} strokeWidth={3.5} />
         <rect x="86" y="70" width="36" height="18" rx="6" fill={WHITE} stroke={CHARCOAL} strokeWidth={3} />
         <line x1="94" y1="70" x2="94" y2="88" stroke={SKY} strokeWidth={2.5} />
         <line x1="104" y1="70" x2="104" y2="88" stroke={SKY} strokeWidth={2.5} />
         <line x1="114" y1="70" x2="114" y2="88" stroke={SKY} strokeWidth={2.5} />
-        {/* Mint toothpaste swirl on brush */}
         <path
           d="M84 68 C86 52, 108 50, 120 60 C124 64, 120 70, 110 70 H88 Z"
           fill={TEAL}
           stroke={CHARCOAL}
           strokeWidth={3}
         />
-        {/* Toothpaste tube squeezing */}
         <g transform="translate(22, 18) rotate(-22)">
           <rect x="0" y="10" width="58" height="28" rx="8" fill={CORAL} stroke={CHARCOAL} strokeWidth={3.5} />
           <rect x="56" y="16" width="12" height="16" rx="4" fill={WHITE} stroke={CHARCOAL} strokeWidth={3} />
@@ -762,7 +638,6 @@ const ToothbrushStepArt = ({ step, size = 140 }: { step: 1 | 2 | 3; size?: numbe
   if (step === 2) {
     return (
       <svg width={size} height={size} viewBox="0 0 150 150" fill="none">
-        {/* Happy Tooth with Foam Bubbles */}
         <path
           d="M42 42 C42 26, 62 24, 75 34 C88 24, 108 26, 108 42 C112 68, 104 114, 92 118 C82 120, 80 96, 75 96 C70 96, 68 120, 58 118 C46 114, 38 68, 42 42 Z"
           fill={WHITE}
@@ -770,28 +645,22 @@ const ToothbrushStepArt = ({ step, size = 140 }: { step: 1 | 2 | 3; size?: numbe
           strokeWidth={4}
           strokeLinejoin="round"
         />
-        {/* Smile */}
         <circle cx="62" cy="58" r="4" fill={CHARCOAL} />
         <circle cx="88" cy="58" r="4" fill={CHARCOAL} />
         <path d="M64 72 Q75 82 86 72" stroke={CHARCOAL} strokeWidth={3.5} strokeLinecap="round" />
-        {/* Fluffy Foam Bubbles */}
         <circle cx="34" cy="56" r="14" fill="#E0F2FE" stroke={CHARCOAL} strokeWidth={3} />
         <circle cx="48" cy="36" r="11" fill="#E0F2FE" stroke={CHARCOAL} strokeWidth={3} />
         <circle cx="114" cy="50" r="13" fill="#E0F2FE" stroke={CHARCOAL} strokeWidth={3} />
         <circle cx="104" cy="32" r="10" fill={WHITE} stroke={CHARCOAL} strokeWidth={3} />
-        {/* Toothbrush Scrubbing */}
         <rect x="14" y="78" width="74" height="14" rx="7" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} transform="rotate(-14 14 78)" />
       </svg>
     );
   }
   return (
     <svg width={size} height={size} viewBox="0 0 150 150" fill="none">
-      {/* Sparkling Blue Water Cup */}
       <path d="M22 52 H72 L65 120 H29 Z" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
       <path d="M26 76 H68 L63 116 H31 Z" fill={SKY} />
-      {/* Water Splash Drops */}
       <path d="M48 22 C54 32, 58 38, 48 44 C38 38, 42 32, 48 22 Z" fill={SKY} stroke={CHARCOAL} strokeWidth={2.5} />
-      {/* Shiny Clean Tooth */}
       <path
         d="M84 54 C84 42, 98 40, 108 48 C118 40, 132 42, 132 54 C134 74, 128 106, 120 110 C114 112, 112 96, 108 96 C104 96, 102 112, 96 110 C88 106, 82 74, 84 54 Z"
         fill={WHITE}
@@ -800,7 +669,6 @@ const ToothbrushStepArt = ({ step, size = 140 }: { step: 1 | 2 | 3; size?: numbe
         strokeLinejoin="round"
       />
       <path d="M98 76 Q108 86 118 76" stroke={TEAL} strokeWidth={3.5} strokeLinecap="round" />
-      {/* Sparkles */}
       <path d="M124 22 L128 32 L138 36 L128 40 L124 50 L120 40 L110 36 L120 32 Z" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2} />
     </svg>
   );
@@ -810,9 +678,7 @@ const BreadStepArt = ({ step, size = 140 }: { step: 1 | 2 | 3; size?: number }) 
   if (step === 1) {
     return (
       <svg width={size} height={size} viewBox="0 0 150 150" fill="none">
-        {/* Plate */}
         <ellipse cx="75" cy="112" rx="58" ry="18" fill="#E2E8F0" stroke={CHARCOAL} strokeWidth={3.5} />
-        {/* Toast Bread Slice */}
         <path
           d="M34 52 C34 32, 116 32, 116 52 C116 58, 110 62, 110 68 V104 C110 110, 104 114, 98 114 H52 C46 114, 40 110, 40 104 V68 C40 62, 34 58, 34 52 Z"
           fill={BREAD_CRUST}
@@ -833,9 +699,7 @@ const BreadStepArt = ({ step, size = 140 }: { step: 1 | 2 | 3; size?: number }) 
   if (step === 2) {
     return (
       <svg width={size} height={size} viewBox="0 0 150 150" fill="none">
-        {/* Plate */}
         <ellipse cx="75" cy="116" rx="58" ry="16" fill="#E2E8F0" stroke={CHARCOAL} strokeWidth={3.5} />
-        {/* Bread Slice */}
         <path
           d="M34 54 C34 34, 116 34, 116 54 C116 60, 110 64, 110 70 V106 C110 112, 104 116, 98 116 H52 C46 116, 40 112, 40 106 V70 C40 64, 34 60, 34 54 Z"
           fill={BREAD_CRUST}
@@ -846,14 +710,12 @@ const BreadStepArt = ({ step, size = 140 }: { step: 1 | 2 | 3; size?: number }) 
           d="M44 56 C44 44, 106 44, 106 56 C106 60, 102 64, 102 68 V104 H48 V68 C48 64, 44 60, 44 56 Z"
           fill={BREAD_INNER}
         />
-        {/* Rich Chocolate Spread */}
         <path
           d="M50 66 C56 54, 94 54, 100 66 C102 78, 96 98, 75 98 C54 98, 48 80, 50 66 Z"
           fill={CHOCO}
           stroke={CHARCOAL}
           strokeWidth={3}
         />
-        {/* Cute Spreader Spoon */}
         <g transform="translate(86, 18) rotate(26)">
           <rect x="0" y="24" width="12" height="44" rx="6" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
           <ellipse cx="6" cy="16" rx="11" ry="16" fill={WHITE} stroke={CHARCOAL} strokeWidth={3} />
@@ -863,13 +725,9 @@ const BreadStepArt = ({ step, size = 140 }: { step: 1 | 2 | 3; size?: number }) 
   }
   return (
     <svg width={size} height={size} viewBox="0 0 150 150" fill="none">
-      {/* Plate */}
       <ellipse cx="75" cy="118" rx="60" ry="16" fill="#E2E8F0" stroke={CHARCOAL} strokeWidth={3.5} />
-      {/* Bottom Bread */}
       <rect x="28" y="88" width="94" height="24" rx="10" fill={BREAD_CRUST} stroke={CHARCOAL} strokeWidth={4} />
-      {/* Chocolate Layer */}
       <path d="M28 84 Q52 94 75 84 Q98 94 122 84 V92 H28 Z" fill={CHOCO} stroke={CHARCOAL} strokeWidth={3} />
-      {/* Top Bread */}
       <path
         d="M28 66 C28 48, 122 48, 122 66 V84 H28 Z"
         fill={BREAD_INNER}
@@ -878,7 +736,6 @@ const BreadStepArt = ({ step, size = 140 }: { step: 1 | 2 | 3; size?: number }) 
         strokeLinejoin="round"
       />
       <path d="M28 66 C28 48, 122 48, 122 66" stroke={BREAD_CRUST} strokeWidth={8} strokeLinecap="round" />
-      {/* Yummy Sparkles */}
       <path d="M124 26 L128 35 L137 39 L128 43 L124 52 L120 43 L111 39 L120 35 Z" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2} />
       <circle cx="32" cy="36" r="7" fill={CORAL} stroke={CHARCOAL} strokeWidth={2.5} />
     </svg>
@@ -886,31 +743,29 @@ const BreadStepArt = ({ step, size = 140 }: { step: 1 | 2 | 3; size?: number }) 
 };
 
 // ============================================================================
-// SLIDE 01 — Sampul Pertemuan (Hero Split Layout)
+// SLIDE 01 — Sampul Pertemuan (H1 + InfoPanel BulletList + Visual Showcase)
 // ============================================================================
 const Slide01Cover: Page = () => {
   const live = useIsActivePage();
   return (
     <JuniorFrame badge="CODEPOLITAN JUNIOR • PERTEMUAN 3" accentDot={SUNNY}>
       {/* Left Hero Column */}
-      <div style={{ ...abs(X0, 210, 880, 700), display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ ...abs(X0, 175, 830, 770), display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 22 }}>
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: 10,
             alignSelf: 'flex-start',
-            padding: '10px 22px',
-            borderRadius: 999,
+            padding: '8px 18px',
+            borderRadius: 12,
             background: SKY_SOFT,
-            border: `2.5px solid ${CHARCOAL}`,
-            fontSize: 22,
+            border: `2px solid ${CHARCOAL}`,
+            fontSize: 20,
             fontWeight: 800,
             color: '#1D4ED8',
-            marginBottom: 24,
           }}
         >
-          <JuniorIcon name="puzzle" size={26} />
           <span>LEVEL 1: CODE EXPLORER (USIA 5–7 TAHUN)</span>
         </div>
 
@@ -930,127 +785,102 @@ const Slide01Cover: Page = () => {
 
         <p
           style={{
-            margin: '28px 0 38px',
-            fontSize: 32,
+            margin: 0,
+            fontSize: 30,
             fontWeight: 700,
-            lineHeight: 1.38,
+            lineHeight: 1.35,
             color: MUTED,
-            maxWidth: 790,
           }}
         >
-          Puzzle Drag &amp; Drop Urutan Sikat Gigi &amp; Buat Roti
+          Susun Urutan Sikat Gigi &amp; Buat Roti di Layar
         </p>
 
-        {/* Kids-friendly Quick Pill Highlights */}
-        <div style={{ ...row, gap: 18 }}>
-          <div
-            style={{
-              ...row,
-              gap: 12,
-              padding: '15px 26px',
-              borderRadius: 20,
-              background: TEAL,
-              color: WHITE,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 27,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="mouse" size={30} />
-            <span>Jurus Drag &amp; Drop</span>
+        <InfoPanel bg={WHITE} padding={26} style={{ marginTop: 4 }}>
+          <SectionHeading icon="puzzle" size={26}>
+            Yang Akan Kita Pelajari:
+          </SectionHeading>
+          <div style={{ marginTop: 14 }}>
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={24}
+              gap={12}
+              items={[
+                <>
+                  <InlineHighlight>Pecah misi besar</InlineHighlight> jadi langkah kecil.
+                </>,
+                <>
+                  Susun urutan <InlineHighlight color="#D1FAE5">1, 2, lalu 3</InlineHighlight>.
+                </>,
+                <>
+                  Jago jurus <InlineHighlight color={SKY_SOFT}>Klik, Tahan, Geser</InlineHighlight>.
+                </>,
+              ]}
+            />
           </div>
-          <div
-            style={{
-              ...row,
-              gap: 12,
-              padding: '15px 26px',
-              borderRadius: 20,
-              background: WHITE,
-              color: CHARCOAL,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 27,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="puzzle" size={30} />
-            <span>Urutan 1 • 2 • 3</span>
-          </div>
-        </div>
+        </InfoPanel>
       </div>
 
-      {/* Right Visual Showcase: Giant Interlocking Puzzle-Board Card + Biko */}
-      <div style={{ ...abs(1020, 175, 790, 770), ...centerCol }}>
-        {/* Giant Tilted Mint Puzzle-Board Backdrop (Distinct Silhouette) */}
+      {/* Right Visual Showcase: Flat Puzzle-Board + Drag & Drop Preview + Biko */}
+      <div style={{ ...abs(980, 155, 840, 795), ...centerCol }}>
         <div
           style={{
             position: 'absolute',
             width: 630,
-            height: 590,
+            height: 600,
             borderRadius: 48,
             background: TEAL_SOFT,
-            border: `4px solid ${CHARCOAL}`,
-            boxShadow: `14px 14px 0 ${SUNNY}`,
+            border: `3.5px solid ${CHARCOAL}`,
+            boxShadow: CARD_SHADOW,
             transform: 'rotate(-2deg)',
           }}
         >
-          {/* Puzzle Tab Bump on Right Edge */}
           <div
             style={{
               position: 'absolute',
-              right: -32,
+              right: -30,
               top: '44%',
-              width: 34,
+              width: 32,
               height: 76,
               borderRadius: '0 38px 38px 0',
               background: TEAL_SOFT,
-              border: `4px solid ${CHARCOAL}`,
+              border: `3.5px solid ${CHARCOAL}`,
               borderLeft: 'none',
             }}
           />
-          {/* Puzzle Tab Bump on Bottom Edge */}
           <div
             style={{
               position: 'absolute',
-              bottom: -32,
+              bottom: -30,
               left: '44%',
               width: 76,
-              height: 34,
+              height: 32,
               borderRadius: '0 0 38px 38px',
               background: TEAL_SOFT,
-              border: `4px solid ${CHARCOAL}`,
+              border: `3.5px solid ${CHARCOAL}`,
               borderTop: 'none',
             }}
           />
         </div>
 
-        {/* Floating Mini Laptop Screen showing Drag & Drop Puzzle */}
-        <div
+        {/* Flat Mini Drag & Drop Preview Card */}
+        <InfoPanel
+          bg={WHITE}
+          padding={18}
           style={{
-            position: 'absolute',
-            top: 30,
-            left: 58,
-            width: 390,
-            padding: '16px 20px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3.5px solid ${CHARCOAL}`,
-            boxShadow: `0 8px 0 ${CHARCOAL}`,
+            position: 'relative',
             zIndex: 4,
+            width: 440,
+            marginBottom: 16,
           }}
         >
           <div style={{ ...row, justifyContent: 'space-between', marginBottom: 12 }}>
-            <span style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 20, fontWeight: 700, color: CHARCOAL }}>
-              <JuniorIcon name="puzzle" size={22} />
-              <span>Puzzle Urutan</span>
-            </span>
+            <SectionHeading icon="puzzle" size={20}>
+              Puzzle Urutan
+            </SectionHeading>
             <span
               style={{
-                padding: '3px 12px',
-                borderRadius: 99,
+                padding: '4px 12px',
+                borderRadius: 10,
                 background: TEAL_SOFT,
                 border: `2px solid ${TEAL}`,
                 fontSize: 15,
@@ -1062,8 +892,7 @@ const Slide01Cover: Page = () => {
             </span>
           </div>
 
-          <div style={{ ...row, justifyContent: 'space-between', gap: 14 }}>
-            {/* Moving Toothbrush Tile */}
+          <div style={{ ...row, justifyContent: 'space-between', gap: 14, paddingTop: 10 }}>
             <div
               style={{
                 position: 'relative',
@@ -1074,12 +903,11 @@ const Slide01Cover: Page = () => {
               <PuzzleTileSvg color={SKY_SOFT} size={92}>
                 <JuniorIcon name="toothbrush" size={44} />
               </PuzzleTileSvg>
-              <div style={{ position: 'absolute', right: -16, bottom: -16 }}>
-                <CursorHandSvg grabbing size={42} />
+              <div style={{ position: 'absolute', right: -14, bottom: -14 }}>
+                <CursorHandSvg grabbing size={40} />
               </div>
             </div>
 
-            {/* Dashed Target Box */}
             <div
               style={{
                 width: 96,
@@ -1089,7 +917,7 @@ const Slide01Cover: Page = () => {
                 border: `3px dashed ${TEAL}`,
                 ...centerCol,
                 fontFamily: 'var(--osd-font-display)',
-                fontSize: 28,
+                fontSize: 30,
                 fontWeight: 700,
                 color: TEAL,
               }}
@@ -1097,42 +925,16 @@ const Slide01Cover: Page = () => {
               1
             </div>
 
-            {/* Bread Piece Waiting */}
             <PuzzleTileSvg color={SUNNY_SOFT} size={92}>
               <JuniorIcon name="sandwich" size={44} />
             </PuzzleTileSvg>
           </div>
-        </div>
-
-        {/* Floating Toothbrush & Bread Badges */}
-        <div
-          style={{
-            position: 'absolute',
-            right: 54,
-            top: 90,
-            ...row,
-            gap: 8,
-            padding: '12px 18px',
-            borderRadius: 22,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${CORAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 24,
-            fontWeight: 700,
-            transform: 'rotate(6deg)',
-            zIndex: 4,
-            animation: live ? 'cpj3-float 2.8s ease-in-out infinite' : undefined,
-          }}
-        >
-          <JuniorIcon name="bread" size={28} />
-          <span>Buat Roti!</span>
-        </div>
+        </InfoPanel>
 
         <BikoMascot
           pose="cover-laptop"
-          width={440}
-          style={{ position: 'relative', zIndex: 2, marginTop: 155 }}
+          width={390}
+          style={{ position: 'relative', zIndex: 2 }}
         />
       </div>
     </JuniorFrame>
@@ -1140,7 +942,7 @@ const Slide01Cover: Page = () => {
 };
 
 // ============================================================================
-// SLIDE 02 — Misi Hari Ini (2 Kartu Misi Besar dalam macOS Window + Biko)
+// SLIDE 02 — Misi Hari Ini (2 InfoPanel Misi + Visuals + BulletList)
 // ============================================================================
 const Slide02Misi: Page = () => (
   <JuniorFrame badge="MISI HARI INI" accentDot={SKY}>
@@ -1148,172 +950,151 @@ const Slide02Misi: Page = () => (
       Apa <Highlight>Misi Kita</Highlight> Hari Ini?
     </SlideTitle>
 
-    <MacWindowCard left={X0} top={250} width={1280} height={675} headerLabel="daftar-misi-3.exe" padding={42}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, height: '100%' }}>
-        {/* Kartu 1: Biru #60A5FA — Drag & Drop */}
-        <div
-          style={{
-            borderRadius: 26,
-            background: SKY_SOFT,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 8px 0 ${SKY}`,
-            padding: '34px 32px',
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+    <MacWindowCard left={X0} top={215} width={1320} height={745} headerLabel="daftar-misi-3" padding={34}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, height: '100%' }}>
+        {/* Misi 1 */}
+        <InfoPanel
+          bg={SKY_SOFT}
+          padding={28}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 16 }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: SKY,
-              color: WHITE,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            MISI 1
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#1D4ED8', letterSpacing: '0.05em' }}>
+              MISI 1
+            </span>
+            <SectionHeading icon="mouse" size={32}>
+              Jurus <Highlight color={STABILO}>Drag &amp; Drop</Highlight>
+            </SectionHeading>
           </div>
-
-          {/* Hand dragging puzzle piece into dashed box */}
-          <svg width={260} height={180} viewBox="0 0 260 180" fill="none">
-            {/* Dashed Target Box */}
-            <rect x="150" y="34" width="90" height="90" rx="20" fill={WHITE} stroke={TEAL} strokeWidth={4} strokeDasharray="10 8" />
-            <text x="195" y="90" textAnchor="middle" fontFamily='"Fredoka", sans-serif' fontSize="34" fontWeight="700" fill={TEAL}>
-              PAS!
-            </text>
-            {/* Dashed arrow */}
-            <path d="M98 78 H142" stroke={CHARCOAL} strokeWidth={4} strokeDasharray="7 6" strokeLinecap="round" />
-            <path d="M132 68 L144 78 L132 88" stroke={CHARCOAL} strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" />
-            {/* Moving Puzzle Piece */}
-            <rect x="18" y="34" width="82" height="82" rx="20" fill={SUNNY} stroke={CHARCOAL} strokeWidth={4} />
-            <circle cx="59" cy="28" r="13" fill={SUNNY} stroke={CHARCOAL} strokeWidth={4} />
-            <path
-              d="M59 54 L63.5 64 L74.5 65.5 L66.5 73 L68.5 84 L59 78.5 L49.5 84 L51.5 73 L43.5 65.5 L54.5 64 Z"
-              fill={WHITE}
-              stroke={CHARCOAL}
-              strokeWidth={3}
-              strokeLinejoin="round"
-            />
-            {/* Grabbing Hand */}
-            <rect x="44" y="102" width="44" height="36" rx="14" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={3.5} />
-          </svg>
 
           <div
             style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 36,
-              fontWeight: 700,
-              lineHeight: 1.24,
-              color: CHARCOAL,
+              background: WHITE,
+              borderRadius: 20,
+              border: `2.5px solid ${SKY}`,
+              padding: 16,
+              ...centerCol,
             }}
           >
-            Jago Jurus <Highlight color="#DBEAFE">Klik, Tahan, Geser</Highlight> (Drag &amp; Drop)
+            <svg width={270} height={175} viewBox="0 0 260 175" fill="none">
+              <rect x="150" y="34" width="90" height="90" rx="20" fill={TEAL_SOFT} stroke={TEAL} strokeWidth={4} strokeDasharray="10 8" />
+              <text x="195" y="90" textAnchor="middle" fontFamily='"Fredoka", sans-serif' fontSize="32" fontWeight="700" fill={TEAL}>
+                PAS!
+              </text>
+              <path d="M98 78 H142" stroke={CHARCOAL} strokeWidth={4} strokeDasharray="7 6" strokeLinecap="round" />
+              <path d="M132 68 L144 78 L132 88" stroke={CHARCOAL} strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" />
+              <rect x="18" y="34" width="82" height="82" rx="20" fill={SUNNY} stroke={CHARCOAL} strokeWidth={4} />
+              <circle cx="59" cy="28" r="13" fill={SUNNY} stroke={CHARCOAL} strokeWidth={4} />
+              <path
+                d="M59 54 L63.5 64 L74.5 65.5 L66.5 73 L68.5 84 L59 78.5 L49.5 84 L51.5 73 L43.5 65.5 L54.5 64 Z"
+                fill={WHITE}
+                stroke={CHARCOAL}
+                strokeWidth={3}
+                strokeLinejoin="round"
+              />
+              <rect x="44" y="102" width="44" height="36" rx="14" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={3.5} />
+            </svg>
           </div>
-        </div>
 
-        {/* Kartu 2: Hijau #10B981 — Pecah Misi Besar Jadi Kecil */}
-        <div
-          style={{
-            borderRadius: 26,
-            background: TEAL_SOFT,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 8px 0 ${TEAL}`,
-            padding: '34px 32px',
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+          <BulletList
+            bulletColor={SKY}
+            fontSize={24}
+            gap={10}
+            items={[
+              <>
+                <InlineHighlight color="#DBEAFE">Klik &amp; tahan</InlineHighlight> gambar di layar.
+              </>,
+              <>
+                <InlineHighlight>Geser pelan</InlineHighlight> ke kotak tujuan.
+              </>,
+            ]}
+          />
+        </InfoPanel>
+
+        {/* Misi 2 */}
+        <InfoPanel
+          bg={TEAL_SOFT}
+          padding={28}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 16 }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: TEAL,
-              color: WHITE,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            MISI 2
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#047857', letterSpacing: '0.05em' }}>
+              MISI 2
+            </span>
+            <SectionHeading icon="scissors" size={32}>
+              Pecah <Highlight color="#A7F3D0">Misi Besar</Highlight>
+            </SectionHeading>
           </div>
-
-          {/* 1 Giant Box Split Into 3 Small Boxes 1-2-3 */}
-          <svg width={270} height={180} viewBox="0 0 270 180" fill="none">
-            <rect x="14" y="20" width="242" height="48" rx="14" fill={CORAL_SOFT} stroke={CORAL} strokeWidth={3.5} />
-            <text x="135" y="51" textAnchor="middle" fontFamily='"Fredoka", sans-serif' fontSize="22" fontWeight="700" fill={CHARCOAL}>
-              MISI BESAR
-            </text>
-            <path d="M135 68 V96 M135 82 H48 V96 M135 82 H222 V96" stroke={CHARCOAL} strokeWidth={3.5} strokeDasharray="6 5" />
-            {[
-              { x: 16, n: '1', bg: SKY },
-              { x: 103, n: '2', bg: SUNNY },
-              { x: 190, n: '3', bg: TEAL },
-            ].map((b) => (
-              <g key={b.n}>
-                <rect x={b.x} y="98" width="64" height="64" rx="16" fill={b.bg} stroke={CHARCOAL} strokeWidth={3.5} />
-                <text
-                  x={b.x + 32}
-                  y="141"
-                  textAnchor="middle"
-                  fontFamily='"Fredoka", sans-serif'
-                  fontSize="32"
-                  fontWeight="700"
-                  fill={b.n === '2' ? CHARCOAL : WHITE}
-                >
-                  {b.n}
-                </text>
-              </g>
-            ))}
-          </svg>
 
           <div
             style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 36,
-              fontWeight: 700,
-              lineHeight: 1.24,
-              color: CHARCOAL,
+              background: WHITE,
+              borderRadius: 20,
+              border: `2.5px solid ${TEAL}`,
+              padding: 16,
+              ...centerCol,
             }}
           >
-            <Highlight color="#D1FAE5">Pecah Misi Besar</Highlight> Jadi Langkah Kecil
+            <svg width={270} height={175} viewBox="0 0 270 175" fill="none">
+              <rect x="14" y="16" width="242" height="48" rx="14" fill={CORAL_SOFT} stroke={CORAL} strokeWidth={3.5} />
+              <text x="135" y="47" textAnchor="middle" fontFamily='"Fredoka", sans-serif' fontSize="22" fontWeight="700" fill={CHARCOAL}>
+                MISI BESAR
+              </text>
+              <path d="M135 64 V94 M135 79 H48 V94 M135 79 H222 V94" stroke={CHARCOAL} strokeWidth={3.5} strokeDasharray="6 5" />
+              {[
+                { x: 16, n: '1', bg: SKY },
+                { x: 103, n: '2', bg: SUNNY },
+                { x: 190, n: '3', bg: TEAL },
+              ].map((b) => (
+                <g key={b.n}>
+                  <rect x={b.x} y="96" width="64" height="64" rx="16" fill={b.bg} stroke={CHARCOAL} strokeWidth={3.5} />
+                  <text
+                    x={b.x + 32}
+                    y="139"
+                    textAnchor="middle"
+                    fontFamily='"Fredoka", sans-serif'
+                    fontSize="32"
+                    fontWeight="700"
+                    fill={b.n === '2' ? CHARCOAL : WHITE}
+                  >
+                    {b.n}
+                  </text>
+                </g>
+              ))}
+            </svg>
           </div>
-        </div>
+
+          <BulletList
+            bulletColor={TEAL}
+            fontSize={24}
+            gap={10}
+            items={[
+              <>
+                Bagi tugas jadi <InlineHighlight color="#D1FAE5">langkah kecil</InlineHighlight>.
+              </>,
+              <>
+                Susun urut <InlineHighlight>1, 2, lalu 3</InlineHighlight>!
+              </>,
+            ]}
+          />
+        </InfoPanel>
       </div>
     </MacWindowCard>
 
-    {/* Biko Pointing Enthusiastically */}
-    <div style={{ ...abs(1425, 310, 400, 620), ...centerCol }}>
-      <BikoMascot pose="point-left" width={360} />
-      <div
-        style={{
-          marginTop: 12,
-          ...row,
-          gap: 10,
-          padding: '12px 24px',
-          borderRadius: 99,
-          background: SUNNY,
-          border: `3px solid ${CHARCOAL}`,
-          boxShadow: `0 5px 0 ${CHARCOAL}`,
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 25,
-          fontWeight: 700,
-        }}
-      >
-        <span>Ayo Pecahkan!</span>
-        <JuniorIcon name="rocket" size={26} />
-      </div>
+    {/* Biko on Right with flat caption */}
+    <div style={{ ...abs(1445, 310, 375, 620), ...centerCol, gap: 12 }}>
+      <BikoMascot pose="point-left" width={350} />
+      <InfoPanel bg={SUNNY_SOFT} padding={14} style={{ borderRadius: 16 }}>
+        <SectionHeading icon="sparkle" size={24}>
+          Ayo Pecahkan!
+        </SectionHeading>
+      </InfoPanel>
     </div>
   </JuniorFrame>
 );
 
 // ============================================================================
-// SLIDE 03 — Rahasia Coder #1: Pecah Misi Jadi Kecil! (Spotlight Card)
+// SLIDE 03 — Rahasia Coder #1: Pecah Misi Jadi Kecil!
 // ============================================================================
 const Slide03PecahMisi: Page = () => {
   const [split, setSplit] = useState(true);
@@ -1324,90 +1105,73 @@ const Slide03PecahMisi: Page = () => {
         <Highlight>Pecah Misi</Highlight> Jadi Kecil!
       </SlideTitle>
 
-      {/* Left Spotlight Illustration inside MacWindowCard */}
-      <MacWindowCard left={X0} top={245} width={960} height={685} headerLabel="rahasia-dekomposisi.app" padding={28}>
+      {/* Left Interactive Demo inside MacWindowCard */}
+      <MacWindowCard left={X0} top={215} width={980} height={745} headerLabel="rahasia-dekomposisi" padding={26}>
         <div
           style={{
-            position: 'relative',
             width: '100%',
             height: '100%',
-            borderRadius: 22,
+            borderRadius: 20,
             background: 'linear-gradient(180deg, #FEF9C3 0%, #ECFDF5 100%)',
-            border: `3px solid ${CHARCOAL}`,
-            ...centerCol,
+            border: `2.5px solid ${CHARCOAL}`,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '28px 34px',
+            padding: '24px 28px',
+            boxSizing: 'border-box',
           }}
         >
-          {/* Giant Puzzle vs Split Pieces */}
-          <div style={{ ...row, gap: 22, marginTop: 12 }}>
+          <SectionHeading icon="puzzle" size={30}>
+            {split ? 'Dipecah Jadi 3 Langkah Kecil:' : '1 Misi Besar Masih Utuh:'}
+          </SectionHeading>
+
+          <div style={{ ...row, gap: 20, justifyContent: 'center', flex: 1 }}>
             {!split ? (
-              <div
+              <InfoPanel
+                bg={CORAL}
+                padding={32}
                 style={{
-                  width: 580,
+                  width: 560,
                   height: 300,
-                  borderRadius: 32,
-                  background: CORAL,
-                  border: `4px solid ${CHARCOAL}`,
-                  boxShadow: `0 10px 0 ${CHARCOAL}`,
                   ...centerCol,
                   position: 'relative',
                 }}
               >
-                {/* Dashed split preview lines */}
-                <div style={{ position: 'absolute', left: '33%', top: 14, bottom: 14, borderLeft: `4px dashed ${WHITE}`, opacity: 0.7 }} />
-                <div style={{ position: 'absolute', left: '66%', top: 14, bottom: 14, borderLeft: `4px dashed ${WHITE}`, opacity: 0.7 }} />
-                <JuniorIcon name="puzzle" size={68} />
-                <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 700, color: WHITE, marginTop: 8 }}>
+                <div style={{ position: 'absolute', left: '33%', top: 16, bottom: 16, borderLeft: `4px dashed ${WHITE}`, opacity: 0.7 }} />
+                <div style={{ position: 'absolute', left: '66%', top: 16, bottom: 16, borderLeft: `4px dashed ${WHITE}`, opacity: 0.7 }} />
+                <JuniorIcon name="puzzle" size={72} />
+                <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 700, color: WHITE, marginTop: 12 }}>
                   1 Misi Raksasa!
                 </span>
-              </div>
+              </InfoPanel>
             ) : (
-              <div style={{ ...row, gap: 26 }}>
+              <div style={{ ...row, gap: 18 }}>
                 {(
                   [
-                    { n: '1', color: SKY, text: 'Langkah 1', icon: 'toothbrush' },
-                    { n: '2', color: SUNNY, text: 'Langkah 2', icon: 'teeth' },
-                    { n: '3', color: TEAL, text: 'Langkah 3', icon: 'water' },
+                    { n: 1, color: SKY, text: 'Siapkan', icon: 'toothbrush' },
+                    { n: 2, color: SUNNY, text: 'Gosok', icon: 'teeth' },
+                    { n: 3, color: TEAL, text: 'Kumur', icon: 'water' },
                   ] as const
                 ).map((item, idx) => (
                   <Fragment key={item.n}>
-                    <div
+                    <InfoPanel
+                      bg={WHITE}
+                      padding={20}
                       style={{
-                        width: 210,
+                        width: 215,
                         height: 270,
-                        borderRadius: 28,
-                        background: WHITE,
-                        border: `4px solid ${CHARCOAL}`,
-                        boxShadow: `0 8px 0 ${item.color}`,
-                        padding: 20,
                         ...centerCol,
                         justifyContent: 'space-between',
-                        position: 'relative',
                       }}
                     >
-                      <div
-                        style={{
-                          width: 58,
-                          height: 58,
-                          borderRadius: 18,
-                          background: item.color,
-                          border: `3px solid ${CHARCOAL}`,
-                          fontFamily: 'var(--osd-font-display)',
-                          fontSize: 32,
-                          fontWeight: 700,
-                          color: item.n === '2' ? CHARCOAL : WHITE,
-                          ...centerCol,
-                        }}
-                      >
-                        {item.n}
-                      </div>
-                      <JuniorIcon name={item.icon} size={64} />
-                      <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700, color: CHARCOAL }}>
+                      <StepNumberBadge num={item.n} color={item.color} size={58} />
+                      <JuniorIcon name={item.icon} size={74} />
+                      <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700, color: CHARCOAL }}>
                         {item.text}
                       </span>
-                    </div>
-                    {idx < 2 && <JuniorIcon name="arrow-right" size={34} />}
+                    </InfoPanel>
+                    {idx < 2 && <JuniorIcon name="arrow-right" size={32} />}
                   </Fragment>
                 ))}
               </div>
@@ -1422,88 +1186,73 @@ const Slide03PecahMisi: Page = () => {
               ...row,
               gap: 10,
               padding: '14px 30px',
-              borderRadius: 99,
+              borderRadius: 18,
               background: split ? SUNNY : TEAL,
               color: split ? CHARCOAL : WHITE,
               border: `3px solid ${CHARCOAL}`,
               boxShadow: `0 5px 0 ${CHARCOAL}`,
               fontFamily: 'var(--osd-font-display)',
-              fontSize: 26,
+              fontSize: 25,
               fontWeight: 700,
             }}
           >
-            {split ? (
-              <>
-                <JuniorIcon name="reset" size={26} />
-                <span>Lihat Misi Utuh</span>
-              </>
-            ) : (
-              <>
-                <JuniorIcon name="scissors" size={26} />
-                <span>Pecah Jadi 3 Langkah Kecil!</span>
-              </>
-            )}
+            <JuniorIcon name={split ? 'reset' : 'scissors'} size={24} />
+            <span>{split ? 'Lihat Misi Utuh' : 'Pecah Jadi 3 Langkah!'}</span>
           </button>
         </div>
       </MacWindowCard>
 
-      {/* Right Column: Explanation Cards + Smiling Biko */}
-      <div style={{ ...abs(1105, 255, 715, 675), display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <div
-          style={{
-            ...row,
-            gap: 20,
-            padding: '24px 28px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${CORAL}`,
-          }}
-        >
-          <JuniorIcon name="puzzle" size={50} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, lineHeight: 1.25 }}>
-            Misi besar terasa <Highlight color="#FEE2E2">Sulit</Highlight>
-          </span>
-        </div>
-
-        <div
-          style={{
-            ...row,
-            gap: 20,
-            padding: '24px 28px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${TEAL}`,
-          }}
-        >
-          <JuniorIcon name="sparkle" size={50} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, lineHeight: 1.25 }}>
-            Bagi jadi <Highlight color="#D1FAE5">Langkah Kecil</Highlight> agar mudah!
-          </span>
-        </div>
-
-        <div style={{ ...row, justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 6 }}>
-          <div
-            style={{
-              padding: '18px 24px',
-              borderRadius: 22,
-              background: SUNNY_SOFT,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 26,
-              fontWeight: 700,
-              lineHeight: 1.3,
-              maxWidth: 330,
-            }}
-          >
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              <span>Mulai dari langkah 1 dulu ya!</span>
-              <JuniorIcon name="tap" size={26} />
-            </span>
+      {/* Right Column: Bullet Explanation + Biko */}
+      <div style={{ ...abs(1115, 215, 705, 745), display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <InfoPanel bg={WHITE} borderColor={CORAL} padding={26}>
+          <SectionHeading icon="warning" size={28} accentColor="#B91C1C">
+            Kalau Terlalu Besar:
+          </SectionHeading>
+          <div style={{ marginTop: 14 }}>
+            <BulletList
+              bulletColor={CORAL}
+              fontSize={25}
+              gap={10}
+              items={[
+                <>
+                  Misi besar terasa <InlineHighlight color="#FEE2E2">sulit</InlineHighlight>.
+                </>,
+                <>
+                  Kita jadi <InlineHighlight color="#FEE2E2">bingung mulai</InlineHighlight>.
+                </>,
+              ]}
+            />
           </div>
-          <BikoMascot pose="point-left" width={310} />
+        </InfoPanel>
+
+        <InfoPanel bg={WHITE} borderColor={TEAL} padding={26}>
+          <SectionHeading icon="sparkle" size={28} accentColor="#047857">
+            Jurus Coder Hebat:
+          </SectionHeading>
+          <div style={{ marginTop: 14 }}>
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={25}
+              gap={10}
+              items={[
+                <>
+                  Pecah jadi <InlineHighlight color="#D1FAE5">langkah kecil</InlineHighlight>.
+                </>,
+                <>
+                  Mulai dari <InlineHighlight>nomor 1</InlineHighlight> dulu!
+                </>,
+              ]}
+            />
+          </div>
+        </InfoPanel>
+
+        <div style={{ ...row, justifyContent: 'space-between', alignItems: 'center' }}>
+          <InfoPanel bg={SUNNY_SOFT} padding={20} style={{ maxWidth: 370 }}>
+            <SectionHeading icon="tap" size={24}>
+              Mulai Langkah 1!
+            </SectionHeading>
+          </InfoPanel>
+          <BikoMascot pose="point-left" width={285} />
         </div>
       </div>
     </JuniorFrame>
@@ -1511,33 +1260,12 @@ const Slide03PecahMisi: Page = () => {
 };
 
 // ============================================================================
-// SLIDE 04 — Jurus Tangkas Baru: Drag & Drop! (3 Step Cards in MacWindowCard)
+// SLIDE 04 — Jurus Tangkas Baru: Drag & Drop!
 // ============================================================================
 const DRAG_STEPS: { num: number; color: string; soft: string; icon: JuniorIconName; title: string; desc: string }[] = [
-  {
-    num: 1,
-    color: SKY,
-    soft: SKY_SOFT,
-    icon: 'tap',
-    title: 'Klik & Tahan',
-    desc: 'tombol kiri',
-  },
-  {
-    num: 2,
-    color: SUNNY,
-    soft: SUNNY_SOFT,
-    icon: 'arrow-right',
-    title: 'Geser',
-    desc: 'gambar ke kotak tujuan',
-  },
-  {
-    num: 3,
-    color: TEAL,
-    soft: TEAL_SOFT,
-    icon: 'hand',
-    title: 'Lepas Jari:',
-    desc: '"Pas!"',
-  },
+  { num: 1, color: SKY, soft: SKY_SOFT, icon: 'tap', title: 'Klik & Tahan', desc: 'Tombol kiri' },
+  { num: 2, color: SUNNY, soft: SUNNY_SOFT, icon: 'arrow-right', title: 'Geser Pelan', desc: 'Ke kotak tujuan' },
+  { num: 3, color: TEAL, soft: TEAL_SOFT, icon: 'hand', title: 'Lepas Jari', desc: 'Masuk pas!' },
 ];
 
 const Slide04DragDrop: Page = () => {
@@ -1550,11 +1278,26 @@ const Slide04DragDrop: Page = () => {
         Jurus <Highlight>Drag &amp; Drop!</Highlight>
       </SlideTitle>
 
-      {/* Top 3 Sequential Step Cards inside MacWindowCard */}
-      <MacWindowCard left={X0} top={240} width={W} height={695} headerLabel="tutorial-drag-and-drop.app" padding={34}>
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', gap: 26 }}>
-          {/* 3 Step Cards Row */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 28 }}>
+      <MacWindowCard left={X0} top={215} width={W} height={745} headerLabel="tutorial-drag-and-drop" padding={30}>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', gap: 20 }}>
+          <div style={{ ...row, justifyContent: 'space-between' }}>
+            <SectionHeading icon="mouse" size={28}>
+              Klik Angka untuk Lihat Caranya:
+            </SectionHeading>
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={22}
+              gap={4}
+              items={[
+                <>
+                  Ikuti urutan <InlineHighlight>1 - 2 - 3</InlineHighlight> dengan rapi!
+                </>,
+              ]}
+            />
+          </div>
+
+          {/* 3 Interactive Step Buttons */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 26 }}>
             {DRAG_STEPS.map((st) => {
               const active = phase === st.num;
               return (
@@ -1564,77 +1307,62 @@ const Slide04DragDrop: Page = () => {
                   className="cpj3-card-btn"
                   onClick={() => setPhase(st.num as 1 | 2 | 3)}
                   style={{
-                    borderRadius: 26,
+                    borderRadius: 24,
                     background: active ? st.soft : WHITE,
-                    border: `4px solid ${active ? CHARCOAL : '#CBD5E1'}`,
-                    boxShadow: active ? `0 8px 0 ${st.color}` : '0 4px 0 #CBD5E1',
-                    padding: '22px 24px',
+                    border: `4px solid ${active ? CHARCOAL : BORDER_SOFT}`,
+                    boxShadow: active ? `0 7px 0 ${st.color}` : `0 4px 0 ${BORDER_SOFT}`,
+                    padding: '18px 22px',
                     ...row,
-                    gap: 18,
+                    gap: 16,
                     textAlign: 'left',
                   }}
                 >
-                  <div
-                    style={{
-                      width: 62,
-                      height: 62,
-                      borderRadius: 18,
-                      background: st.color,
-                      border: `3px solid ${CHARCOAL}`,
-                      fontFamily: 'var(--osd-font-display)',
-                      fontSize: 34,
-                      fontWeight: 700,
-                      color: st.num === 2 ? CHARCOAL : WHITE,
-                      ...centerCol,
-                      flexShrink: 0,
-                    }}
-                  >
-                    {st.num}
-                  </div>
+                  <StepNumberBadge num={st.num} color={st.color} size={58} />
                   <div>
-                    <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700, color: CHARCOAL }}>
-                      <JuniorIcon name={st.icon} size={30} />
+                    <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700, color: CHARCOAL }}>
+                      <JuniorIcon name={st.icon} size={28} />
                       <span>{st.title}</span>
                     </div>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: MUTED, marginTop: 4 }}>{st.desc}</div>
+                    <div style={{ fontSize: 21, fontWeight: 800, color: MUTED, marginTop: 4 }}>{st.desc}</div>
                   </div>
                 </button>
               );
             })}
           </div>
 
-          {/* 3-Phase Mouse & Cursor Visual Demonstration */}
+          {/* 3 Interactive Visual Demonstration Buttons */}
           <div
             style={{
               flex: 1,
-              borderRadius: 26,
+              borderRadius: 24,
               background: '#FFFDF7',
-              border: `3px dashed #D6CDBB`,
-              padding: '24px 36px',
+              border: `2.5px dashed #D6CDBB`,
+              padding: '20px 26px',
               display: 'grid',
               gridTemplateColumns: '1fr 1fr 1fr',
-              gap: 28,
+              gap: 24,
             }}
           >
-            {/* Phase 1: Press Yellow Left Button */}
-            <div
+            {/* Phase 1 */}
+            <button
+              type="button"
+              className="cpj3-card-btn"
               onClick={() => setPhase(1)}
               style={{
                 borderRadius: 22,
                 background: phase === 1 ? SKY_SOFT : WHITE,
-                border: `3px solid ${phase === 1 ? SKY : CHARCOAL}`,
-                padding: 18,
+                border: `3.5px solid ${phase === 1 ? SKY : CHARCOAL}`,
+                boxShadow: `0 6px 0 ${phase === 1 ? SKY : CHARCOAL}`,
+                padding: 16,
                 ...centerCol,
                 justifyContent: 'space-between',
-                cursor: 'pointer',
               }}
             >
-              <svg width={210} height={185} viewBox="0 0 210 185" fill="none">
+              <svg width={205} height={180} viewBox="0 0 210 185" fill="none">
                 <rect x="52" y="28" width="106" height="142" rx="53" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} />
                 <path d="M55 88 C55 52, 76 31, 105 31 V94 H55 Z" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3.5} />
                 <path d="M155 88 C155 52, 134 31, 105 31 V94 H155 Z" fill="#F1F5F9" stroke={CHARCOAL} strokeWidth={3.5} />
                 <rect x="97" y="46" width="16" height="30" rx="8" fill={CHARCOAL} />
-                {/* Index finger holding down */}
                 <rect x="66" y="4" width="32" height="66" rx="16" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={3.5} />
                 <circle
                   cx="82"
@@ -1646,30 +1374,29 @@ const Slide04DragDrop: Page = () => {
                   style={{ transformOrigin: '82px 62px', animation: live ? 'cpj3-pulse-ring 1.5s infinite' : undefined }}
                 />
               </svg>
-              <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700, color: CHARCOAL }}>
-                1. Tekan &amp; Tahan!
-              </div>
-            </div>
+              <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700, color: CHARCOAL }}>
+                1. Tekan &amp; Tahan
+              </span>
+            </button>
 
-            {/* Phase 2: Glide Cursor Carrying Star */}
-            <div
+            {/* Phase 2 */}
+            <button
+              type="button"
+              className="cpj3-card-btn"
               onClick={() => setPhase(2)}
               style={{
                 borderRadius: 22,
                 background: phase === 2 ? SUNNY_SOFT : WHITE,
-                border: `3px solid ${phase === 2 ? SUNNY : CHARCOAL}`,
-                padding: 18,
+                border: `3.5px solid ${phase === 2 ? SUNNY : CHARCOAL}`,
+                boxShadow: `0 6px 0 ${phase === 2 ? SUNNY : CHARCOAL}`,
+                padding: 16,
                 ...centerCol,
                 justifyContent: 'space-between',
-                cursor: 'pointer',
               }}
             >
-              <svg width={260} height={185} viewBox="0 0 260 185" fill="none">
-                {/* Dashed trail */}
+              <svg width={250} height={180} viewBox="0 0 260 185" fill="none">
                 <path d="M50 112 Q130 58 206 86" stroke={SKY} strokeWidth={6} strokeDasharray="10 8" strokeLinecap="round" />
-                {/* Target dashed box */}
                 <rect x="174" y="44" width="72" height="72" rx="18" fill={TEAL_SOFT} stroke={TEAL} strokeWidth={3.5} strokeDasharray="8 6" />
-                {/* Star being dragged */}
                 <g transform="translate(86, 48)">
                   <rect x="0" y="0" width="66" height="66" rx="16" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3.5} />
                   <path
@@ -1679,31 +1406,30 @@ const Slide04DragDrop: Page = () => {
                     strokeWidth={2.8}
                     strokeLinejoin="round"
                   />
-                  {/* Grabbing hand */}
                   <rect x="26" y="48" width="34" height="28" rx="12" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={3} />
                 </g>
               </svg>
-              <div style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700, color: CHARCOAL }}>
-                <span>2. Geser Pelan</span>
-                <JuniorIcon name="arrow-right" size={24} />
-              </div>
-            </div>
+              <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700, color: CHARCOAL }}>
+                2. Geser Pelan
+              </span>
+            </button>
 
-            {/* Phase 3: Release Into Target Box */}
-            <div
+            {/* Phase 3 */}
+            <button
+              type="button"
+              className="cpj3-card-btn"
               onClick={() => setPhase(3)}
               style={{
                 borderRadius: 22,
                 background: phase === 3 ? TEAL_SOFT : WHITE,
-                border: `3px solid ${phase === 3 ? TEAL : CHARCOAL}`,
-                padding: 18,
+                border: `3.5px solid ${phase === 3 ? TEAL : CHARCOAL}`,
+                boxShadow: `0 6px 0 ${phase === 3 ? TEAL : CHARCOAL}`,
+                padding: 16,
                 ...centerCol,
                 justifyContent: 'space-between',
-                cursor: 'pointer',
               }}
             >
-              <svg width={240} height={185} viewBox="0 0 240 185" fill="none">
-                {/* Target Box with Star Fitted Inside */}
+              <svg width={230} height={180} viewBox="0 0 240 185" fill="none">
                 <rect x="74" y="46" width="92" height="92" rx="22" fill={TEAL} stroke={CHARCOAL} strokeWidth={4} />
                 <rect x="84" y="56" width="72" height="72" rx="16" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
                 <path
@@ -1713,16 +1439,15 @@ const Slide04DragDrop: Page = () => {
                   strokeWidth={3}
                   strokeLinejoin="round"
                 />
-                {/* Sparkles */}
                 <path d="M180 28 L184 38 L194 42 L184 46 L180 56 L176 46 L166 42 L176 38 Z" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2} />
                 <text x="52" y="44" fontFamily='"Fredoka", sans-serif' fontSize="24" fontWeight="700" fill={TEAL}>
                   PAS!
                 </text>
               </svg>
-              <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700, color: '#065F46' }}>
-                3. Lepas Jari: &ldquo;Pas!&rdquo;
-              </div>
-            </div>
+              <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700, color: '#065F46' }}>
+                3. Lepas Jari: Pas!
+              </span>
+            </button>
           </div>
         </div>
       </MacWindowCard>
@@ -1731,43 +1456,51 @@ const Slide04DragDrop: Page = () => {
 };
 
 // ============================================================================
-// SLIDE 05 — Latihan Logika #1: Urutan Sikat Gigi (Horizontal Sequence Cards)
+// SLIDE 05 — Latihan Logika #1: Urutan Sikat Gigi
 // ============================================================================
 const TOOTH_STEPS: {
   num: number;
   step: 1 | 2 | 3;
   color: string;
   soft: string;
-  icon: JuniorIconName;
   title: string;
-  highlight: string;
+  bullet: ReactNode;
 }[] = [
   {
     num: 1,
-    step: 1 as const,
+    step: 1,
     color: SKY,
     soft: SKY_SOFT,
-    icon: 'toothbrush',
-    title: 'Siapkan',
-    highlight: 'Sikat & Pasta',
+    title: 'Siapkan Sikat',
+    bullet: (
+      <>
+        Taruh <InlineHighlight color={SKY_SOFT}>pasta gigi</InlineHighlight>.
+      </>
+    ),
   },
   {
     num: 2,
-    step: 2 as const,
+    step: 2,
     color: SUNNY,
     soft: SUNNY_SOFT,
-    icon: 'teeth',
     title: 'Gosok Gigi',
-    highlight: 'sampai bersih',
+    bullet: (
+      <>
+        Gosok sampai <InlineHighlight>berbusa</InlineHighlight>.
+      </>
+    ),
   },
   {
     num: 3,
-    step: 3 as const,
+    step: 3,
     color: TEAL,
     soft: TEAL_SOFT,
-    icon: 'water',
     title: 'Kumur Air',
-    highlight: '& senyum kinclong!',
+    bullet: (
+      <>
+        Gigi <InlineHighlight color="#D1FAE5">bersih kinclong</InlineHighlight>!
+      </>
+    ),
   },
 ];
 
@@ -1777,65 +1510,42 @@ const Slide05SikatGigi: Page = () => (
       Urutan <Highlight>Sikat Gigi</Highlight> Pagi
     </SlideTitle>
 
-    {/* 3 Horizontal Sequence Puzzle Cards */}
-    <div style={{ ...abs(X0, 250, W, 620), ...row, justifyContent: 'space-between', gap: 22 }}>
+    {/* 3 Horizontal Flat Sequence Cards */}
+    <div style={{ ...abs(X0, 225, W, 625), ...row, justifyContent: 'space-between', gap: 22 }}>
       {TOOTH_STEPS.map((item, idx) => (
         <Fragment key={item.num}>
-          <div
+          <InfoPanel
+            bg={WHITE}
+            borderColor={CHARCOAL}
+            padding={30}
             style={{
               flex: 1,
               height: '100%',
-              borderRadius: 32,
-              background: WHITE,
-              border: `4px solid ${CHARCOAL}`,
-              boxShadow: `0 10px 0 ${item.color}`,
-              padding: '32px 28px',
               ...centerCol,
               justifyContent: 'space-between',
               textAlign: 'center',
-              position: 'relative',
             }}
           >
-            {/* Puzzle Notch Visual Hint */}
-            <div
-              style={{
-                width: 78,
-                height: 78,
-                borderRadius: 24,
-                background: item.color,
-                border: `3.5px solid ${CHARCOAL}`,
-                boxShadow: `0 5px 0 ${CHARCOAL}`,
-                fontFamily: 'var(--osd-font-display)',
-                fontSize: 42,
-                fontWeight: 700,
-                color: item.num === 2 ? CHARCOAL : WHITE,
-                ...centerCol,
-              }}
-            >
-              {item.num}
-            </div>
+            <StepNumberBadge num={item.num} color={item.color} size={70} />
 
             <div
               style={{
-                width: 240,
-                height: 210,
-                borderRadius: 28,
+                width: 250,
+                height: 220,
+                borderRadius: 26,
                 background: item.soft,
-                border: `3px solid ${CHARCOAL}`,
+                border: `3px solid ${item.color}`,
                 ...centerCol,
               }}
             >
-              <ToothbrushStepArt step={item.step} size={175} />
+              <ToothbrushStepArt step={item.step} size={185} />
             </div>
 
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
-              <div style={{ ...row, justifyContent: 'center', gap: 10 }}>
-                <JuniorIcon name={item.icon} size={34} />
-                <span>{item.title}</span>
-              </div>
-              <Highlight color={item.soft}>{item.highlight}</Highlight>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+              <SectionHeading size={34}>{item.title}</SectionHeading>
+              <BulletList bulletColor={item.color} fontSize={25} gap={6} items={[item.bullet]} />
             </div>
-          </div>
+          </InfoPanel>
 
           {idx < 2 && (
             <svg width={52} height={52} viewBox="0 0 52 52" fill="none" style={{ flexShrink: 0 }}>
@@ -1853,29 +1563,17 @@ const Slide05SikatGigi: Page = () => (
       ))}
     </div>
 
-    {/* Bottom Cheer Strip with Mini Biko */}
-    <div style={{ ...abs(X0, 895, W, 100), ...row, justifyContent: 'center', gap: 22 }}>
-      <div
-        style={{
-          ...row,
-          gap: 10,
-          padding: '14px 34px',
-          borderRadius: 99,
-          background: STABILO,
-          border: `3px solid ${CHARCOAL}`,
-          boxShadow: `0 5px 0 ${CHARCOAL}`,
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 28,
-          fontWeight: 700,
-        }}
-      >
-        <JuniorIcon name="sparkle" size={30} />
-        <span>Urutannya selalu 1</span>
-        <JuniorIcon name="arrow-right" size={24} />
-        <span>2</span>
-        <JuniorIcon name="arrow-right" size={24} />
-        <span>3 supaya gigi kinclong!</span>
-      </div>
+    {/* Bottom Flat Summary Strip */}
+    <div style={{ ...abs(X0, 882, W, 92), ...row, justifyContent: 'center' }}>
+      <InfoPanel bg={STABILO} padding={16} style={{ borderRadius: 20, paddingLeft: 32, paddingRight: 32 }}>
+        <div style={{ ...row, gap: 14, fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700 }}>
+          <span>Urutan selalu 1</span>
+          <JuniorIcon name="arrow-right" size={26} />
+          <span>2</span>
+          <JuniorIcon name="arrow-right" size={26} />
+          <span>3 supaya gigi bersih!</span>
+        </div>
+      </InfoPanel>
     </div>
   </JuniorFrame>
 );
@@ -1888,31 +1586,30 @@ const Slide06TebakUrutan: Page = () => {
 
   return (
     <JuniorFrame badge="AYO TEBAK!" accentDot={CORAL}>
-      <SlideTitle align="center" top={130}>
+      <SlideTitle align="center" top={114}>
         Mana Langkah <Highlight>Pertama</Highlight> Sikat Gigi?
       </SlideTitle>
 
-      {/* Two Big Interactive Choice Cards */}
-      <div style={{ ...abs(160, 240, 1600, 440), display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56 }}>
-        {/* Kartu A: Kumur Air */}
+      {/* Two Big Interactive Choice Buttons */}
+      <div style={{ ...abs(160, 225, 1600, 445), display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56 }}>
         <button
           type="button"
           className="cpj3-card-btn"
           onClick={() => setChoice('A')}
           style={{
-            borderRadius: 32,
+            borderRadius: 30,
             background: choice === 'A' ? CORAL_SOFT : WHITE,
             border: `4px solid ${choice === 'A' ? CORAL : CHARCOAL}`,
-            boxShadow: `0 10px 0 ${choice === 'A' ? CORAL : SKY}`,
-            padding: '28px 36px',
+            boxShadow: `0 9px 0 ${choice === 'A' ? CORAL : SKY}`,
+            padding: '26px 36px',
             ...centerCol,
             justifyContent: 'space-between',
           }}
         >
-          <div
+          <span
             style={{
               padding: '8px 24px',
-              borderRadius: 99,
+              borderRadius: 14,
               background: SKY_SOFT,
               border: `2.5px solid ${CHARCOAL}`,
               fontFamily: 'var(--osd-font-display)',
@@ -1921,35 +1618,33 @@ const Slide06TebakUrutan: Page = () => {
             }}
           >
             PILIHAN A
-          </div>
+          </span>
 
-          <ToothbrushStepArt step={3} size={190} />
+          <ToothbrushStepArt step={3} size={195} />
 
-          <div style={{ ...row, gap: 12, fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 700, color: CHARCOAL }}>
-            <JuniorIcon name="water" size={40} />
-            <span>Kumur Air</span>
-          </div>
+          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 700, color: CHARCOAL }}>
+            Kumur Air
+          </span>
         </button>
 
-        {/* Kartu B: Siapkan Sikat */}
         <button
           type="button"
           className="cpj3-card-btn"
           onClick={() => setChoice('B')}
           style={{
-            borderRadius: 32,
+            borderRadius: 30,
             background: choice === 'B' ? TEAL_SOFT : WHITE,
             border: `4px solid ${choice === 'B' ? TEAL : CHARCOAL}`,
-            boxShadow: `0 10px 0 ${choice === 'B' ? TEAL : SUNNY}`,
-            padding: '28px 36px',
+            boxShadow: `0 9px 0 ${choice === 'B' ? TEAL : SUNNY}`,
+            padding: '26px 36px',
             ...centerCol,
             justifyContent: 'space-between',
           }}
         >
-          <div
+          <span
             style={{
               padding: '8px 24px',
-              borderRadius: 99,
+              borderRadius: 14,
               background: SUNNY,
               border: `2.5px solid ${CHARCOAL}`,
               fontFamily: 'var(--osd-font-display)',
@@ -1958,59 +1653,42 @@ const Slide06TebakUrutan: Page = () => {
             }}
           >
             PILIHAN B
-          </div>
+          </span>
 
-          <ToothbrushStepArt step={1} size={190} />
+          <ToothbrushStepArt step={1} size={195} />
 
-          <div style={{ ...row, gap: 12, fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 700, color: CHARCOAL }}>
-            <JuniorIcon name="toothbrush" size={40} />
-            <span>Siapkan Sikat</span>
-          </div>
+          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 700, color: CHARCOAL }}>
+            Siapkan Sikat
+          </span>
         </button>
       </div>
 
-      {/* Bottom Center: Biko Holding ? Sign + Prompt / Feedback Pill */}
-      <div style={{ ...abs(240, 695, 1440, 305), ...row, justifyContent: 'center', gap: 36 }}>
-        <BikoMascot pose="question" width={250} />
+      {/* Bottom: Question Biko + Flat Feedback Panel */}
+      <div style={{ ...abs(240, 695, 1440, 290), ...row, justifyContent: 'center', gap: 36 }}>
+        <BikoMascot pose="question" width={235} />
 
-        <div
-          style={{
-            ...row,
-            justifyContent: 'center',
-            gap: 12,
-            padding: '26px 40px',
-            borderRadius: 28,
-            background: choice === 'B' ? TEAL_SOFT : choice === 'A' ? CORAL_SOFT : STABILO,
-            border: `3.5px solid ${choice === 'B' ? TEAL : choice === 'A' ? CORAL : CHARCOAL}`,
-            boxShadow: `0 7px 0 ${CHARCOAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 36,
-            fontWeight: 700,
-            color: CHARCOAL,
-            textAlign: 'center',
-            minWidth: 560,
-          }}
+        <InfoPanel
+          bg={choice === 'B' ? TEAL_SOFT : choice === 'A' ? CORAL_SOFT : STABILO}
+          borderColor={choice === 'B' ? TEAL : choice === 'A' ? CORAL : CHARCOAL}
+          padding={28}
+          style={{ minWidth: 580, ...row, justifyContent: 'center', gap: 14 }}
         >
           {choice === 'B' && (
-            <>
-              <JuniorIcon name="check" size={34} />
-              <span>BENAR SEKALI! Siapkan Sikat dulu!</span>
-              <JuniorIcon name="star" size={34} />
-            </>
+            <SectionHeading icon="check" size={34} accentColor="#065F46">
+              BENAR! Siapkan Sikat dulu!
+            </SectionHeading>
           )}
           {choice === 'A' && (
-            <>
-              <JuniorIcon name="thinking" size={34} />
-              <span>Hampir! Kumur Air itu langkah terakhir!</span>
-            </>
+            <SectionHeading icon="thinking" size={34} accentColor="#991B1B">
+              Kumur Air itu langkah terakhir!
+            </SectionHeading>
           )}
           {choice === null && (
-            <>
-              <JuniorIcon name="point-right" size={34} />
-              <span>Tunjuk gambar yang benar ya!</span>
-            </>
+            <SectionHeading icon="point-right" size={34}>
+              Klik gambar langkah ke-1 ya!
+            </SectionHeading>
           )}
-        </div>
+        </InfoPanel>
       </div>
     </JuniorFrame>
   );
@@ -2024,36 +1702,44 @@ const BREAD_STEPS: {
   step: 1 | 2 | 3;
   color: string;
   soft: string;
-  icon: JuniorIconName;
   title: string;
-  highlight: string;
+  bullet: ReactNode;
 }[] = [
   {
     num: 1,
-    step: 1 as const,
+    step: 1,
     color: SKY,
     soft: SKY_SOFT,
-    icon: 'bread',
-    title: 'Ambil',
-    highlight: 'Roti Tawar',
+    title: 'Ambil Roti',
+    bullet: (
+      <>
+        Siapkan <InlineHighlight color={SKY_SOFT}>roti tawar</InlineHighlight>.
+      </>
+    ),
   },
   {
     num: 2,
-    step: 2 as const,
+    step: 2,
     color: SUNNY,
     soft: SUNNY_SOFT,
-    icon: 'chocolate',
-    title: 'Oles',
-    highlight: 'Selai Cokelat',
+    title: 'Oles Selai',
+    bullet: (
+      <>
+        Oles <InlineHighlight>selai cokelat</InlineHighlight>.
+      </>
+    ),
   },
   {
     num: 3,
-    step: 3 as const,
+    step: 3,
     color: TEAL,
     soft: TEAL_SOFT,
-    icon: 'sandwich',
-    title: 'Tutup Roti:',
-    highlight: 'Siap Dimakan!',
+    title: 'Tutup Roti',
+    bullet: (
+      <>
+        Roti <InlineHighlight color="#D1FAE5">siap dimakan</InlineHighlight>!
+      </>
+    ),
   },
 ];
 
@@ -2063,63 +1749,42 @@ const Slide07BuatRoti: Page = () => (
       Ayo <Highlight>Buat Roti</Highlight> Enak!
     </SlideTitle>
 
-    {/* 3 Horizontal Sequence Cards on Left/Center */}
-    <div style={{ ...abs(X0, 250, 1340, 660), ...row, justifyContent: 'space-between', gap: 18 }}>
+    {/* 3 Horizontal Sequence InfoPanels */}
+    <div style={{ ...abs(X0, 225, 1340, 695), ...row, justifyContent: 'space-between', gap: 18 }}>
       {BREAD_STEPS.map((item, idx) => (
         <Fragment key={item.num}>
-          <div
+          <InfoPanel
+            bg={WHITE}
+            borderColor={CHARCOAL}
+            padding={26}
             style={{
               flex: 1,
               height: '100%',
-              borderRadius: 30,
-              background: WHITE,
-              border: `4px solid ${CHARCOAL}`,
-              boxShadow: `0 10px 0 ${item.color}`,
-              padding: '28px 22px',
               ...centerCol,
               justifyContent: 'space-between',
               textAlign: 'center',
             }}
           >
-            <div
-              style={{
-                width: 72,
-                height: 72,
-                borderRadius: 22,
-                background: item.color,
-                border: `3.5px solid ${CHARCOAL}`,
-                boxShadow: `0 5px 0 ${CHARCOAL}`,
-                fontFamily: 'var(--osd-font-display)',
-                fontSize: 38,
-                fontWeight: 700,
-                color: item.num === 2 ? CHARCOAL : WHITE,
-                ...centerCol,
-              }}
-            >
-              {item.num}
-            </div>
+            <StepNumberBadge num={item.num} color={item.color} size={66} />
 
             <div
               style={{
                 width: 220,
-                height: 210,
-                borderRadius: 26,
+                height: 215,
+                borderRadius: 24,
                 background: item.soft,
-                border: `3px solid ${CHARCOAL}`,
+                border: `3px solid ${item.color}`,
                 ...centerCol,
               }}
             >
-              <BreadStepArt step={item.step} size={175} />
+              <BreadStepArt step={item.step} size={178} />
             </div>
 
-            <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.25 }}>
-              <div style={{ ...row, justifyContent: 'center', gap: 10 }}>
-                <JuniorIcon name={item.icon} size={32} />
-                <span>{item.title}</span>
-              </div>
-              <Highlight color={item.soft}>{item.highlight}</Highlight>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+              <SectionHeading size={32}>{item.title}</SectionHeading>
+              <BulletList bulletColor={item.color} fontSize={24} gap={6} items={[item.bullet]} />
             </div>
-          </div>
+          </InfoPanel>
 
           {idx < 2 && (
             <svg width={44} height={44} viewBox="0 0 44 44" fill="none" style={{ flexShrink: 0 }}>
@@ -2132,33 +1797,19 @@ const Slide07BuatRoti: Page = () => (
     </div>
 
     {/* Chef Biko on Right */}
-    <div style={{ ...abs(1470, 320, 360, 600), ...centerCol }}>
-      <BikoMascot pose="chef" width={340} />
-      <div
-        style={{
-          marginTop: 14,
-          ...row,
-          gap: 8,
-          padding: '12px 24px',
-          borderRadius: 99,
-          background: SUNNY,
-          border: `3px solid ${CHARCOAL}`,
-          boxShadow: `0 5px 0 ${CHARCOAL}`,
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 25,
-          fontWeight: 700,
-        }}
-      >
-        <span>Koki Biko!</span>
-        <JuniorIcon name="chef" size={26} />
-        <JuniorIcon name="sandwich" size={26} />
-      </div>
+    <div style={{ ...abs(1470, 300, 360, 620), ...centerCol, gap: 12 }}>
+      <BikoMascot pose="chef" width={330} />
+      <InfoPanel bg={SUNNY_SOFT} padding={14} style={{ borderRadius: 16 }}>
+        <SectionHeading icon="sandwich" size={24}>
+          Koki Biko!
+        </SectionHeading>
+      </InfoPanel>
     </div>
   </JuniorFrame>
 );
 
 // ============================================================================
-// SLIDE 08 — Tips Jagoan Drag & Drop (2 Kolom Perbandingan Boleh vs Jangan)
+// SLIDE 08 — Tips Jagoan Drag & Drop (BOLEH vs JANGAN)
 // ============================================================================
 const Slide08TipsDragDrop: Page = () => (
   <JuniorFrame badge="TIPS JAGOAN" accentDot={TEAL}>
@@ -2166,201 +1817,137 @@ const Slide08TipsDragDrop: Page = () => (
       Rahasia Geser Biar <Highlight>Pas!</Highlight>
     </SlideTitle>
 
-    {/* Left Column: BOLEH */}
     <div
       style={{
-        ...abs(X0, 245, 830, 695),
-        borderRadius: 32,
-        background: TEAL_SOFT,
-        border: `4px solid ${TEAL}`,
-        boxShadow: `0 10px 0 ${TEAL}`,
-        padding: '30px 34px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        ...abs(X0, 215, W, 745),
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 40,
       }}
     >
-      <div style={{ ...row, gap: 18 }}>
-        <IconCheck size={58} />
-        <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 700, color: '#065F46' }}>
-          BOLEH
-        </span>
-      </div>
-
-      {/* Visual: Puzzle piece lands neatly inside target box */}
-      <div
-        style={{
-          padding: '18px 26px',
-          borderRadius: 24,
-          background: WHITE,
-          border: `3px solid ${CHARCOAL}`,
-          ...row,
-          justifyContent: 'space-between',
-        }}
+      {/* Left Column: BOLEH */}
+      <InfoPanel
+        bg={WHITE}
+        borderColor={TEAL}
+        padding={32}
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 18 }}
       >
-        <svg width={240} height={115} viewBox="0 0 240 115" fill="none">
-          <path d="M24 58 H118" stroke={TEAL} strokeWidth={5} strokeDasharray="8 6" strokeLinecap="round" />
-          <path d="M108 48 L120 58 L108 68" stroke={TEAL} strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" />
-          <rect x="132" y="14" width="88" height="88" rx="22" fill={TEAL_SOFT} stroke={TEAL} strokeWidth={4} />
-          <rect x="142" y="24" width="68" height="68" rx="16" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3.5} />
-          <path
-            d="M176 38 L181 50 L194 52 L185 61 L187 74 L176 68 L165 74 L167 61 L158 52 L171 50 Z"
-            fill={WHITE}
-            stroke={CHARCOAL}
-            strokeWidth={3}
-            strokeLinejoin="round"
-          />
-        </svg>
-        <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700, color: '#065F46' }}>
-          <span>Masuk Tepat!</span>
-          <JuniorIcon name="check" size={28} />
+        <div style={{ ...row, justifyContent: 'space-between', borderBottom: `2.5px solid ${TEAL_SOFT}`, paddingBottom: 14 }}>
+          <SectionHeading icon="check" size={36} accentColor="#047857">
+            BOLEH Dilakukan
+          </SectionHeading>
+          <JuniorIcon name="thumbs-up" size={36} />
         </div>
-      </div>
 
-      <div
-        style={{
-          ...row,
-          gap: 20,
-          padding: '22px 26px',
-          borderRadius: 24,
-          background: WHITE,
-          border: `3px solid ${CHARCOAL}`,
-        }}
+        <div
+          style={{
+            borderRadius: 20,
+            background: TEAL_SOFT,
+            border: `2.5px solid ${TEAL}`,
+            padding: '18px 26px',
+            ...row,
+            justifyContent: 'space-between',
+          }}
+        >
+          <svg width={240} height={115} viewBox="0 0 240 115" fill="none">
+            <path d="M24 58 H118" stroke={TEAL} strokeWidth={5} strokeDasharray="8 6" strokeLinecap="round" />
+            <path d="M108 48 L120 58 L108 68" stroke={TEAL} strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" />
+            <rect x="132" y="14" width="88" height="88" rx="22" fill={WHITE} stroke={TEAL} strokeWidth={4} />
+            <rect x="142" y="24" width="68" height="68" rx="16" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3.5} />
+            <path
+              d="M176 38 L181 50 L194 52 L185 61 L187 74 L176 68 L165 74 L167 61 L158 52 L171 50 Z"
+              fill={WHITE}
+              stroke={CHARCOAL}
+              strokeWidth={3}
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700, color: '#065F46' }}>
+            Masuk Tepat!
+          </span>
+        </div>
+
+        <BulletList
+          bulletColor={TEAL}
+          fontSize={27}
+          gap={18}
+          items={[
+            <>
+              <InlineHighlight color="#D1FAE5">Tahan tombol</InlineHighlight> saat menggeser.
+            </>,
+            <>
+              Geser <InlineHighlight color="#D1FAE5">pelan &amp; rapi</InlineHighlight> ke kotak.
+            </>,
+            <>
+              Lepas jari saat <InlineHighlight>sudah pas</InlineHighlight>!
+            </>,
+          ]}
+        />
+      </InfoPanel>
+
+      {/* Right Column: JANGAN */}
+      <InfoPanel
+        bg={WHITE}
+        borderColor={CORAL}
+        padding={32}
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 18 }}
       >
-        <JuniorIcon name="fist" size={44} />
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, lineHeight: 1.24 }}>
-          <Highlight color="#D1FAE5">Tahan Tombol</Highlight> saat menggeser
+        <div style={{ ...row, justifyContent: 'space-between', borderBottom: `2.5px solid ${CORAL_SOFT}`, paddingBottom: 14 }}>
+          <SectionHeading icon="cross" size={36} accentColor="#B91C1C">
+            JANGAN Dilakukan
+          </SectionHeading>
+          <JuniorIcon name="warning" size={36} />
         </div>
-      </div>
 
-      <div
-        style={{
-          ...row,
-          gap: 20,
-          padding: '22px 26px',
-          borderRadius: 24,
-          background: WHITE,
-          border: `3px solid ${CHARCOAL}`,
-        }}
-      >
-        <JuniorIcon name="turtle" size={44} />
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, lineHeight: 1.24 }}>
-          Geser <Highlight color="#D1FAE5">Pelan &amp; Rapi</Highlight> ke kotak
+        <div
+          style={{
+            borderRadius: 20,
+            background: CORAL_SOFT,
+            border: `2.5px solid ${CORAL}`,
+            padding: '18px 26px',
+            ...row,
+            justifyContent: 'space-between',
+          }}
+        >
+          <svg width={240} height={115} viewBox="0 0 240 115" fill="none">
+            <rect x="136" y="14" width="84" height="84" rx="22" fill={WHITE} stroke={CORAL} strokeWidth={4} strokeDasharray="8 6" />
+            <g transform="translate(22, 34) rotate(-14)">
+              <rect x="0" y="0" width="66" height="66" rx="16" fill="#FEE2E2" stroke={CHARCOAL} strokeWidth={3.5} />
+              <path d="M21 21 L45 45 M45 21 L21 45" stroke={CORAL} strokeWidth={6} strokeLinecap="round" />
+            </g>
+            <path d="M96 42 L124 72" stroke={CORAL} strokeWidth={4} strokeDasharray="5 5" strokeLinecap="round" />
+          </svg>
+          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700, color: '#991B1B' }}>
+            Jatuh di Luar!
+          </span>
         </div>
-      </div>
-    </div>
 
-    {/* Right Column: JANGAN */}
-    <div
-      style={{
-        ...abs(990, 245, 830, 695),
-        borderRadius: 32,
-        background: CORAL_SOFT,
-        border: `4px solid ${CORAL}`,
-        boxShadow: `0 10px 0 ${CORAL}`,
-        padding: '30px 34px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}
-    >
-      <div style={{ ...row, gap: 18 }}>
-        <IconCross size={58} />
-        <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 700, color: '#991B1B' }}>
-          JANGAN
-        </span>
-      </div>
-
-      {/* Visual: Puzzle piece falls outside box */}
-      <div
-        style={{
-          padding: '18px 26px',
-          borderRadius: 24,
-          background: WHITE,
-          border: `3px solid ${CHARCOAL}`,
-          ...row,
-          justifyContent: 'space-between',
-        }}
-      >
-        <svg width={240} height={115} viewBox="0 0 240 115" fill="none">
-          {/* Empty Target Box */}
-          <rect x="136" y="14" width="84" height="84" rx="22" fill="#FFF1F2" stroke={CORAL} strokeWidth={4} strokeDasharray="8 6" />
-          {/* Dropped Piece Outside */}
-          <g transform="translate(22, 34) rotate(-14)">
-            <rect x="0" y="0" width="66" height="66" rx="16" fill="#FEE2E2" stroke={CHARCOAL} strokeWidth={3.5} />
-            <path d="M21 21 L45 45 M45 21 L21 45" stroke={CORAL} strokeWidth={6} strokeLinecap="round" />
-          </g>
-          <path d="M96 42 L124 72" stroke={CORAL} strokeWidth={4} strokeDasharray="5 5" strokeLinecap="round" />
-        </svg>
-        <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 28, fontWeight: 700, color: '#991B1B' }}>
-          <span>Jatuh di Luar!</span>
-          <JuniorIcon name="cross" size={28} />
-        </div>
-      </div>
-
-      <div
-        style={{
-          ...row,
-          gap: 20,
-          padding: '22px 26px',
-          borderRadius: 24,
-          background: WHITE,
-          border: `3px solid ${CHARCOAL}`,
-        }}
-      >
-        <JuniorIcon name="wind" size={44} />
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, lineHeight: 1.24 }}>
-          <Highlight color="#FEE2E2">Lepas Tombol</Highlight> di tengah jalan
-        </div>
-      </div>
-
-      <div
-        style={{
-          ...row,
-          gap: 20,
-          padding: '22px 26px',
-          borderRadius: 24,
-          background: WHITE,
-          border: `3px solid ${CHARCOAL}`,
-        }}
-      >
-        <JuniorIcon name="lightning" size={44} />
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, lineHeight: 1.24 }}>
-          Menggeser <Highlight color="#FEE2E2">Terlalu Cepat</Highlight>
-        </div>
-      </div>
+        <BulletList
+          bulletColor={CORAL}
+          fontSize={27}
+          gap={18}
+          items={[
+            <>
+              Jangan <InlineHighlight color="#FECACA">lepas tombol</InlineHighlight> di tengah.
+            </>,
+            <>
+              Jangan geser <InlineHighlight color="#FECACA">terlalu cepat</InlineHighlight>.
+            </>,
+            <>Jangan taruh di luar kotak.</>,
+          ]}
+        />
+      </InfoPanel>
     </div>
   </JuniorFrame>
 );
 
 // ============================================================================
-// SLIDE 09 — Misi Praktik: Susun Puzzle Urutan! (3 Blok ScratchJr + Interactive Drag & Drop)
+// SLIDE 09 — Misi Praktik: Susun Puzzle Urutan!
 // ============================================================================
-const MISSION_BLOCKS: { num: number; color: string; soft: string; title: string; sub: string; icon: JuniorIconName }[] = [
-  {
-    num: 1,
-    color: SKY,
-    soft: SKY_SOFT,
-    title: 'Klik & Tahan',
-    sub: 'gambar langkah',
-    icon: 'tap',
-  },
-  {
-    num: 2,
-    color: SUNNY,
-    soft: SUNNY_SOFT,
-    title: 'Geser',
-    sub: 'ke kotak 1, 2, 3',
-    icon: 'arrow-right',
-  },
-  {
-    num: 3,
-    color: TEAL,
-    soft: TEAL_SOFT,
-    title: 'Lepas Jari',
-    sub: 'sampai semua pas!',
-    icon: 'hand',
-  },
+const MISSION_BLOCKS: { num: number; color: string; soft: string; title: string; sub: string }[] = [
+  { num: 1, color: SKY, soft: SKY_SOFT, title: 'Klik & Tahan', sub: 'Pilih gambar' },
+  { num: 2, color: SUNNY, soft: SUNNY_SOFT, title: 'Geser', sub: 'Ke kotak 1, 2, 3' },
+  { num: 3, color: TEAL, soft: TEAL_SOFT, title: 'Lepas Jari', sub: 'Sampai pas!' },
 ];
 
 type PuzzleItem = {
@@ -2395,7 +1982,7 @@ const Slide09MisiPuzzle: Page = () => {
   const [slots, setSlots] = useState<(PuzzleItem | null)[]>([null, null, null]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<{ icon?: JuniorIconName; text: string }>({
-    text: 'Tarik gambar atau klik kartu lalu klik kotak 1, 2, 3!',
+    text: 'Geser gambar ke kotak 1, 2, 3!',
   });
 
   const currentItems = PUZZLE_SETS[mode].items;
@@ -2407,13 +1994,13 @@ const Slide09MisiPuzzle: Page = () => {
     setMode(next);
     setSlots([null, null, null]);
     setSelectedId(null);
-    setFeedback({ text: 'Tarik gambar atau klik kartu lalu klik kotak 1, 2, 3!' });
+    setFeedback({ text: 'Geser gambar ke kotak 1, 2, 3!' });
   };
 
   const resetPuzzle = () => {
     setSlots([null, null, null]);
     setSelectedId(null);
-    setFeedback({ text: 'Ayo susun dari nomor 1, 2, lalu 3!' });
+    setFeedback({ text: 'Susun dari nomor 1, 2, lalu 3!' });
   };
 
   const placeItemInSlot = (item: PuzzleItem, slotIdx: number) => {
@@ -2425,11 +2012,11 @@ const Slide09MisiPuzzle: Page = () => {
       const isDone = next.every((s, i) => s !== null && s.order === i + 1);
       setFeedback(
         isDone
-          ? { icon: 'party', text: 'Yeay! Semua urutan PAS! Hebat!' }
-          : { icon: 'check', text: `Pas! "${item.label}" masuk kotak ${slotIdx + 1}!` },
+          ? { icon: 'party', text: 'Yeay! Semua urutan PAS!' }
+          : { icon: 'check', text: `Pas! ${item.label} di kotak ${slotIdx + 1}!` },
       );
     } else {
-      setFeedback({ icon: 'thinking', text: `Coba cek lagi! "${item.label}" bukan urutan nomor ${slotIdx + 1}!` });
+      setFeedback({ icon: 'thinking', text: `Bukan kotak ${slotIdx + 1}! Cek lagi ya!` });
     }
   };
 
@@ -2457,75 +2044,43 @@ const Slide09MisiPuzzle: Page = () => {
         Misi Susun <Highlight>Puzzle Urutan!</Highlight>
       </SlideTitle>
 
-      {/* Top Row: 3 ScratchJr-Style Step Blocks */}
-      <div style={{ ...abs(X0, 224, W, 184), ...row, justifyContent: 'space-between', gap: 18 }}>
+      {/* Top Row: 3 Flat Instruction Panels */}
+      <div style={{ ...abs(X0, 205, W, 150), ...row, justifyContent: 'space-between', gap: 18 }}>
         {MISSION_BLOCKS.map((blk, i) => (
           <Fragment key={blk.num}>
-            <div
+            <InfoPanel
+              bg={blk.soft}
+              padding={20}
               style={{
                 flex: 1,
-                height: 170,
-                borderRadius: 26,
-                background: blk.soft,
-                border: `4px solid ${CHARCOAL}`,
-                boxShadow: `0 7px 0 ${blk.color}`,
-                padding: '18px 24px',
+                height: 144,
                 ...row,
                 gap: 18,
               }}
             >
-              <div
-                style={{
-                  width: 62,
-                  height: 62,
-                  borderRadius: 18,
-                  background: blk.color,
-                  border: `3px solid ${CHARCOAL}`,
-                  fontFamily: 'var(--osd-font-display)',
-                  fontSize: 34,
-                  fontWeight: 700,
-                  color: blk.num === 2 ? CHARCOAL : WHITE,
-                  ...centerCol,
-                  flexShrink: 0,
-                }}
-              >
-                {blk.num}
-              </div>
+              <StepNumberBadge num={blk.num} color={blk.color} size={58} />
               <div>
-                <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.15 }}>
-                  <JuniorIcon name={blk.icon} size={32} />
-                  <span>{blk.title}</span>
-                </div>
+                <SectionHeading size={30}>{blk.title}</SectionHeading>
                 <div style={{ fontSize: 22, fontWeight: 800, color: MUTED, marginTop: 4 }}>{blk.sub}</div>
               </div>
-            </div>
+            </InfoPanel>
 
-            {i < 2 && (
-              <svg width={40} height={40} viewBox="0 0 44 44" fill="none" style={{ flexShrink: 0 }}>
-                <path
-                  d="M6 22 H34 M24 12 L36 22 L24 32"
-                  stroke={CHARCOAL}
-                  strokeWidth={5}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )}
+            {i < 2 && <JuniorIcon name="arrow-right" size={32} />}
           </Fragment>
         ))}
       </div>
 
       {/* Bottom Interactive Drag & Drop Puzzle Board */}
-      <MacWindowCard left={X0} top={428} width={1320} height={542} headerLabel="game-puzzle-urutan.app" padding={22}>
+      <MacWindowCard left={X0} top={385} width={1320} height={585} headerLabel="game-puzzle-urutan" padding={22}>
         <div
           style={{
-            position: 'relative',
             width: '100%',
             height: '100%',
-            borderRadius: 22,
+            borderRadius: 20,
             background: 'linear-gradient(180deg, #F0FDF4 0%, #FFFBEB 100%)',
             border: `2.5px solid ${CHARCOAL}`,
             padding: '18px 26px',
+            boxSizing: 'border-box',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -2539,15 +2094,14 @@ const Slide09MisiPuzzle: Page = () => {
                 className="cpj3-card-btn"
                 onClick={() => switchMode('gigi')}
                 style={{
-                  padding: '8px 20px',
-                  borderRadius: 99,
                   ...row,
                   gap: 8,
                   padding: '8px 20px',
-                  borderRadius: 99,
+                  borderRadius: 14,
                   background: mode === 'gigi' ? SKY : WHITE,
                   color: mode === 'gigi' ? WHITE : CHARCOAL,
                   border: `2.5px solid ${CHARCOAL}`,
+                  boxShadow: `0 4px 0 ${CHARCOAL}`,
                   fontFamily: 'var(--osd-font-display)',
                   fontSize: 22,
                   fontWeight: 700,
@@ -2564,10 +2118,11 @@ const Slide09MisiPuzzle: Page = () => {
                   ...row,
                   gap: 8,
                   padding: '8px 20px',
-                  borderRadius: 99,
+                  borderRadius: 14,
                   background: mode === 'roti' ? SUNNY : WHITE,
                   color: CHARCOAL,
                   border: `2.5px solid ${CHARCOAL}`,
+                  boxShadow: `0 4px 0 ${CHARCOAL}`,
                   fontFamily: 'var(--osd-font-display)',
                   fontSize: 22,
                   fontWeight: 700,
@@ -2586,10 +2141,10 @@ const Slide09MisiPuzzle: Page = () => {
                 ...row,
                 gap: 8,
                 padding: '8px 18px',
-                borderRadius: 99,
+                borderRadius: 14,
                 background: WHITE,
                 border: `2.5px solid ${CHARCOAL}`,
-                boxShadow: `0 3px 0 ${CHARCOAL}`,
+                boxShadow: `0 4px 0 ${CHARCOAL}`,
                 fontFamily: 'var(--osd-font-display)',
                 fontSize: 20,
                 fontWeight: 700,
@@ -2612,19 +2167,19 @@ const Slide09MisiPuzzle: Page = () => {
                   onDrop={(e) => handleDrop(e, idx)}
                   onClick={() => handleSlotClick(idx)}
                   style={{
-                    height: 150,
+                    height: 165,
                     borderRadius: 22,
                     background: placed ? placed.color : WHITE,
                     border: placed ? `3.5px solid ${TEAL}` : `3.5px dashed ${selectedId ? SKY : '#94A3B8'}`,
-                    boxShadow: placed ? `0 6px 0 ${TEAL}` : 'none',
+                    boxShadow: placed ? CARD_SHADOW : 'none',
                     ...centerCol,
-                    gap: 6,
+                    gap: 8,
                     cursor: selectedId && !placed ? 'pointer' : 'default',
                   }}
                 >
                   {placed ? (
                     <>
-                      <JuniorIcon name={placed.icon} size={48} />
+                      <JuniorIcon name={placed.icon} size={52} />
                       <span style={{ ...row, gap: 8, fontFamily: 'var(--osd-font-display)', fontSize: 24, fontWeight: 700, color: CHARCOAL }}>
                         <span>{idx + 1}. {placed.label}</span>
                         <JuniorIcon name="check" size={22} />
@@ -2634,12 +2189,12 @@ const Slide09MisiPuzzle: Page = () => {
                     <>
                       <span
                         style={{
-                          width: 44,
-                          height: 44,
+                          width: 48,
+                          height: 48,
                           borderRadius: 14,
                           background: '#E2E8F0',
                           fontFamily: 'var(--osd-font-display)',
-                          fontSize: 26,
+                          fontSize: 28,
                           fontWeight: 700,
                           color: CHARCOAL,
                           ...centerCol,
@@ -2647,7 +2202,7 @@ const Slide09MisiPuzzle: Page = () => {
                       >
                         {idx + 1}
                       </span>
-                      <span style={{ fontSize: 19, fontWeight: 800, color: MUTED }}>Taruh Langkah {idx + 1}</span>
+                      <span style={{ fontSize: 20, fontWeight: 800, color: MUTED }}>Langkah {idx + 1}</span>
                     </>
                   )}
                 </button>
@@ -2655,7 +2210,7 @@ const Slide09MisiPuzzle: Page = () => {
             })}
           </div>
 
-          {/* Draggable / Clickable Piece Tray */}
+          {/* Draggable / Clickable Piece Tray + Flat Feedback */}
           <div style={{ ...row, justifyContent: 'space-between', gap: 18 }}>
             <div style={{ ...row, gap: 14 }}>
               {remainingItems.map((item) => {
@@ -2670,7 +2225,7 @@ const Slide09MisiPuzzle: Page = () => {
                     onClick={() => setSelectedId(isSelected ? null : item.id)}
                     style={{
                       padding: '10px 22px',
-                      borderRadius: 20,
+                      borderRadius: 18,
                       background: isSelected ? SUNNY : WHITE,
                       border: `3px solid ${isSelected ? CORAL : CHARCOAL}`,
                       boxShadow: `0 5px 0 ${CHARCOAL}`,
@@ -2686,23 +2241,11 @@ const Slide09MisiPuzzle: Page = () => {
                 );
               })}
               {remainingItems.length === 0 && (
-                <div
-                  style={{
-                    ...row,
-                    gap: 10,
-                    padding: '12px 26px',
-                    borderRadius: 20,
-                    background: TEAL,
-                    color: WHITE,
-                    border: `3px solid ${CHARCOAL}`,
-                    fontFamily: 'var(--osd-font-display)',
-                    fontSize: 26,
-                    fontWeight: 700,
-                  }}
-                >
-                  <JuniorIcon name="trophy" size={28} />
-                  <span>{PUZZLE_SETS[mode].title} Selesai!</span>
-                </div>
+                <InfoPanel bg={TEAL_SOFT} borderColor={TEAL} padding={12} style={{ borderRadius: 16, paddingLeft: 22, paddingRight: 22 }}>
+                  <SectionHeading icon="trophy" size={24} accentColor="#065F46">
+                    {PUZZLE_SETS[mode].title} Selesai!
+                  </SectionHeading>
+                </InfoPanel>
               )}
             </div>
 
@@ -2711,7 +2254,7 @@ const Slide09MisiPuzzle: Page = () => {
                 ...row,
                 gap: 8,
                 padding: '10px 20px',
-                borderRadius: 99,
+                borderRadius: 16,
                 background: completed ? TEAL_SOFT : STABILO,
                 border: `2.5px solid ${CHARCOAL}`,
                 fontSize: 20,
@@ -2727,36 +2270,13 @@ const Slide09MisiPuzzle: Page = () => {
       </MacWindowCard>
 
       {/* Cheering Biko on Right */}
-      <div style={{ ...abs(1455, 450, 365, 500), ...centerCol }}>
-        <BikoMascot pose="jump" width={310} />
-        <div
-          style={{
-            marginTop: 8,
-            ...row,
-            gap: 8,
-            padding: '10px 22px',
-            borderRadius: 99,
-            background: TEAL,
-            color: WHITE,
-            border: `2.5px solid ${CHARCOAL}`,
-            boxShadow: `0 4px 0 ${CHARCOAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 24,
-            fontWeight: 700,
-          }}
-        >
-          {completed ? (
-            <>
-              <span>Jagoan Puzzle!</span>
-              <JuniorIcon name="party" size={24} />
-            </>
-          ) : (
-            <>
-              <span>Ayo Geser!</span>
-              <JuniorIcon name="puzzle" size={24} />
-            </>
-          )}
-        </div>
+      <div style={{ ...abs(1455, 420, 365, 530), ...centerCol, gap: 10 }}>
+        <BikoMascot pose={completed ? 'jump' : 'wave'} width={300} />
+        <InfoPanel bg={completed ? TEAL_SOFT : SUNNY_SOFT} padding={12} style={{ borderRadius: 16, paddingLeft: 20, paddingRight: 20 }}>
+          <SectionHeading icon={completed ? 'party' : 'puzzle'} size={22}>
+            {completed ? 'Jagoan Puzzle!' : 'Ayo Geser!'}
+          </SectionHeading>
+        </InfoPanel>
       </div>
     </JuniorFrame>
   );
@@ -2769,7 +2289,6 @@ const Slide10Lencana: Page = () => {
   const live = useIsActivePage();
   return (
     <JuniorFrame badge="MISI SELESAI!" accentDot={SUNNY}>
-      {/* Colorful Confetti */}
       {[
         { x: 140, y: 210, c: CORAL, s: 20 },
         { x: 310, y: 170, c: TEAL, s: 18 },
@@ -2791,85 +2310,84 @@ const Slide10Lencana: Page = () => {
         />
       ))}
 
-      <SlideTitle align="center" top={130} size={62}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 16 }}>
-          <span>
-            Keren! Kamu <Highlight color={STABILO}>Jagoan Puzzle!</Highlight>
-          </span>
-          <JuniorIcon name="party" size={58} />
-        </span>
+      <SlideTitle align="center" top={104} size={58}>
+        Keren! Kamu <Highlight color={STABILO}>Jagoan Puzzle!</Highlight>
       </SlideTitle>
 
-      {/* Center Celebration Medal Card */}
-      <MacWindowCard left={170} top={250} width={1160} height={680} headerLabel="lencana-juara-3.award" padding={42}>
-        <div style={{ height: '100%', ...centerCol, justifyContent: 'space-between', textAlign: 'center' }}>
-          {/* Gold Medal SVG with Star Puzzle Piece & Cursor Hand */}
-          <svg width={270} height={260} viewBox="0 0 260 250" fill="none">
-            {/* Ribbons */}
-            <path d="M90 156 L66 238 L104 218 L122 240 L122 156 Z" fill={SKY} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            <path d="M170 156 L194 238 L156 218 L138 240 L138 156 Z" fill={TEAL} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            {/* Gold Medal */}
-            <circle cx="130" cy="98" r="82" fill={SUNNY} stroke={CHARCOAL} strokeWidth={5} />
-            <circle cx="130" cy="98" r="64" fill="#FEF3C7" stroke={CHARCOAL} strokeWidth={3.5} />
-            {/* Puzzle Tile Inside Medal */}
-            <rect x="94" y="64" width="72" height="72" rx="18" fill={WHITE} stroke={CHARCOAL} strokeWidth={3.5} />
-            <circle cx="130" cy="59" r="11" fill={WHITE} stroke={CHARCOAL} strokeWidth={3.5} />
-            {/* Star Inside Puzzle */}
-            <path
-              d="M130 74 L135 86 L148 88 L138 97 L141 110 L130 103 L119 110 L122 97 L112 88 L125 86 Z"
-              fill={SUNNY}
-              stroke={CHARCOAL}
-              strokeWidth={2.5}
-              strokeLinejoin="round"
-            />
-            {/* Cursor Arrow */}
-            <path
-              d="M142 106 L172 126 L156 130 L163 144 L156 148 L149 134 L142 142 Z"
-              fill={SKY}
-              stroke={CHARCOAL}
-              strokeWidth={3}
-              strokeLinejoin="round"
-            />
-          </svg>
+      {/* Center Celebration & Recap Card */}
+      <MacWindowCard left={170} top={210} width={1180} height={745} headerLabel="lencana-pertemuan-3" padding={36}>
+        <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '430px 1fr', gap: 36, alignItems: 'center' }}>
+          {/* Left: Gold Medal + Flat Achievement Banner */}
+          <div style={{ ...centerCol, gap: 22 }}>
+            <svg width={260} height={250} viewBox="0 0 260 250" fill="none">
+              <path d="M90 156 L66 238 L104 218 L122 240 L122 156 Z" fill={SKY} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
+              <path d="M170 156 L194 238 L156 218 L138 240 L138 156 Z" fill={TEAL} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
+              <circle cx="130" cy="98" r="82" fill={SUNNY} stroke={CHARCOAL} strokeWidth={5} />
+              <circle cx="130" cy="98" r="64" fill="#FEF3C7" stroke={CHARCOAL} strokeWidth={3.5} />
+              <rect x="94" y="64" width="72" height="72" rx="18" fill={WHITE} stroke={CHARCOAL} strokeWidth={3.5} />
+              <circle cx="130" cy="59" r="11" fill={WHITE} stroke={CHARCOAL} strokeWidth={3.5} />
+              <path
+                d="M130 74 L135 86 L148 88 L138 97 L141 110 L130 103 L119 110 L122 97 L112 88 L125 86 Z"
+                fill={SUNNY}
+                stroke={CHARCOAL}
+                strokeWidth={2.5}
+                strokeLinejoin="round"
+              />
+              <path
+                d="M142 106 L172 126 L156 130 L163 144 L156 148 L149 134 L142 142 Z"
+                fill={SKY}
+                stroke={CHARCOAL}
+                strokeWidth={3}
+                strokeLinejoin="round"
+              />
+            </svg>
 
-          <div
-            style={{
-              ...row,
-              gap: 14,
-              padding: '14px 34px',
-              borderRadius: 99,
-              background: TEAL,
-              color: WHITE,
-              border: `3.5px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 34,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="medal" size={36} />
-            <span>Lencana Jagoan Drag &amp; Drop</span>
+            <InfoPanel bg={SUNNY_SOFT} padding={14} style={{ borderRadius: 16, paddingLeft: 24, paddingRight: 24 }}>
+              <SectionHeading icon="medal" size={26}>
+                Lencana Jagoan Puzzle
+              </SectionHeading>
+            </InfoPanel>
           </div>
 
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 32,
-              fontWeight: 700,
-              lineHeight: 1.38,
-              maxWidth: 880,
-              color: CHARCOAL,
-            }}
-          >
-            Kamu sudah mahir <Highlight>Klik-Tahan-Geser</Highlight> dan pintar{' '}
-            <Highlight color="#D1FAE5">Memecah Misi Besar!</Highlight>
+          {/* Right: Concise Bullet Takeaways + 1-2-3 Visual Recap */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <SectionHeading icon="trophy" size={32}>
+              Yang Sudah Kamu Kuasai:
+            </SectionHeading>
+
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={26}
+              gap={16}
+              items={[
+                <>
+                  Pintar <InlineHighlight>memecah misi besar</InlineHighlight> jadi kecil.
+                </>,
+                <>
+                  Menyusun urutan <InlineHighlight color="#D1FAE5">1, 2, lalu 3</InlineHighlight> dengan tepat.
+                </>,
+                <>
+                  Mahir jurus <InlineHighlight color={SKY_SOFT}>Klik, Tahan, Geser</InlineHighlight>.
+                </>,
+              ]}
+            />
+
+            <InfoPanel bg={TEAL_SOFT} borderColor={TEAL} padding={18}>
+              <div style={{ ...row, justifyContent: 'center', gap: 18 }}>
+                <StepNumberBadge num={1} color={SKY} size={52} />
+                <JuniorIcon name="arrow-right" size={28} />
+                <StepNumberBadge num={2} color={SUNNY} size={52} />
+                <JuniorIcon name="arrow-right" size={28} />
+                <StepNumberBadge num={3} color={TEAL} size={52} />
+              </div>
+            </InfoPanel>
           </div>
         </div>
       </MacWindowCard>
 
       {/* Celebrating Jumping Biko on Right */}
-      <div style={{ ...abs(1370, 385, 420, 520), ...centerCol }}>
-        <BikoMascot pose="jump" width={400} />
+      <div style={{ ...abs(1390, 385, 420, 520), ...centerCol }}>
+        <BikoMascot pose="jump" width={365} />
       </div>
     </JuniorFrame>
   );

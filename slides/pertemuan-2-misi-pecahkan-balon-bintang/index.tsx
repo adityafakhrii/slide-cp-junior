@@ -25,10 +25,6 @@ const SCOPED_CSS = `
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-6px) rotate(-1.2deg); }
 }
-@keyframes cpj2-twinkle {
-  0%, 100% { opacity: 0.92; transform: scale(1) rotate(0deg); }
-  50% { opacity: 0.45; transform: scale(0.84) rotate(12deg); }
-}
 @keyframes cpj2-confetti {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(10px) rotate(18deg); }
@@ -50,7 +46,7 @@ const SCOPED_CSS = `
   cursor: pointer;
 }
 .cpj2-card-btn:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
 }
 .cpj2-card-btn:active {
   transform: translateY(2px);
@@ -101,6 +97,7 @@ const SAND_GRID = '#F4ECDC';
 const WHITE = '#FFFFFF';
 const CHARCOAL = '#1E1E2C';
 const MUTED = '#525266';
+const CARD_SHADOW = '0 6px 18px rgba(30, 30, 44, 0.08)';
 const TEAL = '#10B981';
 const TEAL_SOFT = '#ECFDF5';
 const CORAL = '#F45B49';
@@ -151,7 +148,7 @@ const centerCol: CSSProperties = {
 };
 
 // ============================================================================
-// Shared Chrome, Background Grid & Micro-Decorations
+// Shared Chrome, Typography, Highlights, Bullet Lists & Containers
 // ============================================================================
 const JuniorFrame = ({
   badge,
@@ -163,7 +160,6 @@ const JuniorFrame = ({
   children: ReactNode;
 }) => {
   const { current, total } = useSlidePageNumber();
-  const live = useIsActivePage();
 
   return (
     <div
@@ -181,132 +177,54 @@ const JuniorFrame = ({
         WebkitFontSmoothing: 'antialiased',
       }}
     >
-      {/* Low-opacity coding symbols around outer canvas edges */}
-      <div
-        aria-hidden
-        style={{
-          ...abs(46, 200),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 40,
-          fontWeight: 700,
-          color: LAVENDER,
-          opacity: 0.25,
-          transform: 'rotate(-10deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'{ }'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(1816, 170),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 38,
-          fontWeight: 700,
-          color: SKY,
-          opacity: 0.26,
-          transform: 'rotate(12deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'</>'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(42, 870),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 36,
-          fontWeight: 700,
-          color: TEAL,
-          opacity: 0.24,
-          transform: 'rotate(-8deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'( )'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(1826, 860),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 38,
-          fontWeight: 700,
-          color: CORAL,
-          opacity: 0.25,
-          transform: 'rotate(9deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'##'}
-      </div>
-
-      {/* Sparkle accent */}
-      <svg
-        aria-hidden
-        width={42}
-        height={42}
-        viewBox="0 0 40 40"
-        style={{
-          ...abs(1750, 74),
-          pointerEvents: 'none',
-          animation: live ? 'cpj2-twinkle 2.8s ease-in-out infinite' : undefined,
-        }}
-      >
-        <path
-          d="M20 2 L24.5 15.5 L38 20 L24.5 24.5 L20 38 L15.5 24.5 L2 20 L15.5 15.5 Z"
-          fill={SUNNY}
-          stroke={CHARCOAL}
-          strokeWidth={2.2}
-          strokeLinejoin="round"
-        />
-      </svg>
-
-      {/* Top Left Header Pill Badge */}
+      {/* Top Left Header Eyebrow Tag */}
       <div
         style={{
-          ...abs(X0, 56),
+          ...abs(X0, 48),
           ...row,
-          gap: 12,
-          padding: '12px 26px',
-          borderRadius: 999,
-          background: WHITE,
-          border: `2.5px solid ${CHARCOAL}`,
-          boxShadow: `0 5px 0 ${CHARCOAL}`,
-          fontSize: 20,
-          fontWeight: 800,
-          letterSpacing: '0.04em',
-          textTransform: 'uppercase',
+          gap: 18,
           zIndex: 5,
         }}
       >
-        <span
+        <div
           style={{
-            width: 14,
-            height: 14,
-            borderRadius: 99,
-            background: accentDot,
+            ...row,
+            gap: 10,
+            padding: '8px 20px',
+            borderRadius: 12,
+            background: WHITE,
             border: `2px solid ${CHARCOAL}`,
-            display: 'inline-block',
+            fontSize: 18,
+            fontWeight: 800,
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
           }}
-        />
-        <span>{badge}</span>
+        >
+          <span
+            style={{
+              width: 12,
+              height: 12,
+              borderRadius: 99,
+              background: accentDot,
+              border: `2px solid ${CHARCOAL}`,
+              display: 'inline-block',
+            }}
+          />
+          <span>{badge}</span>
+        </div>
       </div>
 
-      {/* Top Right Slide Number Pill */}
+      {/* Top Right Slide Number Indicator */}
       <div
         style={{
-          ...abs(1680, 56),
+          ...abs(1690, 48),
           ...row,
-          gap: 10,
-          padding: '12px 22px',
-          borderRadius: 999,
+          gap: 8,
+          padding: '8px 18px',
+          borderRadius: 12,
           background: WHITE,
-          border: `2.5px solid ${CHARCOAL}`,
-          boxShadow: `0 4px 0 ${CHARCOAL}`,
-          fontSize: 20,
+          border: `2px solid ${CHARCOAL}`,
+          fontSize: 19,
           fontWeight: 800,
           fontFamily: 'var(--osd-font-display)',
           zIndex: 5,
@@ -319,15 +237,15 @@ const JuniorFrame = ({
 
       {children}
 
-      {/* Subtle Bottom Program Strip */}
+      {/* Bottom Program Strip */}
       <div
         style={{
-          ...abs(X0, 1020, W, 34),
+          ...abs(X0, 1022, W, 32),
           ...row,
           justifyContent: 'space-between',
           fontSize: 18,
           fontWeight: 700,
-          color: '#7A7689',
+          color: '#6E6A7C',
         }}
       >
         <span style={{ ...row, gap: 10 }}>
@@ -359,8 +277,8 @@ const Highlight = ({
   <span
     style={{
       background: color,
-      padding: '2px 18px 6px',
-      borderRadius: 16,
+      padding: '2px 16px 5px',
+      borderRadius: 14,
       boxDecorationBreak: 'clone',
       WebkitBoxDecorationBreak: 'clone',
       display: 'inline-block',
@@ -370,11 +288,31 @@ const Highlight = ({
   </span>
 );
 
+const InlineHighlight = ({
+  children,
+  color = STABILO,
+}: {
+  children: ReactNode;
+  color?: string;
+}) => (
+  <mark
+    style={{
+      background: color,
+      color: CHARCOAL,
+      fontWeight: 800,
+      padding: '1px 9px 2px',
+      borderRadius: 8,
+    }}
+  >
+    {children}
+  </mark>
+);
+
 const SlideTitle = ({
   children,
-  top = 136,
-  size = 56,
-  maxWidth = 1520,
+  top = 114,
+  size = 54,
+  maxWidth = 1560,
   align = 'left',
 }: {
   children: ReactNode;
@@ -390,7 +328,7 @@ const SlideTitle = ({
       fontFamily: 'var(--osd-font-display)',
       fontSize: size,
       fontWeight: 700,
-      lineHeight: 1.16,
+      lineHeight: 1.14,
       letterSpacing: '-0.015em',
       color: CHARCOAL,
       textAlign: align,
@@ -398,6 +336,116 @@ const SlideTitle = ({
   >
     {children}
   </h2>
+);
+
+const SectionHeading = ({
+  children,
+  icon,
+  accentColor = CHARCOAL,
+  size = 30,
+}: {
+  children: ReactNode;
+  icon?: JuniorIconName;
+  accentColor?: string;
+  size?: number;
+}) => (
+  <h3
+    style={{
+      margin: 0,
+      ...row,
+      gap: 10,
+      fontFamily: 'var(--osd-font-display)',
+      fontSize: size,
+      fontWeight: 700,
+      lineHeight: 1.2,
+      color: accentColor,
+    }}
+  >
+    {icon && <JuniorIcon name={icon} size={Math.round(size * 0.95)} />}
+    <span>{children}</span>
+  </h3>
+);
+
+const BulletList = ({
+  items,
+  bulletColor = TEAL,
+  fontSize = 24,
+  gap = 12,
+}: {
+  items: ReactNode[];
+  bulletColor?: string;
+  fontSize?: number;
+  gap?: number;
+}) => (
+  <ul
+    style={{
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+      display: 'flex',
+      flexDirection: 'column',
+      gap,
+    }}
+  >
+    {items.map((item, idx) => (
+      <li
+        key={idx}
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 12,
+          fontSize,
+          fontWeight: 700,
+          lineHeight: 1.38,
+          color: CHARCOAL,
+          textAlign: 'left',
+        }}
+      >
+        <span
+          aria-hidden
+          style={{
+            width: 11,
+            height: 11,
+            marginTop: Math.round(fontSize * 0.42),
+            borderRadius: 99,
+            background: bulletColor,
+            border: `2px solid ${CHARCOAL}`,
+            flexShrink: 0,
+          }}
+        />
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+);
+
+/** Flat content panel (replaces button-like 3D cards for non-interactive boxes) */
+const InfoPanel = ({
+  children,
+  bg = WHITE,
+  borderColor = CHARCOAL,
+  padding = 28,
+  style,
+}: {
+  children: ReactNode;
+  bg?: string;
+  borderColor?: string;
+  padding?: number;
+  style?: CSSProperties;
+}) => (
+  <div
+    style={{
+      background: bg,
+      borderRadius: 24,
+      border: `3px solid ${borderColor}`,
+      boxShadow: CARD_SHADOW,
+      padding,
+      boxSizing: 'border-box',
+      ...style,
+    }}
+  >
+    {children}
+  </div>
 );
 
 const MacWindowCard = ({
@@ -408,7 +456,7 @@ const MacWindowCard = ({
   titleBarColor = WHITE,
   headerLabel,
   children,
-  padding = 36,
+  padding = 32,
 }: {
   left: number;
   top: number;
@@ -423,9 +471,9 @@ const MacWindowCard = ({
     style={{
       ...abs(left, top, width, height),
       background: WHITE,
-      borderRadius: 28,
+      borderRadius: 26,
       border: `3px solid ${CHARCOAL}`,
-      boxShadow: `0 8px 0 ${CHARCOAL}`,
+      boxShadow: CARD_SHADOW,
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
@@ -433,33 +481,35 @@ const MacWindowCard = ({
   >
     <div
       style={{
-        height: 54,
+        height: 48,
         background: titleBarColor,
         borderBottom: `2.5px solid ${CHARCOAL}`,
-        padding: '0 24px',
+        padding: '0 22px',
         ...row,
         justifyContent: 'space-between',
         flexShrink: 0,
       }}
     >
-      <div style={{ ...row, gap: 11 }}>
-        <span style={{ width: 16, height: 16, borderRadius: 99, background: CORAL, border: `2px solid ${CHARCOAL}` }} />
-        <span style={{ width: 16, height: 16, borderRadius: 99, background: SUNNY, border: `2px solid ${CHARCOAL}` }} />
-        <span style={{ width: 16, height: 16, borderRadius: 99, background: TEAL, border: `2px solid ${CHARCOAL}` }} />
+      <div style={{ ...row, gap: 9 }}>
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: CORAL, border: `2px solid ${CHARCOAL}` }} />
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: SUNNY, border: `2px solid ${CHARCOAL}` }} />
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: TEAL, border: `2px solid ${CHARCOAL}` }} />
       </div>
       {headerLabel && (
-        <span style={{ fontSize: 18, fontWeight: 800, color: MUTED, letterSpacing: '0.03em' }}>
+        <span style={{ fontSize: 16, fontWeight: 800, color: MUTED, letterSpacing: '0.03em' }}>
           {headerLabel}
         </span>
       )}
-      <div style={{ width: 64 }} />
+      <div style={{ width: 56 }} />
     </div>
-    <div style={{ position: 'relative', flex: 1, padding, boxSizing: 'border-box' }}>{children}</div>
+    <div style={{ position: 'relative', flex: 1, padding, boxSizing: 'border-box', overflow: 'hidden' }}>
+      {children}
+    </div>
   </div>
 );
 
 // ============================================================================
-// Official Biko Mascot Component (Uses verified transparent Biko PNG assets)
+// Official Biko Mascot Component
 // ============================================================================
 type BikoPose = 'cover-laptop' | 'point-left' | 'point-right' | 'press-key' | 'question' | 'thumbs-up' | 'jump' | 'wave';
 
@@ -477,14 +527,14 @@ const BIKO_POSE_ASSETS: Record<BikoPose, string> = {
 const BikoMascot = ({
   pose = 'point-left',
   width = 340,
-  badgeEmoji,
   badgeIcon,
+  speechBubble,
   style,
 }: {
   pose?: BikoPose;
   width?: number;
-  badgeEmoji?: string;
   badgeIcon?: ReactNode;
+  speechBubble?: string;
   style?: CSSProperties;
 }) => {
   const live = useIsActivePage();
@@ -504,6 +554,27 @@ const BikoMascot = ({
         ...style,
       }}
     >
+      {speechBubble && (
+        <div
+          style={{
+            marginBottom: 8,
+            padding: '10px 20px',
+            borderRadius: 18,
+            background: WHITE,
+            border: `2.5px solid ${CHARCOAL}`,
+            boxShadow: CARD_SHADOW,
+            fontFamily: 'var(--osd-font-display)',
+            fontSize: 22,
+            fontWeight: 700,
+            color: CHARCOAL,
+            textAlign: 'center',
+            zIndex: 3,
+          }}
+        >
+          {speechBubble}
+        </div>
+      )}
+
       <div
         style={{
           position: 'relative',
@@ -540,17 +611,17 @@ const BikoMascot = ({
               position: 'absolute',
               right: 2,
               top: '8%',
-              width: 74,
-              height: 82,
-              borderRadius: 20,
+              width: 72,
+              height: 80,
+              borderRadius: 18,
               background: SUNNY,
-              border: `3.5px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
+              border: `3px solid ${CHARCOAL}`,
+              boxShadow: CARD_SHADOW,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontFamily: 'var(--osd-font-display)',
-              fontSize: 50,
+              fontSize: 48,
               fontWeight: 700,
               color: CHARCOAL,
               transform: 'rotate(10deg)',
@@ -561,28 +632,27 @@ const BikoMascot = ({
           </div>
         )}
 
-        {(pose === 'thumbs-up' || badgeEmoji || badgeIcon) && (
+        {(pose === 'thumbs-up' || badgeIcon) && (
           <div
             aria-hidden="true"
             style={{
               position: 'absolute',
               right: 4,
               top: '10%',
-              width: 66,
-              height: 66,
+              width: 62,
+              height: 62,
               borderRadius: '50%',
               background: SUNNY,
-              border: `3.5px solid ${CHARCOAL}`,
-              boxShadow: `0 5px 0 ${CHARCOAL}`,
+              border: `3px solid ${CHARCOAL}`,
+              boxShadow: CARD_SHADOW,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 34,
               transform: 'rotate(8deg)',
               pointerEvents: 'none',
             }}
           >
-            {badgeIcon ?? badgeEmoji ?? <JuniorIcon name="thumbs-up" size={34} />}
+            {badgeIcon ?? <JuniorIcon name="thumbs-up" size={32} />}
           </div>
         )}
       </div>
@@ -604,22 +674,8 @@ const BikoMascot = ({
 };
 
 // ============================================================================
-// Reusable Flat-Vector Illustrations (Balloons, Star, Cursor, Mouse, Check/Cross)
+// Reusable Flat-Vector Illustrations (Balloons, Cursor, Mouse)
 // ============================================================================
-const IconCheck = ({ size = 44 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="21" fill={TEAL} stroke={CHARCOAL} strokeWidth={3} />
-    <path d="M14 25 L21 32 L34 17" stroke={WHITE} strokeWidth={4.8} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const IconCross = ({ size = 44 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="21" fill={CORAL} stroke={CHARCOAL} strokeWidth={3} />
-    <path d="M16 16 L32 32 M32 16 L16 32" stroke={WHITE} strokeWidth={4.8} strokeLinecap="round" />
-  </svg>
-);
-
 const StarBalloonSvg = ({
   color = CORAL,
   width = 110,
@@ -632,15 +688,10 @@ const StarBalloonSvg = ({
   style?: CSSProperties;
 }) => (
   <svg width={width} viewBox="0 0 110 156" fill="none" style={{ display: 'block', ...style }}>
-    {/* Curvy string */}
     <path d="M55 112 Q46 130 57 142 Q63 149 54 154" stroke={CHARCOAL} strokeWidth={3} strokeLinecap="round" fill="none" />
-    {/* Knot */}
     <path d="M47 110 L63 110 L55 101 Z" fill={color} stroke={CHARCOAL} strokeWidth={3} strokeLinejoin="round" />
-    {/* Balloon Oval */}
     <ellipse cx="55" cy="54" rx="44" ry="50" fill={color} stroke={CHARCOAL} strokeWidth={3.8} />
-    {/* Soft glossy highlight */}
     <path d="M27 38 C28 24, 38 16, 48 15" stroke={WHITE} strokeWidth={5} strokeLinecap="round" opacity={0.6} />
-    {/* Golden Star Inside Balloon */}
     <path
       d="M55 30 L61.5 43.2 L76 45.3 L65.5 55.5 L68 70 L55 63.1 L42 70 L44.5 55.5 L34 45.3 L48.5 43.2 Z"
       fill={starColor}
@@ -683,30 +734,23 @@ const TopMouseVector = ({
   const height = Math.round(width * 1.28);
   return (
     <svg width={width} height={height} viewBox="0 0 180 230" fill="none" style={{ display: 'block' }}>
-      {/* Cord */}
       <path d="M90 8 C90 22, 90 26, 90 34" stroke={CHARCOAL} strokeWidth={5} strokeLinecap="round" />
-      {/* Base Body */}
       <rect x="28" y="34" width="124" height="178" rx="62" fill={WHITE} stroke={CHARCOAL} strokeWidth={4.5} />
-      {/* Left Button Half */}
       <path
         d="M30 96 C30 58, 56 36, 90 36 L90 106 L30 106 Z"
         fill={litSide === 'left' ? SUNNY : '#F1F5F9'}
         stroke={CHARCOAL}
         strokeWidth={3.5}
       />
-      {/* Right Button Half */}
       <path
         d="M150 96 C150 58, 124 36, 90 36 L90 106 L150 106 Z"
         fill={litSide === 'right' ? LAVENDER : '#F1F5F9'}
         stroke={CHARCOAL}
         strokeWidth={3.5}
       />
-      {/* Scroll Wheel */}
       <rect x="81" y="56" width="18" height="36" rx="9" fill={CHARCOAL} />
       <line x1="90" y1="64" x2="90" y2="82" stroke={WHITE} strokeWidth={3} strokeLinecap="round" />
-      {/* Center Palm Smile */}
       <path d="M58 152 Q90 172 122 152" stroke="#CBD5E1" strokeWidth={4.5} strokeLinecap="round" />
-      {/* Cute Finger Tap Dot on Active Side */}
       <circle
         cx={litSide === 'left' ? 58 : 122}
         cy={72}
@@ -728,31 +772,28 @@ const TopMouseVector = ({
 };
 
 // ============================================================================
-// SLIDE 01 — Sampul Pertemuan (Hero Split Layout)
+// SLIDE 01 — Sampul Pertemuan (Heading H1 + Concise Bullet Intro + Arcade Stage)
 // ============================================================================
 const Slide01Cover: Page = () => {
   const live = useIsActivePage();
   return (
     <JuniorFrame badge="CODEPOLITAN JUNIOR • PERTEMUAN 2" accentDot={SUNNY}>
       {/* Left Hero Column */}
-      <div style={{ ...abs(X0, 220, 880, 690), display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ ...abs(X0, 175, 840, 765), display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 22 }}>
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: 10,
             alignSelf: 'flex-start',
-            padding: '10px 22px',
-            borderRadius: 999,
+            padding: '8px 18px',
+            borderRadius: 12,
             background: SKY_SOFT,
-            border: `2.5px solid ${CHARCOAL}`,
-            fontSize: 22,
+            border: `2px solid ${CHARCOAL}`,
+            fontSize: 20,
             fontWeight: 800,
             color: '#1D4ED8',
-            marginBottom: 26,
           }}
         >
-          <JuniorIcon name="balloon" size={26} />
           <span>LEVEL 1: CODE EXPLORER (USIA 5–7 TAHUN)</span>
         </div>
 
@@ -773,93 +814,73 @@ const Slide01Cover: Page = () => {
 
         <p
           style={{
-            margin: '30px 0 40px',
-            fontSize: 33,
+            margin: 0,
+            fontSize: 30,
             fontWeight: 700,
-            lineHeight: 1.38,
+            lineHeight: 1.35,
             color: MUTED,
-            maxWidth: 790,
           }}
         >
-          Tangkas Klik Mouse &amp; Jagoan Screen Time Sehat
+          Tangkas Klik Mouse &amp; Jaga Mata Sehat
         </p>
 
-        {/* Kids-friendly Quick Pill Highlights */}
-        <div style={{ ...row, gap: 18 }}>
-          <div
-            style={{
-              ...row,
-              gap: 12,
-              padding: '15px 26px',
-              borderRadius: 20,
-              background: TEAL,
-              color: WHITE,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 27,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="mouse" size={30} />
-            <span>Klik Kiri &amp; Kursor</span>
+        {/* Clean non-button InfoPanel with BulletList */}
+        <InfoPanel bg={WHITE} padding={26} style={{ marginTop: 6 }}>
+          <SectionHeading icon="balloon" size={26} accentColor={CHARCOAL}>
+            Yang Akan Kita Pelajari:
+          </SectionHeading>
+          <div style={{ marginTop: 14 }}>
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={24}
+              gap={12}
+              items={[
+                <>
+                  Gerakkan <InlineHighlight color={SKY_SOFT}>Panah Ajaib</InlineHighlight> ke balon.
+                </>,
+                <>
+                  Tekan <InlineHighlight>Klik Kiri</InlineHighlight> pelan 1 kali.
+                </>,
+                <>
+                  Jaga <InlineHighlight color="#D1FAE5">waktu dan mata</InlineHighlight> tetap sehat.
+                </>,
+              ]}
+            />
           </div>
-          <div
-            style={{
-              ...row,
-              gap: 12,
-              padding: '15px 26px',
-              borderRadius: 20,
-              background: WHITE,
-              color: CHARCOAL,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 27,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="eyes" size={30} />
-            <span>Mata Sehat &amp; Ceria</span>
-          </div>
-        </div>
+        </InfoPanel>
       </div>
 
       {/* Right Visual Showcase: Sky Arcade Stage Card + Star Balloons & Biko */}
-      <div style={{ ...abs(1020, 175, 790, 770), ...centerCol }}>
-        {/* Sky-Blue Arcade Stage Card (Distinct from plain circle) */}
+      <div style={{ ...abs(1020, 175, 790, 765), ...centerCol }}>
         <div
           style={{
             position: 'absolute',
             width: 650,
             height: 615,
-            borderRadius: 46,
+            borderRadius: 42,
             background: 'linear-gradient(180deg, #E0F2FE 0%, #ECFDF5 100%)',
-            border: `4px solid ${CHARCOAL}`,
-            boxShadow: `14px 14px 0 ${CORAL}`,
+            border: `3.5px solid ${CHARCOAL}`,
+            boxShadow: CARD_SHADOW,
             overflow: 'hidden',
           }}
         >
-          {/* Festive Arcade Header Strip */}
           <div
             style={{
-              height: 54,
+              height: 52,
               background: SUNNY,
-              borderBottom: `3.5px solid ${CHARCOAL}`,
+              borderBottom: `3px solid ${CHARCOAL}`,
               ...row,
               justifyContent: 'center',
-              gap: 12,
+              gap: 10,
               fontFamily: 'var(--osd-font-display)',
               fontSize: 22,
               fontWeight: 700,
               color: CHARCOAL,
             }}
           >
-            <JuniorIcon name="balloon" size={26} />
+            <JuniorIcon name="star" size={24} />
             <span>GAME BALON BINTANG</span>
-            <JuniorIcon name="star" size={26} />
           </div>
-          {/* Soft Dotted Sky Hills at Bottom */}
           <div
             style={{
               position: 'absolute',
@@ -922,7 +943,7 @@ const Slide01Cover: Page = () => {
           <CursorArrowSvg size={64} fill={WHITE} />
         </div>
 
-        {/* Cute Wireless Mouse Pill Next to Biko */}
+        {/* Flat Mouse Card Next to Biko */}
         <div
           style={{
             position: 'absolute',
@@ -930,10 +951,10 @@ const Slide01Cover: Page = () => {
             bottom: 120,
             zIndex: 4,
             padding: '12px 16px',
-            borderRadius: 24,
+            borderRadius: 22,
             background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${CHARCOAL}`,
+            border: `2.5px solid ${CHARCOAL}`,
+            boxShadow: CARD_SHADOW,
             transform: 'rotate(-8deg)',
           }}
         >
@@ -959,140 +980,100 @@ const Slide02Misi: Page = () => (
       Apa <Highlight>Misi Kita</Highlight> Hari Ini?
     </SlideTitle>
 
-    <MacWindowCard left={X0} top={250} width={1280} height={675} headerLabel="daftar-misi-2.exe" padding={42}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, height: '100%' }}>
-        {/* Kartu 1: Biru #60A5FA */}
-        <div
-          style={{
-            borderRadius: 26,
-            background: SKY_SOFT,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 8px 0 ${SKY}`,
-            padding: '34px 32px',
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+    <MacWindowCard left={X0} top={215} width={1320} height={745} headerLabel="daftar-misi-2" padding={34}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, height: '100%' }}>
+        {/* Kartu 1: Biru */}
+        <InfoPanel
+          bg={SKY_SOFT}
+          padding={26}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 14 }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: SKY,
-              color: WHITE,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            MISI 1
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#1D4ED8', letterSpacing: '0.05em' }}>
+              MISI 1
+            </span>
+            <SectionHeading icon="mouse" size={32}>
+              Jago <Highlight color="#DBEAFE">Klik Kiri</Highlight>
+            </SectionHeading>
           </div>
 
-          {/* Cursor Arrow Aiming at Star Balloon Illustration */}
-          <div style={{ position: 'relative', width: 220, height: 185, ...centerCol }}>
-            <StarBalloonSvg color={CORAL} width={104} style={{ marginLeft: 36 }} />
-            <div style={{ position: 'absolute', left: 32, bottom: 26 }}>
-              <CursorArrowSvg size={64} fill={SUNNY} />
+          <div style={{ ...centerCol }}>
+            <div style={{ position: 'relative', width: 220, height: 185, ...centerCol }}>
+              <StarBalloonSvg color={CORAL} width={104} style={{ marginLeft: 36 }} />
+              <div style={{ position: 'absolute', left: 32, bottom: 26 }}>
+                <CursorArrowSvg size={64} fill={SUNNY} />
+              </div>
             </div>
           </div>
 
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 38,
-              fontWeight: 700,
-              lineHeight: 1.24,
-              color: CHARCOAL,
-            }}
-          >
-            Jago Gerakkan{' '}
-            <Highlight color="#DBEAFE">Kursor &amp; Klik Kiri</Highlight>
-          </div>
-        </div>
+          <BulletList
+            bulletColor={SKY}
+            fontSize={23}
+            gap={10}
+            items={[
+              <>
+                Gerakkan <InlineHighlight color={WHITE}>panah ajaib</InlineHighlight>.
+              </>,
+              <>
+                Tekan <InlineHighlight color={WHITE}>klik kiri</InlineHighlight> 1 kali.
+              </>,
+            ]}
+          />
+        </InfoPanel>
 
-        {/* Kartu 2: Hijau #10B981 */}
-        <div
-          style={{
-            borderRadius: 26,
-            background: TEAL_SOFT,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 8px 0 ${TEAL}`,
-            padding: '34px 32px',
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+        {/* Kartu 2: Hijau */}
+        <InfoPanel
+          bg={TEAL_SOFT}
+          padding={26}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 14 }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: TEAL,
-              color: WHITE,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            MISI 2
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#047857', letterSpacing: '0.05em' }}>
+              MISI 2
+            </span>
+            <SectionHeading icon="eyes" size={32}>
+              Jaga <Highlight color="#D1FAE5">Mata Sehat</Highlight>
+            </SectionHeading>
           </div>
 
-          {/* Smiling Clock + Healthy Eye Illustration */}
-          <svg width={220} height={175} viewBox="0 0 220 175" fill="none">
-            {/* Friendly Alarm Clock */}
-            <circle cx="78" cy="96" r="52" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} />
-            <circle cx="78" cy="96" r="40" fill={SUNNY_SOFT} stroke={CHARCOAL} strokeWidth={2.5} />
-            <path d="M40 50 L54 62 M116 50 L102 62" stroke={CHARCOAL} strokeWidth={6} strokeLinecap="round" />
-            <path d="M78 96 V70 M78 96 L98 106" stroke={CORAL} strokeWidth={5} strokeLinecap="round" />
-            <circle cx="78" cy="96" r="5" fill={CHARCOAL} />
-            {/* Happy Sparkling Healthy Eye */}
-            <ellipse cx="164" cy="94" rx="46" ry="30" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} />
-            <circle cx="164" cy="94" r="17" fill={TEAL} stroke={CHARCOAL} strokeWidth={3} />
-            <circle cx="164" cy="94" r="8" fill={CHARCOAL} />
-            <circle cx="170" cy="88" r="4" fill={WHITE} />
-            {/* Cute eye sparkle */}
-            <path d="M196 48 L200 58 L210 62 L200 66 L196 76 L192 66 L182 62 L192 58 Z" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2} />
-          </svg>
-
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 38,
-              fontWeight: 700,
-              lineHeight: 1.24,
-              color: CHARCOAL,
-            }}
-          >
-            Jadi <Highlight color="#D1FAE5">Jagoan Screen Time</Highlight> Sehat
+          <div style={{ ...centerCol }}>
+            <svg width={220} height={175} viewBox="0 0 220 175" fill="none">
+              <circle cx="78" cy="96" r="52" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} />
+              <circle cx="78" cy="96" r="40" fill={SUNNY_SOFT} stroke={CHARCOAL} strokeWidth={2.5} />
+              <path d="M40 50 L54 62 M116 50 L102 62" stroke={CHARCOAL} strokeWidth={6} strokeLinecap="round" />
+              <path d="M78 96 V70 M78 96 L98 106" stroke={CORAL} strokeWidth={5} strokeLinecap="round" />
+              <circle cx="78" cy="96" r="5" fill={CHARCOAL} />
+              <ellipse cx="164" cy="94" rx="46" ry="30" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} />
+              <circle cx="164" cy="94" r="17" fill={TEAL} stroke={CHARCOAL} strokeWidth={3} />
+              <circle cx="164" cy="94" r="8" fill={CHARCOAL} />
+              <circle cx="170" cy="88" r="4" fill={WHITE} />
+              <path d="M196 48 L200 58 L210 62 L200 66 L196 76 L192 66 L182 62 L192 58 Z" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2} />
+            </svg>
           </div>
-        </div>
+
+          <BulletList
+            bulletColor={TEAL}
+            fontSize={23}
+            gap={10}
+            items={[
+              <>
+                Atur <InlineHighlight color="#D1FAE5">waktu layar</InlineHighlight> cukup.
+              </>,
+              <>
+                Istirahatkan <InlineHighlight color={WHITE}>mata yang lelah</InlineHighlight>.
+              </>,
+            ]}
+          />
+        </InfoPanel>
       </div>
     </MacWindowCard>
 
-    {/* Biko Pointing Enthusiastically to Mission Cards */}
-    <div style={{ ...abs(1425, 310, 400, 620), ...centerCol }}>
-      <BikoMascot pose="point-left" width={360} />
-      <div
-        style={{
-          marginTop: 12,
-          ...row,
-          gap: 10,
-          padding: '12px 24px',
-          borderRadius: 99,
-          background: SUNNY,
-          border: `3px solid ${CHARCOAL}`,
-          boxShadow: `0 5px 0 ${CHARCOAL}`,
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 25,
-          fontWeight: 700,
-        }}
-      >
-        <span>Siap Beraksi!</span>
-        <JuniorIcon name="rocket" size={26} />
-      </div>
-    </div>
+    <BikoMascot
+      pose="point-left"
+      width={360}
+      speechBubble="Siap Beraksi!"
+      style={{ ...abs(1455, 325) }}
+    />
   </JuniorFrame>
 );
 
@@ -1116,8 +1097,8 @@ const Slide03Kursor: Page = () => {
         Gerakkan <Highlight>Panah Ajaib</Highlight>
       </SlideTitle>
 
-      {/* Left Column: Spotlight Illustration Inside macOS Screen */}
-      <MacWindowCard left={X0} top={245} width={960} height={685} headerLabel="gerakkan-panah-ajaib.app" padding={30}>
+      {/* Left Column: Spotlight Illustration Inside MacWindowCard */}
+      <MacWindowCard left={X0} top={225} width={960} height={725} headerLabel="gerakkan-panah-ajaib" padding={28}>
         <div
           style={{
             position: 'relative',
@@ -1125,11 +1106,10 @@ const Slide03Kursor: Page = () => {
             height: '100%',
             borderRadius: 22,
             background: 'linear-gradient(180deg, #E0F2FE 0%, #F0FDF4 100%)',
-            border: `3px solid ${CHARCOAL}`,
+            border: `2.5px solid ${CHARCOAL}`,
             overflow: 'hidden',
           }}
         >
-          {/* Dashed movement path from Mouse/Hand to Target Balloon */}
           <svg width="100%" height="100%" viewBox="0 0 890 560" fill="none" style={{ position: 'absolute', inset: 0 }}>
             <path
               d="M170 430 C230 280, 340 220, 480 185"
@@ -1138,18 +1118,15 @@ const Slide03Kursor: Page = () => {
               strokeDasharray="16 14"
               strokeLinecap="round"
             />
-            {/* Cross directional arrows */}
             <g transform="translate(86, 86)">
               <circle cx="56" cy="56" r="48" fill={WHITE} stroke={CHARCOAL} strokeWidth={3} opacity={0.9} />
               <path d="M56 22 V90 M22 56 H90" stroke={TEAL} strokeWidth={5} strokeLinecap="round" />
               <path d="M46 32 L56 20 L66 32 M46 80 L56 92 L66 80 M32 46 L20 56 L32 66 M80 46 L92 56 L80 66" stroke={CHARCOAL} strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round" />
             </g>
 
-            {/* Cute Hand Holding Mouse at Bottom Left */}
             <g transform="translate(86, 368)">
               <rect x="0" y="34" width="142" height="122" rx="44" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} />
               <path d="M71 34 V90 M10 90 H132" stroke={CHARCOAL} strokeWidth={3} />
-              {/* Little hand palm */}
               <ellipse cx="78" cy="120" rx="42" ry="30" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={3.5} />
               <text
                 x="71"
@@ -1165,7 +1142,6 @@ const Slide03Kursor: Page = () => {
             </g>
           </svg>
 
-          {/* Clickable / Target Star Balloons */}
           {BALLOON_TARGETS.map((item, idx) => {
             const active = idx === targetIdx;
             return (
@@ -1174,6 +1150,7 @@ const Slide03Kursor: Page = () => {
                 type="button"
                 className="cpj2-card-btn"
                 onClick={() => setTargetIdx(idx)}
+                aria-label={`Arahkan panah ke ${item.label}`}
                 style={{
                   position: 'absolute',
                   left: item.x,
@@ -1182,7 +1159,7 @@ const Slide03Kursor: Page = () => {
                   border: 'none',
                   padding: 0,
                   transform: active ? 'scale(1.12)' : 'scale(0.95)',
-                  opacity: active ? 1 : 0.8,
+                  opacity: active ? 1 : 0.82,
                 }}
               >
                 <StarBalloonSvg color={item.color} width={118} />
@@ -1201,6 +1178,7 @@ const Slide03Kursor: Page = () => {
                       fontFamily: 'var(--osd-font-display)',
                       fontSize: 18,
                       fontWeight: 700,
+                      color: CHARCOAL,
                     }}
                   >
                     <JuniorIcon name="target" size={18} />
@@ -1211,7 +1189,6 @@ const Slide03Kursor: Page = () => {
             );
           })}
 
-          {/* Animated Large White Cursor Arrow Gliding Near Active Balloon */}
           <div
             style={{
               position: 'absolute',
@@ -1233,7 +1210,7 @@ const Slide03Kursor: Page = () => {
               ...row,
               gap: 8,
               padding: '10px 20px',
-              borderRadius: 99,
+              borderRadius: 16,
               background: WHITE,
               border: `2.5px solid ${CHARCOAL}`,
               fontSize: 20,
@@ -1242,68 +1219,37 @@ const Slide03Kursor: Page = () => {
             }}
           >
             <JuniorIcon name="tap" size={24} />
-            <span>Coba klik balon lain untuk memindahkan Panah!</span>
+            <span>Klik balon lain untuk geser Panah!</span>
           </div>
         </div>
       </MacWindowCard>
 
-      {/* Right Column: Concise Cards + Pointing Biko */}
-      <div style={{ ...abs(1105, 255, 715, 675), display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <div
-          style={{
-            ...row,
-            gap: 20,
-            padding: '24px 28px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${SKY}`,
-          }}
-        >
-          <JuniorIcon name="mouse" size={48} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.25 }}>
-            Geser <Highlight color="#DBEAFE">Mouse</Highlight> atau <Highlight color="#D1FAE5">Trackpad</Highlight>
-          </span>
-        </div>
-
-        <div
-          style={{
-            ...row,
-            gap: 20,
-            padding: '24px 28px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${SUNNY}`,
-          }}
-        >
-          <JuniorIcon name="target" size={48} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.25 }}>
-            Arahkan panah tepat ke <Highlight color={STABILO}>Balon</Highlight>
-          </span>
-        </div>
-
-        <div style={{ ...row, justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 6 }}>
-          <div
-            style={{
-              padding: '18px 24px',
-              borderRadius: 22,
-              background: SUNNY_SOFT,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 26,
-              fontWeight: 700,
-              lineHeight: 1.3,
-              maxWidth: 320,
-            }}
-          >
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              <span>Ke kiri, kanan, atas, atau bawah!</span>
-              <JuniorIcon name="compass" size={26} />
-            </span>
+      {/* Right Column: InfoPanel with BulletList + Biko */}
+      <div style={{ ...abs(1105, 225, 715, 725), display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <InfoPanel bg={WHITE} padding={30}>
+          <SectionHeading icon="mouse" size={32}>
+            Cara Gerakkan Panah
+          </SectionHeading>
+          <div style={{ marginTop: 18 }}>
+            <BulletList
+              bulletColor={SKY}
+              fontSize={26}
+              gap={16}
+              items={[
+                <>
+                  Geser <InlineHighlight color="#DBEAFE">Mouse</InlineHighlight> atau <InlineHighlight color="#D1FAE5">Trackpad</InlineHighlight>.
+                </>,
+                <>
+                  Arahkan tepat ke <InlineHighlight>Balon Bintang</InlineHighlight>.
+                </>,
+                <>Bisa ke kiri, kanan, atas, bawah.</>,
+              ]}
+            />
           </div>
-          <BikoMascot pose="point-left" width={310} />
+        </InfoPanel>
+
+        <div style={{ ...centerCol }}>
+          <BikoMascot pose="point-left" width={310} speechBubble="Geser pelan ya!" />
         </div>
       </div>
     </JuniorFrame>
@@ -1323,81 +1269,56 @@ const Slide04KlikMouse: Page = () => {
         Ayo Tekan <Highlight>Klik Kiri!</Highlight>
       </SlideTitle>
 
-      {/* Left Column: Concise Cards + Sound Effect + Biko */}
-      <div style={{ ...abs(X0, 250, 720, 680), display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <div
-          style={{
-            ...row,
-            gap: 20,
-            padding: '24px 28px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${SUNNY}`,
-          }}
-        >
-          <JuniorIcon name="tap" size={48} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, lineHeight: 1.24 }}>
-            Pakai <Highlight color={STABILO}>Jari Telunjuk</Highlight>
-          </span>
-        </div>
+      {/* Left Column: InfoPanel with BulletList + Biko & Counter */}
+      <div style={{ ...abs(X0, 225, 720, 725), display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <InfoPanel bg={WHITE} padding={28}>
+          <SectionHeading icon="tap" size={32}>
+            Cara Klik Kiri
+          </SectionHeading>
+          <div style={{ marginTop: 16 }}>
+            <BulletList
+              bulletColor={SUNNY}
+              fontSize={26}
+              gap={14}
+              items={[
+                <>
+                  Pakai <InlineHighlight>Jari Telunjuk</InlineHighlight>.
+                </>,
+                <>
+                  Tekan tombol <InlineHighlight color="#DBEAFE">Kiri</InlineHighlight> 1 kali.
+                </>,
+                <>Bunyinya pelan: &ldquo;Klik!&rdquo;</>,
+              ]}
+            />
+          </div>
+        </InfoPanel>
 
-        <div
-          style={{
-            ...row,
-            gap: 20,
-            padding: '24px 28px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${TEAL}`,
-          }}
-        >
-          <JuniorIcon name="sparkle" size={48} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 33, fontWeight: 700, lineHeight: 1.24 }}>
-            Tekan tombol <Highlight color="#DBEAFE">Kiri</Highlight> 1 kali: <em>&ldquo;Klik!&rdquo;</em>
-          </span>
-        </div>
-
-        {/* Biko + Click Burst Counter Card */}
         <div style={{ ...row, gap: 18, alignItems: 'center' }}>
-          <BikoMascot pose="thumbs-up" width={275} badgeIcon={<JuniorIcon name="tap" size={32} />} />
-          <div
-            style={{
-              flex: 1,
-              padding: '24px 26px',
-              borderRadius: 26,
-              background: SUNNY_SOFT,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              textAlign: 'center',
-            }}
-          >
-            <div style={{ fontSize: 20, fontWeight: 800, color: MUTED }}>SUARA KARTUN:</div>
+          <BikoMascot pose="thumbs-up" width={265} badgeIcon={<JuniorIcon name="tap" size={30} />} />
+          <InfoPanel bg={SUNNY_SOFT} padding={24} style={{ flex: 1, textAlign: 'center' }}>
+            <SectionHeading icon="sparkle" size={24} accentColor={MUTED}>
+              Suara Klik:
+            </SectionHeading>
             <div
               style={{
-                ...row,
-                justifyContent: 'center',
-                gap: 10,
                 fontFamily: 'var(--osd-font-display)',
-                fontSize: 60,
+                fontSize: 58,
                 fontWeight: 700,
                 color: CORAL,
-                margin: '4px 0',
+                margin: '6px 0',
               }}
             >
-              <span>KLIK!</span>
-              <JuniorIcon name="sparkle" size={46} />
+              KLIK!
             </div>
             <div style={{ fontSize: 22, fontWeight: 800, color: CHARCOAL }}>
               Sudah dicoba: <span style={{ color: TEAL }}>{clicks}x</span>
             </div>
-          </div>
+          </InfoPanel>
         </div>
       </div>
 
       {/* Right Column: Large Interactive Mouse Close-Up Inside MacWindowCard */}
-      <MacWindowCard left={865} top={245} width={955} height={685} headerLabel="tombol-klik-kiri.app" padding={28}>
+      <MacWindowCard left={865} top={225} width={955} height={725} headerLabel="tombol-klik-kiri" padding={28}>
         <div
           style={{
             width: '100%',
@@ -1422,42 +1343,30 @@ const Slide04KlikMouse: Page = () => {
               ...centerCol,
             }}
           >
-            {/* Big Close-up Top-Down Mouse SVG */}
             <svg width={360} height={420} viewBox="0 0 360 420" fill="none">
-              {/* Cable */}
               <path d="M180 6 C180 34, 180 42, 180 58" stroke={CHARCOAL} strokeWidth={8} strokeLinecap="round" />
-              {/* Outer Mouse Body */}
               <rect x="64" y="56" width="232" height="332" rx="116" fill={WHITE} stroke={CHARCOAL} strokeWidth={6} />
-              {/* Highlighted Left Mouse Button (#FBBF24) */}
               <path
                 d="M68 176 C68 100, 114 60, 180 60 L180 194 L68 194 Z"
                 fill={SUNNY}
                 stroke={CHARCOAL}
                 strokeWidth={5}
               />
-              {/* Neutral Right Button */}
               <path
                 d="M292 176 C292 100, 246 60, 180 60 L180 194 L292 194 Z"
                 fill="#F1F5F9"
                 stroke={CHARCOAL}
                 strokeWidth={5}
               />
-              {/* Scroll Wheel */}
               <rect x="163" y="96" width="34" height="68" rx="17" fill={CHARCOAL} />
               <line x1="180" y1="112" x2="180" y2="146" stroke={WHITE} strokeWidth={4} strokeLinecap="round" />
-
-              {/* Label KIRI */}
               <text x="122" y="148" textAnchor="middle" fontFamily='"Fredoka", sans-serif' fontSize="28" fontWeight="700" fill={CHARCOAL}>
                 KIRI
               </text>
-
-              {/* Soft Index Finger Pressing Left Button */}
               <g transform="translate(88, 12)">
                 <rect x="14" y="0" width="44" height="100" rx="22" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={4.5} />
                 <rect x="22" y="68" width="28" height="22" rx="10" fill={WHITE} opacity={0.65} />
               </g>
-
-              {/* Animated Glow Pulse Around Left Click Target */}
               <circle
                 cx="124"
                 cy="110"
@@ -1470,29 +1379,26 @@ const Slide04KlikMouse: Page = () => {
             </svg>
           </button>
 
-          {/* Comic Sound Bubble */}
+          {/* Flat Comic Label */}
           <div
             style={{
               position: 'absolute',
               left: 56,
               top: 52,
-              padding: '12px 24px',
-              borderRadius: 20,
+              padding: '10px 22px',
+              borderRadius: 18,
               background: CORAL,
               color: WHITE,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              ...row,
-              gap: 8,
+              border: `2.5px solid ${CHARCOAL}`,
+              boxShadow: CARD_SHADOW,
               fontFamily: 'var(--osd-font-display)',
-              fontSize: 34,
+              fontSize: 32,
               fontWeight: 700,
               transform: 'rotate(-8deg)',
               pointerEvents: 'none',
             }}
           >
-            <span>KLIK!</span>
-            <JuniorIcon name="star" size={32} />
+            KLIK!
           </div>
 
           <div
@@ -1500,17 +1406,17 @@ const Slide04KlikMouse: Page = () => {
               marginTop: 12,
               ...row,
               gap: 10,
-              padding: '12px 26px',
-              borderRadius: 99,
-              background: SUNNY,
+              padding: '10px 24px',
+              borderRadius: 16,
+              background: SUNNY_SOFT,
               border: `2.5px solid ${CHARCOAL}`,
               fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
+              fontSize: 23,
               fontWeight: 700,
             }}
           >
-            <JuniorIcon name="tap" size={26} />
-            <span>Coba klik tombol kuning di atas!</span>
+            <JuniorIcon name="tap" size={24} />
+            <span>Klik tombol kuning di atas!</span>
           </div>
         </div>
       </MacWindowCard>
@@ -1532,7 +1438,7 @@ const Slide05KlikTrackpad: Page = () => {
       </SlideTitle>
 
       {/* Left Column: Trackpad Bottom-Left Green Spotlight Illustration */}
-      <MacWindowCard left={X0} top={245} width={960} height={685} headerLabel="trackpad-klik-kiri.app" padding={28}>
+      <MacWindowCard left={X0} top={225} width={960} height={725} headerLabel="trackpad-klik-kiri" padding={28}>
         <div
           style={{
             width: '100%',
@@ -1544,15 +1450,15 @@ const Slide05KlikTrackpad: Page = () => {
             position: 'relative',
           }}
         >
-          {/* Laptop Palmrest & Keyboard Edge */}
+          {/* Laptop Palmrest & Keyboard Edge (flat border, no push-button shadow) */}
           <div
             style={{
               width: 780,
               height: 455,
               borderRadius: 28,
               background: '#CBD5E1',
-              border: `4px solid ${CHARCOAL}`,
-              boxShadow: `0 10px 0 ${CHARCOAL}`,
+              border: `3.5px solid ${CHARCOAL}`,
+              boxShadow: CARD_SHADOW,
               padding: '24px 36px 32px',
               display: 'flex',
               flexDirection: 'column',
@@ -1560,18 +1466,16 @@ const Slide05KlikTrackpad: Page = () => {
               justifyContent: 'space-between',
             }}
           >
-            {/* Bottom Row Keyboard Keys Hint */}
             <div style={{ display: 'flex', gap: 12, width: '100%', justifyContent: 'center' }}>
               {[76, 76, 76, 260, 76, 76].map((kw, i) => (
                 <div
                   key={i}
                   style={{
                     width: kw,
-                    height: 44,
+                    height: 42,
                     borderRadius: 10,
                     background: WHITE,
-                    border: `2.5px solid ${CHARCOAL}`,
-                    boxShadow: `0 4px 0 ${CHARCOAL}`,
+                    border: `2px solid ${CHARCOAL}`,
                   }}
                 />
               ))}
@@ -1590,13 +1494,12 @@ const Slide05KlikTrackpad: Page = () => {
                 borderRadius: 24,
                 background: WHITE,
                 border: `4px solid ${CHARCOAL}`,
-                boxShadow: `inset 0 4px 0 #E2E8F0`,
+                boxShadow: `0 6px 0 ${CHARCOAL}`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              {/* Subtle divider line */}
               <div
                 style={{
                   position: 'absolute',
@@ -1609,7 +1512,6 @@ const Slide05KlikTrackpad: Page = () => {
                 }}
               />
 
-              {/* Green Circle Highlight on Bottom-Left */}
               <div
                 style={{
                   position: 'absolute',
@@ -1619,7 +1521,7 @@ const Slide05KlikTrackpad: Page = () => {
                   height: 112,
                   borderRadius: 22,
                   background: TEAL_SOFT,
-                  border: `4px solid ${TEAL}`,
+                  border: `3.5px solid ${TEAL}`,
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -1628,8 +1530,8 @@ const Slide05KlikTrackpad: Page = () => {
               >
                 <div
                   style={{
-                    width: 58,
-                    height: 58,
+                    width: 56,
+                    height: 56,
                     borderRadius: '50%',
                     background: TEAL,
                     border: `3px solid ${CHARCOAL}`,
@@ -1638,7 +1540,7 @@ const Slide05KlikTrackpad: Page = () => {
                     animation: live ? 'cpj2-pulse-ring 1.6s ease-in-out infinite' : undefined,
                   }}
                 >
-                  <JuniorIcon name="tap" size={30} />
+                  <JuniorIcon name="tap" size={28} />
                 </div>
                 <span
                   style={{
@@ -1659,7 +1561,7 @@ const Slide05KlikTrackpad: Page = () => {
                   right: 38,
                   top: 28,
                   padding: '8px 16px',
-                  borderRadius: 99,
+                  borderRadius: 14,
                   background: TEAL,
                   color: WHITE,
                   border: `2.5px solid ${CHARCOAL}`,
@@ -1678,8 +1580,8 @@ const Slide05KlikTrackpad: Page = () => {
               marginTop: 22,
               ...row,
               gap: 10,
-              padding: '10px 24px',
-              borderRadius: 99,
+              padding: '10px 22px',
+              borderRadius: 16,
               background: TEAL_SOFT,
               border: `2.5px solid ${TEAL}`,
               fontFamily: 'var(--osd-font-display)',
@@ -1689,68 +1591,37 @@ const Slide05KlikTrackpad: Page = () => {
             }}
           >
             <JuniorIcon name="tap" size={24} />
-            <span>Coba ketuk lingkaran hijau di kiri bawah trackpad!</span>
+            <span>Ketuk kiri bawah trackpad!</span>
           </div>
         </div>
       </MacWindowCard>
 
-      {/* Right Column: Concise Cards + Pointing Biko */}
-      <div style={{ ...abs(1105, 255, 715, 675), display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <div
-          style={{
-            ...row,
-            gap: 20,
-            padding: '24px 28px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${TEAL}`,
-          }}
-        >
-          <JuniorIcon name="tap" size={48} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.25 }}>
-            Ketuk bagian <Highlight color="#D1FAE5">Kiri Bawah</Highlight> trackpad
-          </span>
-        </div>
-
-        <div
-          style={{
-            ...row,
-            gap: 20,
-            padding: '24px 28px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${SUNNY}`,
-          }}
-        >
-          <JuniorIcon name="sparkle" size={48} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.25 }}>
-            Tekan 1 kali sampai berbunyi <em>&ldquo;Klik!&rdquo;</em>
-          </span>
-        </div>
-
-        <div style={{ ...row, justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 6 }}>
-          <div
-            style={{
-              padding: '18px 24px',
-              borderRadius: 22,
-              background: TEAL_SOFT,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 26,
-              fontWeight: 700,
-              lineHeight: 1.3,
-              maxWidth: 320,
-            }}
-          >
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              <span>Pakai 1 jari telunjuk saja ya!</span>
-              <JuniorIcon name="sprout" size={26} />
-            </span>
+      {/* Right Column: InfoPanel with BulletList + Biko */}
+      <div style={{ ...abs(1105, 225, 715, 725), display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <InfoPanel bg={WHITE} padding={30}>
+          <SectionHeading icon="tap" size={32}>
+            Cara Klik Trackpad
+          </SectionHeading>
+          <div style={{ marginTop: 18 }}>
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={26}
+              gap={16}
+              items={[
+                <>
+                  Ketuk bagian <InlineHighlight color="#D1FAE5">Kiri Bawah</InlineHighlight> trackpad.
+                </>,
+                <>
+                  Pakai <InlineHighlight>1 jari telunjuk</InlineHighlight> saja.
+                </>,
+                <>Tekan 1 kali bunyi &ldquo;Klik!&rdquo;</>,
+              ]}
+            />
           </div>
-          <BikoMascot pose="point-left" width={310} />
+        </InfoPanel>
+
+        <div style={{ ...centerCol }}>
+          <BikoMascot pose="point-left" width={310} speechBubble="Pelan saja ya!" />
         </div>
       </div>
     </JuniorFrame>
@@ -1765,57 +1636,43 @@ const Slide06TebakTombol: Page = () => {
 
   return (
     <JuniorFrame badge="AYO TEBAK!" accentDot={CORAL}>
-      <SlideTitle align="center" top={130}>
+      <SlideTitle align="center" top={104}>
         Tombol Mana untuk <Highlight>Klik Kiri?</Highlight>
       </SlideTitle>
 
       {/* Two Big Interactive Choice Cards */}
-      <div style={{ ...abs(160, 240, 1600, 440), display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56 }}>
+      <div style={{ ...abs(160, 210, 1600, 445), display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56 }}>
         {/* Card A: Left Button */}
         <button
           type="button"
           className="cpj2-card-btn"
           onClick={() => setChoice('left')}
           style={{
-            borderRadius: 32,
+            borderRadius: 30,
             background: choice === 'left' ? TEAL_SOFT : WHITE,
             border: `4px solid ${choice === 'left' ? TEAL : CHARCOAL}`,
             boxShadow: `0 10px 0 ${choice === 'left' ? TEAL : SUNNY}`,
-            padding: '28px 36px',
+            padding: '26px 36px',
             ...centerCol,
             justifyContent: 'space-between',
           }}
         >
-          <div
+          <span
             style={{
-              ...row,
-              gap: 10,
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: SUNNY,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
-              fontWeight: 700,
+              fontSize: 20,
+              fontWeight: 800,
+              color: '#92400E',
+              letterSpacing: '0.05em',
             }}
           >
-            <span>PILIHAN A •</span>
-            <JuniorIcon name="tap" size={24} />
-            <span>JARI TELUNJUK</span>
-          </div>
+            PILIHAN A • JARI TELUNJUK
+          </span>
 
-          <TopMouseVector litSide="left" width={170} fingerColor={SUNNY} />
+          <TopMouseVector litSide="left" width={165} fingerColor={SUNNY} />
 
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 42,
-              fontWeight: 700,
-              color: CHARCOAL,
-            }}
-          >
+          <SectionHeading icon="tap" size={38}>
             Tombol Kiri
-          </div>
+          </SectionHeading>
         </button>
 
         {/* Card B: Right Button */}
@@ -1824,90 +1681,69 @@ const Slide06TebakTombol: Page = () => {
           className="cpj2-card-btn"
           onClick={() => setChoice('right')}
           style={{
-            borderRadius: 32,
+            borderRadius: 30,
             background: choice === 'right' ? CORAL_SOFT : WHITE,
             border: `4px solid ${choice === 'right' ? CORAL : CHARCOAL}`,
             boxShadow: `0 10px 0 ${choice === 'right' ? CORAL : LAVENDER}`,
-            padding: '28px 36px',
+            padding: '26px 36px',
             ...centerCol,
             justifyContent: 'space-between',
           }}
         >
-          <div
+          <span
             style={{
-              ...row,
-              gap: 10,
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: LAVENDER_SOFT,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
-              fontWeight: 700,
+              fontSize: 20,
+              fontWeight: 800,
+              color: '#6D28D9',
+              letterSpacing: '0.05em',
             }}
           >
-            <span>PILIHAN B •</span>
-            <JuniorIcon name="hand" size={24} />
-            <span>JARI TENGAH</span>
-          </div>
+            PILIHAN B • JARI TENGAH
+          </span>
 
-          <TopMouseVector litSide="right" width={170} fingerColor={LAVENDER} />
+          <TopMouseVector litSide="right" width={165} fingerColor={LAVENDER} />
 
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 42,
-              fontWeight: 700,
-              color: CHARCOAL,
-            }}
-          >
+          <SectionHeading icon="hand" size={38}>
             Tombol Kanan
-          </div>
+          </SectionHeading>
         </button>
       </div>
 
-      {/* Bottom Center: Biko Holding ? Sign + Prompt / Feedback Pill */}
-      <div style={{ ...abs(260, 695, 1400, 305), ...row, justifyContent: 'center', gap: 36 }}>
-        <BikoMascot pose="question" width={250} />
+      {/* Bottom Center: Biko Holding ? Sign + Flat Feedback InfoPanel */}
+      <div style={{ ...abs(240, 680, 1440, 315), ...row, justifyContent: 'center', gap: 36 }}>
+        <BikoMascot pose={choice === 'left' ? 'thumbs-up' : 'question'} width={240} />
 
-        <div
-          style={{
-            ...row,
-            justifyContent: 'center',
-            gap: 12,
-            padding: '26px 40px',
-            borderRadius: 28,
-            background: choice === 'left' ? TEAL_SOFT : choice === 'right' ? CORAL_SOFT : STABILO,
-            border: `3.5px solid ${choice === 'left' ? TEAL : choice === 'right' ? CORAL : CHARCOAL}`,
-            boxShadow: `0 7px 0 ${CHARCOAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 36,
-            fontWeight: 700,
-            color: CHARCOAL,
-            textAlign: 'center',
-            minWidth: 520,
-          }}
+        <InfoPanel
+          bg={choice === 'left' ? TEAL_SOFT : choice === 'right' ? CORAL_SOFT : STABILO}
+          borderColor={choice === 'left' ? TEAL : choice === 'right' ? CORAL : CHARCOAL}
+          padding={26}
+          style={{ minWidth: 580, ...row, justifyContent: 'center', gap: 14 }}
         >
           {choice === 'left' && (
             <>
               <JuniorIcon name="check" size={34} />
-              <span>BENAR SEKALI! Itu Tombol Kiri!</span>
-              <JuniorIcon name="star" size={34} />
+              <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700 }}>
+                BENAR! Itu Tombol Kiri!
+              </span>
             </>
           )}
           {choice === 'right' && (
             <>
               <JuniorIcon name="thinking" size={34} />
-              <span>Hampir! Coba cek sebelah Kiri ya!</span>
+              <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700 }}>
+                Hampir! Cek sebelah Kiri ya!
+              </span>
             </>
           )}
           {choice === null && (
             <>
               <JuniorIcon name="point-right" size={34} />
-              <span>Tunjuk di layarmu ya!</span>
+              <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700 }}>
+                Klik Pilihan A atau B!
+              </span>
             </>
           )}
-        </div>
+        </InfoPanel>
       </div>
     </JuniorFrame>
   );
@@ -1922,163 +1758,171 @@ const Slide07AturanWaktu: Page = () => (
       Jaga Waktu di Depan <Highlight>Layar!</Highlight>
     </SlideTitle>
 
-    {/* Left Column: BOLEH */}
     <div
       style={{
-        ...abs(X0, 245, 830, 695),
-        borderRadius: 32,
-        background: TEAL_SOFT,
-        border: `4px solid ${TEAL}`,
-        boxShadow: `0 10px 0 ${TEAL}`,
-        padding: '32px 36px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        ...abs(X0, 225, W, 725),
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 38,
       }}
     >
-      <div style={{ ...row, gap: 18 }}>
-        <IconCheck size={58} />
-        <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 700, color: '#065F46' }}>
-          BOLEH
-        </span>
-      </div>
-
-      {/* Item 1: Main & Belajar Secukupnya */}
-      <div
-        style={{
-          ...row,
-          gap: 24,
-          padding: '26px 28px',
-          borderRadius: 24,
-          background: WHITE,
-          border: `3px solid ${CHARCOAL}`,
-        }}
+      {/* Left Column: BOLEH */}
+      <InfoPanel
+        bg={TEAL_SOFT}
+        borderColor={TEAL}
+        padding={32}
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 20 }}
       >
-        <svg width={104} height={104} viewBox="0 0 100 100" fill="none" style={{ flexShrink: 0 }}>
-          <circle cx="50" cy="54" r="38" fill={SUNNY_SOFT} stroke={CHARCOAL} strokeWidth={4} />
-          <path d="M50 54 V30 M50 54 L68 62" stroke={TEAL} strokeWidth={5} strokeLinecap="round" />
-          <circle cx="50" cy="54" r="4.5" fill={CHARCOAL} />
-          <path d="M40 72 Q50 80 60 72" stroke={CHARCOAL} strokeWidth={3.2} strokeLinecap="round" />
-          <circle cx="38" cy="46" r="3.5" fill={CHARCOAL} />
-          <circle cx="62" cy="46" r="3.5" fill={CHARCOAL} />
-        </svg>
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.24 }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            <JuniorIcon name="clock" size={34} />
-            <span>
-              Main &amp; belajar <Highlight color="#D1FAE5">Secukupnya</Highlight>
-            </span>
-          </span>
+        <div style={{ borderBottom: `2.5px solid #A7F3D0`, paddingBottom: 14 }}>
+          <SectionHeading icon="check" size={38} accentColor="#065F46">
+            BOLEH Dilakukan
+          </SectionHeading>
         </div>
-      </div>
 
-      {/* Item 2: Main di Luar */}
-      <div
-        style={{
-          ...row,
-          gap: 24,
-          padding: '26px 28px',
-          borderRadius: 24,
-          background: WHITE,
-          border: `3px solid ${CHARCOAL}`,
-        }}
-      >
-        <svg width={104} height={104} viewBox="0 0 100 100" fill="none" style={{ flexShrink: 0 }}>
-          <circle cx="76" cy="24" r="14" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
-          <rect x="44" y="54" width="14" height="34" rx="4" fill="#B45309" stroke={CHARCOAL} strokeWidth={3} />
-          <circle cx="51" cy="44" r="26" fill={TEAL} stroke={CHARCOAL} strokeWidth={3.5} />
-          <path d="M12 88 H88" stroke={TEAL} strokeWidth={5} strokeLinecap="round" />
-        </svg>
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.24 }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            <JuniorIcon name="tree" size={34} />
-            <span>
-              Jangan lupa <Highlight color="#D1FAE5">Main di Luar</Highlight>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 22 }}>
+          <div
+            style={{
+              background: WHITE,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
+              padding: 20,
+              ...centerCol,
+              gap: 12,
+              textAlign: 'center',
+            }}
+          >
+            <svg width={120} height={120} viewBox="0 0 100 100" fill="none">
+              <circle cx="50" cy="54" r="38" fill={SUNNY_SOFT} stroke={CHARCOAL} strokeWidth={4} />
+              <path d="M50 54 V30 M50 54 L68 62" stroke={TEAL} strokeWidth={5} strokeLinecap="round" />
+              <circle cx="50" cy="54" r="4.5" fill={CHARCOAL} />
+              <path d="M40 72 Q50 80 60 72" stroke={CHARCOAL} strokeWidth={3.2} strokeLinecap="round" />
+              <circle cx="38" cy="46" r="3.5" fill={CHARCOAL} />
+              <circle cx="62" cy="46" r="3.5" fill={CHARCOAL} />
+            </svg>
+            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700 }}>
+              Main Secukupnya
             </span>
-          </span>
-        </div>
-      </div>
-    </div>
+          </div>
 
-    {/* Right Column: JANGAN */}
-    <div
-      style={{
-        ...abs(990, 245, 830, 695),
-        borderRadius: 32,
-        background: CORAL_SOFT,
-        border: `4px solid ${CORAL}`,
-        boxShadow: `0 10px 0 ${CORAL}`,
-        padding: '32px 36px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}
-    >
-      <div style={{ ...row, gap: 18 }}>
-        <IconCross size={58} />
-        <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 700, color: '#991B1B' }}>
-          JANGAN
-        </span>
-      </div>
-
-      {/* Item 1: Menatap Layar Terlalu Lama */}
-      <div
-        style={{
-          ...row,
-          gap: 24,
-          padding: '26px 28px',
-          borderRadius: 24,
-          background: WHITE,
-          border: `3px solid ${CHARCOAL}`,
-        }}
-      >
-        <svg width={104} height={104} viewBox="0 0 100 100" fill="none" style={{ flexShrink: 0 }}>
-          <circle cx="50" cy="52" r="36" fill="#FEE2E2" stroke={CHARCOAL} strokeWidth={4} />
-          {/* Dizzy eyes */}
-          <path d="M32 40 L42 50 M42 40 L32 50" stroke={CORAL} strokeWidth={4} strokeLinecap="round" />
-          <path d="M58 40 L68 50 M68 40 L58 50" stroke={CORAL} strokeWidth={4} strokeLinecap="round" />
-          <path d="M36 70 Q50 60 64 70" stroke={CHARCOAL} strokeWidth={3.5} strokeLinecap="round" fill="none" />
-        </svg>
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.24 }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            <JuniorIcon name="dizzy" size={34} />
-            <span>
-              Menatap layar <Highlight color="#FEE2E2">Terlalu Lama</Highlight>
+          <div
+            style={{
+              background: WHITE,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
+              padding: 20,
+              ...centerCol,
+              gap: 12,
+              textAlign: 'center',
+            }}
+          >
+            <svg width={120} height={120} viewBox="0 0 100 100" fill="none">
+              <circle cx="76" cy="24" r="14" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
+              <rect x="44" y="54" width="14" height="34" rx="4" fill="#B45309" stroke={CHARCOAL} strokeWidth={3} />
+              <circle cx="51" cy="44" r="26" fill={TEAL} stroke={CHARCOAL} strokeWidth={3.5} />
+              <path d="M12 88 H88" stroke={TEAL} strokeWidth={5} strokeLinecap="round" />
+            </svg>
+            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700 }}>
+              Main di Luar
             </span>
-          </span>
+          </div>
         </div>
-      </div>
 
-      {/* Item 2: Main Sampai Larut Malam */}
-      <div
-        style={{
-          ...row,
-          gap: 24,
-          padding: '26px 28px',
-          borderRadius: 24,
-          background: WHITE,
-          border: `3px solid ${CHARCOAL}`,
-        }}
-      >
-        <svg width={104} height={104} viewBox="0 0 100 100" fill="none" style={{ flexShrink: 0 }}>
-          <rect x="10" y="10" width="80" height="80" rx="22" fill="#1E1E2C" />
-          <path
-            d="M58 22 C40 24, 30 38, 30 54 C30 70, 44 82, 62 78 C46 72, 42 56, 46 42 C48 32, 54 26, 58 22 Z"
-            fill={SUNNY}
+        <InfoPanel bg={WHITE} borderColor={TEAL} padding={24}>
+          <BulletList
+            bulletColor={TEAL}
+            fontSize={26}
+            gap={14}
+            items={[
+              <>
+                Main dan belajar <InlineHighlight color="#D1FAE5">secukupnya</InlineHighlight>.
+              </>,
+              <>
+                Jangan lupa <InlineHighlight color="#D1FAE5">main di luar</InlineHighlight>.
+              </>,
+            ]}
           />
-          <text x="64" y="42" fontFamily='"Fredoka", sans-serif' fontSize="18" fontWeight="700" fill={WHITE}>
-            Zzz
-          </text>
-        </svg>
-        <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.24 }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            <JuniorIcon name="moon" size={34} />
-            <span>
-              Main laptop sampai <Highlight color="#FEE2E2">Larut Malam</Highlight>
-            </span>
-          </span>
+        </InfoPanel>
+      </InfoPanel>
+
+      {/* Right Column: JANGAN */}
+      <InfoPanel
+        bg={CORAL_SOFT}
+        borderColor={CORAL}
+        padding={32}
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 20 }}
+      >
+        <div style={{ borderBottom: `2.5px solid #FECACA`, paddingBottom: 14 }}>
+          <SectionHeading icon="cross" size={38} accentColor="#991B1B">
+            JANGAN Dilakukan
+          </SectionHeading>
         </div>
-      </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 22 }}>
+          <div
+            style={{
+              background: WHITE,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
+              padding: 20,
+              ...centerCol,
+              gap: 12,
+              textAlign: 'center',
+            }}
+          >
+            <svg width={120} height={120} viewBox="0 0 100 100" fill="none">
+              <circle cx="50" cy="52" r="36" fill="#FEE2E2" stroke={CHARCOAL} strokeWidth={4} />
+              <path d="M32 40 L42 50 M42 40 L32 50" stroke={CORAL} strokeWidth={4} strokeLinecap="round" />
+              <path d="M58 40 L68 50 M68 40 L58 50" stroke={CORAL} strokeWidth={4} strokeLinecap="round" />
+              <path d="M36 70 Q50 60 64 70" stroke={CHARCOAL} strokeWidth={3.5} strokeLinecap="round" fill="none" />
+            </svg>
+            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700 }}>
+              Terlalu Lama
+            </span>
+          </div>
+
+          <div
+            style={{
+              background: WHITE,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
+              padding: 20,
+              ...centerCol,
+              gap: 12,
+              textAlign: 'center',
+            }}
+          >
+            <svg width={120} height={120} viewBox="0 0 100 100" fill="none">
+              <rect x="10" y="10" width="80" height="80" rx="22" fill={CHARCOAL} />
+              <path
+                d="M58 22 C40 24, 30 38, 30 54 C30 70, 44 82, 62 78 C46 72, 42 56, 46 42 C48 32, 54 26, 58 22 Z"
+                fill={SUNNY}
+              />
+              <text x="64" y="42" fontFamily='"Fredoka", sans-serif' fontSize="18" fontWeight="700" fill={WHITE}>
+                Zzz
+              </text>
+            </svg>
+            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 25, fontWeight: 700 }}>
+              Larut Malam
+            </span>
+          </div>
+        </div>
+
+        <InfoPanel bg={WHITE} borderColor={CORAL} padding={24}>
+          <BulletList
+            bulletColor={CORAL}
+            fontSize={26}
+            gap={14}
+            items={[
+              <>
+                Tatap layar <InlineHighlight color="#FECACA">terlalu lama</InlineHighlight>.
+              </>,
+              <>
+                Main sampai <InlineHighlight color="#FECACA">larut malam</InlineHighlight>.
+              </>,
+            ]}
+          />
+        </InfoPanel>
+      </InfoPanel>
     </div>
   </JuniorFrame>
 );
@@ -2092,132 +1936,103 @@ const Slide08SayangiMata: Page = () => (
       Sayangi <Highlight>Mata</Highlight> Hebatmu!
     </SlideTitle>
 
-    <MacWindowCard left={X0} top={250} width={1320} height={675} headerLabel="tips-mata-sehat.app" padding={40}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, height: '100%' }}>
+    <MacWindowCard left={X0} top={225} width={1320} height={725} headerLabel="tips-mata-sehat" padding={34}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, height: '100%' }}>
         {/* Card 1: Lihat Benda Jauh */}
-        <div
-          style={{
-            borderRadius: 26,
-            background: SKY_SOFT,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 8px 0 ${SKY}`,
-            padding: '34px 30px',
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+        <InfoPanel
+          bg={SKY_SOFT}
+          padding={26}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 14 }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: SKY,
-              color: WHITE,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            TIPS #1
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#1D4ED8', letterSpacing: '0.05em' }}>
+              TIPS #1
+            </span>
+            <SectionHeading icon="eyes" size={32}>
+              Lihat <Highlight color="#DBEAFE">Benda Jauh</Highlight>
+            </SectionHeading>
           </div>
 
-          {/* Window Looking Out at Green Tree & Fluffy Clouds */}
-          <svg width={240} height={190} viewBox="0 0 240 190" fill="none">
-            <rect x="28" y="16" width="184" height="148" rx="22" fill="#BAE6FD" stroke={CHARCOAL} strokeWidth={4.5} />
-            <circle cx="166" cy="48" r="18" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
-            {/* Cloud */}
-            <path d="M56 62 H104 C112 62, 114 48, 102 46 C98 34, 78 34, 74 46 C62 44, 52 54, 56 62 Z" fill={WHITE} stroke={CHARCOAL} strokeWidth={2.5} />
-            {/* Green Hills & Tree */}
-            <path d="M30 132 Q95 96 156 128 Q190 112 210 132 V162 H30 Z" fill="#86EFAC" />
-            <rect x="122" y="102" width="12" height="36" fill="#92400E" stroke={CHARCOAL} strokeWidth={2.5} />
-            <circle cx="128" cy="88" r="26" fill={TEAL} stroke={CHARCOAL} strokeWidth={3} />
-            {/* Window Crossbars */}
-            <line x1="120" y1="16" x2="120" y2="164" stroke={WHITE} strokeWidth={5} />
-            <line x1="28" y1="90" x2="212" y2="90" stroke={WHITE} strokeWidth={5} />
-            <rect x="28" y="16" width="184" height="148" rx="22" stroke={CHARCOAL} strokeWidth={4.5} />
-          </svg>
-
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.28 }}>
-            Lihat <Highlight color="#DBEAFE">Benda Jauh</Highlight> saat mata lelah
+          <div style={{ ...centerCol }}>
+            <svg width={240} height={190} viewBox="0 0 240 190" fill="none">
+              <rect x="28" y="16" width="184" height="148" rx="22" fill="#BAE6FD" stroke={CHARCOAL} strokeWidth={4.5} />
+              <circle cx="166" cy="48" r="18" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
+              <path d="M56 62 H104 C112 62, 114 48, 102 46 C98 34, 78 34, 74 46 C62 44, 52 54, 56 62 Z" fill={WHITE} stroke={CHARCOAL} strokeWidth={2.5} />
+              <path d="M30 132 Q95 96 156 128 Q190 112 210 132 V162 H30 Z" fill="#86EFAC" />
+              <rect x="122" y="102" width="12" height="36" fill="#92400E" stroke={CHARCOAL} strokeWidth={2.5} />
+              <circle cx="128" cy="88" r="26" fill={TEAL} stroke={CHARCOAL} strokeWidth={3} />
+              <line x1="120" y1="16" x2="120" y2="164" stroke={WHITE} strokeWidth={5} />
+              <line x1="28" y1="90" x2="212" y2="90" stroke={WHITE} strokeWidth={5} />
+              <rect x="28" y="16" width="184" height="148" rx="22" stroke={CHARCOAL} strokeWidth={4.5} />
+            </svg>
           </div>
-        </div>
+
+          <BulletList
+            bulletColor={SKY}
+            fontSize={23}
+            gap={10}
+            items={[
+              <>Istirahat saat mata lelah.</>,
+              <>
+                Lihat <InlineHighlight color="#DBEAFE">pohon hijau</InlineHighlight> jauh.
+              </>,
+            ]}
+          />
+        </InfoPanel>
 
         {/* Card 2: Gerakkan Badan & Minum Air Putih */}
-        <div
-          style={{
-            borderRadius: 26,
-            background: TEAL_SOFT,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 8px 0 ${TEAL}`,
-            padding: '34px 30px',
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+        <InfoPanel
+          bg={TEAL_SOFT}
+          padding={26}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 14 }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: TEAL,
-              color: WHITE,
-              border: `2.5px solid ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            TIPS #2
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#047857', letterSpacing: '0.05em' }}>
+              TIPS #2
+            </span>
+            <SectionHeading icon="water" size={32}>
+              Gerak &amp; <Highlight color="#D1FAE5">Minum Air</Highlight>
+            </SectionHeading>
           </div>
 
-          {/* Cute Water Glass + Happy Stretch Arms Illustration */}
-          <svg width={240} height={190} viewBox="0 0 240 190" fill="none">
-            {/* Stretch character on left */}
-            <circle cx="76" cy="56" r="24" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3.5} />
-            <path d="M52 104 L30 72 M100 104 L122 72" stroke={CHARCOAL} strokeWidth={7} strokeLinecap="round" />
-            <rect x="54" y="84" width="44" height="58" rx="16" fill={CORAL} stroke={CHARCOAL} strokeWidth={3.5} />
-            {/* Sparkling Water Glass on right */}
-            <path d="M148 56 H204 L196 146 H156 Z" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            <path d="M153 86 H199 L194 142 H158 Z" fill="#7DD3FC" />
-            <circle cx="170" cy="112" r="5" fill={WHITE} />
-            <circle cx="184" cy="124" r="3.5" fill={WHITE} />
-          </svg>
-
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.28 }}>
-            <Highlight color="#D1FAE5">Gerakkan Badan</Highlight> &amp; minum air putih!
+          <div style={{ ...centerCol }}>
+            <svg width={240} height={190} viewBox="0 0 240 190" fill="none">
+              <circle cx="76" cy="56" r="24" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3.5} />
+              <path d="M52 104 L30 72 M100 104 L122 72" stroke={CHARCOAL} strokeWidth={7} strokeLinecap="round" />
+              <rect x="54" y="84" width="44" height="58" rx="16" fill={CORAL} stroke={CHARCOAL} strokeWidth={3.5} />
+              <path d="M148 56 H204 L196 146 H156 Z" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
+              <path d="M153 86 H199 L194 142 H158 Z" fill="#7DD3FC" />
+              <circle cx="170" cy="112" r="5" fill={WHITE} />
+              <circle cx="184" cy="124" r="3.5" fill={WHITE} />
+            </svg>
           </div>
-        </div>
+
+          <BulletList
+            bulletColor={TEAL}
+            fontSize={23}
+            gap={10}
+            items={[
+              <>Regangkan tangan dan badan.</>,
+              <>
+                Minum <InlineHighlight color="#D1FAE5">air putih</InlineHighlight> segar.
+              </>,
+            ]}
+          />
+        </InfoPanel>
       </div>
     </MacWindowCard>
 
-    {/* Biko Giving Encouraging Thumbs Up on Right */}
-    <div style={{ ...abs(1470, 390, 350, 540), ...centerCol }}>
-      <BikoMascot pose="thumbs-up" width={330} badgeIcon={<JuniorIcon name="thumbs-up" size={34} />} />
-      <div
-        style={{
-          marginTop: 10,
-          ...row,
-          gap: 10,
-          padding: '12px 24px',
-          borderRadius: 99,
-          background: SUNNY,
-          border: `3px solid ${CHARCOAL}`,
-          boxShadow: `0 5px 0 ${CHARCOAL}`,
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 25,
-          fontWeight: 700,
-        }}
-      >
-        <span>Mata Sehat!</span>
-        <JuniorIcon name="thumbs-up" size={26} />
-      </div>
-    </div>
+    <BikoMascot
+      pose="thumbs-up"
+      width={330}
+      speechBubble="Mata Sehat!"
+      style={{ ...abs(1470, 360) }}
+    />
   </JuniorFrame>
 );
 
 // ============================================================================
-// SLIDE 09 — Misi Praktik: Pecahkan Balon Bintang! (3 Blok ScratchJr + Game Demo)
+// SLIDE 09 — Misi Praktik: Pecahkan Balon Bintang!
 // ============================================================================
 const MISSION_BLOCKS: { num: number; color: string; soft: string; title: string; sub: string; icon: JuniorIconName }[] = [
   {
@@ -2233,15 +2048,15 @@ const MISSION_BLOCKS: { num: number; color: string; soft: string; title: string;
     color: SUNNY,
     soft: SUNNY_SOFT,
     title: 'Klik Kiri',
-    sub: 'Tekan 1 kali!',
+    sub: 'Tekan 1 kali',
     icon: 'tap',
   },
   {
     num: 3,
     color: TEAL,
     soft: TEAL_SOFT,
-    title: '"DOR!"',
-    sub: 'Kumpulkan 10 Bintang!',
+    title: 'DOR!',
+    sub: 'Dapat Bintang',
     icon: 'star',
   },
 ];
@@ -2268,36 +2083,28 @@ const Slide09MisiBalon: Page = () => {
 
   return (
     <JuniorFrame badge="AYO MAIN & PRAKTIK!" accentDot={SUNNY}>
-      <SlideTitle>
+      <SlideTitle top={104}>
         Misi <Highlight>Pecahkan Balon Bintang!</Highlight>
       </SlideTitle>
 
-      {/* Top Row: 3 ScratchJr-Style Step Blocks */}
-      <div style={{ ...abs(X0, 232, W, 215), ...row, justifyContent: 'space-between', gap: 20 }}>
+      {/* Top Row: 3 Flat InfoPanel Step Blocks */}
+      <div style={{ ...abs(X0, 208, W, 200), ...row, justifyContent: 'space-between', gap: 18 }}>
         {MISSION_BLOCKS.map((blk, i) => (
           <Fragment key={blk.num}>
-            <div
-              style={{
-                flex: 1,
-                height: 202,
-                borderRadius: 28,
-                background: blk.soft,
-                border: `4px solid ${CHARCOAL}`,
-                boxShadow: `0 8px 0 ${blk.color}`,
-                padding: '22px 26px',
-                ...row,
-                gap: 20,
-              }}
+            <InfoPanel
+              bg={blk.soft}
+              padding={22}
+              style={{ flex: 1, height: 186, ...row, gap: 20 }}
             >
               <div
                 style={{
-                  width: 68,
-                  height: 68,
-                  borderRadius: 20,
+                  width: 66,
+                  height: 66,
+                  borderRadius: 18,
                   background: blk.color,
                   border: `3px solid ${CHARCOAL}`,
                   fontFamily: 'var(--osd-font-display)',
-                  fontSize: 38,
+                  fontSize: 36,
                   fontWeight: 700,
                   color: blk.num === 2 ? CHARCOAL : WHITE,
                   ...centerCol,
@@ -2308,31 +2115,20 @@ const Slide09MisiBalon: Page = () => {
               </div>
 
               <div>
-                <div style={{ ...row, gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.15 }}>
-                  <JuniorIcon name={blk.icon} size={34} />
-                  <span>{blk.title}</span>
-                </div>
+                <SectionHeading icon={blk.icon} size={32}>
+                  {blk.title}
+                </SectionHeading>
                 <div style={{ fontSize: 24, fontWeight: 800, color: MUTED, marginTop: 6 }}>{blk.sub}</div>
               </div>
-            </div>
+            </InfoPanel>
 
-            {i < 2 && (
-              <svg width={44} height={44} viewBox="0 0 44 44" fill="none" style={{ flexShrink: 0 }}>
-                <path
-                  d="M6 22 H34 M24 12 L36 22 L24 32"
-                  stroke={CHARCOAL}
-                  strokeWidth={5}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )}
+            {i < 2 && <JuniorIcon name="arrow-right" size={32} />}
           </Fragment>
         ))}
       </div>
 
       {/* Bottom Interactive Balloon-Popping Game + Cheering Biko */}
-      <MacWindowCard left={X0} top={476} width={1320} height={470} headerLabel="game-balon-bintang.app" padding={24}>
+      <MacWindowCard left={X0} top={438} width={1320} height={512} headerLabel="game-balon-bintang" padding={24}>
         <div
           style={{
             position: 'relative',
@@ -2344,7 +2140,7 @@ const Slide09MisiBalon: Page = () => {
             overflow: 'hidden',
           }}
         >
-          {/* Top Score Pill + Reset Button */}
+          {/* Top Score Pill (flat) + Reset Button */}
           <div
             style={{
               position: 'absolute',
@@ -2357,19 +2153,18 @@ const Slide09MisiBalon: Page = () => {
           >
             <div
               style={{
-                padding: '8px 22px',
-                borderRadius: 99,
-                background: SUNNY,
+                padding: '8px 20px',
+                borderRadius: 14,
+                background: SUNNY_SOFT,
                 border: `2.5px solid ${CHARCOAL}`,
-                boxShadow: `0 4px 0 ${CHARCOAL}`,
                 ...row,
                 gap: 8,
                 fontFamily: 'var(--osd-font-display)',
-                fontSize: 26,
+                fontSize: 25,
                 fontWeight: 700,
               }}
             >
-              <JuniorIcon name="star" size={26} />
+              <JuniorIcon name="star" size={24} />
               <span>Bintang: {score} / {balloons.length}</span>
             </div>
             <button
@@ -2380,7 +2175,7 @@ const Slide09MisiBalon: Page = () => {
                 ...row,
                 gap: 8,
                 padding: '8px 18px',
-                borderRadius: 99,
+                borderRadius: 14,
                 background: WHITE,
                 border: `2.5px solid ${CHARCOAL}`,
                 boxShadow: `0 4px 0 ${CHARCOAL}`,
@@ -2396,7 +2191,7 @@ const Slide09MisiBalon: Page = () => {
 
           {/* Clickable Balloons inside Game Screen */}
           {balloons.map((b) => (
-            <div key={b.id} style={{ position: 'absolute', left: b.x, top: b.y + 42 }}>
+            <div key={b.id} style={{ position: 'absolute', left: b.x, top: b.y + 58 }}>
               {b.popped ? (
                 <div
                   style={{
@@ -2404,17 +2199,15 @@ const Slide09MisiBalon: Page = () => {
                     height: 150,
                     ...centerCol,
                     textAlign: 'center',
+                    gap: 8,
                   }}
                 >
                   <div
                     style={{
-                      ...row,
-                      justifyContent: 'center',
-                      gap: 6,
                       padding: '8px 14px',
-                      borderRadius: 18,
+                      borderRadius: 16,
                       background: SUNNY,
-                      border: `3px solid ${CHARCOAL}`,
+                      border: `2.5px solid ${CHARCOAL}`,
                       fontFamily: 'var(--osd-font-display)',
                       fontSize: 28,
                       fontWeight: 700,
@@ -2422,23 +2215,21 @@ const Slide09MisiBalon: Page = () => {
                       transform: 'rotate(-6deg)',
                     }}
                   >
-                    <span>DOR!</span>
-                    <JuniorIcon name="sparkle" size={24} />
+                    DOR!
                   </div>
                   <div
                     style={{
                       ...row,
                       justifyContent: 'center',
                       gap: 6,
-                      marginTop: 6,
                       fontFamily: 'var(--osd-font-display)',
-                      fontSize: 32,
+                      fontSize: 30,
                       fontWeight: 700,
                       color: TEAL,
                     }}
                   >
                     <span>+1</span>
-                    <JuniorIcon name="star" size={28} />
+                    <JuniorIcon name="star" size={26} />
                   </div>
                 </div>
               ) : (
@@ -2463,7 +2254,7 @@ const Slide09MisiBalon: Page = () => {
               ...row,
               gap: 8,
               padding: '8px 20px',
-              borderRadius: 99,
+              borderRadius: 16,
               background: WHITE,
               border: `2.5px solid ${CHARCOAL}`,
               fontSize: 20,
@@ -2471,55 +2262,30 @@ const Slide09MisiBalon: Page = () => {
             }}
           >
             <JuniorIcon name="tap" size={22} />
-            <span>Ayo klik semua balon warna-warni di atas!</span>
+            <span>Klik semua balon warna-warni!</span>
           </div>
         </div>
       </MacWindowCard>
 
       {/* Cheering Biko on Right */}
-      <div style={{ ...abs(1455, 480, 365, 470), ...centerCol }}>
-        <BikoMascot pose="jump" width={310} />
-        <div
-          style={{
-            marginTop: 8,
-            ...row,
-            gap: 8,
-            padding: '10px 22px',
-            borderRadius: 99,
-            background: TEAL,
-            color: WHITE,
-            border: `2.5px solid ${CHARCOAL}`,
-            boxShadow: `0 4px 0 ${CHARCOAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 24,
-            fontWeight: 700,
-          }}
-        >
-          {score === balloons.length ? (
-            <>
-              <span>Menang Semua!</span>
-              <JuniorIcon name="party" size={24} />
-            </>
-          ) : (
-            <>
-              <span>Semangat Klik!</span>
-              <JuniorIcon name="star" size={24} />
-            </>
-          )}
-        </div>
+      <div style={{ ...abs(1455, 450, 365, 490), ...centerCol }}>
+        <BikoMascot
+          pose="jump"
+          width={310}
+          speechBubble={score === balloons.length ? 'Menang Semua!' : 'Semangat Klik!'}
+        />
       </div>
     </JuniorFrame>
   );
 };
 
 // ============================================================================
-// SLIDE 10 — Lencana Juara Pertemuan 2
+// SLIDE 10 — Lencana Juara Pertemuan 2 (Summary Bullets + Medal + Biko)
 // ============================================================================
 const Slide10Lencana: Page = () => {
   const live = useIsActivePage();
   return (
     <JuniorFrame badge="MISI SELESAI!" accentDot={SUNNY}>
-      {/* Colorful Confetti Circles & Stars */}
       {[
         { x: 140, y: 210, c: CORAL, s: 20 },
         { x: 310, y: 170, c: TEAL, s: 18 },
@@ -2541,88 +2307,98 @@ const Slide10Lencana: Page = () => {
         />
       ))}
 
-      <SlideTitle align="center" top={130} size={62}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 16 }}>
-          <span>
-            Hebat! Kamu <Highlight color={STABILO}>Jagoan Klik!</Highlight>
-          </span>
-          <JuniorIcon name="party" size={58} />
-        </span>
+      <SlideTitle align="center" top={104} size={58}>
+        Hebat! Kamu <Highlight color={STABILO}>Jagoan Klik!</Highlight>
       </SlideTitle>
 
       {/* Center Celebration Medal Card */}
-      <MacWindowCard left={170} top={250} width={1160} height={680} headerLabel="lencana-juara-2.award" padding={42}>
-        <div style={{ height: '100%', ...centerCol, justifyContent: 'space-between', textAlign: 'center' }}>
-          {/* Gold Medal SVG with Star Cursor + Healthy Eye Shield */}
-          <svg width={270} height={260} viewBox="0 0 260 250" fill="none">
-            {/* Ribbons */}
-            <path d="M90 156 L66 238 L104 218 L122 240 L122 156 Z" fill={CORAL} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            <path d="M170 156 L194 238 L156 218 L138 240 L138 156 Z" fill={TEAL} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            {/* Scalloped Gold Medal */}
-            <circle cx="130" cy="98" r="82" fill={SUNNY} stroke={CHARCOAL} strokeWidth={5} />
-            <circle cx="130" cy="98" r="64" fill="#FEF3C7" stroke={CHARCOAL} strokeWidth={3.5} />
-            {/* Healthy Eye Shield Inside */}
-            <path
-              d="M90 68 Q130 52 170 68 V100 C170 124, 150 140, 130 148 C110 140, 90 124, 90 100 Z"
-              fill={WHITE}
-              stroke={CHARCOAL}
-              strokeWidth={3.5}
-              strokeLinejoin="round"
-            />
-            {/* Cursor Arrow + Little Star */}
-            <path
-              d="M112 80 L146 102 L129 106 L137 122 L130 126 L122 110 L112 119 Z"
-              fill={SKY}
-              stroke={CHARCOAL}
-              strokeWidth={3}
-              strokeLinejoin="round"
-            />
-            <path
-              d="M150 76 L154 83 L162 84 L156 89 L157 97 L150 93 L143 97 L144 89 L138 84 L146 83 Z"
-              fill={SUNNY}
-              stroke={CHARCOAL}
-              strokeWidth={2}
-            />
-          </svg>
+      <MacWindowCard left={180} top={210} width={1180} height={745} titleBarColor={SUNNY_SOFT} headerLabel="lencana-pertemuan-2" padding={34}>
+        <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '430px 1fr', gap: 36, alignItems: 'center' }}>
+          {/* Left: Gold Medal + Flat Banner */}
+          <div style={{ ...centerCol, gap: 22 }}>
+            <svg
+              width={255}
+              height={255}
+              viewBox="0 0 260 250"
+              fill="none"
+              style={{ animation: live ? 'cpj2-float 2.8s ease-in-out infinite' : undefined }}
+            >
+              <path d="M90 156 L66 238 L104 218 L122 240 L122 156 Z" fill={CORAL} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
+              <path d="M170 156 L194 238 L156 218 L138 240 L138 156 Z" fill={TEAL} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
+              <circle cx="130" cy="98" r="82" fill={SUNNY} stroke={CHARCOAL} strokeWidth={5} />
+              <circle cx="130" cy="98" r="64" fill="#FEF3C7" stroke={CHARCOAL} strokeWidth={3.5} />
+              <path
+                d="M90 68 Q130 52 170 68 V100 C170 124, 150 140, 130 148 C110 140, 90 124, 90 100 Z"
+                fill={WHITE}
+                stroke={CHARCOAL}
+                strokeWidth={3.5}
+                strokeLinejoin="round"
+              />
+              <path
+                d="M112 80 L146 102 L129 106 L137 122 L130 126 L122 110 L112 119 Z"
+                fill={SKY}
+                stroke={CHARCOAL}
+                strokeWidth={3}
+                strokeLinejoin="round"
+              />
+              <path
+                d="M150 76 L154 83 L162 84 L156 89 L157 97 L150 93 L143 97 L144 89 L138 84 L146 83 Z"
+                fill={SUNNY}
+                stroke={CHARCOAL}
+                strokeWidth={2}
+              />
+            </svg>
 
-          <div
-            style={{
-              ...row,
-              gap: 14,
-              padding: '14px 34px',
-              borderRadius: 99,
-              background: TEAL,
-              color: WHITE,
-              border: `3.5px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 34,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="medal" size={36} />
-            <span>Lencana Jagoan Klik &amp; Screen Time</span>
+            <div
+              style={{
+                padding: '12px 24px',
+                borderRadius: 16,
+                background: TEAL_SOFT,
+                border: `2.5px solid ${CHARCOAL}`,
+                fontFamily: 'var(--osd-font-display)',
+                fontSize: 25,
+                fontWeight: 700,
+                ...row,
+                gap: 10,
+              }}
+            >
+              <JuniorIcon name="medal" size={28} />
+              <span>Lencana Jagoan Klik</span>
+            </div>
           </div>
 
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 32,
-              fontWeight: 700,
-              lineHeight: 1.38,
-              maxWidth: 850,
-              color: CHARCOAL,
-            }}
-          >
-            Kamu sudah mahir <Highlight>Klik Kiri</Highlight> dan pintar{' '}
-            <Highlight color="#D1FAE5">Menjaga Mata!</Highlight>
+          {/* Right: Concise Bullet Takeaways */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <SectionHeading icon="party" size={32}>
+              Yang Sudah Kamu Kuasai:
+            </SectionHeading>
+
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={26}
+              gap={18}
+              items={[
+                <>
+                  Gerakkan <InlineHighlight color={SKY_SOFT}>Panah Ajaib</InlineHighlight> tepat.
+                </>,
+                <>
+                  Tekan <InlineHighlight>Klik Kiri</InlineHighlight> pakai jari telunjuk.
+                </>,
+                <>
+                  Ketuk <InlineHighlight color="#D1FAE5">kiri bawah</InlineHighlight> trackpad.
+                </>,
+                <>
+                  Jaga <InlineHighlight color={SUNNY_SOFT}>waktu dan mata</InlineHighlight> sehat.
+                </>,
+              ]}
+            />
           </div>
         </div>
       </MacWindowCard>
 
       {/* Celebrating Jumping Biko on Right */}
-      <div style={{ ...abs(1370, 385, 420, 520), ...centerCol }}>
-        <BikoMascot pose="jump" width={400} />
+      <div style={{ ...abs(1400, 385, 420, 520), ...centerCol }}>
+        <BikoMascot pose="jump" width={365} speechBubble="Jagoan Klik!" />
       </div>
     </JuniorFrame>
   );
@@ -2682,4 +2458,3 @@ export default [
   Slide09MisiBalon,
   Slide10Lencana,
 ] satisfies Page[];
-

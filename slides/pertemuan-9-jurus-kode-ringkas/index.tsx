@@ -1098,7 +1098,7 @@ const Slide01Cover: Page = () => {
                   Pakai <InlineHighlight>Blok Ulangi</InlineHighlight> berbentuk pelukan oranye.
                 </>,
                 <>
-                  Ubah susunan panah panjang jadi <InlineHighlight color="#D1FAE5">1 kode ringkas</InlineHighlight>.
+                  Ubah kode panjang jadi <InlineHighlight color="#D1FAE5">1 blok ringkas</InlineHighlight>.
                 </>,
                 <>
                   Atur jumlah langkah lewat <InlineHighlight color={SKY_SOFT}>keypad angka</InlineHighlight>.
@@ -1265,7 +1265,7 @@ const Slide02Misi: Page = () => (
             gap={10}
             items={[
               <>
-                3 panah lurus diringkas jadi <InlineHighlight>1 Blok Ulangi</InlineHighlight>.
+                3 panah lurus jadi <InlineHighlight>1 Blok Ulangi</InlineHighlight>.
               </>,
               <>
                 Hasil gerak karakter tetap <InlineHighlight color="#D1FAE5">sama persis</InlineHighlight>!
@@ -1441,7 +1441,7 @@ const Slide03Masalah: Page = () => {
                   Semua panahnya <InlineHighlight color={WHITE}>sama persis</InlineHighlight> ke kanan.
                 </>,
                 <>
-                  Menyusun blok berkali-kali bikin <InlineHighlight color="#FECACA">layar penuh &amp; capek</InlineHighlight>!
+                  Susun berulang bikin <InlineHighlight color="#FECACA">layar penuh &amp; capek</InlineHighlight>!
                 </>,
               ]}
             />
@@ -1504,10 +1504,10 @@ const Slide04BlokUlangi: Page = () => {
               gap={10}
               items={[
                 <>
-                  Blok oranye <InlineHighlight>Repeat</InlineHighlight> memeluk blok arah biru.
+                  Blok oranye memeluk <InlineHighlight>blok arah biru</InlineHighlight>.
                 </>,
                 <>
-                  Ketuk angkanya, lalu pilih jumlah di <InlineHighlight color={SKY_SOFT}>keypad kanan</InlineHighlight>.
+                  Ketuk angka, lalu pilih di <InlineHighlight color={SKY_SOFT}>keypad</InlineHighlight>.
                 </>,
               ]}
             />
@@ -1663,12 +1663,12 @@ const Slide04BlokUlangi: Page = () => {
               gap={11}
               items={[
                 <>
-                  Taruh <InlineHighlight>1 blok arah</InlineHighlight> (Kanan, Kiri, Atas, atau Bawah) di dalam pelukan.
+                  Taruh <InlineHighlight>1 blok arah</InlineHighlight> di dalam pelukan.
                 </>,
                 <>
                   Ganti angka sesuai <InlineHighlight color={WHITE}>jumlah langkah</InlineHighlight>.
                 </>,
-                <>Lebih hemat blok dan layar tetap rapi!</>,
+                <>Hemat blok dan layar tetap rapi!</>,
               ]}
             />
           </div>
@@ -1793,7 +1793,7 @@ const Slide05SulapKode: Page = () => {
                   gap={6}
                   items={[
                     <>
-                      Hasilnya sama: karakter maju <InlineHighlight color="#A7F3D0">5 langkah kanan</InlineHighlight>.
+                      Karakter tetap maju <InlineHighlight color="#A7F3D0">5 langkah kanan</InlineHighlight>.
                     </>,
                     <>Kode langsung jadi super pendek &amp; rapi!</>,
                   ]}
@@ -2153,10 +2153,10 @@ const Slide07UlangiBelok: Page = () => {
                 gap={12}
                 items={[
                   <>
-                    Pakai <InlineHighlight>Ulangi [ 3 ]</InlineHighlight> untuk jalan lurus ke kanan.
+                    Pakai <InlineHighlight>Ulangi 3×</InlineHighlight> untuk jalan kanan.
                   </>,
                   <>
-                    Sambung blok <InlineHighlight color="#D1FAE5">Belok Atas</InlineHighlight> setelah blok ulangi selesai.
+                    Sambung blok <InlineHighlight color="#D1FAE5">Belok Atas</InlineHighlight> setelahnya.
                   </>,
                   <>Kode pendek, jalan belok tetap aman!</>,
                 ]}
@@ -2218,11 +2218,10 @@ const Slide08Tips: Page = () => (
         padding={32}
         style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 18 }}
       >
-        <div style={{ ...row, justifyContent: 'space-between', borderBottom: `2.5px solid ${TEAL_SOFT}`, paddingBottom: 14 }}>
+        <div style={{ borderBottom: `2.5px solid ${TEAL_SOFT}`, paddingBottom: 14 }}>
           <SectionHeading icon="check" size={34} accentColor="#047857">
             BOLEH Dilakukan
           </SectionHeading>
-          <JuniorIcon name="thumbs-up" size={36} />
         </div>
 
         <div
@@ -2253,13 +2252,13 @@ const Slide08Tips: Page = () => (
           gap={16}
           items={[
             <>
-              <InlineHighlight color="#D1FAE5">Hitung langkah lurus</InlineHighlight> yang arahnya sama dulu.
+              <InlineHighlight color="#D1FAE5">Hitung langkah lurus</InlineHighlight> yang sama dulu.
             </>,
             <>
-              Masukkan blok panah <InlineHighlight>di dalam pelukan</InlineHighlight> Blok Ulangi.
+              Taruh panah <InlineHighlight>di dalam pelukan</InlineHighlight> oranye.
             </>,
             <>
-              Pilih angka yang <InlineHighlight color="#D1FAE5">tepat jumlahnya</InlineHighlight> sesuai kotak.
+              Pilih angka yang <InlineHighlight color="#D1FAE5">pas jumlahnya</InlineHighlight> sesuai kotak.
             </>,
           ]}
         />
@@ -2272,11 +2271,10 @@ const Slide08Tips: Page = () => (
         padding={32}
         style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 18 }}
       >
-        <div style={{ ...row, justifyContent: 'space-between', borderBottom: `2.5px solid ${CORAL_SOFT}`, paddingBottom: 14 }}>
+        <div style={{ borderBottom: `2.5px solid ${CORAL_SOFT}`, paddingBottom: 14 }}>
           <SectionHeading icon="cross" size={34} accentColor="#B91C1C">
             JANGAN Dilakukan
           </SectionHeading>
-          <JuniorIcon name="barrier" size={36} />
         </div>
 
         <div
@@ -2312,12 +2310,12 @@ const Slide08Tips: Page = () => (
           gap={16}
           items={[
             <>
-              Jangan isi <InlineHighlight color="#FECACA">angka terlalu besar</InlineHighlight> — Biko bisa menabrak!
+              <InlineHighlight color="#FECACA">Angka terlalu besar</InlineHighlight> bikin Biko menabrak!
             </>,
             <>
-              Jangan biarkan blok panah <InlineHighlight color="#FECACA">terlepas di luar</InlineHighlight> pelukan.
+              Jangan biarkan panah <InlineHighlight color="#FECACA">terlepas di luar</InlineHighlight>.
             </>,
-            <>Jangan lupa mengecek jalur belokan setelah loop.</>,
+            <>Cek juga jalur belokan setelahnya.</>,
           ]}
         />
       </InfoPanel>
@@ -2811,13 +2809,13 @@ const Slide10Lencana: Page = () => {
                   Mengenal <InlineHighlight>Blok Ulangi (Repeat)</InlineHighlight> di ScratchJr.
                 </>,
                 <>
-                  Mengubah kode panjang menjadi <InlineHighlight color="#D1FAE5">1 blok ringkas</InlineHighlight>.
+                  Ubah kode panjang menjadi <InlineHighlight color="#D1FAE5">1 blok ringkas</InlineHighlight>.
                 </>,
                 <>
-                  Mengatur jumlah langkah lewat <InlineHighlight color={SKY_SOFT}>keypad angka</InlineHighlight>.
+                  Atur jumlah langkah lewat <InlineHighlight color={SKY_SOFT}>keypad angka</InlineHighlight>.
                 </>,
                 <>
-                  Menggabungkan <InlineHighlight>Ulangi + Belok</InlineHighlight> untuk selesaikan labirin.
+                  Gabung <InlineHighlight>Ulangi + Belok</InlineHighlight> lewati labirin.
                 </>,
               ]}
             />

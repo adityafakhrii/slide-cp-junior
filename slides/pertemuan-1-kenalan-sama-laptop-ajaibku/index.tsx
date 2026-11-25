@@ -25,10 +25,6 @@ const SCOPED_CSS = `
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-6px) rotate(-1.2deg); }
 }
-@keyframes cpj-twinkle {
-  0%, 100% { opacity: 0.9; transform: scale(1) rotate(0deg); }
-  50% { opacity: 0.45; transform: scale(0.84) rotate(12deg); }
-}
 @keyframes cpj-confetti {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(10px) rotate(18deg); }
@@ -46,7 +42,7 @@ const SCOPED_CSS = `
   cursor: pointer;
 }
 .cpj-card-btn:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
 }
 .cpj-card-btn:active {
   transform: translateY(2px);
@@ -97,20 +93,20 @@ const SAND_GRID = '#F4ECDC';
 const WHITE = '#FFFFFF';
 const CHARCOAL = '#1E1E2C';
 const MUTED = '#525266';
+const CARD_SHADOW = '0 6px 18px rgba(30, 30, 44, 0.08)';
 const TEAL = '#10B981';
 const TEAL_DARK = '#0D9488';
 const TEAL_SOFT = '#ECFDF5';
 const CORAL = '#F45B49';
 const CORAL_SOFT = '#FEF2F2';
 const SUNNY = '#FBBF24';
+const SUNNY_SOFT = '#FEF9C3';
 const STABILO = '#FEF08A';
 const LAVENDER = '#A78BFA';
 const LAVENDER_SOFT = '#F3EEFF';
 const SKY = '#60A5FA';
 const SKY_SOFT = '#EFF6FF';
 const OTTER_GOLD = '#FBBF24';
-const OTTER_FUR = '#F59E0B';
-const OTTER_BELLY = '#FEF3C7';
 
 const X0 = 100;
 const W = 1720;
@@ -150,7 +146,7 @@ const centerCol: CSSProperties = {
 };
 
 // ============================================================================
-// Shared Chrome, Background Grid & Micro-Decorations
+// Shared Chrome, Typography, Highlights, Bullet Lists & Containers
 // ============================================================================
 const JuniorFrame = ({
   badge,
@@ -162,7 +158,6 @@ const JuniorFrame = ({
   children: ReactNode;
 }) => {
   const { current, total } = useSlidePageNumber();
-  const live = useIsActivePage();
 
   return (
     <div
@@ -180,132 +175,54 @@ const JuniorFrame = ({
         WebkitFontSmoothing: 'antialiased',
       }}
     >
-      {/* Low-opacity coding symbols around outer canvas edges */}
-      <div
-        aria-hidden
-        style={{
-          ...abs(46, 200),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 40,
-          fontWeight: 700,
-          color: LAVENDER,
-          opacity: 0.25,
-          transform: 'rotate(-10deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'{ }'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(1816, 170),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 38,
-          fontWeight: 700,
-          color: SKY,
-          opacity: 0.26,
-          transform: 'rotate(12deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'</>'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(42, 870),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 36,
-          fontWeight: 700,
-          color: TEAL,
-          opacity: 0.24,
-          transform: 'rotate(-8deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'( )'}
-      </div>
-      <div
-        aria-hidden
-        style={{
-          ...abs(1826, 860),
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 38,
-          fontWeight: 700,
-          color: CORAL,
-          opacity: 0.25,
-          transform: 'rotate(9deg)',
-          pointerEvents: 'none',
-        }}
-      >
-        {'##'}
-      </div>
-
-      {/* Sparkle accents */}
-      <svg
-        aria-hidden
-        width={42}
-        height={42}
-        viewBox="0 0 40 40"
-        style={{
-          ...abs(1750, 74),
-          pointerEvents: 'none',
-          animation: live ? 'cpj-twinkle 2.8s ease-in-out infinite' : undefined,
-        }}
-      >
-        <path
-          d="M20 2 L24.5 15.5 L38 20 L24.5 24.5 L20 38 L15.5 24.5 L2 20 L15.5 15.5 Z"
-          fill={SUNNY}
-          stroke={CHARCOAL}
-          strokeWidth={2.2}
-          strokeLinejoin="round"
-        />
-      </svg>
-
-      {/* Top Left Header Pill Badge */}
+      {/* Top Left Header Eyebrow Tag */}
       <div
         style={{
-          ...abs(X0, 56),
+          ...abs(X0, 48),
           ...row,
-          gap: 12,
-          padding: '12px 26px',
-          borderRadius: 999,
-          background: WHITE,
-          border: `2.5px solid ${CHARCOAL}`,
-          boxShadow: `0 5px 0 ${CHARCOAL}`,
-          fontSize: 20,
-          fontWeight: 800,
-          letterSpacing: '0.04em',
-          textTransform: 'uppercase',
+          gap: 18,
           zIndex: 5,
         }}
       >
-        <span
+        <div
           style={{
-            width: 14,
-            height: 14,
-            borderRadius: 99,
-            background: accentDot,
+            ...row,
+            gap: 10,
+            padding: '8px 20px',
+            borderRadius: 12,
+            background: WHITE,
             border: `2px solid ${CHARCOAL}`,
-            display: 'inline-block',
+            fontSize: 18,
+            fontWeight: 800,
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
           }}
-        />
-        <span>{badge}</span>
+        >
+          <span
+            style={{
+              width: 12,
+              height: 12,
+              borderRadius: 99,
+              background: accentDot,
+              border: `2px solid ${CHARCOAL}`,
+              display: 'inline-block',
+            }}
+          />
+          <span>{badge}</span>
+        </div>
       </div>
 
-      {/* Top Right Slide Number Pill */}
+      {/* Top Right Slide Number Indicator */}
       <div
         style={{
-          ...abs(1680, 56),
+          ...abs(1690, 48),
           ...row,
-          gap: 10,
-          padding: '12px 22px',
-          borderRadius: 999,
+          gap: 8,
+          padding: '8px 18px',
+          borderRadius: 12,
           background: WHITE,
-          border: `2.5px solid ${CHARCOAL}`,
-          boxShadow: `0 4px 0 ${CHARCOAL}`,
-          fontSize: 20,
+          border: `2px solid ${CHARCOAL}`,
+          fontSize: 19,
           fontWeight: 800,
           fontFamily: 'var(--osd-font-display)',
           zIndex: 5,
@@ -316,18 +233,17 @@ const JuniorFrame = ({
         <span>{String(total).padStart(2, '0')}</span>
       </div>
 
-      {/* Slide Content */}
       {children}
 
-      {/* Subtle Bottom Program Strip */}
+      {/* Bottom Program Strip */}
       <div
         style={{
-          ...abs(X0, 1020, W, 34),
+          ...abs(X0, 1022, W, 32),
           ...row,
           justifyContent: 'space-between',
           fontSize: 18,
           fontWeight: 700,
-          color: '#7A7689',
+          color: '#6E6A7C',
         }}
       >
         <span style={{ ...row, gap: 10 }}>
@@ -359,8 +275,8 @@ const Highlight = ({
   <span
     style={{
       background: color,
-      padding: '2px 18px 6px',
-      borderRadius: 16,
+      padding: '2px 16px 5px',
+      borderRadius: 14,
       boxDecorationBreak: 'clone',
       WebkitBoxDecorationBreak: 'clone',
       display: 'inline-block',
@@ -370,11 +286,31 @@ const Highlight = ({
   </span>
 );
 
+const InlineHighlight = ({
+  children,
+  color = STABILO,
+}: {
+  children: ReactNode;
+  color?: string;
+}) => (
+  <mark
+    style={{
+      background: color,
+      color: CHARCOAL,
+      fontWeight: 800,
+      padding: '1px 9px 2px',
+      borderRadius: 8,
+    }}
+  >
+    {children}
+  </mark>
+);
+
 const SlideTitle = ({
   children,
-  top = 138,
-  size = 56,
-  maxWidth = 1520,
+  top = 114,
+  size = 54,
+  maxWidth = 1560,
   align = 'left',
 }: {
   children: ReactNode;
@@ -390,7 +326,7 @@ const SlideTitle = ({
       fontFamily: 'var(--osd-font-display)',
       fontSize: size,
       fontWeight: 700,
-      lineHeight: 1.16,
+      lineHeight: 1.14,
       letterSpacing: '-0.015em',
       color: CHARCOAL,
       textAlign: align,
@@ -398,6 +334,116 @@ const SlideTitle = ({
   >
     {children}
   </h2>
+);
+
+const SectionHeading = ({
+  children,
+  icon,
+  accentColor = CHARCOAL,
+  size = 30,
+}: {
+  children: ReactNode;
+  icon?: JuniorIconName;
+  accentColor?: string;
+  size?: number;
+}) => (
+  <h3
+    style={{
+      margin: 0,
+      ...row,
+      gap: 10,
+      fontFamily: 'var(--osd-font-display)',
+      fontSize: size,
+      fontWeight: 700,
+      lineHeight: 1.2,
+      color: accentColor,
+    }}
+  >
+    {icon && <JuniorIcon name={icon} size={Math.round(size * 0.95)} />}
+    <span>{children}</span>
+  </h3>
+);
+
+const BulletList = ({
+  items,
+  bulletColor = TEAL,
+  fontSize = 24,
+  gap = 12,
+}: {
+  items: ReactNode[];
+  bulletColor?: string;
+  fontSize?: number;
+  gap?: number;
+}) => (
+  <ul
+    style={{
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+      display: 'flex',
+      flexDirection: 'column',
+      gap,
+    }}
+  >
+    {items.map((item, idx) => (
+      <li
+        key={idx}
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 12,
+          fontSize,
+          fontWeight: 700,
+          lineHeight: 1.38,
+          color: CHARCOAL,
+          textAlign: 'left',
+        }}
+      >
+        <span
+          aria-hidden
+          style={{
+            width: 11,
+            height: 11,
+            marginTop: Math.round(fontSize * 0.42),
+            borderRadius: 99,
+            background: bulletColor,
+            border: `2px solid ${CHARCOAL}`,
+            flexShrink: 0,
+          }}
+        />
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+);
+
+/** Flat content panel (replaces button-like 3D cards for non-interactive boxes) */
+const InfoPanel = ({
+  children,
+  bg = WHITE,
+  borderColor = CHARCOAL,
+  padding = 28,
+  style,
+}: {
+  children: ReactNode;
+  bg?: string;
+  borderColor?: string;
+  padding?: number;
+  style?: CSSProperties;
+}) => (
+  <div
+    style={{
+      background: bg,
+      borderRadius: 24,
+      border: `3px solid ${borderColor}`,
+      boxShadow: CARD_SHADOW,
+      padding,
+      boxSizing: 'border-box',
+      ...style,
+    }}
+  >
+    {children}
+  </div>
 );
 
 const MacWindowCard = ({
@@ -408,7 +454,7 @@ const MacWindowCard = ({
   titleBarColor = WHITE,
   headerLabel,
   children,
-  padding = 36,
+  padding = 32,
 }: {
   left: number;
   top: number;
@@ -423,9 +469,9 @@ const MacWindowCard = ({
     style={{
       ...abs(left, top, width, height),
       background: WHITE,
-      borderRadius: 28,
+      borderRadius: 26,
       border: `3px solid ${CHARCOAL}`,
-      boxShadow: `0 8px 0 ${CHARCOAL}`,
+      boxShadow: CARD_SHADOW,
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
@@ -434,67 +480,36 @@ const MacWindowCard = ({
     {/* Window Header */}
     <div
       style={{
-        height: 54,
+        height: 48,
         background: titleBarColor,
         borderBottom: `2.5px solid ${CHARCOAL}`,
-        padding: '0 24px',
+        padding: '0 22px',
         ...row,
         justifyContent: 'space-between',
         flexShrink: 0,
       }}
     >
-      <div style={{ ...row, gap: 11 }}>
-        <span
-          style={{
-            width: 16,
-            height: 16,
-            borderRadius: 99,
-            background: CORAL,
-            border: `2px solid ${CHARCOAL}`,
-          }}
-        />
-        <span
-          style={{
-            width: 16,
-            height: 16,
-            borderRadius: 99,
-            background: SUNNY,
-            border: `2px solid ${CHARCOAL}`,
-          }}
-        />
-        <span
-          style={{
-            width: 16,
-            height: 16,
-            borderRadius: 99,
-            background: TEAL,
-            border: `2px solid ${CHARCOAL}`,
-          }}
-        />
+      <div style={{ ...row, gap: 9 }}>
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: CORAL, border: `2px solid ${CHARCOAL}` }} />
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: SUNNY, border: `2px solid ${CHARCOAL}` }} />
+        <span style={{ width: 14, height: 14, borderRadius: 99, background: TEAL, border: `2px solid ${CHARCOAL}` }} />
       </div>
       {headerLabel && (
-        <span
-          style={{
-            fontSize: 18,
-            fontWeight: 800,
-            color: MUTED,
-            letterSpacing: '0.03em',
-          }}
-        >
+        <span style={{ fontSize: 16, fontWeight: 800, color: MUTED, letterSpacing: '0.03em' }}>
           {headerLabel}
         </span>
       )}
-      <div style={{ width: 64 }} />
+      <div style={{ width: 56 }} />
     </div>
     {/* Body */}
-    <div style={{ position: 'relative', flex: 1, padding, boxSizing: 'border-box' }}>
+    <div style={{ position: 'relative', flex: 1, padding, boxSizing: 'border-box', overflow: 'hidden' }}>
       {children}
     </div>
   </div>
 );
 
 // ============================================================================
-// BIKO — Official Otter Mascot Component (Flat Vector 2D Cartoon)
+// BIKO — Official Otter Mascot Component
 // ============================================================================
 type BikoPose =
   | 'cover-laptop'
@@ -518,10 +533,12 @@ const BIKO_POSE_ASSETS: Record<BikoPose, string> = {
 const BikoMascot = ({
   pose = 'point-left',
   width = 360,
+  speechBubble,
   style,
 }: {
   pose?: BikoPose;
   width?: number;
+  speechBubble?: string;
   style?: CSSProperties;
 }) => {
   const live = useIsActivePage();
@@ -541,6 +558,27 @@ const BikoMascot = ({
         ...style,
       }}
     >
+      {speechBubble && (
+        <div
+          style={{
+            marginBottom: 8,
+            padding: '10px 20px',
+            borderRadius: 18,
+            background: WHITE,
+            border: `2.5px solid ${CHARCOAL}`,
+            boxShadow: CARD_SHADOW,
+            fontFamily: 'var(--osd-font-display)',
+            fontSize: 22,
+            fontWeight: 700,
+            color: CHARCOAL,
+            textAlign: 'center',
+            zIndex: 3,
+          }}
+        >
+          {speechBubble}
+        </div>
+      )}
+
       <div
         style={{
           position: 'relative',
@@ -570,7 +608,6 @@ const BikoMascot = ({
           }}
         />
 
-        {/* Pose-specific interactive vector prop accents for slides using Biko base artwork */}
         {pose === 'press-key' && (
           <div
             aria-hidden="true"
@@ -578,17 +615,17 @@ const BikoMascot = ({
               position: 'absolute',
               left: -6,
               top: '39%',
-              width: 52,
-              height: 52,
+              width: 50,
+              height: 50,
               borderRadius: 14,
               background: SUNNY,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 5px 0 ${CHARCOAL}`,
+              border: `2.5px solid ${CHARCOAL}`,
+              boxShadow: CARD_SHADOW,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontFamily: 'var(--osd-font-display)',
-              fontSize: 26,
+              fontSize: 24,
               fontWeight: 700,
               color: CHARCOAL,
               transform: 'rotate(-8deg)',
@@ -606,17 +643,17 @@ const BikoMascot = ({
               position: 'absolute',
               right: 2,
               top: '8%',
-              width: 78,
-              height: 86,
-              borderRadius: 20,
+              width: 72,
+              height: 80,
+              borderRadius: 18,
               background: SUNNY,
-              border: `3.5px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
+              border: `3px solid ${CHARCOAL}`,
+              boxShadow: CARD_SHADOW,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontFamily: 'var(--osd-font-display)',
-              fontSize: 54,
+              fontSize: 48,
               fontWeight: 700,
               color: CHARCOAL,
               transform: 'rotate(10deg)',
@@ -634,12 +671,12 @@ const BikoMascot = ({
               position: 'absolute',
               right: 4,
               top: '10%',
-              width: 66,
-              height: 66,
+              width: 62,
+              height: 62,
               borderRadius: '50%',
               background: SUNNY,
-              border: `3.5px solid ${CHARCOAL}`,
-              boxShadow: `0 5px 0 ${CHARCOAL}`,
+              border: `3px solid ${CHARCOAL}`,
+              boxShadow: CARD_SHADOW,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -647,7 +684,7 @@ const BikoMascot = ({
               pointerEvents: 'none',
             }}
           >
-            <JuniorIcon name="thumbs-up" size={34} />
+            <JuniorIcon name="thumbs-up" size={32} />
           </div>
         )}
       </div>
@@ -657,7 +694,7 @@ const BikoMascot = ({
         aria-hidden="true"
         style={{
           width: isJump ? width * 0.36 : width * 0.52,
-          height: 16,
+          height: 15,
           marginTop: isJump ? 8 : -6,
           borderRadius: '50%',
           background: CHARCOAL,
@@ -670,195 +707,132 @@ const BikoMascot = ({
 };
 
 // ============================================================================
-// Reusable Clean Check / Cross SVG Icons
-// ============================================================================
-const IconCheck = ({ size = 44 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="21" fill={TEAL} stroke={CHARCOAL} strokeWidth={3} />
-    <path
-      d="M14 25 L21 32 L34 17"
-      stroke={WHITE}
-      strokeWidth={4.8}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const IconCross = ({ size = 44 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="21" fill={CORAL} stroke={CHARCOAL} strokeWidth={3} />
-    <path
-      d="M16 16 L32 32 M32 16 L16 32"
-      stroke={WHITE}
-      strokeWidth={4.8}
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-// ============================================================================
-// SLIDE 01 — Sampul Pertemuan (Hero Split Layout)
+// SLIDE 01 — Sampul Pertemuan (Heading H1 + Concise Bullet Intro + Biko)
 // ============================================================================
 const Slide01Cover: Page = () => {
-  const live = useIsActivePage();
   return (
     <JuniorFrame badge="CODEPOLITAN JUNIOR • PERTEMUAN 1" accentDot={SUNNY}>
-      {/* Left Column: Hero Title & Subtitle */}
-      <h1
-        style={{
-          ...abs(X0, 224, 920),
-          margin: 0,
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 92,
-          fontWeight: 700,
-          lineHeight: 1.08,
-          letterSpacing: '-0.02em',
-          color: CHARCOAL,
-        }}
-      >
-        Kenalan Sama
-        <br />
-        <Highlight color={STABILO}>Laptop Ajaibku!</Highlight>
-      </h1>
-
-      <div
-        style={{
-          ...abs(X0, 488, 780),
-          fontSize: 34,
-          fontWeight: 700,
-          lineHeight: 1.4,
-          color: MUTED,
-        }}
-      >
-        Belajar Bagian Laptop &amp; Cara Merawatnya
-      </div>
-
-      {/* Playful Level & Visual Tag Chips */}
-      <div style={{ ...abs(X0, 620), ...row, gap: 18 }}>
+      {/* Left Hero Column */}
+      <div style={{ ...abs(X0, 175, 840, 765), display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 22 }}>
         <div
           style={{
-            ...row,
-            gap: 12,
-            padding: '16px 28px',
-            borderRadius: 20,
-            background: TEAL_SOFT,
-            border: `2.5px solid ${CHARCOAL}`,
-            boxShadow: `0 5px 0 ${CHARCOAL}`,
-            fontSize: 24,
+            display: 'inline-flex',
+            alignItems: 'center',
+            alignSelf: 'flex-start',
+            padding: '8px 18px',
+            borderRadius: 12,
+            background: SUNNY_SOFT,
+            border: `2px solid ${CHARCOAL}`,
+            fontSize: 20,
             fontWeight: 800,
+            color: '#92400E',
+          }}
+        >
+          <span>LEVEL 1: CODE EXPLORER (USIA 5–7 TAHUN)</span>
+        </div>
+
+        <h1
+          style={{
+            margin: 0,
+            fontFamily: 'var(--osd-font-display)',
+            fontSize: 86,
+            fontWeight: 700,
+            lineHeight: 1.08,
+            letterSpacing: '-0.02em',
             color: CHARCOAL,
           }}
         >
-          <JuniorIcon name="laptop" size={30} />
-          <span>Level 1: Code Explorer</span>
-        </div>
+          Kenalan Sama
+          <br />
+          <Highlight color={STABILO}>Laptop Ajaibku!</Highlight>
+        </h1>
 
-        <div
+        <p
           style={{
-            ...row,
-            gap: 12,
-            padding: '16px 28px',
-            borderRadius: 20,
-            background: SKY_SOFT,
-            border: `2.5px solid ${CHARCOAL}`,
-            boxShadow: `0 5px 0 ${CHARCOAL}`,
-            fontSize: 24,
-            fontWeight: 800,
-            color: CHARCOAL,
+            margin: 0,
+            fontSize: 30,
+            fontWeight: 700,
+            lineHeight: 1.35,
+            color: MUTED,
           }}
         >
-          <JuniorIcon name="star-glow" size={30} />
-          <span>Usia 5–7 Tahun</span>
-        </div>
+          Mengenal Bagian Laptop &amp; Cara Merawatnya
+        </p>
+
+        {/* Clean non-button InfoPanel with BulletList */}
+        <InfoPanel bg={WHITE} padding={26} style={{ marginTop: 6 }}>
+          <SectionHeading icon="laptop" size={26} accentColor={CHARCOAL}>
+            Yang Akan Kita Pelajari:
+          </SectionHeading>
+          <div style={{ marginTop: 14 }}>
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={24}
+              gap={12}
+              items={[
+                <>
+                  Kenali <InlineHighlight color={SKY_SOFT}>Layar, Keyboard, Trackpad</InlineHighlight>.
+                </>,
+                <>
+                  Hafal <InlineHighlight color="#D1FAE5">Aturan Emas</InlineHighlight> merawat laptop.
+                </>,
+                <>
+                  Gerakkan <InlineHighlight>Panah Ajaib</InlineHighlight> ke tombol.
+                </>,
+              ]}
+            />
+          </div>
+        </InfoPanel>
       </div>
 
       {/* Right Column: Large Cheerful Biko Holding Coding Laptop */}
-      <div
+      <InfoPanel
+        bg={WHITE}
+        padding={32}
         style={{
-          ...abs(1080, 175, 720, 760),
+          ...abs(1040, 175, 780, 765),
           ...centerCol,
-          background: WHITE,
-          borderRadius: 40,
-          border: `3px solid ${CHARCOAL}`,
-          boxShadow: `0 10px 0 ${CHARCOAL}`,
+          borderRadius: 36,
           overflow: 'hidden',
+          position: 'relative',
         }}
       >
-        {/* Warm Radial Backdrop Inside Hero Card */}
         <div
           style={{
             position: 'absolute',
-            width: 480,
-            height: 480,
+            width: 500,
+            height: 500,
             borderRadius: 999,
             background: STABILO,
             opacity: 0.45,
           }}
         />
-        {/* Decorative floating coding chips */}
-        <div
-          style={{
-            ...abs(56, 54),
-            ...row,
-            gap: 8,
-            padding: '10px 18px',
-            borderRadius: 14,
-            background: SKY,
-            border: `2.5px solid ${CHARCOAL}`,
-            boxShadow: `0 4px 0 ${CHARCOAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 22,
-            fontWeight: 700,
-            color: WHITE,
-            animation: live ? 'cpj-float 2.6s ease-in-out infinite' : undefined,
-          }}
-        >
-          <JuniorIcon name="play" size={22} />
-          <span>MULAI!</span>
-        </div>
-        <div
-          style={{
-            ...abs(530, 82),
-            padding: '10px 18px',
-            borderRadius: 14,
-            background: CORAL,
-            border: `2.5px solid ${CHARCOAL}`,
-            boxShadow: `0 4px 0 ${CHARCOAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 22,
-            fontWeight: 700,
-            color: WHITE,
-            animation: live ? 'cpj-float 3.1s ease-in-out 0.4s infinite' : undefined,
-          }}
-        >
-          ✦ HAI BIKO!
-        </div>
 
-        <BikoMascot pose="cover-laptop" width={480} style={{ position: 'relative', zIndex: 2, marginTop: 40 }} />
+        <BikoMascot
+          pose="cover-laptop"
+          width={470}
+          speechBubble="Hai! Aku Biko!"
+          style={{ position: 'relative', zIndex: 2 }}
+        />
 
         <div
           style={{
             position: 'relative',
             zIndex: 2,
-            marginTop: 8,
-            ...row,
-            gap: 10,
-            padding: '10px 26px',
-            borderRadius: 999,
-            background: STABILO,
+            marginTop: 10,
+            padding: '10px 24px',
+            borderRadius: 14,
+            background: TEAL_SOFT,
             border: `2.5px solid ${CHARCOAL}`,
-            boxShadow: `0 4px 0 ${CHARCOAL}`,
             color: CHARCOAL,
             fontFamily: 'var(--osd-font-display)',
-            fontSize: 24,
+            fontSize: 23,
             fontWeight: 700,
           }}
         >
-          <span>Teman Belajar: Biko si Berang-berang</span>
-          <JuniorIcon name="biko" size={28} />
+          Teman Belajar: Biko si Berang-berang
         </div>
-      </div>
+      </InfoPanel>
     </JuniorFrame>
   );
 };
@@ -868,179 +842,144 @@ const Slide01Cover: Page = () => {
 // ============================================================================
 const Slide02Misi: Page = () => (
   <JuniorFrame badge="MISI HARI INI" accentDot={SKY}>
-    <SlideTitle top={140}>
+    <SlideTitle>
       Apa <Highlight>Misi Kita</Highlight> Hari Ini?
     </SlideTitle>
 
     <MacWindowCard
       left={X0}
-      top={260}
-      width={1270}
-      height={680}
+      top={215}
+      width={1320}
+      height={745}
       titleBarColor={SAND_GRID}
-      headerLabel="PETUALANGAN LAPTOP"
-      padding={44}
+      headerLabel="petualangan-laptop"
+      padding={34}
     >
       <div
         style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: 38,
+          gap: 32,
           height: '100%',
         }}
       >
         {/* Kartu 1: Blue Accent */}
-        <div
-          style={{
-            background: SKY_SOFT,
-            borderRadius: 26,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${SKY}`,
-            padding: 36,
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+        <InfoPanel
+          bg={SKY_SOFT}
+          borderColor={CHARCOAL}
+          padding={26}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 14 }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: SKY,
-              border: `2px solid ${CHARCOAL}`,
-              color: WHITE,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 22,
-              fontWeight: 700,
-            }}
-          >
-            MISI 1
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#1D4ED8', letterSpacing: '0.05em' }}>
+              MISI 1
+            </span>
+            <SectionHeading icon="laptop" size={32}>
+              Kenali <Highlight color="#DBEAFE">Bagian Laptop</Highlight>
+            </SectionHeading>
           </div>
 
-          {/* Icon: Laptop with Magnifying Glass */}
-          <svg width={260} height={210} viewBox="0 0 260 210" fill="none">
-            <rect x="34" y="34" width="164" height="114" rx="14" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} />
-            <rect x="48" y="48" width="136" height="84" rx="8" fill="#DBEAFE" />
-            <path d="M18 148 H214 L228 172 H4 Z" fill="#CBD5E1" stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            {/* Three mini colored dots on laptop screen */}
-            <circle cx="84" cy="90" r="14" fill={CORAL} stroke={CHARCOAL} strokeWidth={2.5} />
-            <circle cx="116" cy="90" r="14" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2.5} />
-            <circle cx="148" cy="90" r="14" fill={TEAL} stroke={CHARCOAL} strokeWidth={2.5} />
-            {/* Magnifying Glass */}
-            <circle cx="192" cy="116" r="38" fill="#FEF08A" fillOpacity={0.75} stroke={CHARCOAL} strokeWidth={4.5} />
-            <path d="M218 144 L246 172" stroke={CORAL} strokeWidth={12} strokeLinecap="round" />
-            <path d="M218 144 L246 172" stroke={CHARCOAL} strokeWidth={4} strokeLinecap="round" />
-          </svg>
-
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 34,
-              fontWeight: 700,
-              lineHeight: 1.25,
-              color: CHARCOAL,
-            }}
-          >
-            Kenali <Highlight color="#DBEAFE">3 Bagian Utama</Highlight> Laptop
+          <div style={{ ...centerCol }}>
+            <svg width={250} height={195} viewBox="0 0 260 210" fill="none">
+              <rect x="34" y="34" width="164" height="114" rx="14" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} />
+              <rect x="48" y="48" width="136" height="84" rx="8" fill="#DBEAFE" />
+              <path d="M18 148 H214 L228 172 H4 Z" fill="#CBD5E1" stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
+              <circle cx="84" cy="90" r="14" fill={CORAL} stroke={CHARCOAL} strokeWidth={2.5} />
+              <circle cx="116" cy="90" r="14" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2.5} />
+              <circle cx="148" cy="90" r="14" fill={TEAL} stroke={CHARCOAL} strokeWidth={2.5} />
+              <circle cx="192" cy="116" r="38" fill={STABILO} fillOpacity={0.78} stroke={CHARCOAL} strokeWidth={4.5} />
+              <path d="M218 144 L246 172" stroke={CORAL} strokeWidth={12} strokeLinecap="round" />
+              <path d="M218 144 L246 172" stroke={CHARCOAL} strokeWidth={4} strokeLinecap="round" />
+            </svg>
           </div>
-        </div>
+
+          <BulletList
+            bulletColor={SKY}
+            fontSize={23}
+            gap={10}
+            items={[
+              <>
+                <InlineHighlight color={WHITE}>Layar</InlineHighlight> untuk lihat gambar.
+              </>,
+              <>
+                <InlineHighlight color={WHITE}>Keyboard</InlineHighlight> untuk ketik.
+              </>,
+              <>
+                <InlineHighlight color={WHITE}>Trackpad</InlineHighlight> geser panah.
+              </>,
+            ]}
+          />
+        </InfoPanel>
 
         {/* Kartu 2: Green Accent */}
-        <div
-          style={{
-            background: TEAL_SOFT,
-            borderRadius: 26,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${TEAL}`,
-            padding: 36,
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+        <InfoPanel
+          bg={TEAL_SOFT}
+          borderColor={CHARCOAL}
+          padding={26}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 14 }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: TEAL,
-              border: `2px solid ${CHARCOAL}`,
-              color: WHITE,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 22,
-              fontWeight: 700,
-            }}
-          >
-            MISI 2
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#047857', letterSpacing: '0.05em' }}>
+              MISI 2
+            </span>
+            <SectionHeading icon="heart" size={32}>
+              Hafal <Highlight color="#D1FAE5">Aturan Emas</Highlight>
+            </SectionHeading>
           </div>
 
-          {/* Icon: Shield with Heart & Gold Star */}
-          <svg width={260} height={210} viewBox="0 0 260 210" fill="none">
-            <path
-              d="M130 22 L206 48 V106 C206 154, 168 184, 130 198 C92 184, 54 154, 54 106 V48 Z"
-              fill={WHITE}
-              stroke={CHARCOAL}
-              strokeWidth={4.5}
-              strokeLinejoin="round"
-            />
-            <path
-              d="M130 40 L188 60 V104 C188 140, 158 164, 130 176 C102 164, 72 140, 72 104 V60 Z"
-              fill="#D1FAE5"
-            />
-            {/* Heart */}
-            <path
-              d="M130 146 C130 146, 92 122, 92 96 C92 80, 106 72, 118 78 C124 81, 128 86, 130 92 C132 86, 136 81, 142 78 C154 72, 168 80, 168 96 C168 122, 130 146, 130 146 Z"
-              fill={CORAL}
-              stroke={CHARCOAL}
-              strokeWidth={3.5}
-              strokeLinejoin="round"
-            />
-            {/* Gold Star badge top right */}
-            <path
-              d="M204 20 L212 36 L230 39 L217 51 L220 69 L204 60 L188 69 L191 51 L178 39 L196 36 Z"
-              fill={SUNNY}
-              stroke={CHARCOAL}
-              strokeWidth={3}
-              strokeLinejoin="round"
-            />
-          </svg>
-
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 34,
-              fontWeight: 700,
-              lineHeight: 1.25,
-              color: CHARCOAL,
-            }}
-          >
-            Hafal <Highlight color="#D1FAE5">Aturan Emas</Highlight> Merawat Laptop
+          <div style={{ ...centerCol }}>
+            <svg width={250} height={195} viewBox="0 0 260 210" fill="none">
+              <path
+                d="M130 22 L206 48 V106 C206 154, 168 184, 130 198 C92 184, 54 154, 54 106 V48 Z"
+                fill={WHITE}
+                stroke={CHARCOAL}
+                strokeWidth={4.5}
+                strokeLinejoin="round"
+              />
+              <path d="M130 40 L188 60 V104 C188 140, 158 164, 130 176 C102 164, 72 140, 72 104 V60 Z" fill="#D1FAE5" />
+              <path
+                d="M130 146 C130 146, 92 122, 92 96 C92 80, 106 72, 118 78 C124 81, 128 86, 130 92 C132 86, 136 81, 142 78 C154 72, 168 80, 168 96 C168 122, 130 146, 130 146 Z"
+                fill={CORAL}
+                stroke={CHARCOAL}
+                strokeWidth={3.5}
+                strokeLinejoin="round"
+              />
+              <path
+                d="M204 20 L212 36 L230 39 L217 51 L220 69 L204 60 L188 69 L191 51 L178 39 L196 36 Z"
+                fill={SUNNY}
+                stroke={CHARCOAL}
+                strokeWidth={3}
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
-        </div>
+
+          <BulletList
+            bulletColor={TEAL}
+            fontSize={23}
+            gap={10}
+            items={[
+              <>
+                <InlineHighlight color="#D1FAE5">Tangan bersih</InlineHighlight> dan kering.
+              </>,
+              <>
+                Jauhkan <InlineHighlight color="#FECACA">air dan makan</InlineHighlight>.
+              </>,
+              <>
+                Duduk <InlineHighlight>tegak dan rapi</InlineHighlight>.
+              </>,
+            ]}
+          />
+        </InfoPanel>
       </div>
     </MacWindowCard>
 
-    {/* Biko Mascot Pointing Left to Cards */}
-    <div style={{ ...abs(1410, 420, 420, 520), ...centerCol }}>
-      <div
-        style={{
-          marginBottom: 14,
-          ...row,
-          gap: 10,
-          padding: '12px 24px',
-          borderRadius: 20,
-          background: WHITE,
-          border: `2.5px solid ${CHARCOAL}`,
-          boxShadow: `0 4px 0 ${CHARCOAL}`,
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 26,
-          fontWeight: 700,
-        }}
-      >
-        <span>Ayo kita taklukkan!</span>
-        <JuniorIcon name="rocket" size={28} />
-      </div>
-      <BikoMascot pose="point-left" width={360} />
-    </div>
+    <BikoMascot
+      pose="point-left"
+      width={360}
+      speechBubble="Ayo kita taklukkan!"
+      style={{ ...abs(1455, 325) }}
+    />
   </JuniorFrame>
 );
 
@@ -1051,23 +990,22 @@ const Slide03Layar: Page = () => {
   const live = useIsActivePage();
   return (
     <JuniorFrame badge="BAGIAN LAPTOP #1" accentDot={SUNNY}>
-      <SlideTitle top={140}>
+      <SlideTitle>
         Ini Namanya <Highlight>Layar</Highlight>
       </SlideTitle>
 
       {/* Left Large Visual Laptop Spotlight */}
       <MacWindowCard
         left={X0}
-        top={258}
+        top={225}
         width={1030}
-        height={690}
-        titleBarColor="#FEF9C3"
-        headerLabel="BAGIAN #1 • LAYAR MONITOR"
-        padding={32}
+        height={725}
+        titleBarColor={SUNNY_SOFT}
+        headerLabel="bagian-1-layar"
+        padding={28}
       >
         <div style={{ ...centerCol, height: '100%' }}>
           <svg width={900} height={540} viewBox="0 0 900 540" fill="none">
-            {/* Golden Glow Behind Screen */}
             <rect
               x="128"
               y="18"
@@ -1079,12 +1017,10 @@ const Slide03Layar: Page = () => {
               strokeWidth={6}
               strokeDasharray="16 12"
             />
-            {/* Laptop Lid Frame */}
             <rect x="150" y="38" width="600" height="346" rx="22" fill={CHARCOAL} />
-            {/* Bright Screen Area */}
             <rect x="172" y="60" width="556" height="302" rx="12" fill="#E0F2FE" stroke={SUNNY} strokeWidth={5} />
 
-            {/* Game World Inside Screen: Clouds, Planet & Flying Rocket */}
+            {/* Game World Inside Screen */}
             <circle cx="628" cy="128" r="36" fill={LAVENDER} stroke={CHARCOAL} strokeWidth={3} />
             <ellipse cx="628" cy="128" rx="58" ry="12" transform="rotate(-16 628 128)" stroke={SUNNY} strokeWidth={5} />
             <circle cx="268" cy="130" r="24" fill={WHITE} />
@@ -1110,7 +1046,7 @@ const Slide03Layar: Page = () => {
             <circle cx="288" cy="282" r="5" fill={CHARCOAL} />
             <path d="M266 298 Q276 306 286 298" stroke={CHARCOAL} strokeWidth={3} strokeLinecap="round" />
 
-            {/* Laptop Lower Keyboard Base (Faded slightly to keep spotlight on Screen) */}
+            {/* Laptop Lower Keyboard Base */}
             <path
               d="M110 384 H790 L842 464 H58 Z"
               fill="#E2E8F0"
@@ -1132,45 +1068,35 @@ const Slide03Layar: Page = () => {
         </div>
       </MacWindowCard>
 
-      {/* Right Column: Short Icon Points + Biko Pointing */}
-      <div style={{ ...abs(1170, 258, 650), display: 'flex', flexDirection: 'column', gap: 22 }}>
-        <div
-          style={{
-            ...row,
-            gap: 22,
-            padding: '24px 30px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${SUNNY}`,
-          }}
-        >
-          <JuniorIcon name="eyes" size={50} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700 }}>
-            Seperti <Highlight>TV Ajaib</Highlight>
-          </span>
-        </div>
+      {/* Right Column: InfoPanel with BulletList + Biko Pointing */}
+      <div style={{ ...abs(1170, 225, 650, 725), display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <InfoPanel bg={WHITE} padding={30}>
+          <SectionHeading icon="eyes" size={32}>
+            Apa Itu <Highlight>Layar?</Highlight>
+          </SectionHeading>
+          <div style={{ marginTop: 18 }}>
+            <BulletList
+              bulletColor={SUNNY}
+              fontSize={27}
+              gap={16}
+              items={[
+                <>
+                  Seperti <InlineHighlight>TV ajaib</InlineHighlight> di laptop.
+                </>,
+                <>
+                  Muncul <InlineHighlight color={SKY_SOFT}>gambar dan warna</InlineHighlight> cerah.
+                </>,
+                <>
+                  Tempat lihat <InlineHighlight color="#D1FAE5">game seru</InlineHighlight>.
+                </>,
+              ]}
+            />
+          </div>
+        </InfoPanel>
 
-        <div
-          style={{
-            ...row,
-            gap: 22,
-            padding: '24px 30px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${TEAL}`,
-          }}
-        >
-          <JuniorIcon name="gamepad" size={50} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700 }}>
-            Tempat gambar &amp; game muncul
-          </span>
+        <div style={{ ...centerCol }}>
+          <BikoMascot pose="point-left" width={320} speechBubble="Lihat gambar di layar!" />
         </div>
-      </div>
-
-      <div style={{ ...abs(1330, 560, 420, 410), ...centerCol }}>
-        <BikoMascot pose="point-left" width={360} />
       </div>
     </JuniorFrame>
   );
@@ -1188,11 +1114,11 @@ const KEY_ROWS = [
     { label: '5', bg: SKY_SOFT, activeBg: SKY },
   ],
   [
-    { label: 'A', bg: '#FEF9C3', activeBg: SUNNY },
-    { label: 'B', bg: '#FEF9C3', activeBg: SUNNY },
-    { label: 'C', bg: '#FEF9C3', activeBg: SUNNY },
-    { label: 'D', bg: '#FEF9C3', activeBg: SUNNY },
-    { label: 'E', bg: '#FEF9C3', activeBg: SUNNY },
+    { label: 'A', bg: SUNNY_SOFT, activeBg: SUNNY },
+    { label: 'B', bg: SUNNY_SOFT, activeBg: SUNNY },
+    { label: 'C', bg: SUNNY_SOFT, activeBg: SUNNY },
+    { label: 'D', bg: SUNNY_SOFT, activeBg: SUNNY },
+    { label: 'E', bg: SUNNY_SOFT, activeBg: SUNNY },
   ],
 ];
 
@@ -1201,97 +1127,77 @@ const Slide04Keyboard: Page = () => {
 
   return (
     <JuniorFrame badge="BAGIAN LAPTOP #2" accentDot={CORAL}>
-      <SlideTitle top={140}>
+      <SlideTitle>
         Ini Namanya <Highlight>Keyboard</Highlight>
       </SlideTitle>
 
-      {/* Left Column: Brief Explanation + Biko Pressing Gently */}
-      <div style={{ ...abs(X0, 260, 620), display: 'flex', flexDirection: 'column', gap: 22 }}>
-        <div
-          style={{
-            ...row,
-            gap: 20,
-            padding: '22px 26px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${SKY}`,
-          }}
-        >
-          <JuniorIcon name="abc" size={48} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 31, fontWeight: 700, lineHeight: 1.25 }}>
-            Punya tombol <Highlight color="#DBEAFE">Huruf &amp; Angka</Highlight>
-          </span>
-        </div>
+      {/* Left Column: InfoPanel + Biko & Pressed Key Feedback */}
+      <div style={{ ...abs(X0, 225, 630, 725), display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <InfoPanel bg={WHITE} padding={28}>
+          <SectionHeading icon="abc" size={32}>
+            Apa Itu <Highlight color="#DBEAFE">Keyboard?</Highlight>
+          </SectionHeading>
+          <div style={{ marginTop: 16 }}>
+            <BulletList
+              bulletColor={SKY}
+              fontSize={26}
+              gap={14}
+              items={[
+                <>
+                  Punya tombol <InlineHighlight color={SKY_SOFT}>huruf dan angka</InlineHighlight>.
+                </>,
+                <>
+                  Untuk mengetik dan <InlineHighlight>memberi perintah</InlineHighlight>.
+                </>,
+                <>
+                  Tekan <InlineHighlight color="#D1FAE5">pelan-pelan</InlineHighlight> saja.
+                </>,
+              ]}
+            />
+          </div>
+        </InfoPanel>
 
-        <div
-          style={{
-            ...row,
-            gap: 20,
-            padding: '22px 26px',
-            borderRadius: 24,
-            background: WHITE,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${TEAL}`,
-          }}
-        >
-          <JuniorIcon name="sparkle" size={48} />
-          <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 31, fontWeight: 700, lineHeight: 1.25 }}>
-            Untuk mengetik &amp; memberi perintah
-          </span>
-        </div>
-
-        {/* Pressed Feedback + Biko */}
-        <div style={{ ...row, gap: 18, marginTop: 12 }}>
-          <BikoMascot pose="press-key" width={270} />
-          <div
-            style={{
-              padding: '20px 26px',
-              borderRadius: 24,
-              background: '#FEF9C3',
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CHARCOAL}`,
-              textAlign: 'center',
-              flex: 1,
-            }}
-          >
-            <div style={{ fontSize: 20, fontWeight: 800, color: MUTED }}>TOMBOL DIKLIK:</div>
+        <div style={{ ...row, gap: 18, alignItems: 'center' }}>
+          <BikoMascot pose="press-key" width={250} />
+          <InfoPanel bg={SUNNY_SOFT} padding={24} style={{ flex: 1, textAlign: 'center' }}>
+            <SectionHeading icon="feather" size={24} accentColor={MUTED}>
+              Tombol Diklik:
+            </SectionHeading>
             <div
               style={{
                 fontFamily: 'var(--osd-font-display)',
-                fontSize: pressedKey.length > 2 ? 44 : 64,
+                fontSize: pressedKey.length > 2 ? 44 : 66,
                 fontWeight: 700,
                 color: CORAL,
-                marginTop: 6,
+                marginTop: 8,
               }}
             >
               {pressedKey}
             </div>
-            <div style={{ ...row, justifyContent: 'center', gap: 8, fontSize: 19, fontWeight: 700, color: CHARCOAL }}>
-              <span>Tekan pelan ya!</span>
-              <JuniorIcon name="feather" size={22} />
+            <div style={{ fontSize: 20, fontWeight: 700, color: CHARCOAL, marginTop: 4 }}>
+              Tekan pelan ya!
             </div>
-          </div>
+          </InfoPanel>
         </div>
       </div>
 
       {/* Right Column: Big Interactive Colorful Keyboard Close-up */}
       <MacWindowCard
         left={760}
-        top={260}
+        top={225}
         width={1060}
-        height={680}
-        titleBarColor="#EFF6FF"
-        headerLabel="KLIK TOMBOLNYA YUK!"
-        padding={38}
+        height={725}
+        titleBarColor={SKY_SOFT}
+        headerLabel="klik-tombolnya"
+        padding={34}
       >
         <div
           style={{
             height: '100%',
             background: '#E2E8F0',
-            borderRadius: 24,
+            borderRadius: 22,
             border: `3px solid ${CHARCOAL}`,
-            padding: 32,
+            padding: 30,
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -1312,10 +1218,10 @@ const Slide04Keyboard: Page = () => {
                     }}
                     className="cpj-card-btn"
                     style={{
-                      height: 124,
+                      height: 132,
                       borderRadius: 20,
                       background: isActive ? k.activeBg : k.bg,
-                      color: isActive ? WHITE : CHARCOAL,
+                      color: isActive && rIdx === 0 ? WHITE : CHARCOAL,
                       border: `3px solid ${CHARCOAL}`,
                       boxShadow: isActive ? `0 2px 0 ${CHARCOAL}` : `0 8px 0 ${CHARCOAL}`,
                       fontFamily: 'var(--osd-font-display)',
@@ -1342,7 +1248,7 @@ const Slide04Keyboard: Page = () => {
               }}
               className="cpj-card-btn"
               style={{
-                height: 122,
+                height: 130,
                 borderRadius: 20,
                 background: pressedKey === 'SPASI' ? TEAL : TEAL_SOFT,
                 color: pressedKey === 'SPASI' ? WHITE : CHARCOAL,
@@ -1354,7 +1260,7 @@ const Slide04Keyboard: Page = () => {
                 letterSpacing: '0.08em',
               }}
             >
-              ␣ SPASI
+              SPASI
             </button>
 
             {/* Arrow Keys Cluster */}
@@ -1362,7 +1268,7 @@ const Slide04Keyboard: Page = () => {
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gridTemplateRows: 'repeat(2, 56px)',
+                gridTemplateRows: 'repeat(2, 60px)',
                 gap: 10,
                 alignItems: 'center',
               }}
@@ -1376,17 +1282,17 @@ const Slide04Keyboard: Page = () => {
                   setPressedKey('ATAS');
                 }}
                 className="cpj-card-btn"
+                aria-label="Tombol panah atas"
                 style={{
-                  height: 56,
+                  height: 60,
                   borderRadius: 14,
                   background: pressedKey === 'ATAS' ? CORAL : CORAL_SOFT,
-                  color: pressedKey === 'ATAS' ? WHITE : CHARCOAL,
                   border: `2.5px solid ${CHARCOAL}`,
                   boxShadow: `0 4px 0 ${CHARCOAL}`,
                   ...centerCol,
                 }}
               >
-                <JuniorIcon name="arrow-up" size={26} />
+                <JuniorIcon name="arrow-up" size={28} />
               </button>
               <div />
               {(
@@ -1405,17 +1311,17 @@ const Slide04Keyboard: Page = () => {
                     setPressedKey(arrow.id);
                   }}
                   className="cpj-card-btn"
+                  aria-label={`Tombol panah ${arrow.id.toLowerCase()}`}
                   style={{
-                    height: 56,
+                    height: 60,
                     borderRadius: 14,
                     background: pressedKey === arrow.id ? CORAL : CORAL_SOFT,
-                    color: pressedKey === arrow.id ? WHITE : CHARCOAL,
                     border: `2.5px solid ${CHARCOAL}`,
                     boxShadow: `0 4px 0 ${CHARCOAL}`,
                     ...centerCol,
                   }}
                 >
-                  <JuniorIcon name={arrow.icon} size={26} />
+                  <JuniorIcon name={arrow.icon} size={28} />
                 </button>
               ))}
             </div>
@@ -1433,52 +1339,39 @@ const Slide05TrackpadMouse: Page = () => {
   const live = useIsActivePage();
   return (
     <JuniorFrame badge="BAGIAN LAPTOP #3" accentDot={LAVENDER}>
-      <SlideTitle top={140}>
+      <SlideTitle>
         <Highlight>Trackpad</Highlight> &amp; <Highlight color="#DBEAFE">Mouse</Highlight>
       </SlideTitle>
 
-      {/* Main Spotlight Card */}
       <MacWindowCard
         left={X0}
-        top={258}
-        width={1720}
-        height={690}
+        top={225}
+        width={W}
+        height={725}
         titleBarColor={LAVENDER_SOFT}
-        headerLabel="PENGGERAK PANAH AJAIB"
-        padding={40}
+        headerLabel="penggerak-panah-ajaib"
+        padding={34}
       >
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr 1.05fr',
-            gap: 32,
+            gap: 30,
             height: '100%',
-            alignItems: 'center',
+            alignItems: 'stretch',
           }}
         >
           {/* 1. Trackpad Illustration Card */}
-          <div
-            style={{
-              height: '100%',
-              background: SKY_SOFT,
-              borderRadius: 24,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${SKY}`,
-              padding: 30,
-              ...centerCol,
-              justifyContent: 'space-between',
-              textAlign: 'center',
-            }}
+          <InfoPanel
+            bg={SKY_SOFT}
+            padding={26}
+            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}
           >
-            <svg width={320} height={270} viewBox="0 0 320 270" fill="none">
-              {/* Laptop Palm Rest */}
+            <svg width={320} height={260} viewBox="0 0 320 270" fill="none">
               <rect x="24" y="34" width="272" height="198" rx="20" fill="#E2E8F0" stroke={CHARCOAL} strokeWidth={4} />
-              {/* Keyboard strip top */}
               <rect x="44" y="48" width="232" height="44" rx="8" fill="#CBD5E1" stroke={CHARCOAL} strokeWidth={2.5} />
-              {/* Glowing Blue Trackpad Box */}
               <rect x="86" y="108" width="148" height="106" rx="16" fill={SKY} stroke={CHARCOAL} strokeWidth={4} />
               <rect x="98" y="120" width="124" height="82" rx="10" fill="#DBEAFE" />
-              {/* Cute Finger Icon Touching Trackpad */}
               <circle cx="160" cy="158" r="18" fill={SUNNY} opacity={0.65} />
               <path
                 d="M160 154 C166 154, 174 162, 174 176 V228 H144 V174 C144 162, 152 154, 160 154 Z"
@@ -1487,82 +1380,69 @@ const Slide05TrackpadMouse: Page = () => {
                 strokeWidth={3.5}
               />
             </svg>
-            <div>
-              <div style={{ ...row, justifyContent: 'center', gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700 }}>
-                <JuniorIcon name="tap" size={32} />
-                <span>Trackpad</span>
-              </div>
-              <div style={{ fontSize: 25, fontWeight: 700, color: MUTED, marginTop: 6 }}>
-                Kotak sentuh di laptop
-              </div>
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <SectionHeading icon="tap" size={32}>
+                Trackpad
+              </SectionHeading>
+              <BulletList
+                bulletColor={SKY}
+                fontSize={23}
+                gap={8}
+                items={[
+                  <>
+                    <InlineHighlight color={WHITE}>Kotak sentuh</InlineHighlight> di laptop.
+                  </>,
+                  <>Geser pakai 1 jari.</>,
+                ]}
+              />
             </div>
-          </div>
+          </InfoPanel>
 
           {/* 2. Cute Mouse Illustration Card */}
-          <div
-            style={{
-              height: '100%',
-              background: CORAL_SOFT,
-              borderRadius: 24,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${CORAL}`,
-              padding: 30,
-              ...centerCol,
-              justifyContent: 'space-between',
-              textAlign: 'center',
-            }}
+          <InfoPanel
+            bg={CORAL_SOFT}
+            padding={26}
+            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}
           >
-            <svg width={300} height={270} viewBox="0 0 300 270" fill="none">
-              {/* Desk Pad */}
+            <svg width={300} height={260} viewBox="0 0 300 270" fill="none">
               <ellipse cx="150" cy="212" rx="116" ry="26" fill="#FEE2E2" stroke={CHARCOAL} strokeWidth={3} />
-              {/* Cord Wire Curve */}
               <path d="M150 58 C150 22, 224 14, 246 44" stroke={CHARCOAL} strokeWidth={4} strokeLinecap="round" />
-              {/* Cute Rounded Mouse Body */}
               <rect x="94" y="56" width="112" height="156" rx="56" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} />
               <path d="M96 124 H204" stroke={CHARCOAL} strokeWidth={3.5} />
               <path d="M150 58 V124" stroke={CHARCOAL} strokeWidth={3.5} />
-              {/* Left Click Highlight */}
-              <path
-                d="M148 59 C116 61, 97 86, 97 122 H148 Z"
-                fill={CORAL}
-                opacity={0.85}
-              />
-              {/* Scroll Wheel */}
+              <path d="M148 59 C116 61, 97 86, 97 122 H148 Z" fill={CORAL} opacity={0.85} />
               <rect x="142" y="80" width="16" height="30" rx="8" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
-              {/* Cute Smiley on Mouse Belly */}
               <circle cx="132" cy="158" r="4" fill={CHARCOAL} />
               <circle cx="168" cy="158" r="4" fill={CHARCOAL} />
               <path d="M140 172 Q150 182 160 172" stroke={CHARCOAL} strokeWidth={3} strokeLinecap="round" />
             </svg>
-            <div>
-              <div style={{ ...row, justifyContent: 'center', gap: 10, fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700 }}>
-                <JuniorIcon name="mouse" size={32} />
-                <span>Mouse</span>
-              </div>
-              <div style={{ fontSize: 25, fontWeight: 700, color: MUTED, marginTop: 6 }}>
-                Teman genggam di meja
-              </div>
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <SectionHeading icon="mouse" size={32}>
+                Mouse
+              </SectionHeading>
+              <BulletList
+                bulletColor={CORAL}
+                fontSize={23}
+                gap={8}
+                items={[
+                  <>
+                    Teman <InlineHighlight color={WHITE}>genggam</InlineHighlight> di meja.
+                  </>,
+                  <>Klik tombol dan geser.</>,
+                ]}
+              />
             </div>
-          </div>
+          </InfoPanel>
 
           {/* 3. Magic Cursor Destination Screen */}
-          <div
-            style={{
-              height: '100%',
-              background: TEAL_SOFT,
-              borderRadius: 24,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 6px 0 ${TEAL}`,
-              padding: 30,
-              ...centerCol,
-              justifyContent: 'space-between',
-              textAlign: 'center',
-            }}
+          <InfoPanel
+            bg={TEAL_SOFT}
+            padding={26}
+            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}
           >
-            <svg width={340} height={270} viewBox="0 0 340 270" fill="none">
+            <svg width={340} height={260} viewBox="0 0 340 270" fill="none">
               <rect x="20" y="24" width="300" height="214" rx="22" fill={CHARCOAL} />
               <rect x="34" y="38" width="272" height="186" rx="14" fill="#0F172A" />
-              {/* Dotted path inside screen */}
               <path
                 d="M90 176 Q155 120 226 108"
                 stroke={SUNNY}
@@ -1570,12 +1450,10 @@ const Slide05TrackpadMouse: Page = () => {
                 strokeDasharray="10 10"
                 strokeLinecap="round"
               />
-              {/* Target Button */}
               <rect x="202" y="74" width="76" height="44" rx="14" fill={TEAL} stroke={WHITE} strokeWidth={3} />
               <text x="240" y="103" textAnchor="middle" fontFamily='"Fredoka", sans-serif' fontSize="20" fontWeight="700" fill={WHITE}>
                 KLIK!
               </text>
-              {/* Giant White Cursor Arrow Animated */}
               <g style={{ animation: live ? 'cpj-cursor-glide 2.4s ease-in-out infinite' : undefined }}>
                 <path
                   d="M96 144 L96 206 L114 190 L128 214 L142 206 L128 182 L152 178 Z"
@@ -1586,25 +1464,23 @@ const Slide05TrackpadMouse: Page = () => {
                 />
               </g>
             </svg>
-            <div
-              style={{
-                ...row,
-                justifyContent: 'center',
-                gap: 10,
-                padding: '14px 20px',
-                borderRadius: 18,
-                background: STABILO,
-                border: `2.5px solid ${CHARCOAL}`,
-                fontFamily: 'var(--osd-font-display)',
-                fontSize: 26,
-                fontWeight: 700,
-                lineHeight: 1.25,
-              }}
-            >
-              <JuniorIcon name="arrow-right" size={28} />
-              <span>Menggerakkan Panah Ajaib!</span>
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <SectionHeading icon="arrow-right" size={32}>
+                Panah Ajaib
+              </SectionHeading>
+              <BulletList
+                bulletColor={TEAL}
+                fontSize={23}
+                gap={8}
+                items={[
+                  <>
+                    Ikuti <InlineHighlight>gerak jari</InlineHighlight> kita.
+                  </>,
+                  <>Arahkan ke tombol game.</>,
+                ]}
+              />
             </div>
-          </div>
+          </InfoPanel>
         </div>
       </MacWindowCard>
     </JuniorFrame>
@@ -1614,10 +1490,10 @@ const Slide05TrackpadMouse: Page = () => {
 // ============================================================================
 // SLIDE 06 — Permainan Cepat: Ayo Tunjuk! (Interactive Pins 1-2-3)
 // ============================================================================
-const QUIZ_PINS: { id: number; name: string; icon: JuniorIconName; color: string; x: number; y: number; desc: string }[] = [
-  { id: 1, name: 'Layar', icon: 'eyes', color: CORAL, x: 563, y: 156, desc: 'Tempat gambar & game!' },
-  { id: 2, name: 'Keyboard', icon: 'abc', color: SUNNY, x: 563, y: 370, desc: 'Tombol huruf & angka!' },
-  { id: 3, name: 'Trackpad', icon: 'tap', color: TEAL, x: 563, y: 468, desc: 'Penggerak panah ajaib!' },
+const QUIZ_PINS: { id: number; name: string; icon: JuniorIconName; color: string; x: number; y: number }[] = [
+  { id: 1, name: 'Layar', icon: 'eyes', color: CORAL, x: 563, y: 156 },
+  { id: 2, name: 'Keyboard', icon: 'abc', color: SUNNY, x: 563, y: 370 },
+  { id: 3, name: 'Trackpad', icon: 'tap', color: TEAL, x: 563, y: 468 },
 ];
 
 const Slide06Tebak: Page = () => {
@@ -1629,31 +1505,28 @@ const Slide06Tebak: Page = () => {
 
   return (
     <JuniorFrame badge="AYO TEBAK!" accentDot={CORAL}>
-      <SlideTitle top={140}>
+      <SlideTitle>
         Mana <Highlight>Bagian Laptopnya?</Highlight>
       </SlideTitle>
 
       {/* Center-Left Interactive Laptop Diagram */}
       <MacWindowCard
         left={X0}
-        top={258}
+        top={225}
         width={1180}
-        height={680}
-        titleBarColor="#FEF2F2"
-        headerLabel="KLIK ANGKA UNTUK CEK JAWABAN"
+        height={725}
+        titleBarColor={CORAL_SOFT}
+        headerLabel="klik-angka-untuk-cek"
         padding={24}
       >
-        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+        <div style={{ position: 'relative', width: '100%', height: '100%', ...centerCol }}>
           <svg width={880} height={540} viewBox="0 0 880 540" fill="none" style={{ display: 'block', margin: '0 auto' }}>
-            {/* Top-Front Isometric-Flat Laptop */}
             <rect x="170" y="24" width="540" height="274" rx="22" fill={CHARCOAL} />
             <rect x="190" y="44" width="500" height="234" rx="12" fill="#E0F2FE" stroke={SKY} strokeWidth={4} />
-            {/* Screen Sparkles */}
             <circle cx="310" cy="145" r="32" fill={SUNNY} />
             <rect x="370" y="122" width="180" height="26" rx="13" fill={WHITE} />
             <rect x="370" y="162" width="120" height="20" rx="10" fill="#BAE6FD" />
 
-            {/* Lower Base */}
             <path
               d="M140 298 H740 L800 508 H80 Z"
               fill="#E2E8F0"
@@ -1661,67 +1534,68 @@ const Slide06Tebak: Page = () => {
               strokeWidth={4.5}
               strokeLinejoin="round"
             />
-            {/* Keyboard Grid */}
             <rect x="190" y="318" width="500" height="106" rx="12" fill="#CBD5E1" stroke={CHARCOAL} strokeWidth={3} />
-            {/* Trackpad */}
             <rect x="336" y="438" width="208" height="58" rx="12" fill="#94A3B8" stroke={CHARCOAL} strokeWidth={3} />
           </svg>
 
-          {/* 3 Clickable Number Pins */}
+          {/* 3 Clickable Number Pins (real <button type="button">) */}
           {QUIZ_PINS.map((pin) => {
             const isOpen = revealed.includes(pin.id);
             return (
               <div
                 key={pin.id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  togglePin(pin.id);
-                }}
-                className="cpj-card-btn"
                 style={{
                   position: 'absolute',
                   left: pin.x,
                   top: pin.y,
-                  transform: 'translate(-50%, -50%)',
+                  transform: 'translate(-20%, -50%)',
                   ...row,
                   gap: 14,
                   zIndex: 4,
                 }}
               >
-                <div
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    togglePin(pin.id);
+                  }}
+                  className="cpj-card-btn"
+                  aria-label={`Tampilkan atau sembunyikan bagian ${pin.id}: ${pin.name}`}
                   style={{
-                    width: 68,
-                    height: 68,
+                    width: 66,
+                    height: 66,
                     borderRadius: 99,
                     background: pin.color,
-                    border: `4px solid ${CHARCOAL}`,
+                    border: `3.5px solid ${CHARCOAL}`,
                     boxShadow: `0 5px 0 ${CHARCOAL}`,
                     ...centerCol,
                     fontFamily: 'var(--osd-font-display)',
-                    fontSize: 34,
+                    fontSize: 32,
                     fontWeight: 700,
                     color: pin.id === 2 ? CHARCOAL : WHITE,
+                    padding: 0,
                   }}
                 >
                   {pin.id}
-                </div>
+                </button>
                 {isOpen && (
                   <div
                     style={{
-                      padding: '10px 22px',
-                      borderRadius: 18,
+                      padding: '10px 20px',
+                      borderRadius: 16,
                       ...row,
                       gap: 10,
                       background: WHITE,
-                      border: `3px solid ${CHARCOAL}`,
-                      boxShadow: `0 4px 0 ${CHARCOAL}`,
+                      border: `2.5px solid ${CHARCOAL}`,
+                      boxShadow: CARD_SHADOW,
                       fontFamily: 'var(--osd-font-display)',
                       fontSize: 26,
                       fontWeight: 700,
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    <JuniorIcon name={pin.icon} size={28} />
+                    <JuniorIcon name={pin.icon} size={26} />
                     <span>{pin.name}</span>
                   </div>
                 )}
@@ -1731,30 +1605,33 @@ const Slide06Tebak: Page = () => {
         </div>
       </MacWindowCard>
 
-      {/* Right Column: Biko with ? Sign + Callout */}
-      <div style={{ ...abs(1330, 260, 490, 640), ...centerCol, justifyContent: 'space-between' }}>
-        <BikoMascot pose="question" width={370} />
+      {/* Right Column: InfoPanel + Biko with ? Sign */}
+      <div style={{ ...abs(1315, 225, 505, 725), display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
+        <InfoPanel bg={STABILO} padding={26} style={{ width: '100%' }}>
+          <SectionHeading icon="point-right" size={30}>
+            Tunjuk di Laptopmu!
+          </SectionHeading>
+          <div style={{ marginTop: 14 }}>
+            <BulletList
+              bulletColor={CHARCOAL}
+              fontSize={24}
+              gap={10}
+              items={[
+                <>
+                  Nomor 1: <InlineHighlight color={WHITE}>Layar</InlineHighlight>
+                </>,
+                <>
+                  Nomor 2: <InlineHighlight color={WHITE}>Keyboard</InlineHighlight>
+                </>,
+                <>
+                  Nomor 3: <InlineHighlight color={WHITE}>Trackpad</InlineHighlight>
+                </>,
+              ]}
+            />
+          </div>
+        </InfoPanel>
 
-        <div
-          style={{
-            width: '100%',
-            ...row,
-            justifyContent: 'center',
-            gap: 12,
-            padding: '24px 28px',
-            borderRadius: 24,
-            background: STABILO,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${CHARCOAL}`,
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 32,
-            fontWeight: 700,
-            textAlign: 'center',
-          }}
-        >
-          <JuniorIcon name="point-right" size={34} />
-          <span>Tunjuk di laptopmu ya!</span>
-        </div>
+        <BikoMascot pose="question" width={340} />
       </div>
     </JuniorFrame>
   );
@@ -1765,192 +1642,185 @@ const Slide06Tebak: Page = () => {
 // ============================================================================
 const Slide07Aturan12: Page = () => (
   <JuniorFrame badge="ATURAN EMAS LAPTOP" accentDot={TEAL}>
-    <SlideTitle top={140}>
+    <SlideTitle>
       <Highlight>Sayangi</Highlight> Laptop Ajaibmu!
     </SlideTitle>
 
-    {/* Left Column: BOLEH (Green Card) */}
     <div
       style={{
-        ...abs(X0, 262, 825, 670),
-        background: TEAL_SOFT,
-        borderRadius: 30,
-        border: `4px solid ${TEAL}`,
-        boxShadow: `0 8px 0 ${TEAL}`,
-        padding: 36,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 28,
+        ...abs(X0, 225, W, 725),
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 38,
       }}
     >
-      <div style={{ ...row, gap: 16 }}>
-        <IconCheck size={52} />
-        <span
-          style={{
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 42,
-            fontWeight: 700,
-            color: TEAL_DARK,
-          }}
-        >
-          BOLEH DILAKUKAN
-        </span>
-      </div>
-
-      {/* Point 1: Clean & Dry Hands */}
-      <div
-        style={{
-          flex: 1,
-          background: WHITE,
-          borderRadius: 24,
-          border: `3px solid ${CHARCOAL}`,
-          padding: '20px 28px',
-          ...row,
-          gap: 28,
-        }}
+      {/* Left Column: BOLEH */}
+      <InfoPanel
+        bg={TEAL_SOFT}
+        borderColor={TEAL}
+        padding={32}
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 20 }}
       >
-        <svg width={138} height={138} viewBox="0 0 140 140" fill="none" style={{ flexShrink: 0 }}>
-          <circle cx="70" cy="70" r="62" fill="#D1FAE5" />
-          {/* Clean Shining Hand */}
-          <path
-            d="M50 86 V44 C50 38, 60 38, 60 44 V66 M60 36 C60 30, 70 30, 70 36 V66 M70 34 C70 28, 80 28, 80 34 V66 M80 42 C80 36, 90 36, 90 42 V84 C90 100, 78 112, 64 112 C52 112, 44 102, 44 88 L36 74 C32 68, 40 62, 46 68 Z"
-            fill="#FDE68A"
-            stroke={CHARCOAL}
-            strokeWidth={3.5}
-            strokeLinejoin="round"
+        <div style={{ borderBottom: `2.5px solid #A7F3D0`, paddingBottom: 14 }}>
+          <SectionHeading icon="check" size={38} accentColor={TEAL_DARK}>
+            BOLEH Dilakukan
+          </SectionHeading>
+        </div>
+
+        {/* Visual Cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 22 }}>
+          <div
+            style={{
+              background: WHITE,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
+              padding: 20,
+              ...centerCol,
+              gap: 12,
+              textAlign: 'center',
+            }}
+          >
+            <svg width={132} height={132} viewBox="0 0 140 140" fill="none">
+              <circle cx="70" cy="70" r="62" fill="#D1FAE5" />
+              <path
+                d="M50 86 V44 C50 38, 60 38, 60 44 V66 M60 36 C60 30, 70 30, 70 36 V66 M70 34 C70 28, 80 28, 80 34 V66 M80 42 C80 36, 90 36, 90 42 V84 C90 100, 78 112, 64 112 C52 112, 44 102, 44 88 L36 74 C32 68, 40 62, 46 68 Z"
+                fill="#FDE68A"
+                stroke={CHARCOAL}
+                strokeWidth={3.5}
+                strokeLinejoin="round"
+              />
+              <circle cx="30" cy="36" r="10" fill={SKY} stroke={CHARCOAL} strokeWidth={2.5} />
+              <circle cx="110" cy="40" r="8" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2.5} />
+              <path d="M108 86 L112 94 L120 98 L112 102 L108 110 L104 102 L96 98 L104 94 Z" fill={TEAL} />
+            </svg>
+            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700 }}>
+              Tangan Bersih
+            </span>
+          </div>
+
+          <div
+            style={{
+              background: WHITE,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
+              padding: 20,
+              ...centerCol,
+              gap: 12,
+              textAlign: 'center',
+            }}
+          >
+            <svg width={132} height={132} viewBox="0 0 140 140" fill="none">
+              <circle cx="70" cy="70" r="62" fill="#D1FAE5" />
+              <rect x="28" y="80" width="84" height="32" rx="10" fill={WHITE} stroke={CHARCOAL} strokeWidth={3.5} />
+              <path d="M94 26 C64 28, 44 52, 46 84 C74 82, 98 60, 94 26 Z" fill={SKY} stroke={CHARCOAL} strokeWidth={3.5} />
+              <path d="M42 92 L90 32" stroke={CHARCOAL} strokeWidth={3} strokeLinecap="round" />
+            </svg>
+            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700 }}>
+              Tekan Pelan
+            </span>
+          </div>
+        </div>
+
+        <InfoPanel bg={WHITE} borderColor={TEAL} padding={24}>
+          <BulletList
+            bulletColor={TEAL}
+            fontSize={26}
+            gap={14}
+            items={[
+              <>
+                Cuci <InlineHighlight color="#D1FAE5">tangan bersih</InlineHighlight> dan kering.
+              </>,
+              <>
+                Tekan tombol <InlineHighlight>pelan-pelan</InlineHighlight> seperti bulu.
+              </>,
+            ]}
           />
-          {/* Sparkle Bubbles */}
-          <circle cx="30" cy="36" r="10" fill={SKY} stroke={CHARCOAL} strokeWidth={2.5} />
-          <circle cx="110" cy="40" r="8" fill={SUNNY} stroke={CHARCOAL} strokeWidth={2.5} />
-          <path d="M108 86 L112 94 L120 98 L112 102 L108 110 L104 102 L96 98 L104 94 Z" fill={TEAL} />
-        </svg>
-        <div style={{ ...row, gap: 14, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
-          <JuniorIcon name="soap" size={38} />
-          <span>Tangan Bersih &amp; Kering</span>
-        </div>
-      </div>
+        </InfoPanel>
+      </InfoPanel>
 
-      {/* Point 2: Gentle Typing */}
-      <div
-        style={{
-          flex: 1,
-          background: WHITE,
-          borderRadius: 24,
-          border: `3px solid ${CHARCOAL}`,
-          padding: '20px 28px',
-          ...row,
-          gap: 28,
-        }}
+      {/* Right Column: JANGAN */}
+      <InfoPanel
+        bg={CORAL_SOFT}
+        borderColor={CORAL}
+        padding={32}
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 20 }}
       >
-        <svg width={138} height={138} viewBox="0 0 140 140" fill="none" style={{ flexShrink: 0 }}>
-          <circle cx="70" cy="70" r="62" fill="#D1FAE5" />
-          {/* Keycap */}
-          <rect x="28" y="80" width="84" height="32" rx="10" fill={WHITE} stroke={CHARCOAL} strokeWidth={3.5} />
-          {/* Gentle Feather */}
-          <path
-            d="M94 26 C64 28, 44 52, 46 84 C74 82, 98 60, 94 26 Z"
-            fill={SKY}
-            stroke={CHARCOAL}
-            strokeWidth={3.5}
+        <div style={{ borderBottom: `2.5px solid #FECACA`, paddingBottom: 14 }}>
+          <SectionHeading icon="cross" size={38} accentColor="#B91C1C">
+            JANGAN Dilakukan
+          </SectionHeading>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 22 }}>
+          <div
+            style={{
+              background: WHITE,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
+              padding: 20,
+              ...centerCol,
+              gap: 12,
+              textAlign: 'center',
+            }}
+          >
+            <svg width={132} height={132} viewBox="0 0 140 140" fill="none">
+              <circle cx="70" cy="70" r="62" fill="#FEE2E2" />
+              <path
+                d="M42 48 L74 36 L86 78 L52 90 Z"
+                fill={WHITE}
+                stroke={CHARCOAL}
+                strokeWidth={3.5}
+                strokeLinejoin="round"
+              />
+              <path d="M84 42 L98 22" stroke={CORAL} strokeWidth={5} strokeLinecap="round" />
+              <path d="M58 92 Q78 110 108 106 Q112 118 82 118 Q54 116 58 92 Z" fill={SKY} stroke={CHARCOAL} strokeWidth={2.5} />
+              <path d="M24 24 L116 116" stroke={CORAL} strokeWidth={7} strokeLinecap="round" />
+            </svg>
+            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700 }}>
+              Air &amp; Makanan
+            </span>
+          </div>
+
+          <div
+            style={{
+              background: WHITE,
+              borderRadius: 22,
+              border: `2.5px solid ${CHARCOAL}`,
+              padding: 20,
+              ...centerCol,
+              gap: 12,
+              textAlign: 'center',
+            }}
+          >
+            <svg width={132} height={132} viewBox="0 0 140 140" fill="none">
+              <circle cx="70" cy="70" r="62" fill="#FEE2E2" />
+              <rect x="52" y="28" width="54" height="32" rx="8" fill={CORAL} stroke={CHARCOAL} strokeWidth={3.5} />
+              <rect x="74" y="58" width="12" height="44" rx="5" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
+              <path d="M36 92 L50 84 M32 104 L50 102 M108 92 L94 84" stroke={CORAL} strokeWidth={4.5} strokeLinecap="round" />
+              <path d="M24 24 L116 116" stroke={CORAL} strokeWidth={7} strokeLinecap="round" />
+            </svg>
+            <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 26, fontWeight: 700 }}>
+              Dipukul Keras
+            </span>
+          </div>
+        </div>
+
+        <InfoPanel bg={WHITE} borderColor={CORAL} padding={24}>
+          <BulletList
+            bulletColor={CORAL}
+            fontSize={26}
+            gap={14}
+            items={[
+              <>
+                Jauhkan <InlineHighlight color="#FECACA">air dan makanan</InlineHighlight>.
+              </>,
+              <>
+                Jangan <InlineHighlight color="#FECACA">pukul tombol</InlineHighlight> keras.
+              </>,
+            ]}
           />
-          <path d="M42 92 L90 32" stroke={CHARCOAL} strokeWidth={3} strokeLinecap="round" />
-        </svg>
-        <div style={{ ...row, gap: 14, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
-          <JuniorIcon name="feather" size={38} />
-          <span>Tekan Tombol Pelan-Pelan</span>
-        </div>
-      </div>
-    </div>
-
-    {/* Right Column: JANGAN (Coral Red Card) */}
-    <div
-      style={{
-        ...abs(995, 262, 825, 670),
-        background: CORAL_SOFT,
-        borderRadius: 30,
-        border: `4px solid ${CORAL}`,
-        boxShadow: `0 8px 0 ${CORAL}`,
-        padding: 36,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 28,
-      }}
-    >
-      <div style={{ ...row, gap: 16 }}>
-        <IconCross size={52} />
-        <span
-          style={{
-            fontFamily: 'var(--osd-font-display)',
-            fontSize: 42,
-            fontWeight: 700,
-            color: CORAL,
-          }}
-        >
-          JANGAN DILAKUKAN
-        </span>
-      </div>
-
-      {/* Point 1: Keep Drinks & Snacks Away */}
-      <div
-        style={{
-          flex: 1,
-          background: WHITE,
-          borderRadius: 24,
-          border: `3px solid ${CHARCOAL}`,
-          padding: '20px 28px',
-          ...row,
-          gap: 28,
-        }}
-      >
-        <svg width={138} height={138} viewBox="0 0 140 140" fill="none" style={{ flexShrink: 0 }}>
-          <circle cx="70" cy="70" r="62" fill="#FEE2E2" />
-          {/* Tilted Spilling Cup */}
-          <path
-            d="M42 48 L74 36 L86 78 L52 90 Z"
-            fill={WHITE}
-            stroke={CHARCOAL}
-            strokeWidth={3.5}
-            strokeLinejoin="round"
-          />
-          <path d="M84 42 L98 22" stroke={CORAL} strokeWidth={5} strokeLinecap="round" />
-          {/* Splash Drops */}
-          <path d="M58 92 Q78 110 108 106 Q112 118 82 118 Q54 116 58 92 Z" fill={SKY} stroke={CHARCOAL} strokeWidth={2.5} />
-          {/* Red Prohibition Line */}
-          <path d="M24 24 L116 116" stroke={CORAL} strokeWidth={7} strokeLinecap="round" />
-        </svg>
-        <div style={{ ...row, gap: 14, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
-          <JuniorIcon name="cup" size={38} />
-          <span>Jauhkan Air &amp; Makanan</span>
-        </div>
-      </div>
-
-      {/* Point 2: Don't Hit Hard */}
-      <div
-        style={{
-          flex: 1,
-          background: WHITE,
-          borderRadius: 24,
-          border: `3px solid ${CHARCOAL}`,
-          padding: '20px 28px',
-          ...row,
-          gap: 28,
-        }}
-      >
-        <svg width={138} height={138} viewBox="0 0 140 140" fill="none" style={{ flexShrink: 0 }}>
-          <circle cx="70" cy="70" r="62" fill="#FEE2E2" />
-          {/* Toy Hammer / Fist Impact */}
-          <rect x="52" y="28" width="54" height="32" rx="8" fill={CORAL} stroke={CHARCOAL} strokeWidth={3.5} />
-          <rect x="74" y="58" width="12" height="44" rx="5" fill={SUNNY} stroke={CHARCOAL} strokeWidth={3} />
-          {/* Impact Shock Lines */}
-          <path d="M36 92 L50 84 M32 104 L50 102 M108 92 L94 84" stroke={CORAL} strokeWidth={4.5} strokeLinecap="round" />
-          {/* Red Prohibition Line */}
-          <path d="M24 24 L116 116" stroke={CORAL} strokeWidth={7} strokeLinecap="round" />
-        </svg>
-        <div style={{ ...row, gap: 14, fontFamily: 'var(--osd-font-display)', fontSize: 34, fontWeight: 700, lineHeight: 1.25 }}>
-          <JuniorIcon name="hammer" size={38} />
-          <span>Jangan Dipukul Keras</span>
-        </div>
-      </div>
+        </InfoPanel>
+      </InfoPanel>
     </div>
   </JuniorFrame>
 );
@@ -1960,151 +1830,118 @@ const Slide07Aturan12: Page = () => (
 // ============================================================================
 const Slide08Aturan34: Page = () => (
   <JuniorFrame badge="ATURAN EMAS LAPTOP" accentDot={TEAL}>
-    <SlideTitle top={140}>
+    <SlideTitle>
       <Highlight>Buka Pelan</Highlight> &amp; Duduk Rapi
     </SlideTitle>
 
     <MacWindowCard
       left={X0}
-      top={258}
+      top={225}
       width={1360}
-      height={680}
+      height={725}
       titleBarColor={TEAL_SOFT}
-      headerLabel="ATURAN #3 & #4"
-      padding={42}
+      headerLabel="aturan-3-dan-4"
+      padding={36}
     >
       <div
         style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: 36,
+          gap: 34,
           height: '100%',
         }}
       >
-        {/* Kartu 1: Open with 2 Hands (Green Accent) */}
-        <div
-          style={{
-            background: TEAL_SOFT,
-            borderRadius: 26,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${TEAL}`,
-            padding: 32,
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+        {/* Kartu 1: Open with 2 Hands */}
+        <InfoPanel
+          bg={TEAL_SOFT}
+          padding={28}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: TEAL,
-              border: `2px solid ${CHARCOAL}`,
-              color: WHITE,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 22,
-              fontWeight: 700,
-            }}
-          >
-            ATURAN #3
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#047857', letterSpacing: '0.05em' }}>
+              ATURAN #3
+            </span>
+            <SectionHeading icon="hand" size={30}>
+              Pakai <Highlight color="#D1FAE5">Dua Tangan</Highlight>
+            </SectionHeading>
           </div>
 
-          <svg width={340} height={260} viewBox="0 0 340 260" fill="none">
-            {/* Laptop Opening */}
+          <svg width={320} height={240} viewBox="0 0 340 260" fill="none">
             <rect x="64" y="64" width="212" height="132" rx="16" fill={CHARCOAL} />
             <rect x="78" y="78" width="184" height="104" rx="8" fill="#D1FAE5" />
             <path d="M44 196 H296 L316 232 H24 Z" fill="#CBD5E1" stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            {/* Left Hand holding top edge */}
             <rect x="96" y="42" width="44" height="32" rx="12" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={3.5} />
-            {/* Right Hand holding top edge */}
             <rect x="200" y="42" width="44" height="32" rx="12" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={3.5} />
-            {/* Gentle Up Arrows */}
             <path d="M170 28 V52 M160 38 L170 26 L180 38" stroke={TEAL} strokeWidth={4.5} strokeLinecap="round" strokeLinejoin="round" />
           </svg>
 
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.28 }}>
-            Buka &amp; tutup layar dengan <Highlight color="#D1FAE5">Dua Tangan</Highlight>
+          <div style={{ width: '100%' }}>
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={24}
+              gap={10}
+              items={[
+                <>
+                  Pegang <InlineHighlight color="#D1FAE5">kiri dan kanan</InlineHighlight> layar.
+                </>,
+                <>Buka dan tutup pelan.</>,
+              ]}
+            />
           </div>
-        </div>
+        </InfoPanel>
 
-        {/* Kartu 2: Laptop on Desk, Sit Upright (Blue Accent) */}
-        <div
-          style={{
-            background: SKY_SOFT,
-            borderRadius: 26,
-            border: `3px solid ${CHARCOAL}`,
-            boxShadow: `0 6px 0 ${SKY}`,
-            padding: 32,
-            ...centerCol,
-            justifyContent: 'space-between',
-            textAlign: 'center',
-          }}
+        {/* Kartu 2: Laptop on Desk, Sit Upright */}
+        <InfoPanel
+          bg={SKY_SOFT}
+          padding={28}
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}
         >
-          <div
-            style={{
-              padding: '8px 22px',
-              borderRadius: 99,
-              background: SKY,
-              border: `2px solid ${CHARCOAL}`,
-              color: WHITE,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 22,
-              fontWeight: 700,
-            }}
-          >
-            ATURAN #4
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 18, fontWeight: 800, color: '#1D4ED8', letterSpacing: '0.05em' }}>
+              ATURAN #4
+            </span>
+            <SectionHeading icon="laptop" size={30}>
+              Duduk <Highlight color="#DBEAFE">Tegak Rapi</Highlight>
+            </SectionHeading>
           </div>
 
-          <svg width={340} height={260} viewBox="0 0 340 260" fill="none">
-            {/* Desk */}
+          <svg width={320} height={240} viewBox="0 0 340 260" fill="none">
             <rect x="132" y="148" width="184" height="18" rx="8" fill="#FDE68A" stroke={CHARCOAL} strokeWidth={3.5} />
             <path d="M158 166 V242 M290 166 V242" stroke={CHARCOAL} strokeWidth={5} strokeLinecap="round" />
-            {/* Laptop on Desk */}
             <path d="M214 146 H276 L296 96" stroke={CHARCOAL} strokeWidth={6} strokeLinecap="round" strokeLinejoin="round" />
-            {/* Upright Seated Character */}
             <circle cx="102" cy="70" r="26" fill={OTTER_GOLD} stroke={CHARCOAL} strokeWidth={3.5} />
             <circle cx="112" cy="68" r="3.5" fill={CHARCOAL} />
             <path d="M84 98 H120 L132 160 H74 Z" fill={TEAL} stroke={CHARCOAL} strokeWidth={3.5} strokeLinejoin="round" />
             <path d="M116 124 L182 142" stroke={OTTER_GOLD} strokeWidth={12} strokeLinecap="round" />
-            {/* Chair */}
             <path d="M56 108 V182 H124 V242 M68 182 V242" stroke={CHARCOAL} strokeWidth={5} strokeLinecap="round" />
-            {/* Upright Green Straight Back Indicator */}
             <path d="M42 66 V142" stroke={TEAL} strokeWidth={5} strokeDasharray="8 6" strokeLinecap="round" />
           </svg>
 
-          <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.28 }}>
-            Laptop di atas <Highlight color="#DBEAFE">Meja</Highlight> &amp; duduk tegak!
+          <div style={{ width: '100%' }}>
+            <BulletList
+              bulletColor={SKY}
+              fontSize={24}
+              gap={10}
+              items={[
+                <>
+                  Taruh laptop di <InlineHighlight color="#DBEAFE">atas meja</InlineHighlight>.
+                </>,
+                <>Duduk tegak tidak bungkuk.</>,
+              ]}
+            />
           </div>
-        </div>
+        </InfoPanel>
       </div>
     </MacWindowCard>
 
-    {/* Biko Giving Big Thumbs Up on Right */}
-    <div style={{ ...abs(1488, 450, 340, 490), ...centerCol }}>
-      <BikoMascot pose="thumbs-up" width={340} />
-      <div
-        style={{
-          marginTop: 6,
-          ...row,
-          gap: 10,
-          padding: '10px 22px',
-          borderRadius: 99,
-          background: SUNNY,
-          border: `2.5px solid ${CHARCOAL}`,
-          fontFamily: 'var(--osd-font-display)',
-          fontSize: 24,
-          fontWeight: 700,
-        }}
-      >
-        <span>Anak Hebat!</span>
-        <JuniorIcon name="thumbs-up" size={26} />
-      </div>
+    <div style={{ ...abs(1485, 390, 340, 520), ...centerCol }}>
+      <BikoMascot pose="thumbs-up" width={330} speechBubble="Anak Hebat!" />
     </div>
   </JuniorFrame>
 );
 
 // ============================================================================
-// SLIDE 09 — Misi Praktik Pertama! (3 Blok Ala ScratchJr + Interactive Demo)
+// SLIDE 09 — Misi Praktik Pertama! (3 Blok Interactive + Simulasi Demo)
 // ============================================================================
 const MISSION_STEPS = [
   {
@@ -2119,9 +1956,9 @@ const MISSION_STEPS = [
   {
     num: 2,
     color: SUNNY,
-    soft: '#FEF9C3',
+    soft: SUNNY_SOFT,
     title: 'Geser Pelan',
-    sub: 'Ke Kiri & ke Kanan',
+    sub: 'Ke kiri dan kanan',
     cursorPos: { x: 430, y: 84 },
     started: false,
   },
@@ -2142,14 +1979,14 @@ const Slide09MisiPraktik: Page = () => {
 
   return (
     <JuniorFrame badge="AYO COBA SEKARANG!" accentDot={SKY}>
-      <SlideTitle top={140}>
-        Misi Menggerakkan <Highlight>Panah Ajaib</Highlight>
+      <SlideTitle top={114}>
+        Misi Gerakkan <Highlight>Panah Ajaib</Highlight>
       </SlideTitle>
 
-      {/* Top Row: 3 Horizontal ScratchJr-Style Puzzle Step Blocks */}
+      {/* Top Row: 3 Interactive Step Buttons */}
       <div
         style={{
-          ...abs(X0, 260, W, 240),
+          ...abs(X0, 224, W, 225),
           display: 'grid',
           gridTemplateColumns: '1fr auto 1fr auto 1fr',
           gap: 18,
@@ -2160,63 +1997,61 @@ const Slide09MisiPraktik: Page = () => {
           const isSelected = activeStep === s.num;
           return (
             <Fragment key={s.num}>
-              <div
+              <button
+                type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   setActiveStep(s.num);
                 }}
                 className="cpj-card-btn"
                 style={{
-                  height: 218,
+                  height: 210,
                   background: isSelected ? s.color : s.soft,
                   color: isSelected && s.num !== 2 ? WHITE : CHARCOAL,
-                  borderRadius: 28,
+                  borderRadius: 26,
                   border: `3.5px solid ${CHARCOAL}`,
-                  boxShadow: isSelected ? `0 4px 0 ${CHARCOAL}` : `0 8px 0 ${CHARCOAL}`,
-                  padding: '22px 26px',
+                  boxShadow: isSelected ? `0 3px 0 ${CHARCOAL}` : `0 8px 0 ${CHARCOAL}`,
+                  padding: '20px 24px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  position: 'relative',
+                  textAlign: 'left',
+                  transform: isSelected ? 'translateY(3px)' : undefined,
                 }}
               >
-                <div style={{ ...row, justifyContent: 'space-between' }}>
+                <div style={{ ...row, justifyContent: 'space-between', width: '100%' }}>
                   <div
                     style={{
-                      width: 56,
-                      height: 56,
-                      borderRadius: 18,
+                      width: 52,
+                      height: 52,
+                      borderRadius: 16,
                       background: WHITE,
                       color: CHARCOAL,
-                      border: `3px solid ${CHARCOAL}`,
+                      border: `2.5px solid ${CHARCOAL}`,
                       ...centerCol,
                       fontFamily: 'var(--osd-font-display)',
-                      fontSize: 32,
+                      fontSize: 30,
                       fontWeight: 700,
                     }}
                   >
                     {s.num}
                   </div>
-                  <span style={{ fontSize: 20, fontWeight: 800, opacity: 0.85 }}>
-                    {isSelected ? 'AKTIF ●' : 'KLIK COBA'}
+                  <span style={{ fontSize: 18, fontWeight: 800, opacity: 0.88 }}>
+                    {isSelected ? 'AKTIF' : 'KLIK COBA'}
                   </span>
                 </div>
 
                 <div>
-                  <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 32, fontWeight: 700 }}>
+                  <div style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700 }}>
                     {s.title}
                   </div>
-                  <div style={{ fontSize: 23, fontWeight: 700, marginTop: 4, opacity: 0.92 }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, marginTop: 4, opacity: 0.92 }}>
                     {s.sub}
                   </div>
                 </div>
-              </div>
+              </button>
 
-              {idx < 2 && (
-                <div style={{ fontSize: 42, fontWeight: 800, color: CHARCOAL }}>
-                  ➔
-                </div>
-              )}
+              {idx < 2 && <JuniorIcon name="arrow-right" size={32} />}
             </Fragment>
           );
         })}
@@ -2225,36 +2060,34 @@ const Slide09MisiPraktik: Page = () => {
       {/* Bottom Stage: Interactive Trackpad to START Button Demo */}
       <MacWindowCard
         left={X0}
-        top={526}
+        top={478}
         width={W}
-        height={418}
+        height={472}
         titleBarColor={SAND_GRID}
-        headerLabel="SIMULASI MISI: KLIK BLOK 1, 2, ATAU 3 DI ATAS!"
-        padding={28}
+        headerLabel="simulasi-panah-ajaib"
+        padding={26}
       >
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '420px 1fr',
-            gap: 32,
+            gridTemplateColumns: '440px 1fr',
+            gap: 30,
             height: '100%',
-            alignItems: 'center',
+            alignItems: 'stretch',
           }}
         >
           {/* Left: Trackpad Finger Demo */}
-          <div
-            style={{
-              height: '100%',
-              background: SKY_SOFT,
-              borderRadius: 22,
-              border: `3px solid ${CHARCOAL}`,
-              ...centerCol,
-            }}
+          <InfoPanel
+            bg={SKY_SOFT}
+            padding={20}
+            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}
           >
-            <svg width={320} height={240} viewBox="0 0 320 240" fill="none">
+            <SectionHeading icon="tap" size={26}>
+              Sentuh &amp; Geser
+            </SectionHeading>
+            <svg width={300} height={220} viewBox="0 0 320 240" fill="none">
               <rect x="44" y="28" width="232" height="168" rx="22" fill={WHITE} stroke={CHARCOAL} strokeWidth={4} />
               <rect x="64" y="46" width="192" height="132" rx="14" fill="#DBEAFE" stroke={SKY} strokeWidth={3} />
-              {/* Sliding Finger */}
               <g
                 style={{
                   transform: `translateX(${(activeStep - 1) * 44}px)`,
@@ -2270,7 +2103,13 @@ const Slide09MisiPraktik: Page = () => {
                 />
               </g>
             </svg>
-          </div>
+            <BulletList
+              bulletColor={SKY}
+              fontSize={20}
+              gap={6}
+              items={[<>Klik langkah 1, 2, atau 3 di atas!</>]}
+            />
+          </InfoPanel>
 
           {/* Right: Starry Path to START Button */}
           <div
@@ -2284,7 +2123,6 @@ const Slide09MisiPraktik: Page = () => {
             }}
           >
             <svg width="100%" height="100%" viewBox="0 0 1160 280" fill="none">
-              {/* Star Dotted Trail */}
               <path
                 d="M160 150 Q410 70 760 124"
                 stroke={SUNNY}
@@ -2295,37 +2133,6 @@ const Slide09MisiPraktik: Page = () => {
               <circle cx="290" cy="114" r="8" fill={SUNNY} />
               <circle cx="440" cy="94" r="10" fill={LAVENDER} />
               <circle cx="590" cy="102" r="8" fill={SKY} />
-
-              {/* Big START Target Button */}
-              <g
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setActiveStep(3);
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                <rect
-                  x="760"
-                  y="74"
-                  width="270"
-                  height="104"
-                  rx="28"
-                  fill={currentStep.started ? TEAL : CORAL}
-                  stroke={WHITE}
-                  strokeWidth={5}
-                />
-                <text
-                  x="895"
-                  y="140"
-                  textAnchor="middle"
-                  fontFamily='"Fredoka", sans-serif'
-                  fontSize="44"
-                  fontWeight="700"
-                  fill={WHITE}
-                >
-                  {currentStep.started ? 'YEAY!' : 'START'}
-                </text>
-              </g>
 
               {/* Moving Big White Cursor */}
               <g
@@ -2343,6 +2150,34 @@ const Slide09MisiPraktik: Page = () => {
                 />
               </g>
             </svg>
+
+            {/* Real Interactive START Button */}
+            <button
+              type="button"
+              className="cpj-card-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveStep(3);
+              }}
+              style={{
+                position: 'absolute',
+                right: 120,
+                top: 105,
+                width: 260,
+                height: 112,
+                borderRadius: 26,
+                background: currentStep.started ? TEAL : CORAL,
+                border: `4px solid ${WHITE}`,
+                boxShadow: `0 6px 0 ${CHARCOAL}`,
+                fontFamily: 'var(--osd-font-display)',
+                fontSize: 42,
+                fontWeight: 700,
+                color: WHITE,
+                ...centerCol,
+              }}
+            >
+              {currentStep.started ? 'YEAY!' : 'START'}
+            </button>
           </div>
         </div>
       </MacWindowCard>
@@ -2351,7 +2186,7 @@ const Slide09MisiPraktik: Page = () => {
 };
 
 // ============================================================================
-// SLIDE 10 — Lencana Juara Pertemuan 1 (Celebration Center Card)
+// SLIDE 10 — Lencana Juara Pertemuan 1 (Summary Bullets + Medal + Biko)
 // ============================================================================
 const CONFETTI = [
   { x: 140, y: 270, color: CORAL, size: 22, shape: 'circle' },
@@ -2367,7 +2202,6 @@ const Slide10Lencana: Page = () => {
 
   return (
     <JuniorFrame badge="MISI SELESAI!" accentDot={SUNNY}>
-      {/* Floating Confetti */}
       {CONFETTI.map((c, idx) => (
         <div
           key={idx}
@@ -2382,92 +2216,97 @@ const Slide10Lencana: Page = () => {
         />
       ))}
 
-      <SlideTitle top={134} size={62} align="center">
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 16 }}>
-          <span>
-            Hore! <Highlight>Kamu Hebat!</Highlight>
-          </span>
-          <JuniorIcon name="party" size={60} />
-        </span>
+      <SlideTitle top={104} size={58} align="center">
+        Hore! Kamu <Highlight>Sahabat Laptop!</Highlight>
       </SlideTitle>
 
       {/* Center Celebration Window Card */}
       <MacWindowCard
-        left={260}
-        top={246}
-        width={1060}
-        height={690}
-        titleBarColor="#FEF9C3"
-        headerLabel="LENCANA PERTEMUAN 1"
-        padding={36}
+        left={180}
+        top={210}
+        width={1180}
+        height={745}
+        titleBarColor={SUNNY_SOFT}
+        headerLabel="lencana-pertemuan-1"
+        padding={34}
       >
-        <div style={{ ...centerCol, height: '100%', textAlign: 'center', gap: 22 }}>
-          {/* Big Gold Medal with Laptop Emblem */}
-          <svg
-            width={280}
-            height={280}
-            viewBox="0 0 280 280"
-            fill="none"
-            style={{
-              animation: live ? 'cpj-float 2.8s ease-in-out infinite' : undefined,
-            }}
-          >
-            {/* Ribbons */}
-            <path d="M88 20 L122 108 H84 L54 20 Z" fill={CORAL} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            <path d="M192 20 L158 108 H196 L226 20 Z" fill={SKY} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            {/* Gold Outer Ring */}
-            <circle cx="140" cy="158" r="102" fill={SUNNY} stroke={CHARCOAL} strokeWidth={5} />
-            <circle cx="140" cy="158" r="82" fill="#FEF08A" stroke={CHARCOAL} strokeWidth={3.5} />
-            {/* Mini Laptop Emblem */}
-            <rect x="94" y="114" width="92" height="58" rx="10" fill={TEAL} stroke={CHARCOAL} strokeWidth={4} />
-            <rect x="104" y="124" width="72" height="38" rx="4" fill={WHITE} />
-            <path d="M80 174 H200 L210 190 H70 Z" fill="#CBD5E1" stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
-            {/* Star on Mini Screen */}
-            <path
-              d="M140 130 L144 139 L154 140 L146 147 L148 156 L140 151 L132 156 L134 147 L126 140 L136 139 Z"
-              fill={SUNNY}
-              stroke={CHARCOAL}
-              strokeWidth={2}
-            />
-          </svg>
+        <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '430px 1fr', gap: 36, alignItems: 'center' }}>
+          {/* Left: Gold Medal + Flat Achievement Banner */}
+          <div style={{ ...centerCol, gap: 22 }}>
+            <svg
+              width={260}
+              height={260}
+              viewBox="0 0 280 280"
+              fill="none"
+              style={{
+                animation: live ? 'cpj-float 2.8s ease-in-out infinite' : undefined,
+              }}
+            >
+              <path d="M88 20 L122 108 H84 L54 20 Z" fill={CORAL} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
+              <path d="M192 20 L158 108 H196 L226 20 Z" fill={SKY} stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
+              <circle cx="140" cy="158" r="102" fill={SUNNY} stroke={CHARCOAL} strokeWidth={5} />
+              <circle cx="140" cy="158" r="82" fill={STABILO} stroke={CHARCOAL} strokeWidth={3.5} />
+              <rect x="94" y="114" width="92" height="58" rx="10" fill={TEAL} stroke={CHARCOAL} strokeWidth={4} />
+              <rect x="104" y="124" width="72" height="38" rx="4" fill={WHITE} />
+              <path d="M80 174 H200 L210 190 H70 Z" fill="#CBD5E1" stroke={CHARCOAL} strokeWidth={4} strokeLinejoin="round" />
+              <path
+                d="M140 130 L144 139 L154 140 L146 147 L148 156 L140 151 L132 156 L134 147 L126 140 L136 139 Z"
+                fill={SUNNY}
+                stroke={CHARCOAL}
+                strokeWidth={2}
+              />
+            </svg>
 
-          <div
-            style={{
-              ...row,
-              gap: 14,
-              padding: '12px 32px',
-              borderRadius: 99,
-              background: SUNNY,
-              border: `3px solid ${CHARCOAL}`,
-              boxShadow: `0 5px 0 ${CHARCOAL}`,
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 36,
-              fontWeight: 700,
-            }}
-          >
-            <JuniorIcon name="medal" size={38} />
-            <span>Lencana Sahabat Laptop Ajaib</span>
+            <div
+              style={{
+                padding: '12px 24px',
+                borderRadius: 16,
+                background: SUNNY_SOFT,
+                border: `2.5px solid ${CHARCOAL}`,
+                fontFamily: 'var(--osd-font-display)',
+                fontSize: 26,
+                fontWeight: 700,
+                ...row,
+                gap: 10,
+              }}
+            >
+              <JuniorIcon name="medal" size={28} />
+              <span>Lencana Sahabat Laptop</span>
+            </div>
           </div>
 
-          <div
-            style={{
-              fontFamily: 'var(--osd-font-display)',
-              fontSize: 32,
-              fontWeight: 700,
-              lineHeight: 1.38,
-              maxWidth: 820,
-              color: CHARCOAL,
-            }}
-          >
-            Kamu sudah kenal <Highlight>Layar, Keyboard, Trackpad</Highlight> dan{' '}
-            <Highlight color="#D1FAE5">Aturan Emas!</Highlight>
+          {/* Right: Concise Bullet Takeaways */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <SectionHeading icon="party" size={32}>
+              Yang Sudah Kamu Kuasai:
+            </SectionHeading>
+
+            <BulletList
+              bulletColor={TEAL}
+              fontSize={26}
+              gap={18}
+              items={[
+                <>
+                  Kenal <InlineHighlight color={SKY_SOFT}>Layar, Keyboard, Trackpad</InlineHighlight>.
+                </>,
+                <>
+                  Tekan tombol <InlineHighlight>pelan-pelan</InlineHighlight>.
+                </>,
+                <>
+                  Hafal <InlineHighlight color="#D1FAE5">Aturan Emas</InlineHighlight> laptop.
+                </>,
+                <>
+                  Bisa geser <InlineHighlight color={SUNNY_SOFT}>Panah Ajaib</InlineHighlight> dan klik.
+                </>,
+              ]}
+            />
           </div>
         </div>
       </MacWindowCard>
 
       {/* Celebrating Jumping Biko on Right */}
-      <div style={{ ...abs(1370, 390, 420, 520), ...centerCol }}>
-        <BikoMascot pose="jump" width={400} />
+      <div style={{ ...abs(1400, 385, 420, 520), ...centerCol }}>
+        <BikoMascot pose="jump" width={365} speechBubble="Kamu Hebat!" />
       </div>
     </JuniorFrame>
   );
@@ -2527,4 +2366,3 @@ export default [
   Slide09MisiPraktik,
   Slide10Lencana,
 ] satisfies Page[];
-
