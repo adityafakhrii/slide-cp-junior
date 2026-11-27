@@ -5,6 +5,7 @@ import bikoPointLeft from '../../assets/biko/biko-point-left.png';
 import bikoThumbsUp from '../../assets/biko/biko-thumbs-up.png';
 import bikoJump from '../../assets/biko/biko-jump.png';
 
+import imgLogoCdpl from '../../Gambar/logo cdpl.png';
 import imgLaptop from '../../Gambar/laptop.png';
 import imgLayar from '../../Gambar/layar monitor.jpeg';
 import imgTrackpad from '../../Gambar/trackpad laptop.jpg';
@@ -57,11 +58,11 @@ if (typeof document !== 'undefined') {
 }
 
 // ============================================================================
-// Design System & Palette (Ultra-clean solid warm cream + pure white cards)
+// Design System & Cheerful Kid-Friendly Palette
 // ============================================================================
 export const design: DesignSystem = {
   palette: {
-    bg: '#FFF8DF',
+    bg: '#FFF6D6',
     text: '#1E1E2C',
     accent: '#10B981',
   },
@@ -70,22 +71,28 @@ export const design: DesignSystem = {
     body: '"Plus Jakarta Sans", system-ui, sans-serif',
   },
   typeScale: {
-    hero: 82,
+    hero: 84,
     body: 28,
   },
   radius: 36,
 };
 
-const CANVAS_BG = '#FFF8DF';
 const WHITE = '#FFFFFF';
 const CHARCOAL = '#1E1E2C';
-const MUTED = '#4B5563';
 const TEAL = '#10B981';
+const TEAL_LIGHT = '#A7F3D0';
 const CORAL = '#F45B49';
+const CORAL_LIGHT = '#FDA4AF';
 const SUNNY = '#FBBF24';
-const STABILO = '#FEF08A';
-const SKY = '#60A5FA';
-const SKY_SOFT = '#DBEAFE';
+const SUNNY_BRIGHT = '#FDE047';
+const SUNNY_LIGHT = '#FDE68A';
+const SKY = '#38BDF8';
+const SKY_LIGHT = '#BAE6FD';
+const LAVENDER = '#A78BFA';
+const LAVENDER_LIGHT = '#DDD6FE';
+const PINK_LIGHT = '#FBCFE8';
+
+const SOFT_SHADOW = '0 14px 34px rgba(30, 30, 44, 0.08)';
 
 const EASE_OUT = 'cubic-bezier(0, 0, 0.2, 1)';
 const EASE_IN = 'cubic-bezier(0.4, 0, 1, 1)';
@@ -114,22 +121,80 @@ const abs = (left: number, top: number, width?: number, height?: number): CSSPro
 });
 
 // ============================================================================
-// Clean Layout Primitives (Zero corner chrome, zero app windows, zero blocks)
+// Clean Cheerful Primitives (Logo top-right on all slides, zero corner text clutter)
 // ============================================================================
-const CleanCanvas = ({ children }: { children: ReactNode }) => (
+const CleanCanvas = ({
+  bg = 'linear-gradient(135deg, #FFF7CC 0%, #FFFDF2 50%, #E0F7FA 100%)',
+  blobA = '#FDE68A',
+  blobB = '#BAE6FD',
+  children,
+}: {
+  bg?: string;
+  blobA?: string;
+  blobB?: string;
+  children: ReactNode;
+}) => (
   <div
     data-osd-interactive="true"
     style={{
       position: 'relative',
       width: '100%',
       height: '100%',
-      backgroundColor: CANVAS_BG,
+      background: bg,
       color: CHARCOAL,
       fontFamily: 'var(--osd-font-body)',
       overflow: 'hidden',
       WebkitFontSmoothing: 'antialiased',
     }}
   >
+    {/* Subtle Cheerful Pastel Ambient Circles */}
+    <div
+      aria-hidden
+      style={{
+        position: 'absolute',
+        left: -110,
+        bottom: -120,
+        width: 420,
+        height: 420,
+        borderRadius: 999,
+        background: blobA,
+        opacity: 0.35,
+        pointerEvents: 'none',
+      }}
+    />
+    <div
+      aria-hidden
+      style={{
+        position: 'absolute',
+        right: -90,
+        top: -100,
+        width: 360,
+        height: 360,
+        borderRadius: 999,
+        background: blobB,
+        opacity: 0.35,
+        pointerEvents: 'none',
+      }}
+    />
+
+    {/* Codepolitan Logo in Top-Right on Every Slide */}
+    <img
+      src={imgLogoCdpl}
+      alt="Logo CODEPOLITAN"
+      draggable={false}
+      style={{
+        position: 'absolute',
+        right: 76,
+        top: 44,
+        height: 46,
+        width: 'auto',
+        objectFit: 'contain',
+        display: 'block',
+        zIndex: 10,
+        pointerEvents: 'none',
+      }}
+    />
+
     {children}
   </div>
 );
@@ -137,7 +202,7 @@ const CleanCanvas = ({ children }: { children: ReactNode }) => (
 const SlideHeading = ({ children }: { children: ReactNode }) => (
   <h2
     style={{
-      ...abs(96, 62, 1720),
+      ...abs(96, 56, 1440),
       margin: 0,
       fontFamily: 'var(--osd-font-display)',
       fontSize: 54,
@@ -153,7 +218,7 @@ const SlideHeading = ({ children }: { children: ReactNode }) => (
 
 const Highlight = ({
   children,
-  color = STABILO,
+  color = SUNNY_BRIGHT,
 }: {
   children: ReactNode;
   color?: string;
@@ -161,8 +226,8 @@ const Highlight = ({
   <span
     style={{
       background: color,
-      padding: '2px 16px 5px',
-      borderRadius: 14,
+      padding: '2px 18px 6px',
+      borderRadius: 16,
       boxDecorationBreak: 'clone',
       WebkitBoxDecorationBreak: 'clone',
       display: 'inline-block',
@@ -174,7 +239,7 @@ const Highlight = ({
 
 const InlineHighlight = ({
   children,
-  color = STABILO,
+  color = SUNNY_BRIGHT,
 }: {
   children: ReactNode;
   color?: string;
@@ -199,6 +264,7 @@ const WhiteBox = ({
   width,
   height,
   padding = 36,
+  borderColor = SUNNY_LIGHT,
   style,
 }: {
   children: ReactNode;
@@ -207,6 +273,7 @@ const WhiteBox = ({
   width: number;
   height: number;
   padding?: number;
+  borderColor?: string;
   style?: CSSProperties;
 }) => (
   <div
@@ -214,6 +281,8 @@ const WhiteBox = ({
       ...abs(left, top, width, height),
       background: WHITE,
       borderRadius: 36,
+      border: `4px solid ${borderColor}`,
+      boxShadow: SOFT_SHADOW,
       padding,
       overflow: 'hidden',
       ...style,
@@ -226,8 +295,8 @@ const WhiteBox = ({
 const BulletList = ({
   items,
   bulletColor = TEAL,
-  fontSize = 30,
-  gap = 20,
+  fontSize = 29,
+  gap = 18,
 }: {
   items: ReactNode[];
   bulletColor?: string;
@@ -260,8 +329,8 @@ const BulletList = ({
         <span
           aria-hidden
           style={{
-            width: 14,
-            height: 14,
+            width: 15,
+            height: 15,
             borderRadius: 99,
             background: bulletColor,
             flexShrink: 0,
@@ -276,9 +345,9 @@ const BulletList = ({
 const BikoCorner = ({
   src,
   alt,
-  width = 360,
+  width = 355,
   right = 72,
-  bottom = 24,
+  bottom = 18,
 }: {
   src: string;
   alt: string;
@@ -303,8 +372,12 @@ const BikoCorner = ({
   />
 );
 
-/** Standard Content Slide Template matching the user's clean reference */
+/** Standard Cheerful Slide Template */
 const StandardSlide = ({
+  bg,
+  blobA,
+  blobB,
+  borderColor,
   title,
   visual,
   descTitle,
@@ -313,6 +386,10 @@ const StandardSlide = ({
   mascot = bikoPointLeft,
   mascotAlt = 'Biko menunjuk gambar',
 }: {
+  bg: string;
+  blobA: string;
+  blobB: string;
+  borderColor: string;
   title: ReactNode;
   visual: ReactNode;
   descTitle: ReactNode;
@@ -321,16 +398,17 @@ const StandardSlide = ({
   mascot?: string;
   mascotAlt?: string;
 }) => (
-  <CleanCanvas>
+  <CleanCanvas bg={bg} blobA={blobA} blobB={blobB}>
     <SlideHeading>{title}</SlideHeading>
 
     {/* Left Large Pure White Image Container */}
     <WhiteBox
       left={96}
-      top={172}
+      top={168}
       width={1110}
-      height={816}
+      height={820}
       padding={36}
+      borderColor={borderColor}
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -343,15 +421,16 @@ const StandardSlide = ({
     {/* Top-Right Concise Description Box */}
     <WhiteBox
       left={1250}
-      top={172}
+      top={168}
       width={574}
-      height={410}
-      padding={40}
+      height={400}
+      padding={38}
+      borderColor={borderColor}
       style={{
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        gap: 24,
+        gap: 22,
       }}
     >
       <h3
@@ -369,58 +448,152 @@ const StandardSlide = ({
       <BulletList items={bullets} bulletColor={bulletColor} fontSize={29} gap={18} />
     </WhiteBox>
 
-    {/* Bottom-Right Mascot (always clean in corner, zero overlap with text) */}
-    <BikoCorner src={mascot} alt={mascotAlt} width={350} right={86} bottom={20} />
+    {/* Bottom-Right Mascot */}
+    <BikoCorner src={mascot} alt={mascotAlt} width={355} right={72} bottom={18} />
   </CleanCanvas>
 );
 
 // ============================================================================
-// SLIDE 01 — Sampul (Hanya Judul Besar + Gambar Laptop Real + Maskot Kanan Bawah)
+// SLIDE 01 — Sampul Ceria & Menarik untuk Anak-Anak (To the point + Biko kanan bawah)
 // ============================================================================
+const COVER_PREVIEWS = [
+  { label: 'Layar', img: imgLayar, border: SKY },
+  { label: 'Trackpad', img: imgTrackpad, border: TEAL },
+  { label: 'Mouse', img: imgMouse, border: CORAL },
+];
+
 const Slide01Cover: Page = () => (
-  <CleanCanvas>
-    <h1
+  <CleanCanvas
+    bg="linear-gradient(135deg, #FFF3B0 0%, #FFFDF5 48%, #D8F3FF 100%)"
+    blobA="#FDE047"
+    blobB="#7DD3FC"
+  >
+    {/* Left Column: Playful Hero Title + To-The-Point Visual Trio */}
+    <div
       style={{
-        ...abs(96, 86, 1720),
-        margin: 0,
-        fontFamily: 'var(--osd-font-display)',
-        fontSize: 82,
-        fontWeight: 700,
-        lineHeight: 1.12,
-        letterSpacing: '-0.02em',
-        color: CHARCOAL,
+        ...abs(96, 130, 710, 840),
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        gap: 30,
       }}
     >
-      Kenalan Sama <Highlight>Laptop Ajaibku!</Highlight>
-    </h1>
+      <h1
+        style={{
+          margin: 0,
+          fontFamily: 'var(--osd-font-display)',
+          fontSize: 88,
+          fontWeight: 700,
+          lineHeight: 1.12,
+          letterSpacing: '-0.02em',
+          color: CHARCOAL,
+        }}
+      >
+        Kenalan Sama
+        <br />
+        <Highlight color={SUNNY_BRIGHT}>Laptop Ajaibku!</Highlight>
+      </h1>
 
+      <p
+        style={{
+          margin: 0,
+          fontFamily: 'var(--osd-font-display)',
+          fontSize: 34,
+          fontWeight: 700,
+          color: '#0F766E',
+          lineHeight: 1.3,
+        }}
+      >
+        Mengenal &amp; Merawat Laptop Pertamaku
+      </p>
+
+      {/* Playful Real-Photo Visual Trio for Pre-readers */}
+      <div style={{ display: 'flex', gap: 20, marginTop: 8 }}>
+        {COVER_PREVIEWS.map((item) => (
+          <div
+            key={item.label}
+            style={{
+              background: WHITE,
+              borderRadius: 24,
+              border: `4px solid ${item.border}`,
+              boxShadow: SOFT_SHADOW,
+              padding: 12,
+              width: 176,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 8,
+            }}
+          >
+            <img
+              src={item.img}
+              alt={item.label}
+              style={{
+                width: 144,
+                height: 102,
+                objectFit: 'cover',
+                borderRadius: 16,
+                display: 'block',
+              }}
+            />
+            <span
+              style={{
+                fontFamily: 'var(--osd-font-display)',
+                fontSize: 22,
+                fontWeight: 700,
+                color: CHARCOAL,
+              }}
+            >
+              {item.label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Center White Hero Showcase Card */}
     <WhiteBox
-      left={96}
-      top={256}
-      width={1160}
-      height={730}
-      padding={40}
+      left={846}
+      top={160}
+      width={615}
+      height={745}
+      padding={36}
+      borderColor={SUNNY}
       style={{
+        borderRadius: 44,
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
       }}
     >
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          width: 460,
+          height: 460,
+          borderRadius: 999,
+          background: 'radial-gradient(circle, #FEF08A 0%, #E0F2FE 65%, rgba(255,255,255,0) 75%)',
+        }}
+      />
       <img
         src={imgLaptop}
         alt="Laptop asli"
         style={{
-          width: 620,
-          height: 620,
-          maxWidth: '100%',
-          maxHeight: '100%',
+          position: 'relative',
+          zIndex: 2,
+          width: 520,
+          height: 520,
           objectFit: 'contain',
           display: 'block',
         }}
       />
     </WhiteBox>
 
-    <BikoCorner src={bikoWave} alt="Biko menyapa" width={430} right={84} bottom={28} />
+    {/* Bottom-Right Mascot (clear of logo, title, and laptop card) */}
+    <BikoCorner src={bikoWave} alt="Biko menyapa" width={390} right={52} bottom={20} />
   </CleanCanvas>
 );
 
@@ -429,9 +602,13 @@ const Slide01Cover: Page = () => (
 // ============================================================================
 const Slide02Misi: Page = () => (
   <StandardSlide
+    bg="linear-gradient(135deg, #E0F2FE 0%, #FFFDF5 52%, #D1FAE5 100%)"
+    blobA={SKY_LIGHT}
+    blobB={TEAL_LIGHT}
+    borderColor={SKY_LIGHT}
     title={
       <>
-        Apa <Highlight>Misi Kita</Highlight> Hari Ini?
+        Apa <Highlight color={SKY_LIGHT}>Misi Kita</Highlight> Hari Ini?
       </>
     }
     visual={
@@ -471,10 +648,10 @@ const Slide02Misi: Page = () => (
     descTitle="Misi Hari Ini:"
     bullets={[
       <>
-        Kenali <InlineHighlight color={SKY_SOFT}>bagian laptop</InlineHighlight>
+        Kenali <InlineHighlight color={SKY_LIGHT}>bagian laptop</InlineHighlight>
       </>,
       <>
-        Jaga laptop agar <InlineHighlight color="#D1FAE5">awet</InlineHighlight>
+        Jaga laptop agar <InlineHighlight color={TEAL_LIGHT}>awet</InlineHighlight>
       </>,
     ]}
     bulletColor={SKY}
@@ -486,9 +663,13 @@ const Slide02Misi: Page = () => (
 // ============================================================================
 const Slide03Layar: Page = () => (
   <StandardSlide
+    bg="linear-gradient(135deg, #FEF3C7 0%, #FFFDF5 52%, #E0F2FE 100%)"
+    blobA={SUNNY_LIGHT}
+    blobB={SKY_LIGHT}
+    borderColor={SUNNY_LIGHT}
     title={
       <>
-        Ini Namanya <Highlight>Layar</Highlight>
+        Ini Namanya <Highlight color={SUNNY_BRIGHT}>Layar</Highlight>
       </>
     }
     visual={
@@ -520,9 +701,13 @@ const Slide03Layar: Page = () => (
 // ============================================================================
 const Slide04Keyboard: Page = () => (
   <StandardSlide
+    bg="linear-gradient(135deg, #DCFCE7 0%, #FFFDF5 52%, #DBEAFE 100%)"
+    blobA={TEAL_LIGHT}
+    blobB={SKY_LIGHT}
+    borderColor={TEAL_LIGHT}
     title={
       <>
-        Ini Namanya <Highlight>Keyboard</Highlight>
+        Ini Namanya <Highlight color={TEAL_LIGHT}>Keyboard</Highlight>
       </>
     }
     visual={
@@ -556,13 +741,13 @@ const Slide04Keyboard: Page = () => (
     descTitle="Keyboard Laptop"
     bullets={[
       <>
-        Ada tombol <InlineHighlight color={SKY_SOFT}>huruf</InlineHighlight>
+        Ada tombol <InlineHighlight color={SKY_LIGHT}>huruf</InlineHighlight>
       </>,
       <>
-        Tekan tombol dengan <InlineHighlight color="#D1FAE5">pelan</InlineHighlight>
+        Tekan tombol dengan <InlineHighlight color={TEAL_LIGHT}>pelan</InlineHighlight>
       </>,
     ]}
-    bulletColor={SKY}
+    bulletColor={TEAL}
   />
 );
 
@@ -571,9 +756,13 @@ const Slide04Keyboard: Page = () => (
 // ============================================================================
 const Slide05TrackpadMouse: Page = () => (
   <StandardSlide
+    bg="linear-gradient(135deg, #EDE9FE 0%, #FFFDF5 52%, #FFEDD5 100%)"
+    blobA={LAVENDER_LIGHT}
+    blobB={SUNNY_LIGHT}
+    borderColor={LAVENDER_LIGHT}
     title={
       <>
-        <Highlight>Trackpad</Highlight> &amp; <Highlight color={SKY_SOFT}>Mouse</Highlight>
+        <Highlight color={LAVENDER_LIGHT}>Trackpad</Highlight> &amp; <Highlight color={SKY_LIGHT}>Mouse</Highlight>
       </>
     }
     visual={
@@ -613,13 +802,13 @@ const Slide05TrackpadMouse: Page = () => (
     descTitle="Penggerak Panah"
     bullets={[
       <>
-        <InlineHighlight>Trackpad</InlineHighlight>: geser pakai jari
+        <InlineHighlight color={LAVENDER_LIGHT}>Trackpad</InlineHighlight>: geser pakai jari
       </>,
       <>
-        <InlineHighlight color={SKY_SOFT}>Mouse</InlineHighlight>: genggam di meja
+        <InlineHighlight color={SKY_LIGHT}>Mouse</InlineHighlight>: genggam di meja
       </>,
     ]}
-    bulletColor={TEAL}
+    bulletColor={LAVENDER}
   />
 );
 
@@ -638,9 +827,13 @@ const Slide06Tebak: Page = () => {
 
   return (
     <StandardSlide
+      bg="linear-gradient(135deg, #FFE4E6 0%, #FFFDF5 52%, #FEF3C7 100%)"
+      blobA={PINK_LIGHT}
+      blobB={SUNNY_LIGHT}
+      borderColor={CORAL_LIGHT}
       title={
         <>
-          Mana <Highlight>Bagian Laptopnya?</Highlight>
+          Mana <Highlight color={PINK_LIGHT}>Bagian Laptopnya?</Highlight>
         </>
       }
       visual={
@@ -678,8 +871,8 @@ const Slide06Tebak: Page = () => {
                   position: 'absolute',
                   left: pin.left,
                   top: pin.top,
-                  width: 70,
-                  height: 70,
+                  width: 72,
+                  height: 72,
                   borderRadius: 99,
                   background: pin.color,
                   color: pin.id === 2 ? CHARCOAL : WHITE,
@@ -702,7 +895,7 @@ const Slide06Tebak: Page = () => {
       }
       descTitle={
         <>
-          Nomor {currentPin.id}: <Highlight>{currentPin.name}</Highlight>
+          Nomor {currentPin.id}: <Highlight color={SUNNY_BRIGHT}>{currentPin.name}</Highlight>
         </>
       }
       bullets={QUIZ_PINS.map((pin) => (
@@ -720,9 +913,13 @@ const Slide06Tebak: Page = () => {
 // ============================================================================
 const Slide07Aturan12: Page = () => (
   <StandardSlide
+    bg="linear-gradient(135deg, #D1FAE5 0%, #FFFDF5 52%, #FFE4E6 100%)"
+    blobA={TEAL_LIGHT}
+    blobB={PINK_LIGHT}
+    borderColor={TEAL_LIGHT}
     title={
       <>
-        <Highlight>Sayangi</Highlight> Laptopmu!
+        <Highlight color={TEAL_LIGHT}>Sayangi</Highlight> Laptopmu!
       </>
     }
     visual={
@@ -740,10 +937,10 @@ const Slide07Aturan12: Page = () => (
           <img
             src={imgTanganBersih}
             alt="Tangan bersih menyentuh keyboard laptop dengan lembut"
-            style={{ width: '100%', height: 470, objectFit: 'cover', borderRadius: 24 }}
+            style={{ width: '100%', height: 470, objectFit: 'cover', borderRadius: 24, border: `4px solid ${TEAL_LIGHT}` }}
           />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700, color: '#047857' }}>
-            <InlineHighlight color="#D1FAE5">BOLEH</InlineHighlight> Tangan Bersih
+            <InlineHighlight color={TEAL_LIGHT}>BOLEH</InlineHighlight> Tangan Bersih
           </span>
         </div>
 
@@ -751,7 +948,7 @@ const Slide07Aturan12: Page = () => (
           <img
             src={imgBahayaAir}
             alt="Bahaya air tumpah dekat laptop"
-            style={{ width: '100%', height: 470, objectFit: 'cover', borderRadius: 24 }}
+            style={{ width: '100%', height: 470, objectFit: 'cover', borderRadius: 24, border: `4px solid ${CORAL_LIGHT}` }}
           />
           <span style={{ fontFamily: 'var(--osd-font-display)', fontSize: 30, fontWeight: 700, color: '#B91C1C' }}>
             <InlineHighlight color="#FECACA">JANGAN</InlineHighlight> Dekat Air
@@ -762,7 +959,7 @@ const Slide07Aturan12: Page = () => (
     descTitle="Jaga Kebersihan:"
     bullets={[
       <>
-        Cuci tangan <InlineHighlight color="#D1FAE5">bersih</InlineHighlight>
+        Cuci tangan <InlineHighlight color={TEAL_LIGHT}>bersih</InlineHighlight>
       </>,
       <>
         Jauhkan <InlineHighlight color="#FECACA">air &amp; makan</InlineHighlight>
@@ -779,9 +976,13 @@ const Slide07Aturan12: Page = () => (
 // ============================================================================
 const Slide08Aturan34: Page = () => (
   <StandardSlide
+    bg="linear-gradient(135deg, #E0F7FA 0%, #FFFDF5 52%, #DCFCE7 100%)"
+    blobA={SKY_LIGHT}
+    blobB={TEAL_LIGHT}
+    borderColor={SKY_LIGHT}
     title={
       <>
-        <Highlight>Buka Pelan</Highlight> &amp; Duduk Rapi
+        <Highlight color={SKY_LIGHT}>Buka Pelan</Highlight> &amp; Duduk Rapi
       </>
     }
     visual={
@@ -821,10 +1022,10 @@ const Slide08Aturan34: Page = () => (
     descTitle="Cara Pakai Aman:"
     bullets={[
       <>
-        Buka pakai <InlineHighlight color="#D1FAE5">dua tangan</InlineHighlight>
+        Buka pakai <InlineHighlight color={TEAL_LIGHT}>dua tangan</InlineHighlight>
       </>,
       <>
-        Duduk <InlineHighlight color={SKY_SOFT}>tegak</InlineHighlight> di meja
+        Duduk <InlineHighlight color={SKY_LIGHT}>tegak</InlineHighlight> di meja
       </>,
     ]}
     bulletColor={TEAL}
@@ -837,9 +1038,9 @@ const Slide08Aturan34: Page = () => (
 // SLIDE 09 — Ayo Coba! Sentuh, Geser, Klik (Trackpad + Layar Real)
 // ============================================================================
 const PRACTICE_STEPS = [
-  { num: 1, label: 'Sentuh', left: 260, top: 260 },
-  { num: 2, label: 'Geser', left: 520, top: 190 },
-  { num: 3, label: 'Klik!', left: 480, top: 340 },
+  { num: 1, label: 'Sentuh', color: SKY, left: 260, top: 260 },
+  { num: 2, label: 'Geser', color: SUNNY, left: 520, top: 190 },
+  { num: 3, label: 'Klik!', color: TEAL, left: 480, top: 340 },
 ];
 
 const Slide09MisiPraktik: Page = () => {
@@ -848,9 +1049,13 @@ const Slide09MisiPraktik: Page = () => {
 
   return (
     <StandardSlide
+      bg="linear-gradient(135deg, #E0F2FE 0%, #FFFDF5 52%, #FEF3C7 100%)"
+      blobA={SKY_LIGHT}
+      blobB={SUNNY_LIGHT}
+      borderColor={SKY_LIGHT}
       title={
         <>
-          Ayo Coba <Highlight>Gerakkan Panah</Highlight>
+          Ayo Coba <Highlight color={SUNNY_BRIGHT}>Gerakkan Panah</Highlight>
         </>
       }
       visual={
@@ -877,7 +1082,6 @@ const Slide09MisiPraktik: Page = () => {
                 alt="Layar desktop komputer dengan panah bergerak"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
-              {/* Simple crisp cursor gliding over real screen */}
               <svg
                 width={52}
                 height={62}
@@ -916,8 +1120,8 @@ const Slide09MisiPraktik: Page = () => {
                   style={{
                     padding: '14px 32px',
                     borderRadius: 18,
-                    background: active ? TEAL : '#F3F4F6',
-                    color: active ? WHITE : CHARCOAL,
+                    background: active ? s.color : '#F3F4F6',
+                    color: active && s.num !== 2 ? WHITE : CHARCOAL,
                     border: `2.5px solid ${active ? CHARCOAL : '#D1D5DB'}`,
                     boxShadow: active ? `0 4px 0 ${CHARCOAL}` : 'none',
                     fontFamily: 'var(--osd-font-display)',
@@ -935,13 +1139,13 @@ const Slide09MisiPraktik: Page = () => {
       descTitle="3 Langkah Mudah:"
       bullets={[
         <>
-          1. <InlineHighlight color={SKY_SOFT}>Sentuh</InlineHighlight> trackpad
+          1. <InlineHighlight color={SKY_LIGHT}>Sentuh</InlineHighlight> trackpad
         </>,
         <>
           2. <InlineHighlight>Geser</InlineHighlight> pelan
         </>,
         <>
-          3. <InlineHighlight color="#D1FAE5">Klik</InlineHighlight> satu kali
+          3. <InlineHighlight color={TEAL_LIGHT}>Klik</InlineHighlight> satu kali
         </>,
       ]}
       bulletColor={SKY}
@@ -954,9 +1158,13 @@ const Slide09MisiPraktik: Page = () => {
 // ============================================================================
 const Slide10Lencana: Page = () => (
   <StandardSlide
+    bg="linear-gradient(135deg, #FEF9C3 0%, #FFFDF5 48%, #D1FAE5 100%)"
+    blobA={SUNNY_LIGHT}
+    blobB={TEAL_LIGHT}
+    borderColor={SUNNY}
     title={
       <>
-        Hore! Kamu <Highlight>Sahabat Laptop!</Highlight>
+        Hore! Kamu <Highlight color={SUNNY_BRIGHT}>Sahabat Laptop!</Highlight>
       </>
     }
     visual={
@@ -985,10 +1193,10 @@ const Slide10Lencana: Page = () => (
     descTitle="Kamu Hebat!"
     bullets={[
       <>
-        Tahu <InlineHighlight color={SKY_SOFT}>bagian laptop</InlineHighlight>
+        Tahu <InlineHighlight color={SKY_LIGHT}>bagian laptop</InlineHighlight>
       </>,
       <>
-        Tahu cara <InlineHighlight color="#D1FAE5">merawatnya</InlineHighlight>
+        Tahu cara <InlineHighlight color={TEAL_LIGHT}>merawatnya</InlineHighlight>
       </>,
       <>Siap belajar lagi!</>,
     ]}
