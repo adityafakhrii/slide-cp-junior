@@ -545,9 +545,9 @@ const Slide04Keyboard: Page = () => (
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: 'left top',
-            transform: 'scale(1.9)',
-            transformOrigin: 'top left',
+            objectPosition: '0% 0%',
+            transform: 'scale(2.8)',
+            transformOrigin: '0% 0%',
             display: 'block',
           }}
         />
